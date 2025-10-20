@@ -1,12 +1,27 @@
 import React from 'react';
 import type { AppView } from '../App';
-import { ScaleIcon, BuildingLibraryIcon, InboxStackIcon, MapIcon, UsersIcon } from './icons';
+import { 
+    ScaleIcon, 
+    BuildingLibraryIcon, 
+    InboxStackIcon, 
+    MapIcon, 
+    UsersIcon,
+    SunIcon,
+    GlobeAmericasIcon,
+    PresentationChartLineIcon,
+    CloudIcon,
+    UserGroupIcon,
+    TruckIcon,
+    CameraIcon,
+    CurrencyDollarIcon,
+    MapPinIcon,
+    SparklesIcon
+} from './icons';
 
 interface InfoMapPageProps {
   setActiveView: (view: AppView) => void;
 }
 
-// FIX: Explicitly type the sections to include the optional 'view' property.
 const infoMapSections: {
     title: string;
     description: string;
@@ -14,18 +29,91 @@ const infoMapSections: {
     isActionable: boolean;
     view?: AppView;
 }[] = [
-  {
-    title: 'Devolution Explained',
-    description: 'A visual map of how national and county governments share power.',
-    icon: <BuildingLibraryIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
-    isActionable: false,
-  },
-  {
-    title: 'Election Process Visualizer',
-    description: 'A step-by-step walkthrough of how elections are conducted in Kenya.',
-    icon: <InboxStackIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
-    isActionable: false,
-  },
+    {
+        title: 'My Representatives',
+        description: 'Find your elected officials from Governor to MCA based on your county.',
+        icon: <UsersIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: true,
+        view: 'my-representatives',
+    },
+    {
+        title: 'Topography',
+        description: 'Explore the physical landscape of Kenya, from mountains to valleys.',
+        icon: <SparklesIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Water Bodies',
+        description: "Map of Kenya's major rivers, lakes, and ocean coastline.",
+        icon: <GlobeAmericasIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Contour Map',
+        description: 'Visualize elevation and terrain steepness across the country.',
+        icon: <PresentationChartLineIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Rainfall Patterns',
+        description: 'View annual and seasonal rainfall distribution across Kenya.',
+        icon: <CloudIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Crop Availability',
+        description: 'See which crops are predominantly grown in different regions.',
+        icon: <SunIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Population Density',
+        description: 'Visualize population distribution and density across the counties.',
+        icon: <UserGroupIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Infrastructure',
+        description: 'Major roads, railways, ports, and airports in Kenya.',
+        icon: <TruckIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'National Parks & Reserves',
+        description: 'A map of all national parks, game reserves, and protected areas.',
+        icon: <CameraIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'County Budgets',
+        description: 'Compare revenue allocation and budgets for each county.',
+        icon: <CurrencyDollarIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Land Use',
+        description: 'An overview of land cover, including forests, agriculture, and urban areas.',
+        icon: <MapPinIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Ethnic Distribution',
+        description: 'A map showing the general distribution of major ethnic groups.',
+        icon: <UsersIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Devolution Explained',
+        description: 'A visual map of how national and county governments share power.',
+        icon: <BuildingLibraryIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
+    {
+        title: 'Election Process Visualizer',
+        description: 'A step-by-step walkthrough of how elections are conducted in Kenya.',
+        icon: <InboxStackIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        isActionable: false,
+    },
 ];
 
 const InfoMapPage: React.FC<InfoMapPageProps> = ({ setActiveView }) => {

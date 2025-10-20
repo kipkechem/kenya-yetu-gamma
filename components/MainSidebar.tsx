@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpenIcon, HomeIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon, LinkIcon, UsersIcon, MailIcon, MapIcon, ProjectIcon } from './icons';
+import { BookOpenIcon, HomeIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon, LinkIcon, UsersIcon, MailIcon, MapIcon, ProjectIcon, IdentificationIcon } from './icons';
 
 interface NavItemProps {
   onClick: () => void;
@@ -29,8 +29,8 @@ const NavItem: React.FC<NavItemProps> = ({ onClick, isSelected, children, isColl
 };
 
 interface MainSidebarProps {
-  activeView: 'home' | 'constitution' | 'resources' | 'about' | 'contact' | 'infomap' | 'projects';
-  setActiveView: (view: 'home' | 'constitution' | 'resources' | 'about' | 'contact' | 'infomap' | 'projects') => void;
+  activeView: 'home' | 'constitution' | 'resources' | 'about' | 'contact' | 'infomap' | 'projects' | 'my-representatives';
+  setActiveView: (view: 'home' | 'constitution' | 'resources' | 'about' | 'contact' | 'infomap' | 'projects' | 'my-representatives') => void;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   isCollapsed: boolean;
@@ -39,7 +39,7 @@ interface MainSidebarProps {
 
 const MainSidebar: React.FC<MainSidebarProps> = ({ activeView, setActiveView, isOpen, setIsOpen, isCollapsed, setIsCollapsed }) => {
   
-  const handleItemClick = (view: 'home' | 'constitution' | 'resources' | 'about' | 'contact' | 'infomap' | 'projects') => {
+  const handleItemClick = (view: 'home' | 'constitution' | 'resources' | 'about' | 'contact' | 'infomap' | 'projects' | 'my-representatives') => {
     setActiveView(view);
     if (window.innerWidth < 768) {
       setIsOpen(false);
@@ -97,6 +97,15 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ activeView, setActiveView, is
             >
                 <MapIcon className={`h-5 w-5 flex-shrink-0 ${isCollapsed ? '' : 'mr-3'}`} />
                 <span className={`whitespace-nowrap ${isCollapsed ? 'md:hidden' : 'inline'}`}>Info Maps</span>
+            </NavItem>
+            <NavItem
+                onClick={() => handleItemClick('my-representatives')}
+                isSelected={activeView === 'my-representatives'}
+                isCollapsed={isCollapsed}
+                label="My Representatives"
+            >
+                <IdentificationIcon className={`h-5 w-5 flex-shrink-0 ${isCollapsed ? '' : 'mr-3'}`} />
+                <span className={`whitespace-nowrap ${isCollapsed ? 'md:hidden' : 'inline'}`}>My Representatives</span>
             </NavItem>
              <NavItem
                 onClick={() => handleItemClick('projects')}

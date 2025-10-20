@@ -8,10 +8,11 @@ import ContactPage from './components/ContactPage';
 import InfoMapPage from './components/InfoMapPage';
 import ProjectsPage from './components/ProjectsPage';
 import ThemeSwitcher from './components/ThemeSwitcher';
+import MyRepresentativesPage from './components/MyRepresentativesPage';
 
 type Theme = 'light' | 'dark' | 'system';
 
-export type AppView = 'home' | 'constitution' | 'resources' | 'about' | 'contact' | 'infomap' | 'projects';
+export type AppView = 'home' | 'constitution' | 'resources' | 'about' | 'contact' | 'infomap' | 'projects' | 'my-representatives';
 
 
 const App: React.FC = () => {
@@ -71,6 +72,7 @@ const App: React.FC = () => {
                     {activeView === 'home' && <HomePage setActiveView={setActiveView} />}
                     {activeView === 'constitution' && <ConstitutionExplorer />}
                     {activeView === 'infomap' && <InfoMapPage setActiveView={setActiveView} />}
+                    {activeView === 'my-representatives' && <MyRepresentativesPage setActiveView={setActiveView} />}
                     {activeView === 'projects' && <ProjectsPage />}
                     {activeView === 'resources' && <ResourcesPage />}
                     {activeView === 'about' && <AboutUsPage />}

@@ -1,254 +1,189 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { countiesGeoJson, majorTowns, constituencyCounts } from '../data/mapdata';
+import { majorTowns, countiesGeoJson, constituencyCounts } from '../data/mapdata';
 
-// Declare the global maplibregl variable to satisfy TypeScript
-declare var maplibregl: any;
+// Declare the global Leaflet variable, as it's loaded from a CDN
+declare var L: any;
 
 interface KenyaMapProps {
-  onCountySelect: (county: { name: string, constituencyCount: number } | null) => void;
-  selectedCountyName: string | null;
   showTowns: boolean;
 }
 
-const KenyaMap: React.FC<KenyaMapProps> = ({ onCountySelect, selectedCountyName, showTowns }) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<any | null>(null);
-  const [hoveredCountyId, setHoveredCountyId] = useState<string | number | null>(null);
-  const isInitialLoad = useRef(true);
+const KenyaMap: React.FC<KenyaMapProps> = ({ showTowns }) => {
+    const mapContainer = useRef<HTMLDivElement>(null);
+    const mapRef = useRef<any | null>(null);
+    const townsLayerRef = useRef<any | null>(null);
+    const geoJsonLayerRef = useRef<any | null>(null);
+    const [info, setInfo] = useState<{name: string, constituencies: number | string} | null>(null);
+    const infoControlRef = useRef<any | null>(null);
 
-  // GeoJSON for a polygon covering the world except for a hole over Kenya
-  const maskGeoJson = {
-    type: 'Feature',
-    geometry: {
-      type: 'Polygon',
-      coordinates: [
-        // Exterior ring covers the whole world
-        [[-180, 90], [180, 90], [180, -90], [-180, -90], [-180, 90]],
-        // Interior ring (hole) for Kenya's bounding box
-        [[33, -5], [42, -5], [42, 5], [33, 5], [33, -5]],
-      ],
-    },
-  };
+    // Effect for map initialization
+    useEffect(() => {
+        if (mapRef.current || !mapContainer.current) return;
 
-  useEffect(() => {
-    if (map.current || !mapContainer.current) return;
-
-    map.current = new maplibregl.Map({
-      container: mapContainer.current,
-      style: {
-        version: 8,
-        sources: {
-            'background-source': {
-                type: 'geojson',
-                data: null
-            }
-        },
-        layers: [
-            {
-                id: 'background',
-                type: 'background',
-                paint: { 'background-color': '#F5F5F5' }
-            }
-        ]
-      },
-      center: [37.9, 0.5],
-      zoom: 5,
-      minZoom: 4,
-      maxZoom: 9,
-      dragRotate: false, // Disable rotation
-      pitchWithRotate: false,
-    });
-    
-    // Set map bounds to roughly Kenya
-    map.current.setMaxBounds([[33, -5], [42.5, 5.5]]);
-
-    map.current.on('load', () => {
-      const currentMap = map.current;
-      if (!currentMap) return;
-
-      // Source for the grey-out mask
-      currentMap.addSource('world-mask', {
-        type: 'geojson',
-        data: maskGeoJson as any
-      });
-
-      // Source for counties
-      currentMap.addSource('counties', {
-        type: 'geojson',
-        data: countiesGeoJson as any,
-        generateId: true,
-      });
-
-      // Source for towns
-      currentMap.addSource('towns', {
-          type: 'geojson',
-          data: majorTowns as any
-      });
-      
-      // Layer to grey out everything outside Kenya
-      currentMap.addLayer({
-        id: 'world-mask-layer',
-        type: 'fill',
-        source: 'world-mask',
-        paint: {
-          'fill-color': '#000000',
-          'fill-opacity': 0.15
-        }
-      });
-
-      // Layer for county fills
-      currentMap.addLayer({
-        id: 'counties-fill',
-        type: 'fill',
-        source: 'counties',
-        paint: {
-          'fill-color': [
-            'case',
-            ['boolean', ['feature-state', 'selected'], false], '#10B981', // Selected color: green-500
-            ['boolean', ['feature-state', 'hover'], false], '#E5E7EB',    // Hover color: gray-200
-            '#FFFFFF',                                                    // Default color: white
-          ],
-          'fill-opacity': [
-            'case',
-            ['boolean', ['feature-state', 'selected'], false], 0.3,
-            0.8
-          ],
-          'fill-outline-color': '#A9A9A9',
-        },
-      });
-
-      // Layer for county borders
-      currentMap.addLayer({
-        id: 'counties-borders',
-        type: 'line',
-        source: 'counties',
-        paint: {
-          'line-color': '#FFFFFF',
-          'line-width': 1,
-        },
-      });
-
-      // Layer for county labels
-      currentMap.addLayer({
-        id: 'county-labels',
-        type: 'symbol',
-        source: 'counties',
-        layout: {
-            'text-field': ['get', 'county_nam'],
-            'text-size': 10,
-            'text-font': ['Inter Regular'],
-        },
-        paint: {
-            'text-color': '#374151', // gray-700
-            'text-halo-color': 'rgba(255, 255, 255, 0.8)',
-            'text-halo-width': 1,
-        }
-      });
-
-      // Layer for towns
-      currentMap.addLayer({
-        id: 'town-labels',
-        type: 'symbol',
-        source: 'towns',
-        layout: {
-            'text-field': ['get', 'name'],
-            'text-size': 12,
-            'text-font': ['Inter SemiBold'],
-            'icon-image': 'circle-11',
-            'icon-allow-overlap': true,
-            'text-allow-overlap': true,
-        },
-        paint: {
-            'text-color': '#111827', // gray-900
-            'text-halo-color': '#FFFFFF',
-            'text-halo-width': 2,
-        }
-      });
-
-      // Interactivity
-      currentMap.on('click', 'counties-fill', (e: any) => {
-        if (e.features && e.features.length > 0) {
-          const countyName = e.features[0].properties.county_nam;
-          const count = constituencyCounts[countyName] || 0;
-          onCountySelect({ name: countyName, constituencyCount: count });
-        }
-      });
-      
-      currentMap.on('mousemove', 'counties-fill', (e: any) => {
-        currentMap.getCanvas().style.cursor = 'pointer';
-        if (e.features && e.features.length > 0) {
-          if (hoveredCountyId !== null) {
-            currentMap.setFeatureState({ source: 'counties', id: hoveredCountyId }, { hover: false });
-          }
-          const newHoveredId = e.features[0].id;
-          if (newHoveredId) {
-            currentMap.setFeatureState({ source: 'counties', id: newHoveredId }, { hover: true });
-            setHoveredCountyId(newHoveredId);
-          }
-        }
-      });
-
-      currentMap.on('mouseleave', 'counties-fill', () => {
-        currentMap.getCanvas().style.cursor = '';
-        if (hoveredCountyId !== null) {
-          currentMap.setFeatureState({ source: 'counties', id: hoveredCountyId }, { hover: false });
-        }
-        setHoveredCountyId(null);
-      });
-    });
-
-    return () => map.current?.remove();
-  }, []);
-
-  useEffect(() => {
-    if (!map.current || !map.current.isStyleLoaded()) return;
-
-    // Clear previous selection by querying all features with the 'selected' state
-    const selectedFeatures = map.current.querySourceFeatures('counties', {
-        sourceLayer: 'counties-fill',
-        filter: ['==', ['feature-state', 'selected'], true]
-    });
-    selectedFeatures.forEach((feature: any) => {
-        if(feature.id) {
-            map.current?.setFeatureState({ source: 'counties', id: feature.id }, { selected: false });
-        }
-    });
-
-    if (selectedCountyName) {
-        const features = map.current.querySourceFeatures('counties', {
-            filter: ['==', 'county_nam', selectedCountyName]
+        mapRef.current = L.map(mapContainer.current, {
+            center: [0.5, 37.9],
+            zoom: 6,
+            maxBounds: [[-6, 33.5], [5.5, 42.5]],
+            minZoom: 6,
+            maxZoom: 10,
+            zoomControl: false,
         });
 
-        if (features.length > 0 && features[0].id) {
-            const selectedId = features[0].id;
-            map.current.setFeatureState({ source: 'counties', id: selectedId }, { selected: true });
-            
-            // Calculate bounding box and fly to it
-             const coordinates = (features[0].geometry as any).coordinates[0][0];
-             const bounds = coordinates.reduce((bounds: any, coord: any) => {
-                 return bounds.extend(coord);
-             }, new maplibregl.LngLatBounds(coordinates[0], coordinates[0]));
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+        }).addTo(mapRef.current);
+        
+        L.control.zoom({ position: 'bottomright' }).addTo(mapRef.current);
+        
+        return () => {
+            mapRef.current?.remove();
+            mapRef.current = null;
+        };
+    }, []);
 
-            map.current.fitBounds(bounds, {
-                padding: 40,
-                duration: 1000,
-                essential: true,
-            });
+    const toTitleCase = (str: string) => {
+        if (!str) return '';
+        return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+    };
+
+    // Effect for GeoJSON layer
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map) return;
+
+        const defaultStyle = {
+            color: 'rgb(107 114 128)',
+            weight: 1,
+            fillOpacity: 0.1,
+            fillColor: 'rgb(156 163 175)',
+        };
+
+        const highlightStyle = {
+            weight: 2,
+            color: '#2F855A',
+            fillColor: '#9AE6B4',
+            fillOpacity: 0.6
+        };
+
+        geoJsonLayerRef.current = L.geoJSON(countiesGeoJson, {
+            style: defaultStyle,
+            onEachFeature: (feature: any, layer: any) => {
+                layer.on({
+                    mouseover: (e: any) => {
+                        const layer = e.target;
+                        layer.setStyle(highlightStyle);
+                        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                            layer.bringToFront();
+                        }
+                        const countyName = toTitleCase(feature.properties.COUNTY_NAM);
+                        setInfo({
+                            name: countyName,
+                            constituencies: constituencyCounts[countyName] || 'N/A'
+                        });
+                    },
+                    mouseout: (e: any) => {
+                        geoJsonLayerRef.current.resetStyle(e.target);
+                        setInfo(null);
+                    },
+                    click: (e: any) => {
+                        map.fitBounds(e.target.getBounds());
+                    }
+                });
+            }
+        }).addTo(map);
+
+        return () => {
+            if (map && geoJsonLayerRef.current) {
+                map.removeLayer(geoJsonLayerRef.current);
+            }
+        };
+    }, []);
+
+    // Effect for Info Control
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map) return;
+
+        if (infoControlRef.current) {
+            map.removeControl(infoControlRef.current);
         }
-    } else if (!isInitialLoad.current) {
-        // If nothing is selected, fly back to the default view
-        map.current.flyTo({ center: [37.9, 0.5], zoom: 5 });
-    }
-    isInitialLoad.current = false;
 
-  }, [selectedCountyName]);
+        const infoControl = L.control({ position: 'topright' });
 
-  useEffect(() => {
-    if (!map.current || !map.current.getLayer('town-labels')) return;
-    map.current.setLayoutProperty('town-labels', 'visibility', showTowns ? 'visible' : 'none');
-  }, [showTowns]);
+        infoControl.onAdd = function (this: any) {
+            this._div = L.DomUtil.create('div', 'p-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg shadow-md');
+            this.update();
+            return this._div;
+        };
 
-  return <div ref={mapContainer} className="w-full h-full" />;
+        infoControl.update = function (this: any, props?: { name: string, constituencies: number | string }) {
+            const innerHTML = `
+                <h4 class="font-bold text-gray-800 dark:text-gray-200">${props ? props.name : 'Hover over a county'}</h4>
+                ${props ? `
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                        Constituencies: <strong>${props.constituencies}</strong>
+                    </div>` : ''
+                }`;
+            if (this._div) {
+                this._div.innerHTML = innerHTML;
+            }
+        };
+
+        infoControl.addTo(map);
+        infoControlRef.current = infoControl;
+        infoControl.update();
+
+        return () => {
+            if (map && infoControlRef.current) {
+                map.removeControl(infoControlRef.current);
+                infoControlRef.current = null;
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if(infoControlRef.current) {
+            infoControlRef.current.update(info);
+        }
+    }, [info]);
+
+    useEffect(() => {
+        const map = mapRef.current;
+        if (!map) return;
+
+        if (showTowns && !townsLayerRef.current) {
+            const townMarkers = majorTowns.features.map(town => {
+                const latLng = town.geometry.coordinates.slice().reverse();
+                return L.marker(latLng, {
+                    icon: L.divIcon({
+                        className: 'town-label-icon',
+                        html: `<div><svg class="w-2 h-2" fill="#111827" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4"/></svg><span>${town.properties.name}</span></div>`
+                    })
+                });
+            });
+            townsLayerRef.current = L.layerGroup(townMarkers);
+        }
+
+        if (showTowns && townsLayerRef.current && !map.hasLayer(townsLayerRef.current)) {
+            map.addLayer(townsLayerRef.current);
+        } else if (!showTowns && townsLayerRef.current && map.hasLayer(townsLayerRef.current)) {
+            map.removeLayer(townsLayerRef.current);
+        }
+    }, [showTowns]);
+    
+    const styleString = `
+        .town-label-icon { display: flex; align-items: center; justify-content: center; }
+        .town-label-icon span { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; color: #111827; margin-left: 5px; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff; white-space: nowrap; }
+        .leaflet-control-container .leaflet-top.leaflet-right { padding-top: 10px; padding-right: 10px; }
+    `;
+
+    return (
+        <>
+            <style>{styleString}</style>
+            <div ref={mapContainer} className="w-full h-full" />
+        </>
+    );
 };
 
 export default KenyaMap;
