@@ -7,8 +7,8 @@ import AboutUsPage from './components/AboutUsPage';
 import ContactPage from './components/ContactPage';
 import InfoMapPage from './components/InfoMapPage';
 import ProjectsPage from './components/ProjectsPage';
-import ThemeSwitcher from './components/ThemeSwitcher';
 import MyRepresentativesPage from './components/MyRepresentativesPage';
+import ThemeSwitcher from './components/ThemeSwitcher';
 
 type Theme = 'light' | 'dark' | 'system';
 
@@ -45,7 +45,7 @@ const App: React.FC = () => {
                 <div className="flex items-center space-x-3">
                     <div className="p-2 bg-green-600 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h10a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.8 17.2a.5.5 0 01-.7-.7l.2-.2a.5.5 0 01.7.7l-.2.2zM12 21a.5.5 0 01-.5-.5v-1a.5.5 0 011 0v1a.5.5 0 01-.5.5zM16.2 17.2a.5.5 0 01.7-.7l-.2-.2a.5.5 0 01-.7.7l.2.2zM7.5 11a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z"/>
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h10a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.8 17.2a.5.5 0 01-.7-.7l.2-.2a.5.5 0 01.7.7l-.2.2zM12 21a.5.5 0 01-.5-.5v-1a.5.5 0 011 0v1a.5.5 0 01-.5.5zM16.2 17.2a.5.5 0 01.7-.7l.2-.2a.5.5 0 01-.7.7l.2.2zM7.5 11a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z"/>
                         </svg>
                     </div>
                     <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">Kenya Yetu</h1>
@@ -72,11 +72,11 @@ const App: React.FC = () => {
                     {activeView === 'home' && <HomePage setActiveView={setActiveView} />}
                     {activeView === 'constitution' && <ConstitutionExplorer />}
                     {activeView === 'infomap' && <InfoMapPage setActiveView={setActiveView} />}
-                    {activeView === 'my-representatives' && <MyRepresentativesPage setActiveView={setActiveView} />}
                     {activeView === 'projects' && <ProjectsPage />}
                     {activeView === 'resources' && <ResourcesPage />}
                     {activeView === 'about' && <AboutUsPage />}
                     {activeView === 'contact' && <ContactPage />}
+                    {activeView === 'my-representatives' && <MyRepresentativesPage />}
                 </main>
             </div>
         </div>

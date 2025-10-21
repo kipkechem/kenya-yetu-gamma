@@ -8,6 +8,7 @@ interface ContentRendererProps {
   highlight: string;
   onSelectItem: (item: SelectedItem) => void;
   articleToChapterMap: Map<string, number>;
+  language: 'en' | 'sw';
 }
 
 const wordToNumber: { [key: string]: number } = {
@@ -24,10 +25,19 @@ const scheduleNameToId: { [key: string]: string } = {
   sixth: 'sixth-schedule',
 };
 
-// Moved regex outside the component to prevent recompilation on every render.
-const linkRegex = /(Article\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|(Chapter\s+([a-zA-Z0-9]+))|((First|Second|Third|Fourth|Fifth|Sixth)\s+Schedule)/gi;
+const swahiliScheduleNameToId: { [key: string]: string } = {
+    kwanza: 'first-schedule',
+    pili: 'second-schedule',
+    tatu: 'third-schedule',
+    nne: 'fourth-schedule',
+    tano: 'fifth-schedule',
+    sita: 'sixth-schedule',
+};
 
-const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSelectItem, articleToChapterMap }) => {
+const enLinkRegex = /(Article\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|(Chapter\s+([a-zA-Z0-9]+))|((First|Second|Third|Fourth|Fifth|Sixth)\s+Schedule)/gi;
+const swLinkRegex = /(Kifungu\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|(Sura\s+ya\s+([a-zA-Z0-9]+))|((Jedwali\s+la\s+(Kwanza|Pili|Tatu|Nne|Tano|Sita)))/gi;
+
+const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSelectItem, articleToChapterMap, language }) => {
   const [copiedArticle, setCopiedArticle] = useState<string | null>(null);
   
   if (!text) {
@@ -42,17 +52,18 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
       setCopiedArticle(articleNum);
       setTimeout(() => {
         setCopiedArticle(null);
-      }, 2000); // Reset icon after 2 seconds
+      }, 2000);
     }).catch(err => {
       console.error("Could not copy URL: ", err);
     });
   };
 
+  const linkRegex = language === 'sw' ? swLinkRegex : enLinkRegex;
+  
   const elements: React.ReactNode[] = [];
   let lastIndex = 0;
   let match;
   
-  // Reset lastIndex before using in a loop
   linkRegex.lastIndex = 0;
 
   while ((match = linkRegex.exec(text)) !== null) {
@@ -63,18 +74,25 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
     }
 
     const matchedText = match[0];
-    const articleFull = match[1];
-    const articleNum = match[2];
-    const chapterFull = match[3];
-    const chapterIdentifier = match[4];
-    const scheduleFull = match[5];
-    const scheduleName = match[6];
-    
     let link: React.ReactNode | null = null;
+    let articleNum: string | undefined;
+    let chapterIdentifier: string | undefined;
+    let scheduleIdentifier: string | undefined;
+
+    if (language === 'sw') {
+        articleNum = match[2];
+        chapterIdentifier = match[4];
+        scheduleIdentifier = match[6]?.toLowerCase();
+    } else {
+        articleNum = match[2];
+        chapterIdentifier = match[4];
+        scheduleIdentifier = match[6]?.toLowerCase();
+    }
     
-    if (articleFull && articleNum) {
+    if (articleNum) {
         const chapterId = articleToChapterMap.get(articleNum);
         if (chapterId) {
+            const titleText = language === 'sw' ? `Nakili kiungo cha ${matchedText}` : `Copy link to ${matchedText}`;
             link = (
                 <span className="inline-flex items-center">
                   <a
@@ -88,10 +106,10 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                     <Highlight text={matchedText} highlight={highlight} />
                   </a>
                   <button
-                    onClick={(e) => handleCopyLink(e, articleNum)}
+                    onClick={(e) => handleCopyLink(e, articleNum!)}
                     className="ml-1 p-0.5 rounded text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-green-500 transition-colors"
-                    title={`Copy link to ${matchedText}`}
-                    aria-label={`Copy link to ${matchedText}`}
+                    title={titleText}
+                    aria-label={titleText}
                   >
                     {copiedArticle === articleNum ? (
                         <CheckIcon className="h-4 w-4 text-green-600 dark:text-green-400" />
@@ -102,7 +120,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                 </span>
             );
         }
-    } else if (chapterFull) {
+    } else if (chapterIdentifier) {
         let chapterId: number | undefined;
         if (/^\d+$/.test(chapterIdentifier)) {
           chapterId = parseInt(chapterIdentifier, 10);
@@ -124,8 +142,9 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                 </a>
             );
         }
-    } else if (scheduleFull) {
-        const scheduleId = scheduleNameToId[scheduleName.toLowerCase()];
+    } else if (scheduleIdentifier) {
+        const currentScheduleMap = language === 'sw' ? swahiliScheduleNameToId : scheduleNameToId;
+        const scheduleId = currentScheduleMap[scheduleIdentifier];
         if (scheduleId) {
             link = (
                 <a

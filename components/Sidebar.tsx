@@ -8,6 +8,7 @@ interface SidebarProps {
   selectedItem: SelectedItem;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  language: 'en' | 'sw';
 }
 
 interface NavItemProps {
@@ -38,7 +39,7 @@ const NavItem: React.FC<NavItemProps> = ({ onClick, isSelected, children, level 
 };
 
 
-const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isOpen, setIsOpen }) => {
+const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isOpen, setIsOpen, language }) => {
   const [openChapters, setOpenChapters] = useState<Set<number>>(new Set());
 
   const toggleChapter = (chapterId: number) => {
@@ -52,6 +53,10 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
       return newSet;
     });
   };
+
+  const t = language === 'sw' 
+    ? { constitution: 'Katiba', preamble: 'Utangulizi', chapters: 'Sura', schedules: 'Majedwali', article: 'Kif.' }
+    : { constitution: 'The Constitution', preamble: 'Preamble', chapters: 'Chapters', schedules: 'Schedules', article: 'Art.' };
   
   const sidebarContent = (
     <div className="h-full flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
@@ -60,7 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                 <div className="p-2 bg-green-100 dark:bg-gray-700 rounded-lg">
                     <BookOpenIcon className="h-6 w-6 text-green-700 dark:text-green-400" />
                 </div>
-                <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">The Constitution</h1>
+                <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">{t.constitution}</h1>
             </div>
              <button onClick={() => setIsOpen(false)} className="md:hidden p-1 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -73,13 +78,14 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                 onClick={() => onSelectItem({ type: 'preamble', id: 'preamble' })}
                 isSelected={selectedItem.type === 'preamble'}
             >
-                <FileTextIcon className="h-4 w-4 mr-3" /> Preamble
+                <FileTextIcon className="h-4 w-4 mr-3" /> {t.preamble}
             </NavItem>
 
-            <h2 className="px-4 pt-4 pb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Chapters</h2>
+            <h2 className="px-4 pt-4 pb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.chapters}</h2>
             {data.chapters.map(chapter => {
                 const isChapterSelected = selectedItem.type === 'chapter' && selectedItem.id === chapter.id && !selectedItem.article;
                 const isChapterGroupActive = selectedItem.type === 'chapter' && selectedItem.id === chapter.id;
+                const chapterTitle = language === 'sw' ? `Sura ${chapter.id}: ${chapter.title}` : `Chapter ${chapter.id}: ${chapter.title}`;
 
                 return (
                 <div key={chapter.id}>
@@ -90,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                             onClick={() => onSelectItem({ type: 'chapter', id: chapter.id })}
                             isSelected={isChapterSelected}
                         >
-                            <span className="truncate">{`Chapter ${chapter.id}: ${chapter.title}`}</span>
+                            <span className="truncate">{chapterTitle}</span>
                         </NavItem>
                         <ChevronDownIcon
                             onClick={() => toggleChapter(chapter.id)}
@@ -113,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                                     }}
                                     className={`${baseArticleClasses} ${isArticleSelected ? selectedArticleClasses : unselectedArticleClasses}`}
                                 >
-                                  {`Art. ${article.number}: ${article.title}`}
+                                  {`${t.article} ${article.number}: ${article.title}`}
                                 </a>
                                 );
                             })}
@@ -122,7 +128,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                 </div>
             )})}
 
-            <h2 className="px-4 pt-4 pb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Schedules</h2>
+            <h2 className="px-4 pt-4 pb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.schedules}</h2>
             {data.schedules.map(schedule => (
                 <NavItem
                     key={schedule.id}

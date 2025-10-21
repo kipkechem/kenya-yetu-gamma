@@ -3,7 +3,7 @@ import type { AppView } from '../App';
 import { 
     ScaleIcon, 
     BuildingLibraryIcon, 
-    InboxStackIcon, 
+    IdentificationIcon,
     MapIcon, 
     UsersIcon,
     SunIcon,
@@ -31,8 +31,8 @@ const infoMapSections: {
 }[] = [
     {
         title: 'My Representatives',
-        description: 'Find your elected officials from Governor to MCA based on your county.',
-        icon: <UsersIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
+        description: 'Find and learn about your elected representatives from the president to your MCA.',
+        icon: <IdentificationIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
         isActionable: true,
         view: 'my-representatives',
     },
@@ -106,12 +106,6 @@ const infoMapSections: {
         title: 'Devolution Explained',
         description: 'A visual map of how national and county governments share power.',
         icon: <BuildingLibraryIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
-        isActionable: false,
-    },
-    {
-        title: 'Election Process Visualizer',
-        description: 'A step-by-step walkthrough of how elections are conducted in Kenya.',
-        icon: <InboxStackIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
         isActionable: false,
     },
 ];

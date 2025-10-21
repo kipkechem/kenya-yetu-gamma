@@ -2,9 +2,12 @@ import React from 'react';
 
 interface SearchBarProps {
   onSearch: (term: string) => void;
+  language: 'en' | 'sw';
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ onSearch, language }) => {
+  const placeholder = language === 'sw' ? 'Tafuta katiba...' : 'Search the constitution...';
+  
   return (
     <div className="relative w-full">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -14,7 +17,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
       </div>
       <input
         type="text"
-        placeholder="Search the constitution..."
+        placeholder={placeholder}
         onChange={(e) => onSearch(e.target.value)}
         className="block w-full bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-full py-2.5 pl-10 pr-3 text-sm text-gray-900 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500 sm:text-sm"
       />

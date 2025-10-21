@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpenIcon, HomeIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon, LinkIcon, UsersIcon, MailIcon, MapIcon, ProjectIcon, IdentificationIcon } from './icons';
+import { BookOpenIcon, HomeIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon, LinkIcon, UsersIcon, MailIcon, MapIcon, ProjectIcon } from './icons';
 
 interface NavItemProps {
   onClick: () => void;
@@ -97,15 +97,6 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ activeView, setActiveView, is
             >
                 <MapIcon className={`h-5 w-5 flex-shrink-0 ${isCollapsed ? '' : 'mr-3'}`} />
                 <span className={`whitespace-nowrap ${isCollapsed ? 'md:hidden' : 'inline'}`}>Info Maps</span>
-            </NavItem>
-            <NavItem
-                onClick={() => handleItemClick('my-representatives')}
-                isSelected={activeView === 'my-representatives'}
-                isCollapsed={isCollapsed}
-                label="My Representatives"
-            >
-                <IdentificationIcon className={`h-5 w-5 flex-shrink-0 ${isCollapsed ? '' : 'mr-3'}`} />
-                <span className={`whitespace-nowrap ${isCollapsed ? 'md:hidden' : 'inline'}`}>My Representatives</span>
             </NavItem>
              <NavItem
                 onClick={() => handleItemClick('projects')}
