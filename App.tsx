@@ -48,7 +48,9 @@ const App: React.FC = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h10a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.8 17.2a.5.5 0 01-.7-.7l.2-.2a.5.5 0 01.7.7l-.2.2zM12 21a.5.5 0 01-.5-.5v-1a.5.5 0 011 0v1a.5.5 0 01-.5.5zM16.2 17.2a.5.5 0 01.7-.7l.2-.2a.5.5 0 01-.7.7l.2.2zM7.5 11a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z"/>
                         </svg>
                     </div>
-                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">Kenya Yetu</h1>
+                    <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">
+                        KenyaYetu.co.ke<sub className="text-xs font-medium opacity-60 ml-1">BETA</sub>
+                    </h1>
                 </div>
                 <div className="flex items-center gap-2">
                     <ThemeSwitcher theme={theme} setTheme={setTheme} />

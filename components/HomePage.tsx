@@ -23,7 +23,7 @@ const sections: { title: string; description: string; icon: React.ReactNode; vie
     },
     {
         title: 'Projects',
-        description: 'Discover various initiatives and projects related to Kenya Yetu and civic engagement.',
+        description: 'Discover various initiatives and projects related to KenyaYetu.co.ke and civic engagement.',
         icon: <ProjectIcon className="h-6 w-6 text-green-600 dark:text-green-400" />,
         view: 'projects',
     },
@@ -58,7 +58,9 @@ const HomePage: React.FC<HomePageProps> = ({ setActiveView }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h10a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.8 17.2a.5.5 0 01-.7-.7l.2-.2a.5.5 0 01.7.7l-.2.2zM12 21a.5.5 0 01-.5-.5v-1a.5.5 0 011 0v1a.5.5 0 01-.5.5zM16.2 17.2a.5.5 0 01.7-.7l-.2-.2a.5.5 0 01-.7.7l.2.2zM7.5 11a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0z"/>
                         </svg>
                     </div>
-                    <h1 className="mt-6 text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight sm:text-5xl">Welcome to Kenya Yetu</h1>
+                    <h1 className="mt-6 text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight sm:text-5xl">
+                        Welcome to KenyaYetu.co.ke<sub className="text-lg font-semibold opacity-60 ml-2">BETA</sub>
+                    </h1>
                     <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
                         Your central hub for exploring the foundational documents and cultural heritage of Kenya. Select a section below to get started.
                     </p>

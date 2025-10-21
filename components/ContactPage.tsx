@@ -76,7 +76,7 @@ const ContactPage: React.FC = () => {
                          <div className="mt-4 space-y-3">
                             <a href="https://www.kenyayetu.co.ke" target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 transition-colors group">
                                 <GlobeAmericasIcon className="h-6 w-6 mr-3 text-gray-400 dark:text-gray-500 group-hover:text-green-600 dark:group-hover:text-green-400"/>
-                                <span className="font-medium">Official Website</span>
+                                <span className="font-medium">KenyaYetu.co.ke</span>
                             </a>
                             <a href="https://www.instagram.com/kenyayetu.co.ke?igsh=Y2ZjcGxlYml6NW5s" target="_blank" rel="noopener noreferrer" className="flex items-center text-gray-600 dark:text-gray-400 hover:text-green-700 dark:hover:text-green-400 transition-colors group">
                                 <InstagramIcon className="h-6 w-6 mr-3 text-gray-400 dark:text-gray-500 group-hover:text-green-600 dark:group-hover:text-green-400"/>
