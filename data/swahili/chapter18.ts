@@ -10,7 +10,19 @@ export const chapter18: Chapter = {
         {
           number: '261',
           title: 'Sheria za matokeo',
-          content: `(1) Bunge litatunga sheria yoyote inayohitajika na Katiba hii kutungwa ili kusimamia jambo fulani ndani ya kipindi kilichoainishwa katika Jedwali la Tano, kuanzia tarehe ya kuanza kutumika.\n(2) Licha ya ibara ya (1), Bunge la Kitaifa linaweza, kwa azimio lililoungwa mkono na kura za angalau theluthi mbili ya wajumbe wote wa Bunge la Kitaifa, kuongeza kipindi kilichoagizwa kuhusiana na jambo lolote chini ya ibara ya (1), kwa kipindi kisichozidi mwaka mmoja.\n(3) Mamlaka ya Bunge la Kitaifa yaliyokusudiwa chini ya ibara ya (2), yanaweza kutekelezwa—\n(a) mara moja tu kuhusiana na jambo lolote; na\n(b) tu katika hali za kipekee, zitakazothibitishwa na Spika wa Bunge la Kitaifa.\n(4) Kwa madhumuni ya ibara ya (1), Mwanasheria Mkuu, kwa kushauriana na Tume ya Utekelezaji wa Katiba, ataandaa Miswada husika kwa ajili ya kuwasilishwa Bungeni, haraka iwezekanavyo, ili kuwezesha Bunge kutunga sheria ndani ya kipindi kilichoainishwa.\n(5) Ikiwa Bunge litashindwa kutunga sheria yoyote ndani ya muda uliowekwa, mtu yeyote anaweza kuwasilisha ombi kwa Mahakama Kuu juu ya jambo hilo.\n(6) Mahakama Kuu katika kuamua ombi chini ya ibara ya (5) inaweza—\n(a) kutoa amri ya tamko juu ya jambo hilo; na\n(b) kupeleka amri inayoagiza Bunge na Mwanasheria Mkuu kuchukua hatua za kuhakikisha kwamba sheria inayohitajika inatungwa, ndani ya kipindi kilichoainishwa katika amri, na kuripoti maendeleo kwa Jaji Mkuu.\n(7) Ikiwa Bunge litashindwa kutunga sheria kwa mujibu wa amri chini ya ibara ya (6) (b), Jaji Mkuu atamshauri Rais kulivunja Bunge na Rais atalivunja Bunge.\n(8) Ikiwa Bunge limevunjwa chini ya ibara ya (7), Bunge jipya litatunga sheria inayohitajika ndani ya vipindi vilivyoainishwa katika Jedwali la Tano kuanzia tarehe ya kuanza kwa muhula wa Bunge jipya.\n(9) Ikiwa Bunge jipya litashindwa kutunga sheria kwa mujibu wa ibara ya (8), masharti ya ibara za (1) hadi (8) yatatumika upya.`
+          content: `(1) Bunge litatunga sheria yoyote inayohitajika na Katiba hii kutungwa ili kusimamia jambo fulani ndani ya kipindi kilichoainishwa katika Jedwali la Tano, kuanzia tarehe ya kuanza kutumika.
+(2) Licha ya ibara ya (1), Bunge la Kitaifa linaweza, kwa azimio lililoungwa mkono na kura za angalau theluthi mbili ya wajumbe wote wa Bunge la Kitaifa, kuongeza kipindi kilichoagizwa kuhusiana na jambo lolote chini ya ibara ya (1), kwa kipindi kisichozidi mwaka mmoja.
+(3) Mamlaka ya Bunge la Kitaifa yaliyokusudiwa chini ya ibara ya (2), yanaweza kutekelezwa—
+(a) mara moja tu kuhusiana na jambo lolote; na
+(b) tu katika hali za kipekee, zitakazothibitishwa na Spika wa Bunge la Kitaifa.
+(4) Kwa madhumuni ya ibara ya (1), Mwanasheria Mkuu, kwa kushauriana na Tume ya Utekelezaji wa Katiba, ataandaa Miswada husika kwa ajili ya kuwasilishwa Bungeni, haraka iwezekanavyo, ili kuwezesha Bunge kutunga sheria ndani ya kipindi kilichoainishwa.
+(5) Ikiwa Bunge litashindwa kutunga sheria yoyote ndani ya muda uliowekwa, mtu yeyote anaweza kuwasilisha ombi kwa Mahakama Kuu juu ya jambo hilo.
+(6) Mahakama Kuu katika kuamua ombi chini ya ibara ya (5) inaweza—
+(a) kutoa amri ya tamko juu ya jambo hilo; na
+(b) kupeleka amri inayoagiza Bunge na Mwanasheria Mkuu kuchukua hatua za kuhakikisha kwamba sheria inayohitajika inatungwa, ndani ya kipindi kilichoainishwa katika amri, na kuripoti maendeleo kwa Jaji Mkuu.
+(7) Ikiwa Bunge litashindwa kutunga sheria kwa mujibu wa amri chini ya ibara ya (6) (b), Jaji Mkuu atamshauri Rais kulivunja Bunge na Rais atalivunja Bunge.
+(8) Ikiwa Bunge limevunjwa chini ya ibara ya (7), Bunge jipya litatunga sheria inayohitajika ndani ya vipindi vilivyoainishwa katika Jedwali la Tano kuanzia tarehe ya kuanza kwa muhula wa Bunge jipya.
+(9) Ikiwa Bunge jipya litashindwa kutunga sheria kwa mujibu wa ibara ya (8), masharti ya ibara za (1) hadi (8) yatatumika upya.`
         },
         {
           number: '262',

@@ -10,12 +10,38 @@ export const chapter17: Chapter = {
         {
           number: '258',
           title: 'Utekelezaji wa Katiba Hii',
-          content: `(1) Kila mtu ana haki ya kuanzisha kesi mahakamani, akidai kwamba Katiba hii imekiukwa, au inatishiwa kukiukwa.\n(2) Mbali na mtu anayechukua hatua kwa maslahi yake mwenyewe, kesi za mahakama chini ya ibara ya (1) zinaweza kuanzishwa na—\n(a) mtu anayechukua hatua kwa niaba ya mtu mwingine ambaye hawezi kuchukua hatua kwa jina lake mwenyewe;\n(b) mtu anayechukua hatua kama mwanachama wa, au kwa maslahi ya, kundi au darasa la watu;\n(c) mtu anayechukua hatua kwa maslahi ya umma; au\n(d) chama kinachochukua hatua kwa maslahi ya mwanachama mmoja au zaidi.`
+          content: `(1) Kila mtu ana haki ya kuanzisha kesi mahakamani, akidai kwamba Katiba hii imekiukwa, au inatishiwa kukiukwa.
+(2) Mbali na mtu anayechukua hatua kwa maslahi yake mwenyewe, kesi za mahakama chini ya ibara ya (1) zinaweza kuanzishwa na—
+(a) mtu anayechukua hatua kwa niaba ya mtu mwingine ambaye hawezi kuchukua hatua kwa jina lake mwenyewe;
+(b) mtu anayechukua hatua kama mwanachama wa, au kwa maslahi ya, kundi au darasa la watu;
+(c) mtu anayechukua hatua kwa maslahi ya umma; au
+(d) chama kinachochukua hatua kwa maslahi ya mwanachama mmoja au zaidi.`
         },
         {
           number: '259',
           title: 'Kutafsiri Katiba Hii',
-          content: `(1) Katiba hii itatafsiriwa kwa namna ambayo—\n(a) inakuza madhumuni, maadili na kanuni zake;\n(b) inaendeleza utawala wa sheria, na haki za binadamu na uhuru wa kimsingi katika Mswada wa Haki;\n(c) inaruhusu maendeleo ya sheria; na\n(d) inachangia utawala bora.\n(2) Ikiwa kuna mgongano kati ya matoleo ya lugha tofauti ya Katiba hii, toleo la lugha ya Kiingereza linashinda.\n(3) Kila kifungu cha Katiba hii kitatafsiriwa kulingana na mafundisho ya tafsiri kwamba sheria daima inazungumza na, kwa hiyo, miongoni mwa mambo mengine—\n(a) kazi au mamlaka iliyopewa na Katiba hii kwa ofisi inaweza kutekelezwa kama inavyohitajika, na mtu anayeshikilia ofisi hiyo;\n(b) rejeleo lolote katika Katiba hii kwa taasisi ya Serikali au afisa wa Serikali, au ofisi ya umma, au mshikiliaji wa ofisi ya umma, inajumuisha rejeleo kwa mtu anayerithi kazi za taasisi hiyo ya Serikali, afisa wa Serikali, ofisi ya umma au mshikiliaji wa ofisi ya umma;\n(c) rejeleo kwa ofisi, taasisi ya Serikali au eneo lililotajwa katika Katiba hii litasomwa na mabadiliko yoyote rasmi ya jina hilo; na\n(d) kifungu cha Katiba hii kinachotoa mamlaka ya kutengeneza chombo cha kisheria kitatafsiriwa kama kinaenea hadi kutoa mamlaka ya kurekebisha au kubatilisha chombo hicho.\n(4) Katika Katiba hii, isipokuwa kama muktadha unahitaji vinginevyo—\n(a) ikiwa neno au msemo umefafanuliwa katika Katiba hii, tofauti yoyote ya kisarufi au msemo unaohusiana wa neno au msemo una maana inayolingana, ukisomwa na mabadiliko yanayohitajika na muktadha; na\n(b) neno “inajumuisha” linamaanisha “inajumuisha, lakini si tu”.\n(5) Katika kuhesabu muda kati ya matukio mawili kwa madhumuni yoyote chini ya Katiba hii, ikiwa muda umeelezwa—\n(a) kama siku, siku ambayo tukio la kwanza linatokea itatengwa, na siku ambayo tukio la mwisho linaweza kutokea itajumuishwa;\n(b) kama miezi, kipindi cha muda kinaisha tarehe ile ile katika mwezi wa mwisho kama tarehe ambayo kipindi kilianza, lakini ikiwa mwezi wa mwisho hauna tarehe kama hiyo, kipindi kinaisha siku ya mwisho ya mwezi wa mwisho; au\n(c) kama miaka, kipindi cha muda kinaisha tarehe ile ile katika mwaka wa mwisho kama tarehe ambayo kipindi kilianza.\n(6) Ikiwa muda fulani haujaagizwa na Katiba hii kwa ajili ya kutekeleza kitendo kinachohitajika, kitendo hicho kitafanywa bila kuchelewa kusiko na sababu, na mara nyingi kama inavyohitajika.\n(7) Ikiwa mtu yeyote au taasisi ya Serikali ina mamlaka chini ya Katiba hii ya kuongeza kipindi cha muda kilichoagizwa na Katiba hii, mamlaka yanaweza kutekelezwa ama kabla au baada ya mwisho wa kipindi hicho, isipokuwa nia kinyume imeainishwa wazi katika kifungu kinachotoa mamlaka.\n(8) Isipokuwa kwa kiwango ambacho Katiba hii inatoa vinginevyo, ikiwa mtu ameteuliwa kwa ofisi chini ya Katiba hii, mtu huyo anaweza kujiuzulu kutoka ofisi hiyo kwa kuandika kwa mtu au chombo kilichomteua.\n(9) Ikiwa kifungu cha Katiba hii kinahitaji uchaguzi au uteuzi kufanywa kwa ofisi ya umma na kifungu kimya juu ya sifa za ofisi, sifa zitakuwa zile, ikiwepo, zilizoagizwa na sheria ya kitaifa.`
+          content: `(1) Katiba hii itatafsiriwa kwa namna ambayo—
+(a) inakuza madhumuni, maadili na kanuni zake;
+(b) inaendeleza utawala wa sheria, na haki za binadamu na uhuru wa kimsingi katika Mswada wa Haki;
+(c) inaruhusu maendeleo ya sheria; na
+(d) inachangia utawala bora.
+(2) Ikiwa kuna mgongano kati ya matoleo ya lugha tofauti ya Katiba hii, toleo la lugha ya Kiingereza linashinda.
+(3) Kila kifungu cha Katiba hii kitatafsiriwa kulingana na mafundisho ya tafsiri kwamba sheria daima inazungumza na, kwa hiyo, miongoni mwa mambo mengine—
+(a) kazi au mamlaka iliyopewa na Katiba hii kwa ofisi inaweza kutekelezwa kama inavyohitajika, na mtu anayeshikilia ofisi hiyo;
+(b) rejeleo lolote katika Katiba hii kwa taasisi ya Serikali au afisa wa Serikali, au ofisi ya umma, au mshikiliaji wa ofisi ya umma, inajumuisha rejeleo kwa mtu anayerithi kazi za taasisi hiyo ya Serikali, afisa wa Serikali, ofisi ya umma au mshikiliaji wa ofisi ya umma;
+(c) rejeleo kwa ofisi, taasisi ya Serikali au eneo lililotajwa katika Katiba hii litasomwa na mabadiliko yoyote rasmi ya jina hilo; na
+(d) kifungu cha Katiba hii kinachotoa mamlaka ya kutengeneza chombo cha kisheria kitatafsiriwa kama kinaenea hadi kutoa mamlaka ya kurekebisha au kubatilisha chombo hicho.
+(4) Katika Katiba hii, isipokuwa kama muktadha unahitaji vinginevyo—
+(a) ikiwa neno au msemo umefafanuliwa katika Katiba hii, tofauti yoyote ya kisarufi au msemo unaohusiana wa neno au msemo una maana inayolingana, ukisomwa na mabadiliko yanayohitajika na muktadha; na
+(b) neno “inajumuisha” linamaanisha “inajumuisha, lakini si tu”.
+(5) Katika kuhesabu muda kati ya matukio mawili kwa madhumuni yoyote chini ya Katiba hii, ikiwa muda umeelezwa—
+(a) kama siku, siku ambayo tukio la kwanza linatokea itatengwa, na siku ambayo tukio la mwisho linaweza kutokea itajumuishwa;
+(b) kama miezi, kipindi cha muda kinaisha tarehe ile ile katika mwezi wa mwisho kama tarehe ambayo kipindi kilianza, lakini ikiwa mwezi wa mwisho hauna tarehe kama hiyo, kipindi kinaisha siku ya mwisho ya mwezi wa mwisho; au
+(c) kama miaka, kipindi cha muda kinaisha tarehe ile ile katika mwaka wa mwisho kama tarehe ambayo kipindi kilianza.
+(6) Ikiwa muda fulani haujaagizwa na Katiba hii kwa ajili ya kutekeleza kitendo kinachohitajika, kitendo hicho kitafanywa bila kuchelewa kusiko na sababu, na mara nyingi kama inavyohitajika.
+(7) Ikiwa mtu yeyote au taasisi ya Serikali ina mamlaka chini ya Katiba hii ya kuongeza kipindi cha muda kilichoagizwa na Katiba hii, mamlaka yanaweza kutekelezwa ama kabla au baada ya mwisho wa kipindi hicho, isipokuwa nia kinyume imeainishwa wazi katika kifungu kinachotoa mamlaka.
+(8) Isipokuwa kwa kiwango ambacho Katiba hii inatoa vinginevyo, ikiwa mtu ameteuliwa kwa ofisi chini ya Katiba hii, mtu huyo anaweza kujiuzulu kutoka ofisi hiyo kwa kuandika kwa mtu au chombo kilichomteua.
+(9) Ikiwa kifungu cha Katiba hii kinahitaji uchaguzi au uteuzi kufanywa kwa ofisi ya umma na kifungu kimya juu ya sifa za ofisi, sifa zitakuwa zile, ikiwepo, zilizoagizwa na sheria ya kitaifa.`
         },
         {
           number: '260',

@@ -11,34 +11,6 @@ interface SidebarProps {
   language: 'en' | 'sw';
 }
 
-interface NavItemProps {
-  onClick: () => void;
-  isSelected: boolean;
-  children: React.ReactNode;
-  level?: number;
-}
-
-const NavItem: React.FC<NavItemProps> = ({ onClick, isSelected, children, level = 0 }) => {
-  const baseClasses = "w-full text-left py-2 text-sm rounded-r-lg transition-colors duration-150 flex items-center";
-  const selectedClasses = "bg-green-50 dark:bg-green-900/50 text-green-800 dark:text-green-300 font-semibold border-l-4 border-green-600 dark:border-green-500";
-  const unselectedClasses = "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100";
-  const paddingLeft = {
-    0: 'pl-4',
-    1: 'pl-8',
-    2: 'pl-12'
-  };
-  
-  return (
-    <button
-      onClick={onClick}
-      className={`${baseClasses} ${isSelected ? selectedClasses + ' pl-3' : unselectedClasses + ' ' + (paddingLeft[level as keyof typeof paddingLeft] || 'pl-4')}`}
-    >
-      {children}
-    </button>
-  );
-};
-
-
 const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isOpen, setIsOpen, language }) => {
   const [openChapters, setOpenChapters] = useState<Set<number>>(new Set());
 
@@ -58,16 +30,27 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
     ? { constitution: 'Katiba', preamble: 'Utangulizi', chapters: 'Sura', schedules: 'Majedwali', article: 'Kif.' }
     : { constitution: 'The Constitution', preamble: 'Preamble', chapters: 'Chapters', schedules: 'Schedules', article: 'Art.' };
   
+  const NavItem: React.FC<{ onClick: () => void; isSelected: boolean; children: React.ReactNode; }> = ({ onClick, isSelected, children }) => {
+    const baseClasses = "w-full text-left p-2.5 text-sm rounded-lg transition-colors duration-200 flex items-center";
+    const selectedClasses = "bg-primary-light text-primary font-semibold";
+    const unselectedClasses = "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface hover:text-on-surface";
+    return (
+      <button onClick={onClick} className={`${baseClasses} ${isSelected ? selectedClasses : unselectedClasses}`}>
+        {children}
+      </button>
+    );
+  };
+  
   const sidebarContent = (
-    <div className="h-full flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
-        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+    <div className="h-full flex flex-col bg-surface border-r border-border">
+        <div className="p-4 border-b border-border flex justify-between items-center">
             <div className="flex items-center space-x-3">
-                <div className="p-2 bg-green-100 dark:bg-gray-700 rounded-lg">
-                    <BookOpenIcon className="h-6 w-6 text-green-700 dark:text-green-400" />
+                <div className="p-2 bg-primary-light rounded-xl">
+                    <BookOpenIcon className="h-6 w-6 text-primary dark:text-primary-dark-text" />
                 </div>
-                <h1 className="text-xl font-bold text-gray-800 dark:text-gray-100 tracking-tight">{t.constitution}</h1>
+                <h1 className="text-xl font-bold text-on-surface tracking-tight">{t.constitution}</h1>
             </div>
-             <button onClick={() => setIsOpen(false)} className="md:hidden p-1 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white">
+             <button onClick={() => setIsOpen(false)} className="md:hidden p-1 text-gray-500 dark:text-gray-400 hover:text-on-surface">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -90,26 +73,23 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                 return (
                 <div key={chapter.id}>
                     <div 
-                        className={`w-full flex justify-between items-center pr-2 rounded-r-lg group ${isChapterSelected ? 'bg-green-50 dark:bg-green-900/50' : ''} ${!isChapterSelected && isChapterGroupActive ? 'bg-gray-50 dark:bg-gray-700/30' : ''}`}
+                        className={`w-full flex justify-between items-center pr-2 rounded-lg group ${isChapterSelected ? 'bg-primary-light' : ''} ${!isChapterSelected && isChapterGroupActive ? 'bg-gray-50 dark:bg-gray-800/50' : ''}`}
                     >
-                        <NavItem
-                            onClick={() => onSelectItem({ type: 'chapter', id: chapter.id })}
-                            isSelected={isChapterSelected}
+                       <button
+                           onClick={() => onSelectItem({ type: 'chapter', id: chapter.id })}
+                           className={`w-full text-left p-2.5 text-sm rounded-lg flex items-center transition-colors ${isChapterSelected ? 'text-primary font-semibold' : 'text-gray-600 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-surface'}`}
                         >
                             <span className="truncate">{chapterTitle}</span>
-                        </NavItem>
+                        </button>
                         <ChevronDownIcon
                             onClick={() => toggleChapter(chapter.id)}
-                            className={`h-5 w-5 mr-2 text-gray-500 dark:text-gray-400 transform transition-transform duration-200 cursor-pointer group-hover:text-gray-800 dark:group-hover:text-gray-200 ${openChapters.has(chapter.id) ? 'rotate-180' : ''}`}
+                            className={`h-5 w-5 mr-1 text-gray-500 dark:text-gray-400 transform transition-transform duration-200 cursor-pointer group-hover:text-on-surface ${openChapters.has(chapter.id) ? 'rotate-180' : ''}`}
                         />
                     </div>
                     {openChapters.has(chapter.id) && (
-                        <div className="py-1 space-y-1 border-l-2 border-gray-100 dark:border-gray-700 ml-4">
+                        <div className="py-1 space-y-1 border-l-2 border-gray-100 dark:border-gray-700 ml-4 pl-4">
                             {chapter.parts.flatMap(part => part.articles).map(article => {
                                 const isArticleSelected = selectedItem.type === 'chapter' && selectedItem.id === chapter.id && selectedItem.article === article.number;
-                                const baseArticleClasses = "w-full text-left px-2 py-1.5 text-sm rounded-r-lg flex items-center ml-4 truncate transition-colors";
-                                const selectedArticleClasses = "bg-green-50 dark:bg-green-900/50 text-green-800 dark:text-green-300 font-semibold border-l-4 border-green-600 dark:border-green-500 pl-3";
-                                const unselectedArticleClasses = "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-gray-200 pl-4";
                                 return (
                                 <a href={`#article-${article.number}`} 
                                     key={article.number}
@@ -117,7 +97,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                                         e.preventDefault();
                                         onSelectItem({ type: 'chapter', id: chapter.id, article: article.number });
                                     }}
-                                    className={`${baseArticleClasses} ${isArticleSelected ? selectedArticleClasses : unselectedArticleClasses}`}
+                                    className={`block w-full text-left px-3 py-1.5 text-sm rounded-lg truncate transition-colors ${isArticleSelected ? 'bg-primary-light text-primary font-semibold' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface'}`}
                                 >
                                   {`${t.article} ${article.number}: ${article.title}`}
                                 </a>

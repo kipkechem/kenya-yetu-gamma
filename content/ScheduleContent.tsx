@@ -23,10 +23,10 @@ const ScheduleContent: React.FC<ScheduleContentProps> = ({ schedule, searchTerm,
     }
 
     return (
-        <article id={`schedule-${schedule.id}`} className="prose lg:prose-lg max-w-none bg-white p-6 md:p-8 rounded-xl shadow-lg ring-1 ring-gray-900/5 dark:bg-gray-800 dark:ring-white/10 scroll-mt-20 dark:prose-invert">
-            <header className="border-b border-gray-200 dark:border-gray-700 pb-4 mb-8">
-                <p className="text-base font-semibold text-green-600 dark:text-green-400">{t.schedule}</p>
-                <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100 flex items-center">
+        <article id={`schedule-${schedule.id}`} className="prose lg:prose-lg max-w-none bg-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-24 dark:prose-invert">
+            <header className="border-b border-border pb-4 mb-8">
+                <p className="text-base font-semibold text-primary dark:text-primary-dark-text">{t.schedule}</p>
+                <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-on-surface flex items-center">
                     {schedule.title}
                     {summary && (
                         <div className="relative inline-block ml-3">

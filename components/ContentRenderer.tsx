@@ -101,18 +101,18 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                       e.preventDefault();
                       onSelectItem({ type: 'chapter', id: chapterId, article: articleNum });
                     }}
-                    className="text-green-700 dark:text-green-400 hover:underline font-semibold"
+                    className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
                   >
                     <Highlight text={matchedText} highlight={highlight} />
                   </a>
                   <button
                     onClick={(e) => handleCopyLink(e, articleNum!)}
-                    className="ml-1 p-0.5 rounded text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-green-500 transition-colors"
+                    className="ml-1 p-0.5 rounded text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-primary transition-colors"
                     title={titleText}
                     aria-label={titleText}
                   >
                     {copiedArticle === articleNum ? (
-                        <CheckIcon className="h-4 w-4 text-green-600 dark:text-green-400" />
+                        <CheckIcon className="h-4 w-4 text-primary dark:text-primary-dark-text" />
                     ) : (
                         <CopyIcon className="h-4 w-4" />
                     )}
@@ -136,7 +136,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                     e.preventDefault();
                     onSelectItem({ type: 'chapter', id: chapterId as number });
                   }}
-                  className="text-green-700 dark:text-green-400 hover:underline font-semibold"
+                  className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
                 >
                   <Highlight text={matchedText} highlight={highlight} />
                 </a>
@@ -153,7 +153,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                     e.preventDefault();
                     onSelectItem({ type: 'schedule', id: scheduleId });
                   }}
-                  className="text-green-700 dark:text-green-400 hover:underline font-semibold"
+                  className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
                 >
                   <Highlight text={matchedText} highlight={highlight} />
                 </a>

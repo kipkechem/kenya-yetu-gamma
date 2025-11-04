@@ -34,13 +34,13 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ theme, setTheme }) => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-gray-800 focus:ring-green-500"
+        className="p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface dark:focus:ring-offset-dark-surface focus:ring-primary"
         aria-label="Toggle theme"
       >
         <CurrentIcon className="h-6 w-6" />
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-36 bg-white dark:bg-gray-800 rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-white/10">
+        <div className="absolute right-0 mt-2 w-36 bg-surface dark:bg-dark-surface rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 dark:ring-white/10 z-30">
           <div className="py-1">
             {themes.map(t => (
               <button
@@ -53,7 +53,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({ theme, setTheme }) => {
               >
                 <t.icon className="h-5 w-5 mr-3" />
                 <span>{t.name}</span>
-                {theme === t.value && <CheckIcon className="h-5 w-5 ml-auto text-green-600 dark:text-green-400" />}
+                {theme === t.value && <CheckIcon className="h-5 w-5 ml-auto text-primary dark:text-dark-primary" />}
               </button>
             ))}
           </div>

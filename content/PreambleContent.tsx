@@ -18,8 +18,8 @@ const PreambleContent: React.FC<PreambleContentProps> = ({ searchTerm, onSelectI
     const summary = summaries['preamble'];
 
     return (
-        <article id="preamble" className="prose lg:prose-lg max-w-none bg-white p-6 md:p-8 rounded-xl shadow-lg ring-1 ring-gray-900/5 dark:bg-gray-800 dark:ring-white/10 scroll-mt-20 dark:prose-invert">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight flex items-center">
+        <article id="preamble" className="prose lg:prose-lg max-w-none bg-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-24 dark:prose-invert">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-on-surface tracking-tight flex items-center">
                 {title}
                 {summary && (
                     <div className="relative inline-block ml-3">
