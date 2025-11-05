@@ -11,9 +11,14 @@ interface ContentRendererProps {
   language: 'en' | 'sw';
 }
 
-const wordToNumber: { [key: string]: number } = {
+const enWordToNumber: { [key: string]: number } = {
   one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10,
   eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18,
+};
+
+const swWordToNumber: { [key: string]: number } = {
+    kwanza: 1, pili: 2, tatu: 3, nne: 4, tano: 5, sita: 6, saba: 7, nane: 8, tisa: 9, kumi: 10,
+    'kumi na moja': 11, 'kumi na mbili': 12, 'kumi na tatu': 13, 'kumi na nne': 14, 'kumi na tano': 15, 'kumi na sita': 16, 'kumi na saba': 17, 'kumi na nane': 18,
 };
 
 const scheduleNameToId: { [key: string]: string } = {
@@ -34,8 +39,9 @@ const swahiliScheduleNameToId: { [key: string]: string } = {
     sita: 'sixth-schedule',
 };
 
-const enLinkRegex = /(Article\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|(Chapter\s+([a-zA-Z0-9]+))|((First|Second|Third|Fourth|Fifth|Sixth)\s+Schedule)/gi;
-const swLinkRegex = /(Kifungu\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|(Sura\s+ya\s+([a-zA-Z0-9]+))|((Jedwali\s+la\s+(Kwanza|Pili|Tatu|Nne|Tano|Sita)))/gi;
+const enLinkRegex = /((?:Article(?:s)?)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|((?:Part\s+([a-zA-Z0-9]+)\s+of\s+)?Chapter\s+([a-zA-Z0-9]+))|((First|Second|Third|Fourth|Fifth|Sixth)\s+Schedule)/gi;
+const swLinkRegex = /((?:Kifungu|Vifungu)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|((?:Sehemu\s+ya\s+([a-zA-Z0-9\s]+)\s+ya\s+)?Sura\s+ya\s+([a-zA-Z0-9\s]+))|((Jedwali\s+la\s+(Kwanza|Pili|Tatu|Nne|Tano|Sita)))/gi;
+
 
 const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSelectItem, articleToChapterMap, language }) => {
   const [copiedArticle, setCopiedArticle] = useState<string | null>(null);
@@ -58,7 +64,45 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
     });
   };
 
+  const renderArticleLink = (articleNum: string, linkText: string) => {
+    const chapterId = articleToChapterMap.get(articleNum);
+    if (!chapterId) {
+      return <Highlight text={linkText} highlight={highlight} />;
+    }
+    const titleText = language === 'sw' ? `Nakili kiungo cha Kifungu ${articleNum}` : `Copy link to Article ${articleNum}`;
+    return (
+      <span className="inline-flex items-center">
+        <a
+          href={`#article-${articleNum}`}
+          onClick={(e) => {
+            e.preventDefault();
+            onSelectItem({ type: 'chapter', id: chapterId, article: articleNum });
+          }}
+          className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
+        >
+          <Highlight text={linkText} highlight={highlight} />
+        </a>
+        <button
+          onClick={(e) => handleCopyLink(e, articleNum)}
+          className="ml-1 p-0.5 rounded text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-primary transition-colors"
+          title={titleText}
+          aria-label={titleText}
+        >
+          {copiedArticle === articleNum ? (
+            <CheckIcon className="h-4 w-4 text-primary dark:text-primary-dark-text" />
+          ) : (
+            <CopyIcon className="h-4 w-4" />
+          )}
+        </button>
+      </span>
+    );
+  };
+
+
   const linkRegex = language === 'sw' ? swLinkRegex : enLinkRegex;
+  const nextArticleRegex = language === 'sw'
+    ? /^\s*(?:,|na|au|hadi)\s*(\d+)(?:\s*\([a-zA-Z0-9]+\))?/
+    : /^\s*(?:,|and|or|to)\s*(\d+)(?:\s*\([a-zA-Z0-9]+\))?/;
   
   const elements: React.ReactNode[] = [];
   let lastIndex = 0;
@@ -75,66 +119,71 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
 
     const matchedText = match[0];
     let link: React.ReactNode | null = null;
-    let articleNum: string | undefined;
-    let chapterIdentifier: string | undefined;
-    let scheduleIdentifier: string | undefined;
-
-    if (language === 'sw') {
-        articleNum = match[2];
-        chapterIdentifier = match[4];
-        scheduleIdentifier = match[6]?.toLowerCase();
-    } else {
-        articleNum = match[2];
-        chapterIdentifier = match[4];
-        scheduleIdentifier = match[6]?.toLowerCase();
-    }
     
-    if (articleNum) {
-        const chapterId = articleToChapterMap.get(articleNum);
-        if (chapterId) {
-            const titleText = language === 'sw' ? `Nakili kiungo cha ${matchedText}` : `Copy link to ${matchedText}`;
-            link = (
-                <span className="inline-flex items-center">
-                  <a
-                    href={`#article-${articleNum}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onSelectItem({ type: 'chapter', id: chapterId, article: articleNum });
-                    }}
-                    className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
-                  >
-                    <Highlight text={matchedText} highlight={highlight} />
-                  </a>
-                  <button
-                    onClick={(e) => handleCopyLink(e, articleNum!)}
-                    className="ml-1 p-0.5 rounded text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-primary transition-colors"
-                    title={titleText}
-                    aria-label={titleText}
-                  >
-                    {copiedArticle === articleNum ? (
-                        <CheckIcon className="h-4 w-4 text-primary dark:text-primary-dark-text" />
-                    ) : (
-                        <CopyIcon className="h-4 w-4" />
-                    )}
-                  </button>
-                </span>
-            );
+    const [
+        , // full match[0]
+        articleBlock, articleNum,
+        chapterBlock, partIdentifier, chapterIdentifier,
+        scheduleBlock, scheduleName
+    ] = match;
+
+    if (articleBlock && articleNum) {
+        elements.push(<React.Fragment key={`match-${match.index}`}>{renderArticleLink(articleNum, matchedText)}</React.Fragment>);
+
+        let localIndex = linkRegex.lastIndex;
+        let inArticleList = true;
+
+        while(inArticleList) {
+          const remainingText = text.substring(localIndex);
+          const nextNumMatch = remainingText.match(nextArticleRegex);
+
+          if (nextNumMatch) {
+            const separatorWithWhitespace = nextNumMatch[0].substring(0, nextNumMatch[0].indexOf(nextNumMatch[1]));
+            const nextArticleNum = nextNumMatch[1];
+            const fullNextMatchText = nextNumMatch[0].trim().replace(/^,/, '').replace(/^and/, '').replace(/^or/, '').replace(/^to/, '').replace(/^na/, '').replace(/^au/, '').replace(/^hadi/, '').trim();
+
+            elements.push(<Highlight key={`sep-${localIndex}`} text={separatorWithWhitespace} highlight={highlight} />);
+            elements.push(<React.Fragment key={`submatch-${localIndex}`}>{renderArticleLink(nextArticleNum, fullNextMatchText)}</React.Fragment>);
+            
+            localIndex += nextNumMatch[0].length;
+          } else {
+            inArticleList = false;
+          }
         }
-    } else if (chapterIdentifier) {
+        linkRegex.lastIndex = localIndex;
+
+    } else if (chapterBlock && chapterIdentifier) {
         let chapterId: number | undefined;
-        if (/^\d+$/.test(chapterIdentifier)) {
-          chapterId = parseInt(chapterIdentifier, 10);
-        } else if (wordToNumber[chapterIdentifier.toLowerCase()]) {
-          chapterId = wordToNumber[chapterIdentifier.toLowerCase()];
+        let partNum: number | undefined;
+        const currentWordMap = language === 'sw' ? swWordToNumber : enWordToNumber;
+
+        if (partIdentifier) {
+            const partIdTrimmed = partIdentifier.trim().toLowerCase();
+            if (/^\d+$/.test(partIdTrimmed)) {
+                partNum = parseInt(partIdTrimmed, 10);
+            } else if (currentWordMap[partIdTrimmed]) {
+                partNum = currentWordMap[partIdTrimmed];
+            }
         }
-        
+
+        const chapterIdTrimmed = chapterIdentifier.trim().toLowerCase();
+        if (/^\d+$/.test(chapterIdTrimmed)) {
+            chapterId = parseInt(chapterIdTrimmed, 10);
+        } else if (currentWordMap[chapterIdTrimmed]) {
+            chapterId = currentWordMap[chapterIdTrimmed];
+        }
+
         if (chapterId && chapterId > 0 && chapterId <= 18) {
             link = (
                 <a
-                  href={`#chapter-${chapterId}`}
+                  href={partNum ? `#chapter-${chapterId}-part-${partNum}` : `#chapter-${chapterId}`}
                   onClick={(e) => {
                     e.preventDefault();
-                    onSelectItem({ type: 'chapter', id: chapterId as number });
+                    const item: SelectedItem = { type: 'chapter', id: chapterId };
+                    if (partNum) {
+                        item.part = partNum;
+                    }
+                    onSelectItem(item);
                   }}
                   className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
                 >
@@ -142,9 +191,9 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                 </a>
             );
         }
-    } else if (scheduleIdentifier) {
+    } else if (scheduleBlock && scheduleName) {
         const currentScheduleMap = language === 'sw' ? swahiliScheduleNameToId : scheduleNameToId;
-        const scheduleId = currentScheduleMap[scheduleIdentifier];
+        const scheduleId = currentScheduleMap[scheduleName.toLowerCase()];
         if (scheduleId) {
             link = (
                 <a
@@ -163,7 +212,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
 
     if (link) {
       elements.push(<React.Fragment key={`match-${match.index}`}>{link}</React.Fragment>);
-    } else {
+    } else if (!articleBlock) { 
       elements.push(<Highlight key={`match-${match.index}`} text={matchedText} highlight={highlight} />);
     }
 

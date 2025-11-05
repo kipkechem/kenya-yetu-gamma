@@ -4,6 +4,7 @@ export type SelectedItem = {
   type: 'preamble' | 'chapter' | 'schedule';
   id: string | number;
   article?: string;
+  part?: number;
 };
 
 export interface Article {

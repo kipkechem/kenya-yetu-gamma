@@ -13,44 +13,6 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
 
   const currentData = language === 'en' ? constitutionData : swahiliConstitutionData;
   const currentSummaries = language === 'en' ? englishSummaries : swahiliSummaries;
-
-  const scrollIntoView = useCallback((item: SelectedItem | undefined) => {
-    if (!item) return;
-
-    let elementId = '';
-    if (item.type === 'preamble') {
-        elementId = 'preamble';
-    } else if (item.type === 'chapter') {
-        elementId = item.article ? `article-${item.article}` : `chapter-${item.id}`;
-    } else if (item.type === 'schedule') {
-        elementId = `schedule-${item.id}`;
-    }
-
-    if (elementId) {
-        setTimeout(() => {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }, 100);
-    }
-  }, []);
-
-  useEffect(() => {
-    scrollIntoView(selectedItem);
-  }, [selectedItem, scrollIntoView]);
-
-  const handleSelectItem = useCallback((item: SelectedItem) => {
-    if (JSON.stringify(selectedItem) === JSON.stringify(item)) {
-        scrollIntoView(item);
-        return;
-    }
-    setSelectedItem(item);
-
-    if(window.innerWidth < 768) {
-        setIsSidebarOpen(false);
-    }
-  }, [selectedItem, setIsSidebarOpen, scrollIntoView]);
   
   const articleToChapterMap = useMemo(() => {
     const map = new Map<string, number>();
@@ -64,6 +26,122 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
     return map;
   }, []);
 
+  const scrollIntoView = useCallback((item: SelectedItem | undefined) => {
+    if (!item) return;
+
+    let elementId = '';
+    if (item.type === 'preamble') {
+        elementId = 'preamble';
+    } else if (item.type === 'chapter') {
+        if (item.article) {
+            elementId = `article-${item.article}`;
+        } else if (item.part) {
+            elementId = `chapter-${item.id}-part-${item.part}`;
+        } else {
+            elementId = `chapter-${item.id}`;
+        }
+    } else if (item.type === 'schedule') {
+        elementId = `schedule-${item.id}`;
+    }
+
+    if (elementId) {
+        setTimeout(() => {
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Add a temporary highlight effect
+                element.classList.add('animate-highlight');
+                setTimeout(() => element.classList.remove('animate-highlight'), 2000);
+            }
+        }, 100);
+    }
+  }, []);
+
+  const handleSelectItem = useCallback((item: SelectedItem, shouldUpdateHistory = true) => {
+    if (JSON.stringify(selectedItem) === JSON.stringify(item)) {
+        scrollIntoView(item);
+        return;
+    }
+    setSelectedItem(item);
+    
+    if (shouldUpdateHistory) {
+      let hash = '';
+      if (item.type === 'preamble') {
+        hash = '#preamble';
+      } else if (item.type === 'schedule') {
+        hash = `#schedule-${item.id}`;
+      } else if (item.type === 'chapter') {
+        if (item.article) {
+            hash = `#article-${item.article}`;
+        } else if (item.part) {
+            hash = `#chapter-${item.id}-part-${item.part}`;
+        } else {
+            hash = `#chapter-${item.id}`;
+        }
+      }
+      if (window.location.hash !== hash) {
+        history.pushState(null, '', hash);
+      }
+    }
+
+
+    if(window.innerWidth < 768) {
+        setIsSidebarOpen(false);
+    }
+  }, [selectedItem, setIsSidebarOpen, scrollIntoView]);
+
+  useEffect(() => {
+    scrollIntoView(selectedItem);
+  }, [selectedItem, scrollIntoView]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.substring(1);
+      if (!hash) {
+        handleSelectItem({ type: 'preamble', id: 'preamble' }, false);
+        return;
+      }
+  
+      let newItem: SelectedItem | undefined;
+      if (hash.startsWith('article-')) {
+        const articleNum = hash.substring('article-'.length);
+        const chapterId = articleToChapterMap.get(articleNum);
+        if (chapterId) {
+          newItem = { type: 'chapter', id: chapterId, article: articleNum };
+        }
+      } else if (hash.startsWith('chapter-') && hash.includes('-part-')) {
+        const parts = hash.split('-part-');
+        const chapterId = parseInt(parts[0].substring('chapter-'.length), 10);
+        const partNum = parseInt(parts[1], 10);
+        if (!isNaN(chapterId) && !isNaN(partNum)) {
+            newItem = { type: 'chapter', id: chapterId, part: partNum };
+        }
+      } else if (hash.startsWith('chapter-')) {
+        const chapterId = parseInt(hash.substring('chapter-'.length), 10);
+        if (!isNaN(chapterId)) {
+          newItem = { type: 'chapter', id: chapterId };
+        }
+      } else if (hash.startsWith('schedule-')) {
+        const scheduleId = hash.substring('schedule-'.length);
+        newItem = { type: 'schedule', id: scheduleId };
+      } else if (hash === 'preamble') {
+        newItem = { type: 'preamble', id: 'preamble' };
+      }
+  
+      if (newItem && JSON.stringify(newItem) !== JSON.stringify(selectedItem)) {
+        handleSelectItem(newItem, false);
+      }
+    };
+  
+    handleHashChange(); // Handle initial load
+  
+    window.addEventListener('popstate', handleHashChange);
+    return () => {
+      window.removeEventListener('popstate', handleHashChange);
+    };
+  }, [articleToChapterMap, handleSelectItem]);
+
+
   return (
     <div className="flex h-full w-full overflow-hidden">
         <Sidebar 
@@ -75,6 +153,15 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
           language={language}
         />
         <div className="flex-1 overflow-y-auto bg-background dark:bg-dark-background">
+             <style>{`
+                @keyframes highlight-fade {
+                    0% { background-color: rgba(34, 197, 94, 0.2); }
+                    100% { background-color: transparent; }
+                }
+                .animate-highlight {
+                    animation: highlight-fade 2s ease-out;
+                }
+            `}</style>
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
               <ContentDisplay 
                     searchTerm={searchTerm} 

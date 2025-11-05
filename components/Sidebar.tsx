@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { ConstitutionData, SelectedItem } from '../types';
 import { ChevronDownIcon, BookOpenIcon, FileTextIcon } from './icons';
 
@@ -13,6 +13,20 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isOpen, setIsOpen, language }) => {
   const [openChapters, setOpenChapters] = useState<Set<number>>(new Set());
+
+  useEffect(() => {
+    if (selectedItem.type === 'chapter' && selectedItem.article) {
+        setOpenChapters(prev => {
+            if (!prev.has(selectedItem.id as number)) {
+                const newSet = new Set(prev);
+                newSet.add(selectedItem.id as number);
+                return newSet;
+            }
+            return prev;
+        });
+    }
+  }, [selectedItem]);
+
 
   const toggleChapter = (chapterId: number) => {
     setOpenChapters(prev => {

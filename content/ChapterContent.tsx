@@ -31,7 +31,7 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, searchTerm, on
             </header>
             
             {chapter.parts.map((part, partIndex) => (
-                <section key={partIndex} className="mt-6">
+                <section key={partIndex} id={`chapter-${chapter.id}-part-${partIndex + 1}`} className="mt-6 scroll-mt-20">
                     {part.title && <h3 className="text-2xl font-bold mt-8 mb-4">{part.title}</h3>}
                     {part.articles.map(article => {
                         const summary = summaries[article.number];
