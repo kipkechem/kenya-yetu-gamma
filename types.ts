@@ -1,4 +1,10 @@
+// This file is available for type definitions.
 
+export type SelectedItem = {
+  type: 'preamble' | 'chapter' | 'schedule';
+  id: string | number;
+  article?: string;
+};
 
 export interface Article {
   number: string;
@@ -18,30 +24,23 @@ export interface Chapter {
 }
 
 export interface Schedule {
-  id: string; // Using string for ids like 'first-schedule'
+  id: string;
   title: string;
   content: string;
 }
 
 export interface ConstitutionData {
-  preamble: { title: string; content: string };
+  preamble: {
+    title: string;
+    content: string;
+  };
   chapters: Chapter[];
   schedules: Schedule[];
 }
 
-export type SelectedItem = 
-  | { type: 'preamble'; id: 'preamble' }
-  | { type: 'chapter'; id: number; article?: string }
-  | { type: 'schedule'; id: string };
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'infomap' | 'county-explorer' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact';
 
-// FIX: Add Representative, County, and AppView types to be used across the application.
-export interface Representative {
-  name: string;
-  position: string;
-  party: string;
-  imageUrl: string;
-  county?: string;
-}
+export type Theme = 'light' | 'dark' | 'system';
 
 export interface County {
   name: string;
@@ -54,29 +53,28 @@ export interface County {
   funFacts: string[];
 }
 
-export interface CabinetMember {
+export interface Representative {
   name: string;
-  title: string;
+  position: string;
+  party: string;
   imageUrl: string;
+  county?: string;
 }
+
+export interface PrincipalSecretary {
+  title: string;
+  department: string;
+}
+
+export interface Ministry {
+  name: string;
+  cabinetSecretary: string;
+  principalSecretaries: PrincipalSecretary[];
+}
+
 
 export interface Commission {
   name: string;
   description: string;
   url: string;
 }
-
-export type AppView =
-  | 'home'
-  | 'kenya-laws'
-  | 'constitution'
-  | 'acts'
-  | 'cabinet'
-  | 'commissions'
-  | 'infomap'
-  | 'my-representatives'
-  | 'county-explorer'
-  | 'projects'
-  | 'resources'
-  | 'about'
-  | 'contact';

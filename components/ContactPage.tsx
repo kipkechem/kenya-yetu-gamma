@@ -106,8 +106,8 @@ const ContactPage: React.FC = () => {
                                         <li>Go to M-Pesa on your phone</li>
                                         <li>Select "Lipa na M-Pesa"</li>
                                         <li>Select "Pay Bill"</li>
-                                        <li>Enter Business No: <span className="font-bold text-on-surface dark:text-dark-on-surface">247247</span></li>
-                                        <li>Enter Account No: <span className="font-bold text-on-surface dark:text-dark-on-surface">KENYAYETU</span></li>
+                                        <li>Enter Business No: <span className="font-bold text-on-surface dark:text-dark-on-surface">xxxxxx7</span></li>
+                                        <li>Enter Account No: <span className="font-bold text-on-surface dark:text-dark-on-surface">xxxxx</span></li>
                                         <li>Enter the amount and your PIN</li>
                                     </ol>
                                 </div>

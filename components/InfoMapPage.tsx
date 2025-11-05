@@ -19,7 +19,7 @@ import {
 } from './icons';
 
 interface InfoMapPageProps {
-  setActiveView: (view: AppView) => void;
+  navigateTo: (view: AppView) => void;
 }
 
 const infoMapSections: {
@@ -53,12 +53,6 @@ const infoMapSections: {
         title: 'Water Bodies',
         description: "Map of Kenya's major rivers, lakes, and ocean coastline.",
         icon: <GlobeAmericasIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        isActionable: false,
-    },
-    {
-        title: 'Contour Map',
-        description: 'Visualize elevation and terrain steepness across the country.',
-        icon: <PresentationChartLineIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
         isActionable: false,
     },
     {
@@ -117,7 +111,7 @@ const infoMapSections: {
     },
 ];
 
-const InfoMapPage: React.FC<InfoMapPageProps> = ({ setActiveView }) => {
+const InfoMapPage: React.FC<InfoMapPageProps> = ({ navigateTo }) => {
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10">
       <div className="text-center px-4 py-10">
@@ -136,7 +130,7 @@ const InfoMapPage: React.FC<InfoMapPageProps> = ({ setActiveView }) => {
             return (
                 <CardWrapper
                     key={section.title}
-                    onClick={section.isActionable && section.view ? () => setActiveView(section.view) : undefined}
+                    onClick={section.isActionable && section.view ? () => navigateTo(section.view) : undefined}
                     className="bg-surface dark:bg-dark-surface p-6 rounded-3xl custom-shadow-lg flex flex-col text-left w-[240px] aspect-square relative hover:custom-shadow-xl hover:-translate-y-2 transform-gpu transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
                     {!section.isActionable && (

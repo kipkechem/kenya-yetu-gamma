@@ -24,22 +24,22 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, searchTerm, on
     }
 
     return (
-        <article id={`chapter-${chapter.id}`} className="prose lg:prose-lg max-w-none bg-white p-6 md:p-8 rounded-xl shadow-lg ring-1 ring-gray-900/5 dark:bg-gray-800 dark:ring-white/10 scroll-mt-20 dark:prose-invert">
-            <header className="border-b border-gray-200 dark:border-gray-700 pb-4 mb-8">
-                <p className="text-base font-semibold text-green-600 dark:text-green-400">{t.chapter} {chapter.id}</p>
-                <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100">{chapter.title}</h1>
+        <article id={`chapter-${chapter.id}`} className="prose lg:prose-lg max-w-none bg-surface dark:bg-dark-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-20 dark:prose-invert">
+            <header className="border-b border-border dark:border-dark-border pb-4 mb-8">
+                <p className="text-base font-semibold text-primary dark:text-dark-primary">{t.chapter} {chapter.id}</p>
+                <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight">{chapter.title}</h1>
             </header>
             
             {chapter.parts.map((part, partIndex) => (
                 <section key={partIndex} className="mt-6">
-                    {part.title && <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-200 mt-8 mb-4">{part.title}</h3>}
+                    {part.title && <h3 className="text-2xl font-bold mt-8 mb-4">{part.title}</h3>}
                     {part.articles.map(article => {
                         const summary = summaries[article.number];
                         return (
-                            <div key={article.number} id={`article-${article.number}`} className="mt-6 py-6 border-t border-gray-100 dark:border-gray-700/50 scroll-mt-20">
-                                <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200 leading-6 flex items-center">
+                            <div key={article.number} id={`article-${article.number}`} className="mt-6 py-6 border-t border-border dark:border-dark-border/50 scroll-mt-20">
+                                <h4 className="text-lg font-semibold leading-6 flex items-center">
                                     <span className="text-gray-500 dark:text-gray-400 mr-2">{t.article} {article.number}:</span>
-                                    {article.title}
+                                    <span className="underline decoration-primary/50 dark:decoration-dark-primary/50 underline-offset-4">{article.title}</span>
                                     {summary && (
                                         <div className="relative inline-block ml-2">
                                             <ChatBubbleOvalLeftEllipsisIcon
@@ -57,7 +57,7 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, searchTerm, on
                                         </div>
                                     )}
                                 </h4>
-                                <div className="mt-3 space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+                                <div className="mt-3 space-y-4 leading-relaxed">
                                     {article.content.split('\n').map((paragraph, pIndex) => (
                                         paragraph.trim() && <p key={pIndex}><ContentRenderer text={paragraph} highlight={searchTerm} onSelectItem={onSelectItem} articleToChapterMap={articleToChapterMap} language={language} /></p>
                                     ))}

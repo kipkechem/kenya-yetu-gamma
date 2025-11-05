@@ -2,6 +2,33 @@ import React, { useState, useMemo } from 'react';
 import { InboxStackIcon, ChevronDownIcon } from './icons';
 import { actsOfParliament, ActsByCategory } from '../data/acts';
 
+const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) => {
+  const baseUrl = 'https://new.kenyalaw.org/kl/index.php?id=search';
+  const params = new URLSearchParams({
+    'search[search_word]': actTitle
+  });
+
+  const categoryToParam: Partial<Record<keyof ActsByCategory, string>> = {
+    'in force': 'seasy_bda',
+    uncommenced: 'seasy_unc',
+    repealed: 'seasy_lca',
+    county: 'seasy_srp',
+    'east african': 'seasy_eac',
+  };
+
+  if (categoryKey && categoryToParam[categoryKey]) {
+    params.set(`search[${categoryToParam[categoryKey]}]`, '1');
+    // The Kenya Law search page defaults to 'in force' checked. 
+    // If we are searching another category, we need to tell it to uncheck 'in force'.
+    if (categoryKey !== 'in force') {
+        params.set('search[seasy_bda]', '0');
+    }
+  }
+
+  return `${baseUrl}?${params.toString()}`;
+};
+
+
 const ActsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [openAccordion, setOpenAccordion] = useState<string | null>('in force');
@@ -10,8 +37,6 @@ const ActsPage: React.FC = () => {
     setSearchTerm(event.target.value);
     setOpenAccordion(null);
   };
-
-  const createSearchUrl = (actTitle: string) => `https://new.kenyalaw.org/kl/index.php?id=search&search[search_word]=${encodeURIComponent(actTitle)}&search[submit]=Search`;
   
   const allActs = useMemo(() => {
     return Object.values(actsOfParliament).flat().sort((a, b) => a.localeCompare(b));
@@ -109,7 +134,7 @@ const ActsPage: React.FC = () => {
                             <ul className="divide-y divide-border dark:divide-dark-border">
                                 {acts.map((act, index) => (
                                 <li key={index}>
-                                    <a href={createSearchUrl(act)} target="_blank" rel="noopener noreferrer" className="group block py-3 px-4 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
+                                    <a href={createSearchUrl(act, category)} target="_blank" rel="noopener noreferrer" className="group block py-3 px-4 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
                                     <div className="flex items-center justify-between">
                                         <p className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-dark-primary">{act}</p>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">

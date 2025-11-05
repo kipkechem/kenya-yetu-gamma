@@ -1,9 +1,9 @@
 import React from 'react';
-import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon } from './icons';
+import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon, FileTextIcon } from './icons';
 import type { AppView } from '../types';
 
 interface KenyaLawsPageProps {
-  setActiveView: (view: AppView) => void;
+  navigateTo: (view: AppView) => void;
 }
 
 interface Section {
@@ -30,6 +30,14 @@ const lawSections: Section[] = [
         view: 'acts',
         isExternal: false,
     },
+    {
+        title: 'Kenya Gazette',
+        description: 'Official publication of the Government of Kenya containing notices, appointments, and new legislation.',
+        icon: <FileTextIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'kenya-laws', // Placeholder as isExternal is true
+        isExternal: true,
+        url: 'https://new.kenyalaw.org/gazettes/',
+    }
 ];
 
 const governanceSections: Section[] = [
@@ -49,12 +57,12 @@ const governanceSections: Section[] = [
     },
 ];
 
-const Tile: React.FC<{ section: Section, setActiveView: (view: AppView) => void }> = ({ section, setActiveView }) => {
+const Tile: React.FC<{ section: Section, navigateTo: (view: AppView) => void }> = ({ section, navigateTo }) => {
     const handleClick = () => {
         if (section.isExternal && section.url) {
             window.open(section.url, '_blank', 'noopener,noreferrer');
         } else {
-            setActiveView(section.view);
+            navigateTo(section.view);
         }
     };
 
@@ -76,7 +84,7 @@ const Tile: React.FC<{ section: Section, setActiveView: (view: AppView) => void 
     );
 };
 
-const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ setActiveView }) => {
+const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ navigateTo }) => {
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10">
         <div className="min-h-full w-full flex flex-col">
@@ -97,7 +105,7 @@ const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ setActiveView }) => {
                     <h2 className="text-2xl font-bold text-center text-on-surface dark:text-dark-on-surface mb-6">Laws</h2>
                     <div className="flex flex-row flex-wrap justify-center gap-6 px-4">
                         {lawSections.map((section) => (
-                            <Tile key={section.view} section={section} setActiveView={setActiveView} />
+                            <Tile key={section.view} section={section} navigateTo={navigateTo} />
                         ))}
                     </div>
                 </div>
@@ -106,7 +114,7 @@ const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ setActiveView }) => {
                     <h2 className="text-2xl font-bold text-center text-on-surface dark:text-dark-on-surface mb-6">Governance</h2>
                     <div className="flex flex-row flex-wrap justify-center gap-6 px-4">
                         {governanceSections.map((section) => (
-                             <Tile key={section.view} section={section} setActiveView={setActiveView} />
+                             <Tile key={section.view} section={section} navigateTo={navigateTo} />
                         ))}
                     </div>
                 </div>

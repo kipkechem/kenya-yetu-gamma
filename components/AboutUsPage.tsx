@@ -3,10 +3,10 @@ import type { AppView } from '../types';
 import { UsersIcon } from './icons';
 
 interface AboutUsPageProps {
-  setActiveView: (view: AppView) => void;
+  navigateTo: (view: AppView) => void;
 }
 
-const AboutUsPage: React.FC<AboutUsPageProps> = ({ setActiveView }) => {
+const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigateTo }) => {
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
         <div className="max-w-4xl mx-auto space-y-8">
@@ -24,7 +24,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ setActiveView }) => {
                     The project is founded by <a href="https://www.linkedin.com/in/mkbartonjo/" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-dark-primary hover:underline font-semibold">Michael Bartonjo</a>, an Urban Planner based in Mombasa, Kenya.
                 </p>   
                 <p>
-                    <span className="font-semibold text-on-surface dark:text-dark-on-surface">KenyaYetu.co.ke<sub className="text-sm font-medium opacity-60 ml-1">BETA</sub></span> is still under development. If you find this project useful, please consider <a href="#" onClick={(e) => { e.preventDefault(); setActiveView('contact'); }} className="text-primary dark:text-dark-primary hover:underline font-semibold">supporting our mission</a>.             
+                    <span className="font-semibold text-on-surface dark:text-dark-on-surface">KenyaYetu.co.ke<sub className="text-sm font-medium opacity-60 ml-1">BETA</sub></span> is still under development. If you find this project useful, please consider <a href="#" onClick={(e) => { e.preventDefault(); navigateTo('contact'); }} className="text-primary dark:text-dark-primary hover:underline font-semibold">supporting our mission</a>.             
                 </p> 
             </div>
         </div>

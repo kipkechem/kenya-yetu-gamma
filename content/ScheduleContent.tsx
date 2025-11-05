@@ -23,10 +23,10 @@ const ScheduleContent: React.FC<ScheduleContentProps> = ({ schedule, searchTerm,
     }
 
     return (
-        <article id={`schedule-${schedule.id}`} className="prose lg:prose-lg max-w-none bg-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-24 dark:prose-invert">
-            <header className="border-b border-border pb-4 mb-8">
-                <p className="text-base font-semibold text-primary dark:text-primary-dark-text">{t.schedule}</p>
-                <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight text-on-surface flex items-center">
+        <article id={`schedule-${schedule.id}`} className="prose lg:prose-lg max-w-none bg-surface dark:bg-dark-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-24 dark:prose-invert">
+            <header className="border-b border-border dark:border-dark-border pb-4 mb-8">
+                <p className="text-base font-semibold text-primary dark:text-dark-primary">{t.schedule}</p>
+                <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight flex items-center">
                     {schedule.title}
                     {summary && (
                         <div className="relative inline-block ml-3">
@@ -46,7 +46,7 @@ const ScheduleContent: React.FC<ScheduleContentProps> = ({ schedule, searchTerm,
                     )}
                 </h1>
             </header>
-            <div className="mt-4 space-y-3 text-gray-600 dark:text-gray-300 leading-relaxed">
+            <div className="mt-4 space-y-3 leading-relaxed">
               {schedule.content.split('\n').map((paragraph, pIndex) => (
                 paragraph.trim() && <p key={pIndex}><ContentRenderer text={paragraph} highlight={searchTerm} onSelectItem={onSelectItem} articleToChapterMap={articleToChapterMap} language={language} /></p>
               ))}

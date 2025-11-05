@@ -30,39 +30,28 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
     ? { constitution: 'Katiba', preamble: 'Utangulizi', chapters: 'Sura', schedules: 'Majedwali', article: 'Kif.' }
     : { constitution: 'The Constitution', preamble: 'Preamble', chapters: 'Chapters', schedules: 'Schedules', article: 'Art.' };
   
-  const NavItem: React.FC<{ onClick: () => void; isSelected: boolean; children: React.ReactNode; }> = ({ onClick, isSelected, children }) => {
-    const baseClasses = "w-full text-left p-2.5 text-sm rounded-lg transition-colors duration-200 flex items-center";
-    const selectedClasses = "bg-primary-light text-primary font-semibold";
-    const unselectedClasses = "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface hover:text-on-surface";
-    return (
-      <button onClick={onClick} className={`${baseClasses} ${isSelected ? selectedClasses : unselectedClasses}`}>
-        {children}
-      </button>
-    );
-  };
-  
   const sidebarContent = (
-    <div className="h-full flex flex-col bg-surface border-r border-border">
-        <div className="p-4 border-b border-border flex justify-between items-center">
+    <div className="h-full flex flex-col bg-surface dark:bg-dark-surface border-r border-border dark:border-dark-border">
+        <div className="p-4 border-b border-border dark:border-dark-border flex justify-between items-center">
             <div className="flex items-center space-x-3">
-                <div className="p-2 bg-primary-light rounded-xl">
-                    <BookOpenIcon className="h-6 w-6 text-primary dark:text-primary-dark-text" />
+                <div className="p-2 bg-primary-light dark:bg-dark-primary-light rounded-xl">
+                    <BookOpenIcon className="h-6 w-6 text-primary dark:text-dark-primary" />
                 </div>
-                <h1 className="text-xl font-bold text-on-surface tracking-tight">{t.constitution}</h1>
+                <h1 className="text-xl font-bold text-on-surface dark:text-dark-on-surface tracking-tight">{t.constitution}</h1>
             </div>
-             <button onClick={() => setIsOpen(false)} className="md:hidden p-1 text-gray-500 dark:text-gray-400 hover:text-on-surface">
+             <button onClick={() => setIsOpen(false)} className="md:hidden p-1 text-gray-500 dark:text-gray-400 hover:text-on-surface dark:hover:text-dark-on-surface">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
         </div>
         <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-            <NavItem
+            <button
                 onClick={() => onSelectItem({ type: 'preamble', id: 'preamble' })}
-                isSelected={selectedItem.type === 'preamble'}
+                className={`w-full text-left p-2.5 text-sm rounded-lg transition-colors duration-200 flex items-center ${selectedItem.type === 'preamble' ? 'bg-primary-light dark:bg-dark-primary-light text-primary dark:text-dark-primary font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-surface hover:text-on-surface dark:hover:text-dark-on-surface'}`}
             >
                 <FileTextIcon className="h-4 w-4 mr-3" /> {t.preamble}
-            </NavItem>
+            </button>
 
             <h2 className="px-4 pt-4 pb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.chapters}</h2>
             {data.chapters.map(chapter => {
@@ -73,21 +62,21 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                 return (
                 <div key={chapter.id}>
                     <div 
-                        className={`w-full flex justify-between items-center pr-2 rounded-lg group ${isChapterSelected ? 'bg-primary-light' : ''} ${!isChapterSelected && isChapterGroupActive ? 'bg-gray-50 dark:bg-gray-800/50' : ''}`}
+                        className={`w-full flex justify-between items-center pr-2 rounded-lg group ${isChapterSelected ? 'bg-primary-light dark:bg-dark-primary-light' : ''} ${!isChapterSelected && isChapterGroupActive ? 'bg-gray-50 dark:bg-dark-surface/50' : ''}`}
                     >
                        <button
                            onClick={() => onSelectItem({ type: 'chapter', id: chapter.id })}
-                           className={`w-full text-left p-2.5 text-sm rounded-lg flex items-center transition-colors ${isChapterSelected ? 'text-primary font-semibold' : 'text-gray-600 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-surface'}`}
+                           className={`w-full text-left p-2.5 text-sm rounded-lg flex items-center transition-colors ${isChapterSelected ? 'text-primary dark:text-dark-primary font-semibold' : 'text-gray-600 dark:text-gray-400 group-hover:bg-gray-100 dark:group-hover:bg-dark-surface'}`}
                         >
                             <span className="truncate">{chapterTitle}</span>
                         </button>
                         <ChevronDownIcon
                             onClick={() => toggleChapter(chapter.id)}
-                            className={`h-5 w-5 mr-1 text-gray-500 dark:text-gray-400 transform transition-transform duration-200 cursor-pointer group-hover:text-on-surface ${openChapters.has(chapter.id) ? 'rotate-180' : ''}`}
+                            className={`h-5 w-5 mr-1 text-gray-500 dark:text-gray-400 transform transition-transform duration-200 cursor-pointer group-hover:text-on-surface dark:group-hover:text-dark-on-surface ${openChapters.has(chapter.id) ? 'rotate-180' : ''}`}
                         />
                     </div>
                     {openChapters.has(chapter.id) && (
-                        <div className="py-1 space-y-1 border-l-2 border-gray-100 dark:border-gray-700 ml-4 pl-4">
+                        <div className="py-1 space-y-1 border-l-2 border-gray-100 dark:border-dark-border/50 ml-4 pl-4">
                             {chapter.parts.flatMap(part => part.articles).map(article => {
                                 const isArticleSelected = selectedItem.type === 'chapter' && selectedItem.id === chapter.id && selectedItem.article === article.number;
                                 return (
@@ -97,7 +86,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                                         e.preventDefault();
                                         onSelectItem({ type: 'chapter', id: chapter.id, article: article.number });
                                     }}
-                                    className={`block w-full text-left px-3 py-1.5 text-sm rounded-lg truncate transition-colors ${isArticleSelected ? 'bg-primary-light text-primary font-semibold' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-surface'}`}
+                                    className={`block w-full text-left px-3 py-1.5 text-sm rounded-lg truncate transition-colors ${isArticleSelected ? 'bg-primary-light dark:bg-dark-primary-light text-primary dark:text-dark-primary font-semibold' : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-surface'}`}
                                 >
                                   {`${t.article} ${article.number}: ${article.title}`}
                                 </a>
@@ -110,14 +99,14 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
 
             <h2 className="px-4 pt-4 pb-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{t.schedules}</h2>
             {data.schedules.map(schedule => (
-                <NavItem
+                <button
                     key={schedule.id}
                     onClick={() => onSelectItem({ type: 'schedule', id: schedule.id })}
-                    isSelected={selectedItem.type === 'schedule' && selectedItem.id === schedule.id}
+                    className={`w-full text-left p-2.5 text-sm rounded-lg transition-colors duration-200 flex items-center ${selectedItem.type === 'schedule' && selectedItem.id === schedule.id ? 'bg-primary-light dark:bg-dark-primary-light text-primary dark:text-dark-primary font-semibold' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-surface hover:text-on-surface dark:hover:text-dark-on-surface'}`}
                 >
                     <FileTextIcon className="h-4 w-4 mr-3" />
                     {schedule.title}
-                </NavItem>
+                </button>
             ))}
         </nav>
     </div>

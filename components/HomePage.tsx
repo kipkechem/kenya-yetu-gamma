@@ -3,7 +3,7 @@ import { BookOpenIcon, MapIcon, ProjectIcon, LinkIcon, UsersIcon, MailIcon } fro
 import type { AppView } from '../types';
 
 interface HomePageProps {
-  setActiveView: (view: AppView) => void;
+  navigateTo: (view: AppView) => void;
 }
 
 const sections: { title: string; description: string; icon: React.ReactNode; view: AppView }[] = [
@@ -45,7 +45,7 @@ const sections: { title: string; description: string; icon: React.ReactNode; vie
     },
 ];
 
-const HomePage: React.FC<HomePageProps> = ({ setActiveView }) => {
+const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => {
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10">
         <div className="min-h-full w-full flex flex-col">
@@ -70,7 +70,7 @@ const HomePage: React.FC<HomePageProps> = ({ setActiveView }) => {
                     {sections.map((section) => (
                         <button
                             key={section.view}
-                            onClick={() => setActiveView(section.view)}
+                            onClick={() => navigateTo(section.view)}
                             className="bg-surface dark:bg-dark-surface p-6 rounded-3xl custom-shadow-lg hover:custom-shadow-xl hover:-translate-y-2 transform-gpu transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col text-left w-[220px] h-[220px]"
                         >
                             <div className="flex-shrink-0 p-3 bg-primary-light dark:bg-dark-primary-light rounded-2xl inline-block self-start">

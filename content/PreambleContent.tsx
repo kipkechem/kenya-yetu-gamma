@@ -18,8 +18,8 @@ const PreambleContent: React.FC<PreambleContentProps> = ({ searchTerm, onSelectI
     const summary = summaries['preamble'];
 
     return (
-        <article id="preamble" className="prose lg:prose-lg max-w-none bg-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-24 dark:prose-invert">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-on-surface tracking-tight flex items-center">
+        <article id="preamble" className="prose lg:prose-lg max-w-none bg-surface dark:bg-dark-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-24 dark:prose-invert">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight flex items-center">
                 {title}
                 {summary && (
                     <div className="relative inline-block ml-3">
@@ -40,7 +40,7 @@ const PreambleContent: React.FC<PreambleContentProps> = ({ searchTerm, onSelectI
             </h2>
             <div className="mt-6 space-y-4">
               {content.split('\n').map((paragraph, index) => (
-                  <p key={index} className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  <p key={index} className="leading-relaxed">
                       <ContentRenderer text={paragraph} highlight={searchTerm} onSelectItem={onSelectItem} articleToChapterMap={articleToChapterMap} language={language} />
                   </p>
               ))}
