@@ -1,13 +1,40 @@
-import React, { useState } from 'react';
+
+import React, { useState, useMemo } from 'react';
 import KenyaMap from './KenyaMap';
 import CountyDetailPage from './CountyDetailPage';
-import { countiesData, countiesMap } from '../data/counties';
-import { countyPaths } from '../data/mapdata';
+import { countiesData as allCountiesData } from '../data/counties';
+import { countyPaths as allCountyPaths } from '../data/mapdata';
 import { MapIcon } from './icons';
 import type { County } from '../types';
+import { getCachedData, setCachedData } from '../utils/cache';
+
+const loadCountiesData = (): County[] => {
+    const cacheKey = 'counties-data';
+    let data = getCachedData<County[]>(cacheKey);
+    if (data) { return data; }
+    data = allCountiesData;
+    setCachedData(cacheKey, data);
+    return data;
+};
+
+const loadCountyPaths = (): { name: string; path: string }[] => {
+    const cacheKey = 'county-paths-data';
+    let data = getCachedData<{ name: string; path: string }[]>(cacheKey);
+    if (data) { return data; }
+    data = allCountyPaths;
+    setCachedData(cacheKey, data);
+    return data;
+};
 
 const CountyExplorerPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
+
+    const countiesData = useMemo(() => loadCountiesData(), []);
+    const countyPaths = useMemo(() => loadCountyPaths(), []);
+    
+    const countiesMap = useMemo(() => {
+        return new Map(countiesData.map(county => [county.name.toLowerCase(), county]));
+    }, [countiesData]);
 
     const handleCountyClick = (countyName: string) => {
         const county = countiesMap.get(countyName.toLowerCase());

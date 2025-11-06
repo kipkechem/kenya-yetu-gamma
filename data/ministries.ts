@@ -13,7 +13,7 @@ export const ministries: Ministry[] = [
         'Betting Control and Licensing Board',
         'Kenya Vision 2030 Delivery Secretariat',
         'National Cohesion and Integration Commission',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Office of the Deputy President',
@@ -33,6 +33,9 @@ export const ministries: Ministry[] = [
       { title: 'Principal Secretary', department: 'State Department for Diaspora Affairs' },
       { title: 'Principal Secretary', department: 'State Department for Parliamentary Affairs' },
     ],
+    mandatedEntities: [
+        'Kenya National Commission for UNESCO',
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Office of the Attorney General & Department of Justice',
@@ -44,11 +47,12 @@ export const ministries: Ministry[] = [
     mandatedEntities: [
         'Advocates Complaints Commission',
         'Auctioneers Licensing Board',
-        'Council for Legal Education (CLE)',
+        'Council of Legal Education (CLE)',
         'Kenya Law Reform Commission (KLRC)',
+        'Kenya National Human Rights and Equality Commission (KNHREC)',
         'National Council for Law Reporting (Kenya Law)',
         'Office of the Registrar of Political Parties',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Interior and National Administration',
@@ -62,9 +66,10 @@ export const ministries: Ministry[] = [
     mandatedEntities: [
         'Independent Policing Oversight Authority (IPOA)',
         'National Authority for the Campaign Against Alcohol and Drug Abuse (NACADA)',
+        'National Police Service Commission (NPSC)',
         'NGOs Co-ordination Board',
         'Private Security Regulatory Authority',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'The National Treasury and Economic Planning',
@@ -77,6 +82,7 @@ export const ministries: Ministry[] = [
     mandatedEntities: [
         'Capital Markets Authority (CMA)',
         'Central Bank of Kenya (CBK)',
+        'Commission on Revenue Allocation (CRA)',
         'Competition Authority of Kenya (CAK)',
         'Financial Reporting Centre',
         'Government Digital Payments Unit (eCitizen)',
@@ -94,8 +100,9 @@ export const ministries: Ministry[] = [
         'Public Procurement Regulatory Authority (PPRA)',
         'Registration of Certified Public Secretaries Board',
         'Retirement Benefits Authority (RBA)',
+        'Salaries and Remuneration Commission (SRC)',
         'Unclaimed Financial Assets Authority (UFAA)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Defence',
@@ -132,7 +139,7 @@ export const ministries: Ministry[] = [
         'Physiotherapy Council of Kenya',
         'Public Health Officers and Technicians Council',
         'Social Health Authority (SHA)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Education',
@@ -155,9 +162,10 @@ export const ministries: Ministry[] = [
         'Kenya National Qualifications Authority',
         'Kenya Universities and Colleges Placement Service',
         'National Commission for Science Technology and Innovation',
+        'Teachers Service Commission (TSC)',
         'Technical and Vocational Education and Training Authority',
         'Universities Funding Board',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Agriculture and Livestock Development',
@@ -183,7 +191,7 @@ export const ministries: Ministry[] = [
         'Pest Control Products Board',
         'Tea Board of Kenya',
         'Veterinary Medicines Directorate',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Investments, Trade and Industry',
@@ -196,6 +204,7 @@ export const ministries: Ministry[] = [
     ],
     mandatedEntities: [
         'Anti-Counterfeit Authority',
+        'East African Portland Cement Company',
         'Export Processing Zones Authority (EPZA)',
         'Industrial and Commercial Development Corporation (ICDC)',
         'Kenya Bureau of Standards (KEBS)',
@@ -209,7 +218,7 @@ export const ministries: Ministry[] = [
         'Scrap Metal Council',
         'Special Economic Zones Authority',
         'Warehouse Receipt Systems Council',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Lands, Public Works, Housing and Urban Development',
@@ -227,10 +236,11 @@ export const ministries: Ministry[] = [
         'Land Surveyors Board',
         'National Construction Authority (NCA)',
         'National Housing Corporation (NHC)',
+        'National Land Commission (NLC)',
         'Physical Planners Registration Board',
         'The National Building Inspectorate',
         'Valuers Registration Board',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Environment, Climate Change and Forestry',
@@ -246,7 +256,7 @@ export const ministries: Ministry[] = [
         'Kenya Water Towers Agency (KWTA)',
         'National Climate Change Council',
         'National Environment Management Authority (NEMA)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Youth Affairs, The Arts and Sports',
@@ -262,7 +272,7 @@ export const ministries: Ministry[] = [
         'Kenya Film Commission (KFC)',
         'Sports Kenya',
         'Youth Enterprise Development Fund (YEDF)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Water, Sanitation and Irrigation',
@@ -273,22 +283,29 @@ export const ministries: Ministry[] = [
         { title: 'Principal Secretary', department: 'State Department for Irrigation' },
     ],
     mandatedEntities: [
+        'Athí Water Works Development Agency',
+        'Coast Water Works Development Agency',
         'Eldoret Water and Sanitation Company (ELDOWAS)',
         'Hydrologists Registration Board',
         'Kisumu Water and Sanitation Company (KIWASCO)',
         'Kwale Water and Sewerage Company (KWAWASCO)',
+        'Lake Victoria North Water Works Development Agency',
+        'Lake Victoria South Water Works Development Agency',
         'Malindi Water and Sewerage Company (MAWASCO)',
         'Mombasa Water Supply & Sanitation Company Ltd. (MOWASCO)',
         'Nairobi City Water and Sewerage Company (NCWSC)',
         'Nakuru Water and Sanitation Services Company (NAWASSCO)',
         'National Irrigation Authority (NIA)',
         'National Water Harvesting and Storage Authority',
+        'Northern Water Works Development Agency',
         'Nyeri Water and Sanitation Company (NYEWASCO)',
+        'Rift Valley Water Works Development Agency',
+        'Tanathi Water Works Development Agency',
         'Thika Water and Sewerage Company (THIWASCO)',
         'Water Resources Authority (WRA)',
         'Water Sector Trust Fund (WaterFund)',
         'Water Services Regulatory Board (WASREB)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Information, Communications and the Digital Economy',
@@ -306,7 +323,7 @@ export const ministries: Ministry[] = [
         'Media Council of Kenya',
         'Office of the Data Protection Commissioner',
         'Postal Corporation of Kenya (Posta)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Tourism and Wildlife',
@@ -317,11 +334,13 @@ export const ministries: Ministry[] = [
       { title: 'Principal Secretary', department: 'State Department for Wildlife' },
     ],
     mandatedEntities: [
+        'Kenya Safari Lodges and Hotels',
         'Kenya Tourism Board (KTB)',
         'Kenya Wildlife Service (KWS)',
+        'Kenyatta International Convention Centre (KICC)',
         'Tourism Fund',
         'Tourism Regulatory Authority',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Roads and Transport',
@@ -347,7 +366,7 @@ export const ministries: Ministry[] = [
         'Nairobi Metropolitan Area Transport Authority (NaMATA)',
         'National Transport and Safety Authority (NTSA)',
         'The Railway City Development Authority',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Energy and Petroleum',
@@ -359,11 +378,12 @@ export const ministries: Ministry[] = [
     ],
     mandatedEntities: [
         'Energy & Petroleum Regulatory Authority (EPRA)',
+        'Geothermal Development Company (GDC)',
         'Kenya Electricity Generating Company (KenGen)',
         'Kenya Electricity Transmission Company (KETRACO)',
         'Kenya Power and Lighting Company (KPLC)',
         'Rural Electrification and Renewable Energy Corporation (REREC)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Labour and Social Protection',
@@ -378,10 +398,9 @@ export const ministries: Ministry[] = [
         'National Council for Children\'s Services',
         'National Council for Persons with Disabilities (NCPWD)',
         'National Employment Authority',
-        'National Government Affirmative Action Fund (NGAAF)',
         'National Industrial Training Authority',
         'National Social Security Fund (NSSF)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of East African Community (EAC), The ASALS and Regional Development',
@@ -407,7 +426,7 @@ export const ministries: Ministry[] = [
         'Northern Corridor Transit and Transport Coordination Authority (NCTTCA)',
         'South Eastern Kenya Economic Bloc (SEKEB)',
         'Tana and Athi Rivers Development Authority (TARDA)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Co-operatives and Micro, Small and Medium Enterprises (MSME) Development',
@@ -420,7 +439,7 @@ export const ministries: Ministry[] = [
     mandatedEntities: [
         'Micro and Small Enterprise Authority',
         'Sacco Societies Regulatory Authority (SASRA)',
-    ]
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Mining, Blue Economy and Maritime Affairs',
@@ -438,7 +457,8 @@ export const ministries: Ministry[] = [
         'Kenya Marine and Fisheries Research Institute (KMFRI)',
         'Kenya Maritime Authority (KMA)',
         'Mineral Rights Board',
-    ]
+        'National Mining Corporation',
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Public Service, Performance and Delivery Management',
@@ -451,7 +471,8 @@ export const ministries: Ministry[] = [
     mandatedEntities: [
         'Institute of Human Resource Management',
         'Kenya School of Government (KSG)',
-    ]
+        'Public Service Commission (PSC)',
+    ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Gender, Culture, the Arts and Heritage',
@@ -464,7 +485,10 @@ export const ministries: Ministry[] = [
     mandatedEntities: [
         'Bomas of Kenya',
         'Kenya Copyright Board (KECOBO)',
+        'National Government Affirmative Action Fund (NGAAF)',
         'National Museums of Kenya (NMK)',
-    ]
+        'Uwezo Fund',
+        'Women Enterprise Fund',
+    ].sort((a, b) => a.localeCompare(b))
   }
 ];

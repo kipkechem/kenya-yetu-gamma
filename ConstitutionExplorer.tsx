@@ -1,22 +1,37 @@
+
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ContentDisplay from './components/ContentDisplay';
-import { constitutionData } from './data/constitution';
-import { swahiliConstitutionData } from './data/swahili/constitution';
+import { constitutionData as englishData } from './data/constitution';
+import { swahiliConstitutionData as swahiliData } from './data/swahili/constitution';
 import { articleSummaries as englishSummaries } from './data/summaries';
 import { articleSummaries as swahiliSummaries } from './data/swahili/summaries';
-import type { SelectedItem } from './types';
+import type { SelectedItem, ConstitutionData } from './types';
+import { getCachedData, setCachedData } from './utils/cache';
+
+const loadConstitutionData = (language: 'en' | 'sw'): ConstitutionData => {
+    const cacheKey = `constitution-data-${language}`;
+    let data = getCachedData<ConstitutionData>(cacheKey);
+    if (data) {
+        return data;
+    }
+
+    data = language === 'en' ? englishData : swahiliData;
+    setCachedData(cacheKey, data);
+    return data;
+};
+
 
 const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string }> = ({ language, searchTerm }) => {
   const [selectedItem, setSelectedItem] = useState<SelectedItem>({ type: 'preamble', id: 'preamble' });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const currentData = language === 'en' ? constitutionData : swahiliConstitutionData;
+  const currentData = useMemo(() => loadConstitutionData(language), [language]);
   const currentSummaries = language === 'en' ? englishSummaries : swahiliSummaries;
   
   const articleToChapterMap = useMemo(() => {
     const map = new Map<string, number>();
-    constitutionData.chapters.forEach(chapter => {
+    englishData.chapters.forEach(chapter => {
       chapter.parts.forEach(part => {
         part.articles.forEach(article => {
           map.set(article.number, chapter.id);

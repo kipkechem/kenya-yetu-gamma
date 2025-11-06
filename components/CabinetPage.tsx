@@ -1,14 +1,47 @@
-import React, { useState } from 'react';
-import { ministries } from '../data/ministries';
-import type { Ministry } from '../types';
+
+import React, { useState, useEffect, useMemo } from 'react';
+import { ministries as ministriesData } from '../data/ministries';
+import type { Ministry, StateCorporationCategory } from '../types';
 import { ChevronDownIcon, HierarchyIcon, ExternalLinkIcon } from './icons';
-import { categorizedCorporationsData } from '../data/state-corporations';
+import { categorizedCorporationsData as corporationsData } from '../data/state-corporations';
+import { getCachedData, setCachedData } from '../utils/cache';
 
-// Create a map for efficient URL lookup from all corporation categories
-const allCorporations = categorizedCorporationsData.flatMap(category => category.corporations);
-const entityUrlMap = new Map(allCorporations.map(corp => [corp.name, corp.url]));
+const loadMinistriesData = (): Ministry[] => {
+    const cacheKey = 'ministries-data';
+    let data = getCachedData<Ministry[]>(cacheKey);
+    if (data) { return data; }
+    data = ministriesData;
+    setCachedData(cacheKey, data);
+    return data;
+};
 
-const MinistryNode: React.FC<{ ministry: Ministry; isExpanded: boolean; onToggle: () => void; }> = ({ ministry, isExpanded, onToggle }) => {
+const loadCorporationsData = (): StateCorporationCategory[] => {
+    const cacheKey = 'corporations-data';
+    let data = getCachedData<StateCorporationCategory[]>(cacheKey);
+    if (data) { return data; }
+    data = corporationsData;
+    setCachedData(cacheKey, data);
+    return data;
+};
+
+const MinistryNode: React.FC<{ ministry: Ministry; isExpanded: boolean; onToggle: () => void; entityUrlMap: Map<string, string> }> = ({ ministry, isExpanded, onToggle, entityUrlMap }) => {
+  const [loadedEntities, setLoadedEntities] = useState<string[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isExpanded && loadedEntities === null) {
+      setIsLoading(true);
+      // Simulate a dynamic load to improve user experience
+      setTimeout(() => {
+        setLoadedEntities(ministry.mandatedEntities?.sort((a, b) => a.localeCompare(b)) || []);
+        setIsLoading(false);
+      }, 250);
+    } else if (!isExpanded) {
+      // Reset when collapsed to allow for re-loading on next expansion
+      setLoadedEntities(null);
+    }
+  }, [isExpanded, ministry.mandatedEntities, loadedEntities]);
+  
   return (
     <div className="relative flex justify-center">
       <div className="flex flex-col items-center w-full max-w-xs">
@@ -52,31 +85,38 @@ const MinistryNode: React.FC<{ ministry: Ministry; isExpanded: boolean; onToggle
               </div>
             ))}
             
-            {isExpanded && ministry.mandatedEntities && ministry.mandatedEntities.length > 0 && (
+            {isExpanded && ministry.mandatedEntities && (
               <div className="bg-gray-50 dark:bg-black/20 p-4 rounded-lg custom-shadow w-11/12 text-center z-10">
                 <h4 className="font-bold text-sm text-gray-600 dark:text-gray-300 mb-2 border-b border-gray-200 dark:border-gray-600 pb-2">Mandated Public Entities</h4>
-                <ul className="text-left space-y-1.5">
-                  {ministry.mandatedEntities.sort((a,b) => a.localeCompare(b)).map((entity, index) => {
-                    const url = entityUrlMap.get(entity);
-                    const hasLink = url && url !== '#';
-
-                    return (
-                        <li key={index} className="text-sm text-gray-700 dark:text-gray-400 flex items-start">
-                          <svg className="h-3 w-3 mr-2 mt-1 flex-shrink-0 text-primary dark:text-dark-primary" fill="currentColor" viewBox="0 0 8 8">
-                            <circle cx="4" cy="4" r="3" />
-                          </svg>
-                          {hasLink ? (
-                              <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center hover:underline hover:text-primary dark:hover:text-dark-primary transition-colors duration-200">
-                                  <span>{entity}</span>
-                                  <ExternalLinkIcon className="h-3.5 w-3.5 ml-1.5 flex-shrink-0 text-gray-400 dark:text-gray-500"/>
-                              </a>
-                          ) : (
-                              <span>{entity}</span>
-                          )}
-                        </li>
-                    );
-                  })}
-                </ul>
+                {isLoading && (
+                  <div className="py-4 text-sm text-gray-500 dark:text-gray-400">Loading...</div>
+                )}
+                {loadedEntities && loadedEntities.length > 0 && (
+                  <ul className="text-left space-y-1.5 animate-fade-in">
+                    {loadedEntities.map((entity, index) => {
+                      const url = entityUrlMap.get(entity);
+                      const hasLink = url && url !== '#';
+                      return (
+                          <li key={index} className="text-sm text-gray-700 dark:text-gray-400 flex items-start">
+                            <svg className="h-3 w-3 mr-2 mt-1 flex-shrink-0 text-primary dark:text-dark-primary" fill="currentColor" viewBox="0 0 8 8">
+                              <circle cx="4" cy="4" r="3" />
+                            </svg>
+                            {hasLink ? (
+                                <a href={url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center hover:underline hover:text-primary dark:hover:text-dark-primary transition-colors duration-200">
+                                    <span>{entity}</span>
+                                    <ExternalLinkIcon className="h-3.5 w-3.5 ml-1.5 flex-shrink-0 text-gray-400 dark:text-gray-500"/>
+                                </a>
+                            ) : (
+                                <span>{entity}</span>
+                            )}
+                          </li>
+                      );
+                    })}
+                  </ul>
+                )}
+                {loadedEntities && loadedEntities.length === 0 && (
+                   <p className="py-4 text-sm text-gray-500 dark:text-gray-400">No mandated entities listed.</p>
+                )}
               </div>
             )}
           </div>
@@ -88,6 +128,14 @@ const MinistryNode: React.FC<{ ministry: Ministry; isExpanded: boolean; onToggle
 
 const CabinetPage: React.FC = () => {
     const [expandedMinistry, setExpandedMinistry] = useState<string | null>(null);
+
+    const ministries = useMemo(() => loadMinistriesData(), []);
+    const categorizedCorporationsData = useMemo(() => loadCorporationsData(), []);
+    
+    const entityUrlMap = useMemo(() => {
+        const allCorporations = categorizedCorporationsData.flatMap(category => category.corporations);
+        return new Map(allCorporations.map(corp => [corp.name, corp.url]));
+    }, [categorizedCorporationsData]);
 
     const handleToggle = (ministryName: string) => {
         setExpandedMinistry(prev => (prev === ministryName ? null : ministryName));
@@ -104,8 +152,8 @@ const CabinetPage: React.FC = () => {
                         <HierarchyIcon className="h-8 w-8 text-primary dark:text-dark-primary" />
                     </div>
                     <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Cabinet Structure</h1>
-                    <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-                        An interactive organizational chart of the National Executive. Click a ministry to see its structure and mandated public entities.
+                    <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
+                        An interactive organizational chart of the National Executive. This page outlines the structure of 25 ministries and their 54 state departments. Click a ministry to explore its leadership and the 215 public entities under its mandate.
                     </p>
                 </header>
 
@@ -116,6 +164,7 @@ const CabinetPage: React.FC = () => {
                                 ministry={ministry}
                                 isExpanded={expandedMinistry === ministry.name}
                                 onToggle={() => handleToggle(ministry.name)}
+                                entityUrlMap={entityUrlMap}
                             />
                         </React.Fragment>
                     ))}
@@ -127,6 +176,7 @@ const CabinetPage: React.FC = () => {
                                 ministry={ministry}
                                 isExpanded={expandedMinistry === ministry.name}
                                 onToggle={() => handleToggle(ministry.name)}
+                                entityUrlMap={entityUrlMap}
                             />
                         ))}
                     </div>

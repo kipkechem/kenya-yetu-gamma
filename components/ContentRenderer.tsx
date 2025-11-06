@@ -78,7 +78,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
             e.preventDefault();
             onSelectItem({ type: 'chapter', id: chapterId, article: articleNum });
           }}
-          className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
+          className="text-primary dark:text-dark-primary hover:underline font-semibold transition-colors"
         >
           <Highlight text={linkText} highlight={highlight} />
         </a>
@@ -89,7 +89,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
           aria-label={titleText}
         >
           {copiedArticle === articleNum ? (
-            <CheckIcon className="h-4 w-4 text-primary dark:text-primary-dark-text" />
+            <CheckIcon className="h-4 w-4 text-primary dark:text-dark-primary" />
           ) : (
             <CopyIcon className="h-4 w-4" />
           )}
@@ -185,7 +185,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                     }
                     onSelectItem(item);
                   }}
-                  className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
+                  className="text-primary dark:text-dark-primary hover:underline font-semibold transition-colors"
                 >
                   <Highlight text={matchedText} highlight={highlight} />
                 </a>
@@ -202,7 +202,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
                     e.preventDefault();
                     onSelectItem({ type: 'schedule', id: scheduleId });
                   }}
-                  className="text-primary dark:text-primary-dark-text hover:underline font-semibold transition-colors"
+                  className="text-primary dark:text-dark-primary hover:underline font-semibold transition-colors"
                 >
                   <Highlight text={matchedText} highlight={highlight} />
                 </a>

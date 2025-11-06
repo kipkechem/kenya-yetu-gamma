@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ContentRenderer from '../components/ContentRenderer';
 import type { Chapter, SelectedItem } from '../types';
-import { ChatBubbleOvalLeftEllipsisIcon } from '../components/icons';
+import { ChatBubbleOvalLeftEllipsisIcon, FlagIcon } from '../components/icons';
 
 interface ChapterContentProps {
     chapter: Chapter;
@@ -18,6 +18,13 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, searchTerm, on
     const t = language === 'sw' 
         ? { chapter: 'Sura', article: 'Kifungu' }
         : { chapter: 'Chapter', article: 'Article' };
+
+    const handleFeedback = (e: React.MouseEvent, articleNumber: string, articleTitle: string) => {
+        e.preventDefault();
+        const subject = `Feedback on Constitution Content: ${t.article} ${articleNumber}`;
+        const body = `Hello,\n\nI have some feedback regarding ${t.article} ${articleNumber}.\n\nSection: ${t.article} ${articleNumber} - ${articleTitle}\nURL: ${window.location.origin}${window.location.pathname}#article-${articleNumber}\n\nMy feedback is:\n[Please type your feedback here]\n\nThank you.`;
+        window.location.href = `mailto:info@kenyayetu.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    };
 
     if (!chapter) {
         return <div>Chapter not found.</div>;
@@ -36,27 +43,39 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, searchTerm, on
                     {part.articles.map(article => {
                         const summary = summaries[article.number];
                         return (
-                            <div key={article.number} id={`article-${article.number}`} className="mt-6 py-6 border-t border-border dark:border-dark-border/50 scroll-mt-20">
-                                <h4 className="text-lg font-semibold leading-6 flex items-center">
-                                    <span className="text-gray-500 dark:text-gray-400 mr-2">{t.article} {article.number}:</span>
-                                    <span className="underline decoration-primary/50 dark:decoration-dark-primary/50 underline-offset-4">{article.title}</span>
-                                    {summary && (
-                                        <div className="relative inline-block ml-2">
-                                            <ChatBubbleOvalLeftEllipsisIcon
-                                                className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer transition-colors"
-                                                onMouseEnter={() => setActiveTooltip(article.number)}
-                                                onMouseLeave={() => setActiveTooltip(null)}
-                                                onClick={() => setActiveTooltip(activeTooltip === article.number ? null : article.number)}
-                                            />
-                                            {activeTooltip === article.number && (
-                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-3 bg-gray-900 text-white text-sm rounded-lg shadow-lg z-20 pointer-events-none transition-opacity duration-200">
-                                                    {summary}
-                                                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-gray-900"></div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
-                                </h4>
+                            <div key={article.number} id={`article-${article.number}`} className="mt-6 py-6 border-t border-border dark:border-dark-border/50 scroll-mt-20 first:mt-0 first:pt-0 first:border-t-0">
+                                <div className="flex justify-between items-start">
+                                    <h4 className="text-lg font-semibold leading-6 m-0">
+                                        <span className="text-gray-500 dark:text-gray-400 mr-2">{t.article} {article.number}:</span>
+                                        <span className="underline decoration-primary/50 dark:decoration-dark-primary/50 underline-offset-4">{article.title}</span>
+                                    </h4>
+                                    <div className="flex items-center gap-3 not-prose flex-shrink-0 pl-4">
+                                        {summary && (
+                                            <div className="relative inline-block">
+                                                <ChatBubbleOvalLeftEllipsisIcon
+                                                    className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer transition-colors"
+                                                    onMouseEnter={() => setActiveTooltip(article.number)}
+                                                    onMouseLeave={() => setActiveTooltip(null)}
+                                                    onClick={() => setActiveTooltip(activeTooltip === article.number ? null : article.number)}
+                                                />
+                                                {activeTooltip === article.number && (
+                                                    <div className="absolute bottom-full right-0 mb-2 w-72 p-3 bg-gray-900 text-white text-sm rounded-lg shadow-lg z-20 pointer-events-none transition-opacity duration-200">
+                                                        {summary}
+                                                        <div className="absolute top-full right-3 -mr-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-gray-900"></div>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                        <a 
+                                            href="#" 
+                                            onClick={(e) => handleFeedback(e, article.number, article.title)} 
+                                            title="Report an error or suggest an improvement"
+                                            aria-label={`Report an error or suggest an improvement for Article ${article.number}`}
+                                        >
+                                            <FlagIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer transition-colors" />
+                                        </a>
+                                    </div>
+                                </div>
                                 <div className="mt-3 space-y-4 leading-relaxed">
                                     {article.content.split('\n').map((paragraph, pIndex) => (
                                         paragraph.trim() && <p key={pIndex}><ContentRenderer text={paragraph} highlight={searchTerm} onSelectItem={onSelectItem} articleToChapterMap={articleToChapterMap} language={language} /></p>

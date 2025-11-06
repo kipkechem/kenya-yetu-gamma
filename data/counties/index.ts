@@ -100,8 +100,3 @@ export const countiesData: County[] = [
   nyamiraCounty,
   nairobiCounty,
 ];
-
-// A map for easy lookup by name (case-insensitive)
-export const countiesMap: Map<string, County> = new Map(
-  countiesData.map(county => [county.name.toLowerCase(), county])
-);

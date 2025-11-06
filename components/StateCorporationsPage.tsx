@@ -1,18 +1,29 @@
+
 import React, { useState, useMemo } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon } from './icons';
-import { categorizedCorporationsData } from '../data/state-corporations';
-import type { StateCorporation } from '../types';
-import { ministries } from '../data/ministries';
+import { categorizedCorporationsData as corporationsData } from '../data/state-corporations';
+import type { StateCorporation, StateCorporationCategory } from '../types';
+import { ministries as ministriesData } from '../data/ministries';
+import type { Ministry } from '../types';
+import { getCachedData, setCachedData } from '../utils/cache';
 
-// Create a map of entity names to their parent ministry
-const entityToMinistryMap = new Map<string, string>();
-ministries.forEach(ministry => {
-  if (ministry.mandatedEntities) {
-    ministry.mandatedEntities.forEach(entity => {
-      entityToMinistryMap.set(entity, ministry.name);
-    });
-  }
-});
+const loadCorporationsData = (): StateCorporationCategory[] => {
+    const cacheKey = 'corporations-data';
+    let data = getCachedData<StateCorporationCategory[]>(cacheKey);
+    if (data) { return data; }
+    data = corporationsData;
+    setCachedData(cacheKey, data);
+    return data;
+};
+
+const loadMinistriesData = (): Ministry[] => {
+    const cacheKey = 'ministries-data';
+    let data = getCachedData<Ministry[]>(cacheKey);
+    if (data) { return data; }
+    data = ministriesData;
+    setCachedData(cacheKey, data);
+    return data;
+};
 
 const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: string }> = ({ corporation, ministryName }) => (
   <a 
@@ -39,8 +50,24 @@ const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: 
 );
 
 const StateCorporationsPage: React.FC = () => {
-  const [openCategory, setOpenCategory] = useState<string | null>(categorizedCorporationsData[0]?.categoryName || null);
+  const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const categorizedCorporationsData = useMemo(() => loadCorporationsData(), []);
+  const ministries = useMemo(() => loadMinistriesData(), []);
+  
+  // Create a map of entity names to their parent ministry
+  const entityToMinistryMap = useMemo(() => {
+    const map = new Map<string, string>();
+    ministries.forEach(ministry => {
+      if (ministry.mandatedEntities) {
+        ministry.mandatedEntities.forEach(entity => {
+          map.set(entity, ministry.name);
+        });
+      }
+    });
+    return map;
+  }, [ministries]);
 
   const { descriptionText } = useMemo(() => {
     const allEntities = categorizedCorporationsData.flatMap(cat => cat.corporations);
@@ -101,7 +128,7 @@ const StateCorporationsPage: React.FC = () => {
     const descriptionText = `This page provides an overview of ${totalEntities} public entities across ${totalCategories} sectors. Discover the mandates of various national, regional, and county-level bodies—including ${entitiesBreakdown}—and learn about their role in public service delivery and national development.`;
 
     return { descriptionText };
-  }, []);
+  }, [categorizedCorporationsData]);
   
   const allCorporationsWithMinistry = useMemo(() => {
     return categorizedCorporationsData.flatMap(category => 
@@ -110,7 +137,7 @@ const StateCorporationsPage: React.FC = () => {
             ministryName: entityToMinistryMap.get(corp.name)
         }))
     );
-  }, []);
+  }, [categorizedCorporationsData, entityToMinistryMap]);
 
   const filteredCorporations = useMemo(() => {
     if (!searchTerm.trim()) return [];

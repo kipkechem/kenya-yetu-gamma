@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ContentRenderer from '../components/ContentRenderer';
 import type { Schedule, SelectedItem } from '../types';
-import { ChatBubbleOvalLeftEllipsisIcon } from '../components/icons';
+import { ChatBubbleOvalLeftEllipsisIcon, FlagIcon } from '../components/icons';
 
 interface ScheduleContentProps {
     schedule: Schedule;
@@ -16,35 +16,56 @@ const ScheduleContent: React.FC<ScheduleContentProps> = ({ schedule, searchTerm,
     const [isTooltipVisible, setTooltipVisible] = useState(false);
     const summary = summaries[schedule.id];
 
-    const t = language === 'sw' ? { schedule: 'Jedwali' } : { schedule: 'Schedule' };
+    const handleFeedback = (e: React.MouseEvent) => {
+        e.preventDefault();
+        const subject = `Feedback on Constitution Content: ${schedule.title}`;
+        const body = `Hello,\n\nI have some feedback regarding the ${schedule.title}.\n\nSection: ${schedule.title}\nURL: ${window.location.origin}${window.location.pathname}#schedule-${schedule.id}\n\nMy feedback is:\n[Please type your feedback here]\n\nThank you.`;
+        window.location.href = `mailto:info@kenyayetu.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    };
 
     if (!schedule) {
         return <div>Schedule not found.</div>;
     }
 
+    const titleParts = schedule.title.split('–');
+    const scheduleLabel = titleParts[0];
+    const scheduleTitle = titleParts.length > 1 ? titleParts[1] : titleParts[0];
+
     return (
         <article id={`schedule-${schedule.id}`} className="prose lg:prose-lg max-w-none bg-surface dark:bg-dark-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-24 dark:prose-invert">
             <header className="border-b border-border dark:border-dark-border pb-4 mb-8">
-                <p className="text-base font-semibold text-primary dark:text-dark-primary">{t.schedule}</p>
-                <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight flex items-center">
-                    {schedule.title}
-                    {summary && (
-                        <div className="relative inline-block ml-3">
-                            <ChatBubbleOvalLeftEllipsisIcon
-                                className="h-6 w-6 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer transition-colors"
-                                onMouseEnter={() => setTooltipVisible(true)}
-                                onMouseLeave={() => setTooltipVisible(false)}
-                                onClick={() => setTooltipVisible(!isTooltipVisible)}
-                            />
-                            {isTooltipVisible && (
-                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-3 bg-gray-900 text-white text-sm rounded-lg shadow-lg z-20 pointer-events-none transition-opacity duration-200">
-                                    {summary}
-                                    <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-gray-900"></div>
-                                </div>
-                            )}
-                        </div>
-                    )}
-                </h1>
+                <p className="text-base font-semibold text-primary dark:text-dark-primary">{scheduleLabel}</p>
+                <div className="flex justify-between items-start">
+                    <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight m-0">
+                       {scheduleTitle}
+                    </h1>
+                     <div className="flex items-center gap-3 not-prose flex-shrink-0 pl-4 mt-2">
+                        {summary && (
+                            <div className="relative inline-block">
+                                <ChatBubbleOvalLeftEllipsisIcon
+                                    className="h-6 w-6 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer transition-colors"
+                                    onMouseEnter={() => setTooltipVisible(true)}
+                                    onMouseLeave={() => setTooltipVisible(false)}
+                                    onClick={() => setTooltipVisible(!isTooltipVisible)}
+                                />
+                                {isTooltipVisible && (
+                                    <div className="absolute bottom-full right-0 mb-2 w-72 p-3 bg-gray-900 text-white text-sm rounded-lg shadow-lg z-20 pointer-events-none transition-opacity duration-200">
+                                        {summary}
+                                        <div className="absolute top-full right-3 -mr-2 w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-gray-900"></div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                        <a 
+                            href="#" 
+                            onClick={handleFeedback} 
+                            title="Report an error or suggest an improvement"
+                            aria-label={`Report an error or suggest an improvement for ${schedule.title}`}
+                        >
+                            <FlagIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer transition-colors" />
+                        </a>
+                    </div>
+                </div>
             </header>
             <div className="mt-4 space-y-3 leading-relaxed">
               {schedule.content.split('\n').map((paragraph, pIndex) => (

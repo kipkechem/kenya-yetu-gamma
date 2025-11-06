@@ -1,6 +1,20 @@
+
 import React, { useState, useMemo } from 'react';
 import { InboxStackIcon, ChevronDownIcon } from './icons';
-import { actsOfParliament, ActsByCategory } from '../data/acts';
+import { actsOfParliament as actsData, ActsByCategory } from '../data/acts';
+import { getCachedData, setCachedData } from '../utils/cache';
+
+const loadActsData = (): ActsByCategory => {
+    const cacheKey = 'acts-data';
+    let data = getCachedData<ActsByCategory>(cacheKey);
+    if (data) {
+        return data;
+    }
+
+    data = actsData;
+    setCachedData(cacheKey, data);
+    return data;
+};
 
 const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) => {
   const baseUrl = 'https://new.kenyalaw.org/kl/index.php?id=search';
@@ -31,7 +45,9 @@ const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) =
 
 const ActsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [openAccordion, setOpenAccordion] = useState<string | null>('in force');
+  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+
+  const actsOfParliament = useMemo(() => loadActsData(), []);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -40,7 +56,7 @@ const ActsPage: React.FC = () => {
   
   const allActs = useMemo(() => {
     return Object.values(actsOfParliament).flat().sort((a, b) => a.localeCompare(b));
-  }, []);
+  }, [actsOfParliament]);
 
   const filteredActs = useMemo(() => {
     if (!searchTerm) return [];
