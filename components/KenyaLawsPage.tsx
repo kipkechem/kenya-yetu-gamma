@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon, FileTextIcon } from './icons';
+import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon, FileTextIcon, BuildingLibraryIcon, MapPinIcon } from './icons';
 import type { AppView } from '../types';
 
 interface KenyaLawsPageProps {
@@ -53,6 +53,20 @@ const governanceSections: Section[] = [
         description: 'Explore the independent commissions and their roles in governance.',
         icon: <ShieldCheckIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
         view: 'commissions',
+        isExternal: false,
+    },
+    {
+        title: 'State Corporations, Authorities & Boards',
+        description: 'Explore public entities like state corporations, regional authorities, and county boards.',
+        icon: <BuildingLibraryIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'state-corporations',
+        isExternal: false,
+    },
+    {
+        title: 'County Governments',
+        description: 'Learn about the structure, functions, and leadership of the 47 county governments.',
+        icon: <MapPinIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'county-explorer',
         isExternal: false,
     },
 ];

@@ -2,6 +2,21 @@ import type { Commission } from '../types';
 
 export const commissionsData: Commission[] = [
   {
+    name: 'Commission on Revenue Allocation (CRA)',
+    description: 'Makes recommendations concerning the basis for equitable sharing of revenue between national and county governments.',
+    url: 'https://cra.go.ke/',
+  },
+  {
+    name: 'Independent Electoral and Boundaries Commission (IEBC)',
+    description: 'Responsible for conducting or supervising referenda and elections to any elective body or office established by the Constitution.',
+    url: 'https://www.iebc.or.ke/',
+  },
+  {
+    name: 'Judicial Service Commission (JSC)',
+    description: 'Promotes the independence and accountability of the judiciary and recommends persons for appointment as judges.',
+    url: 'https://www.jsc.go.ke/',
+  },
+  {
     name: 'Kenya National Human Rights and Equality Commission (KNHREC)',
     description: 'Promotes respect for human rights, gender equality, and monitors the observance of human rights in the Republic.',
     url: 'https://www.knchr.org/',
@@ -12,24 +27,14 @@ export const commissionsData: Commission[] = [
     url: 'https://landcommission.go.ke/',
   },
   {
-    name: 'Independent Electoral and Boundaries Commission (IEBC)',
-    description: 'Responsible for conducting or supervising referenda and elections to any elective body or office established by the Constitution.',
-    url: 'https://www.iebc.or.ke/',
+    name: 'National Police Service Commission (NPSC)',
+    description: 'Manages human resources for the National Police Service, including recruitment, appointments, and discipline.',
+    url: 'https://www.npsc.go.ke/',
   },
   {
     name: 'Parliamentary Service Commission (PSC)',
     description: 'Provides services and facilities to ensure the efficient functioning of Parliament and manages the parliamentary service.',
     url: 'http://www.parliament.go.ke/the-psc',
-  },
-  {
-    name: 'Judicial Service Commission (JSC)',
-    description: 'Promotes the independence and accountability of the judiciary and recommends persons for appointment as judges.',
-    url: 'https://www.jsc.go.ke/',
-  },
-  {
-    name: 'Commission on Revenue Allocation (CRA)',
-    description: 'Makes recommendations concerning the basis for equitable sharing of revenue between national and county governments.',
-    url: 'https://cra.go.ke/',
   },
   {
     name: 'Public Service Commission (PSC)',
@@ -45,11 +50,6 @@ export const commissionsData: Commission[] = [
     name: 'Teachers Service Commission (TSC)',
     description: 'Registers, recruits, employs, promotes, and exercises disciplinary control over teachers in public schools.',
     url: 'https://www.tsc.go.ke/',
-  },
-  {
-    name: 'National Police Service Commission (NPSC)',
-    description: 'Manages human resources for the National Police Service, including recruitment, appointments, and discipline.',
-    url: 'https://www.npsc.go.ke/',
   },
 ];
 

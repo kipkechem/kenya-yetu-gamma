@@ -39,7 +39,7 @@ export interface ConstitutionData {
   schedules: Schedule[];
 }
 
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'infomap' | 'county-explorer' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact';
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'state-corporations' | 'infomap' | 'county-explorer' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -71,6 +71,8 @@ export interface Ministry {
   name: string;
   cabinetSecretary: string;
   principalSecretaries: PrincipalSecretary[];
+  mandatedEntities?: string[];
+  url?: string;
 }
 
 
@@ -78,4 +80,15 @@ export interface Commission {
   name: string;
   description: string;
   url: string;
+}
+
+export interface StateCorporation {
+  name: string;
+  description: string;
+  url: string;
+}
+
+export interface StateCorporationCategory {
+  categoryName: string;
+  corporations: StateCorporation[];
 }

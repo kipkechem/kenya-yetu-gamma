@@ -12,6 +12,7 @@ import ContactPage from './components/ContactPage';
 import ActsPage from './components/ActsPage';
 import CabinetPage from './components/CabinetPage';
 import CommissionsPage from './components/CommissionsPage';
+import StateCorporationsPage from './components/StateCorporationsPage';
 import CountyExplorerPage from './components/CountyExplorerPage';
 import MyRepresentativesPage from './components/MyRepresentativesPage';
 import ThemeSwitcher from './components/ThemeSwitcher';
@@ -84,6 +85,8 @@ const App: React.FC = () => {
                 return <CabinetPage />;
             case 'commissions':
                 return <CommissionsPage />;
+            case 'state-corporations':
+                return <StateCorporationsPage />;
             case 'infomap':
                 return <InfoMapPage navigateTo={navigateTo} />;
             case 'county-explorer':
