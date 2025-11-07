@@ -1,10 +1,10 @@
 
+
 import React, { useState, useMemo } from 'react';
-import { BuildingLibraryIcon, ChevronDownIcon } from './icons';
-import { categorizedCorporationsData as corporationsData } from '../data/state-corporations';
-import type { StateCorporation, StateCorporationCategory } from '../types';
-import { ministries as ministriesData } from '../data/ministries';
-import type { Ministry } from '../types';
+import { BuildingLibraryIcon, ChevronDownIcon } from '../components/icons';
+import { categorizedCorporationsData as corporationsData } from './state-corporations';
+import type { Ministry, StateCorporation, StateCorporationCategory } from '../types';
+import { ministries as ministriesData } from './ministries';
 import { getCachedData, setCachedData } from '../utils/cache';
 
 const loadCorporationsData = (): StateCorporationCategory[] => {

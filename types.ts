@@ -39,9 +39,18 @@ export interface ConstitutionData {
   schedules: Schedule[];
 }
 
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'state-corporations' | 'infomap' | 'county-explorer' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact';
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'state-corporations' | 'infomap' | 'county-explorer' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems';
 
 export type Theme = 'light' | 'dark' | 'system';
+
+export interface Section {
+    title: string;
+    description: string;
+    icon: React.ReactNode;
+    view: AppView;
+    isExternal: boolean;
+    url?: string;
+}
 
 export interface County {
   name: string;
@@ -91,4 +100,16 @@ export interface StateCorporation {
 export interface StateCorporationCategory {
   categoryName: string;
   corporations: StateCorporation[];
+}
+
+export interface Anthem {
+  id: 'kenyan' | 'east-african';
+  englishTitle: string;
+  swahiliTitle: string;
+  lyrics: {
+    type: 'stanza' | 'chorus';
+    number?: number;
+    swahili: string;
+    english: string;
+  }[];
 }

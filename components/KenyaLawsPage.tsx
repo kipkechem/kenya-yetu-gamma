@@ -1,18 +1,10 @@
 import React from 'react';
-import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon, FileTextIcon, BuildingLibraryIcon, MapPinIcon } from './icons';
-import type { AppView } from '../types';
+import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon, FileTextIcon, BuildingLibraryIcon, MapPinIcon, FlagIcon, PhotoIcon } from './icons';
+import type { AppView, Section } from '../types';
+import Tile from './Tile';
 
 interface KenyaLawsPageProps {
   navigateTo: (view: AppView) => void;
-}
-
-interface Section {
-    title: string;
-    description: string;
-    icon: React.ReactNode;
-    view: AppView;
-    isExternal: boolean;
-    url?: string;
 }
 
 const lawSections: Section[] = [
@@ -38,6 +30,30 @@ const lawSections: Section[] = [
         isExternal: true,
         url: 'https://new.kenyalaw.org/gazettes/',
     }
+];
+
+const nationalSymbolsSections: Section[] = [
+    {
+        title: 'Anthems',
+        description: 'Explore the lyrics for the Kenyan and East African Community anthems.',
+        icon: <FlagIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'anthems',
+        isExternal: false,
+    },
+    {
+        title: 'National Flag',
+        description: 'View the Kenyan flag and learn about the symbolism of its colors and design.',
+        icon: <PhotoIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'national-flag',
+        isExternal: false,
+    },
+    {
+        title: 'Coat of Arms',
+        description: 'Explore the elements of the Kenyan Coat of Arms, from the shield to the national motto.',
+        icon: <PhotoIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'coat-of-arms',
+        isExternal: false,
+    },
 ];
 
 const governanceSections: Section[] = [
@@ -71,33 +87,6 @@ const governanceSections: Section[] = [
     },
 ];
 
-const Tile: React.FC<{ section: Section, navigateTo: (view: AppView) => void }> = ({ section, navigateTo }) => {
-    const handleClick = () => {
-        if (section.isExternal && section.url) {
-            window.open(section.url, '_blank', 'noopener,noreferrer');
-        } else {
-            navigateTo(section.view);
-        }
-    };
-
-    return (
-        <button
-            key={section.view}
-            onClick={handleClick}
-            className="bg-surface dark:bg-dark-surface p-6 rounded-3xl custom-shadow-lg hover:custom-shadow-xl hover:-translate-y-2 transform-gpu transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] flex flex-col text-left w-[240px] aspect-square"
-        >
-            <div className="flex-shrink-0 p-3 bg-primary-light dark:bg-dark-primary-light rounded-2xl inline-block self-start">
-                {section.icon}
-            </div>
-            <h2 className="mt-4 text-lg font-bold text-on-surface dark:text-dark-on-surface">{section.title}</h2>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 flex-grow">{section.description}</p>
-            <div className="mt-4 text-sm font-semibold text-primary dark:text-dark-primary">
-                Explore Section &rarr;
-            </div>
-        </button>
-    );
-};
-
 const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ navigateTo }) => {
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10">
@@ -128,6 +117,15 @@ const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ navigateTo }) => {
                     <h2 className="text-2xl font-bold text-center text-on-surface dark:text-dark-on-surface mb-6">Governance</h2>
                     <div className="flex flex-row flex-wrap justify-center gap-6 px-4">
                         {governanceSections.map((section) => (
+                             <Tile key={section.view} section={section} navigateTo={navigateTo} />
+                        ))}
+                    </div>
+                </div>
+
+                <div>
+                    <h2 className="text-2xl font-bold text-center text-on-surface dark:text-dark-on-surface mb-6">National Symbols</h2>
+                    <div className="flex flex-row flex-wrap justify-center gap-6 px-4">
+                        {nationalSymbolsSections.map((section) => (
                              <Tile key={section.view} section={section} navigateTo={navigateTo} />
                         ))}
                     </div>

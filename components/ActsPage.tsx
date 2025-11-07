@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo } from 'react';
 import { InboxStackIcon, ChevronDownIcon } from './icons';
 import { actsOfParliament as actsData, ActsByCategory } from '../data/acts';
@@ -55,7 +56,8 @@ const ActsPage: React.FC = () => {
   };
   
   const allActs = useMemo(() => {
-    return Object.values(actsOfParliament).flat().sort((a, b) => a.localeCompare(b));
+    // FIX: Explicitly type 'a' and 'b' as strings to resolve error where they were inferred as 'unknown'.
+    return Object.values(actsOfParliament).flat().sort((a: string, b: string) => a.localeCompare(b));
   }, [actsOfParliament]);
 
   const filteredActs = useMemo(() => {

@@ -65,13 +65,13 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo }) => {
         </div>
         
         <div className="flex-shrink-0 w-full pb-6">
-            <div className="overflow-x-auto pb-4 horizontal-scrollbar -mx-4 md:-mx-6 lg:-mx-10">
-                <div className="flex flex-nowrap justify-center gap-6 px-4 md:px-6 lg:px-10">
+            <div className="md:overflow-x-auto pb-4 md:horizontal-scrollbar md:-mx-6 lg:-mx-10">
+                <div className="flex flex-col md:flex-row md:flex-nowrap items-center md:justify-center gap-6 px-4 md:px-6 lg:px-10">
                     {sections.map((section) => (
                         <button
                             key={section.view}
                             onClick={() => navigateTo(section.view)}
-                            className="bg-surface dark:bg-dark-surface p-5 rounded-3xl custom-shadow-lg hover:custom-shadow-xl hover:-translate-y-1.5 transform-gpu transition-all duration-300 flex flex-col text-left w-[214px] h-[214px] flex-shrink-0"
+                            className="bg-surface dark:bg-dark-surface p-5 rounded-3xl custom-shadow-lg hover:custom-shadow-xl hover:-translate-y-1.5 transform-gpu transition-all duration-300 flex flex-col text-left w-full max-w-sm md:w-[214px] md:h-[214px] md:flex-shrink-0"
                         >
                             <div className="flex-shrink-0 p-3 bg-primary-light dark:bg-dark-primary-light rounded-2xl inline-block self-start">
                                 {section.icon}

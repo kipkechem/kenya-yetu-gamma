@@ -12,13 +12,17 @@ import ContactPage from './components/ContactPage';
 import ActsPage from './components/ActsPage';
 import CabinetPage from './components/CabinetPage';
 import CommissionsPage from './components/CommissionsPage';
-import StateCorporationsPage from './components/StateCorporationsPage';
+import StateCorporationsPage from './data/StateCorporationsPage';
 import CountyExplorerPage from './components/CountyExplorerPage';
 import MyRepresentativesPage from './components/MyRepresentativesPage';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import SearchBar from './components/SearchBar';
 import { MenuIcon } from './components/icons';
+import AnthemPage from './components/AnthemPage';
+import AnthemsListPage from './components/AnthemsListPage';
+import SymbolPage from './components/SymbolPage';
+import { kenyaFlagSvg, kenyaFlagDescription, kenyaCoatOfArmsSvg, kenyaCoatOfArmsDescription } from './data/symbols';
 
 const App: React.FC = () => {
     const [viewHistory, setViewHistory] = useState<AppView[]>(['home']);
@@ -101,6 +105,26 @@ const App: React.FC = () => {
                 return <AboutUsPage navigateTo={navigateTo} />;
             case 'contact':
                 return <ContactPage />;
+            case 'kenyan-anthem':
+                return <AnthemPage anthemId="kenyan" language={language} />;
+            case 'east-african-anthem':
+                return <AnthemPage anthemId="east-african" language={language} />;
+            case 'anthems':
+                return <AnthemsListPage navigateTo={navigateTo} />;
+            case 'national-flag':
+                return <SymbolPage 
+                    title="The National Flag"
+                    svgContent={kenyaFlagSvg}
+                    description={kenyaFlagDescription}
+                    fileName="kenya-national-flag.svg"
+                />;
+            case 'coat-of-arms':
+                return <SymbolPage 
+                    title="The Coat of Arms"
+                    svgContent={kenyaCoatOfArmsSvg}
+                    description={kenyaCoatOfArmsDescription}
+                    fileName="kenya-coat-of-arms.svg"
+                />;
             default:
                 return <HomePage navigateTo={navigateTo} />;
         }
