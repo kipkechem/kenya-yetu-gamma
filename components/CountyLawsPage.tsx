@@ -1,21 +1,27 @@
 import React, { useState, useMemo } from 'react';
-import { BuildingLibraryIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon } from './icons';
-import { countyLawsData } from '../data/county-laws';
+import { BuildingLibraryIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon, BookOpenIcon } from './icons';
+import { countyLawsData, devolutionLawsData } from '../data/county-laws';
 import type { CountyLegislation, CountyLaw } from '../types';
 import Highlight from './Highlight';
+import { dispatchNavigate } from '../utils/navigation';
+
 
 const CountyLawsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [openCounties, setOpenCounties] = useState<Set<string>>(new Set());
+  const [openItems, setOpenItems] = useState<Set<string>>(new Set(['devolution-laws']));
 
   const isSearching = searchTerm.trim().length > 0;
+  const lowercasedTerm = searchTerm.toLowerCase();
 
-  const filteredData = useMemo(() => {
+  const filteredDevolutionLaws = useMemo(() => {
+    if (!isSearching) return devolutionLawsData;
+    return devolutionLawsData.filter(law => law.name.toLowerCase().includes(lowercasedTerm));
+  }, [lowercasedTerm, isSearching]);
+
+  const filteredCountyData = useMemo(() => {
     if (!isSearching) {
       return countyLawsData;
     }
-
-    const lowercasedTerm = searchTerm.toLowerCase();
 
     return countyLawsData
       .map(county => {
@@ -33,45 +39,76 @@ const CountyLawsPage: React.FC = () => {
         return null;
       })
       .filter((c): c is CountyLegislation => c !== null);
-  }, [searchTerm, isSearching]);
+  }, [lowercasedTerm, isSearching]);
 
-  const toggleCounty = (countyName: string) => {
-    setOpenCounties(prev => {
+  const toggleItem = (itemName: string) => {
+    if (isSearching) return; // Don't allow toggling when searching
+    setOpenItems(prev => {
       const newSet = new Set(prev);
-      if (newSet.has(countyName)) newSet.delete(countyName);
-      else newSet.add(countyName);
+      if (newSet.has(itemName)) newSet.delete(itemName);
+      else newSet.add(itemName);
       return newSet;
     });
+  };
+  
+  const handleLawClick = (e: React.MouseEvent, url: string) => {
+    if (url.startsWith('#internal:')) {
+        e.preventDefault();
+        const parts = url.split(':'); // #internal, constitution#chapter-11
+        const viewAndHash = parts[1].split('#'); // constitution, chapter-11
+        const view = viewAndHash[0] as 'constitution'; 
+        const hash = `#${viewAndHash[1]}`;
+
+        window.location.hash = hash;
+        dispatchNavigate({ view });
+    }
+    // External links will proceed as normal due to target="_blank"
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const renderLawList = (laws: CountyLaw[], originalLaws: CountyLaw[], lawType: string) => {
-    if (laws.length === 0) {
-      if (isSearching) {
-        return <p className="text-sm text-gray-500 dark:text-gray-400 italic">No matching {lawType} found.</p>;
+  const renderLawList = (laws: CountyLaw[], originalLaws: CountyLaw[] | undefined, lawType: string) => {
+    const lawsToRender = isSearching ? laws : originalLaws || [];
+
+    if (lawsToRender.length === 0) {
+      if (isSearching && laws.length === 0) {
+          return <p className="text-sm text-gray-500 dark:text-gray-400 italic">No matching {lawType} found.</p>;
       }
-      if (originalLaws.length === 0) {
-        return <p className="text-sm text-gray-500 dark:text-gray-400 italic">No {lawType} available.</p>;
+      if (!isSearching && (!originalLaws || originalLaws.length === 0)) {
+          return <p className="text-sm text-gray-500 dark:text-gray-400 italic">No {lawType} available.</p>;
       }
     }
     
     return (
         <ul className="space-y-2">
-            {laws.map(law => (
+            {lawsToRender.map(law => (
                 <li key={law.name}>
-                    <a href={law.url} target="_blank" rel="noopener noreferrer" className="group inline-flex items-start text-sm text-primary dark:text-dark-primary hover:underline">
-                        <FileTextIcon className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-gray-400 dark:text-gray-500" />
+                    <a 
+                        href={law.url} 
+                        target={law.url.startsWith('#internal:') ? '_self' : '_blank'}
+                        rel="noopener noreferrer"
+                        onClick={(e) => handleLawClick(e, law.url)}
+                        className="group inline-flex items-start text-sm text-primary dark:text-dark-primary hover:underline"
+                    >
+                        {law.url.startsWith('#internal:') ? 
+                            <BookOpenIcon className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-gray-400 dark:text-gray-500" />
+                            : <FileTextIcon className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-gray-400 dark:text-gray-500" />}
                         <span><Highlight text={law.name} highlight={searchTerm} /></span>
-                        <ExternalLinkIcon className="h-3.5 w-3.5 ml-1.5 mt-1 flex-shrink-0 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {!law.url.startsWith('#internal:') && (
+                           <ExternalLinkIcon className="h-3.5 w-3.5 ml-1.5 mt-1 flex-shrink-0 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        )}
                     </a>
                 </li>
             ))}
         </ul>
     );
   }
+
+  const hasSearchResults = filteredDevolutionLaws.length > 0 || filteredCountyData.length > 0;
+  const devolutionLawsKey = 'devolution-laws';
+  const isDevolutionOpen = isSearching ? filteredDevolutionLaws.length > 0 : openItems.has(devolutionLawsKey);
 
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
@@ -82,7 +119,7 @@ const CountyLawsPage: React.FC = () => {
           </div>
           <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">County Laws</h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-            A repository of legislation enacted by the 47 county assemblies, sourced from Kenya Law.
+            Explore the national legal framework for devolution and the specific legislation enacted by the 47 county assemblies. Sourced from Kenya Law.
           </p>
         </header>
 
@@ -95,7 +132,7 @@ const CountyLawsPage: React.FC = () => {
             </div>
             <input
               type="text"
-              placeholder="Search by county, act, or bill..."
+              placeholder="Search national or county laws..."
               value={searchTerm}
               onChange={handleSearchChange}
               className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3 pl-12 pr-4 text-on-surface dark:text-dark-on-surface placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent custom-shadow"
@@ -104,18 +141,49 @@ const CountyLawsPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="space-y-2">
-          {filteredData.length > 0 ? (
-            filteredData.map(county => {
-                const isCountyOpen = isSearching || openCounties.has(county.countyName);
-                const originalCountyData = countyLawsData.find(c => c.countyName === county.countyName);
+        <div className="space-y-4">
+            {(isSearching ? filteredDevolutionLaws.length > 0 : true) && (
+                <div className="bg-surface dark:bg-dark-surface rounded-xl custom-shadow-lg overflow-hidden transition-all duration-300">
+                    <button
+                        onClick={() => toggleItem(devolutionLawsKey)}
+                        className="w-full flex justify-between items-center p-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                        aria-expanded={isDevolutionOpen}
+                        disabled={isSearching}
+                    >
+                        <h3 className="font-semibold text-lg">National Devolution Framework</h3>
+                        <ChevronDownIcon className={`h-5 w-5 text-gray-500 transform transition-transform duration-200 ${isDevolutionOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                    <div
+                        className={`transition-all duration-300 ease-in-out overflow-hidden`}
+                        style={{ maxHeight: isDevolutionOpen ? '2000px' : '0px' }}
+                    >
+                        <div className="px-4 pb-4 border-t border-border dark:border-dark-border/50">
+                            <div className="mt-4">
+                                {renderLawList(filteredDevolutionLaws, devolutionLawsData, "Laws")}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {!isSearching && (
+                <h2 className="text-2xl font-bold text-on-surface dark:text-dark-on-surface pt-8 pb-2 text-center">
+                    County-Specific Legislation
+                </h2>
+            )}
+
+          {filteredCountyData.length > 0 ? (
+            filteredCountyData.map(county => {
+                const isCountyOpen = isSearching || openItems.has(county.countyName);
+                const originalCountyData = isSearching ? countyLawsData.find(c => c.countyName === county.countyName) : county;
 
                 return (
                     <div key={county.countyName} className="bg-surface dark:bg-dark-surface rounded-xl custom-shadow-lg overflow-hidden transition-all duration-300">
                         <button
-                          onClick={() => toggleCounty(county.countyName)}
+                          onClick={() => toggleItem(county.countyName)}
                           className="w-full flex justify-between items-center p-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
                           aria-expanded={isCountyOpen}
+                          disabled={isSearching}
                         >
                             <h3 className="font-semibold text-lg"><Highlight text={`${county.countyName} County`} highlight={searchTerm} /></h3>
                             <ChevronDownIcon className={`h-5 w-5 text-gray-500 transform transition-transform duration-200 ${isCountyOpen ? 'rotate-180' : ''}`} />
@@ -128,11 +196,11 @@ const CountyLawsPage: React.FC = () => {
                                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
                                     <div>
                                         <h4 className="font-bold text-on-surface dark:text-dark-on-surface mb-2">Acts</h4>
-                                        {renderLawList(county.acts, originalCountyData?.acts || [], 'Acts')}
+                                        {renderLawList(county.acts, originalCountyData?.acts, 'Acts')}
                                     </div>
                                     <div>
                                         <h4 className="font-bold text-on-surface dark:text-dark-on-surface mb-2">Bills</h4>
-                                        {renderLawList(county.bills, originalCountyData?.bills || [], 'Bills')}
+                                        {renderLawList(county.bills, originalCountyData?.bills, 'Bills')}
                                     </div>
                                 </div>
                             </div>
@@ -140,12 +208,12 @@ const CountyLawsPage: React.FC = () => {
                     </div>
                 );
             })
-          ) : (
+          ) : isSearching && !hasSearchResults ? (
              <div className="text-center py-16 bg-surface dark:bg-dark-surface rounded-2xl custom-shadow-lg">
                 <h3 className="text-xl font-medium text-on-surface dark:text-dark-on-surface">No Results Found</h3>
-                <p className="mt-2 text-gray-500 dark:text-gray-400">Your search for "{searchTerm}" did not match any counties or laws.</p>
+                <p className="mt-2 text-gray-500 dark:text-gray-400">Your search for "{searchTerm}" did not match any national or county laws.</p>
             </div>
-          )}
+          ) : null}
         </div>
       </div>
     </div>

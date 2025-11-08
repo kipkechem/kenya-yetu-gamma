@@ -1,8 +1,10 @@
 
 
+
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ContentDisplay from './components/ContentDisplay';
+import Breadcrumbs from './components/Breadcrumbs';
 import { constitutionData as englishData } from './data/constitution';
 import { swahiliConstitutionData as swahiliData } from './data/swahili/constitution';
 import { articleSummaries as englishSummaries } from './data/summaries';
@@ -167,6 +169,12 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
                 }
             `}</style>
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
+              <Breadcrumbs
+                selectedItem={selectedItem}
+                data={currentData}
+                language={language}
+                onSelectItem={handleSelectItem}
+              />
               <ContentDisplay 
                     searchTerm={searchTerm} 
                     onSelectItem={handleSelectItem}
