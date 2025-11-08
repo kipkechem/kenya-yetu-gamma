@@ -23,6 +23,13 @@ const lawSections: Section[] = [
         isExternal: false,
     },
     {
+        title: 'County Laws',
+        description: 'Access legislation enacted by the 47 county assemblies.',
+        icon: <BuildingLibraryIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'county-laws',
+        isExternal: false,
+    },
+    {
         title: 'Kenya Gazette',
         description: 'Official publication of the Government of Kenya containing notices, appointments, and new legislation.',
         icon: <FileTextIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
@@ -108,7 +115,7 @@ const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ navigateTo }) => {
                     <h2 className="text-2xl font-bold text-center text-on-surface dark:text-dark-on-surface mb-6">Laws</h2>
                     <div className="flex flex-row flex-wrap justify-center gap-6 px-4">
                         {lawSections.map((section) => (
-                            <Tile key={section.view} section={section} navigateTo={navigateTo} />
+                            <Tile key={section.title} section={section} navigateTo={navigateTo} />
                         ))}
                     </div>
                 </div>
@@ -117,7 +124,7 @@ const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ navigateTo }) => {
                     <h2 className="text-2xl font-bold text-center text-on-surface dark:text-dark-on-surface mb-6">Governance</h2>
                     <div className="flex flex-row flex-wrap justify-center gap-6 px-4">
                         {governanceSections.map((section) => (
-                             <Tile key={section.view} section={section} navigateTo={navigateTo} />
+                             <Tile key={section.title} section={section} navigateTo={navigateTo} />
                         ))}
                     </div>
                 </div>
@@ -126,7 +133,7 @@ const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ navigateTo }) => {
                     <h2 className="text-2xl font-bold text-center text-on-surface dark:text-dark-on-surface mb-6">National Symbols</h2>
                     <div className="flex flex-row flex-wrap justify-center gap-6 px-4">
                         {nationalSymbolsSections.map((section) => (
-                             <Tile key={section.view} section={section} navigateTo={navigateTo} />
+                             <Tile key={section.title} section={section} navigateTo={navigateTo} />
                         ))}
                     </div>
                 </div>

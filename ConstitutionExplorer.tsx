@@ -1,4 +1,5 @@
 
+
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ContentDisplay from './components/ContentDisplay';
@@ -22,24 +23,12 @@ const loadConstitutionData = (language: 'en' | 'sw'): ConstitutionData => {
 };
 
 
-const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string }> = ({ language, searchTerm }) => {
+const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string, articleToChapterMap: Map<string, number> }> = ({ language, searchTerm, articleToChapterMap }) => {
   const [selectedItem, setSelectedItem] = useState<SelectedItem>({ type: 'preamble', id: 'preamble' });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const currentData = useMemo(() => loadConstitutionData(language), [language]);
   const currentSummaries = language === 'en' ? englishSummaries : swahiliSummaries;
-  
-  const articleToChapterMap = useMemo(() => {
-    const map = new Map<string, number>();
-    englishData.chapters.forEach(chapter => {
-      chapter.parts.forEach(part => {
-        part.articles.forEach(article => {
-          map.set(article.number, chapter.id);
-        });
-      });
-    });
-    return map;
-  }, []);
 
   const scrollIntoView = useCallback((item: SelectedItem | undefined) => {
     if (!item) return;

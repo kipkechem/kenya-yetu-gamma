@@ -395,7 +395,6 @@ export const actsOfParliament: ActsByCategory = {
     "Provident Fund Act",
     "Public Archives Act",
     "Public Audit Act, 2015",
-    "Public Benefits Organizations Act, 2013",
     "Public Finance Management Act, 2012",
     "Public Health Act",
     "Public Holidays Act",
@@ -501,7 +500,9 @@ export const actsOfParliament: ActsByCategory = {
     "Witness Protection Act, 2006",
     "Work Injury Benefits Act, 2007",
   ],
-  uncommenced: [],
+  uncommenced: [
+    "Public Benefits Organizations Act, 2013",
+  ],
   repealed: [
     "Agriculture, Fisheries and Food Authority Act, 2013",
     "Armed Forces Act",

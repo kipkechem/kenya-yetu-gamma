@@ -55,7 +55,7 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ activeView, navigateTo, isOpe
 
   const navItems: NavItemData[] = [
     { view: 'home', label: 'Home', icon: HomeIcon, activeStates: ['home'] },
-    { view: 'kenya-laws', label: 'Laws & Governance', icon: BookOpenIcon, activeStates: ['kenya-laws', 'constitution', 'acts', 'cabinet', 'commissions', 'state-corporations', 'kenyan-anthem', 'east-african-anthem', 'national-flag', 'coat-of-arms', 'anthems'] },
+    { view: 'kenya-laws', label: 'Laws & Governance', icon: BookOpenIcon, activeStates: ['kenya-laws', 'constitution', 'acts', 'cabinet', 'commissions', 'state-corporations', 'kenyan-anthem', 'east-african-anthem', 'national-flag', 'coat-of-arms', 'anthems', 'county-laws'] },
     { view: 'infomap', label: 'Info Maps', icon: MapIcon, activeStates: ['infomap', 'my-representatives', 'county-explorer'] },
     { view: 'projects', label: 'Projects', icon: ProjectIcon, activeStates: ['projects'] },
     { view: 'resources', label: 'Data Sources/Links', icon: LinkIcon, activeStates: ['resources'] },

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Highlight from './Highlight';
 import type { SelectedItem } from '../types';
 import { CopyIcon, CheckIcon } from './icons';
+import { dispatchNavigate } from '../utils/navigation';
+import { actsOfParliament } from '../data/acts';
 
 interface ContentRendererProps {
   text: string;
@@ -42,6 +44,17 @@ const swahiliScheduleNameToId: { [key: string]: string } = {
 const enLinkRegex = /((?:Article(?:s)?)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|((?:Part\s+([a-zA-Z0-9]+)\s+of\s+)?Chapter\s+([a-zA-Z0-9]+))|((First|Second|Third|Fourth|Fifth|Sixth)\s+Schedule)/gi;
 const swLinkRegex = /((?:Kifungu|Vifungu)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|((?:Sehemu\s+ya\s+([a-zA-Z0-9\s]+)\s+ya\s+)?Sura\s+ya\s+([a-zA-Z0-9\s]+))|((Jedwali\s+la\s+(Kwanza|Pili|Tatu|Nne|Tano|Sita)))/gi;
 
+// Create a regex for Acts of Parliament
+const allActTitles: string[] = Object.values(actsOfParliament).flat();
+const actTitlesPattern = allActTitles
+  .map(title => title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape special characters
+  .sort((a, b) => b.length - a.length) // Match longer titles first
+  .join('|');
+
+const genericActTerms = ['Act of Parliament', 'an Act of Parliament', 'legislation'];
+const genericActPattern = genericActTerms.join('|');
+
+const actRegex = new RegExp(`\\b(${actTitlesPattern})\\b|\\b(${genericActPattern})\\b`, 'gi');
 
 const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSelectItem, articleToChapterMap, language }) => {
   const [copiedArticle, setCopiedArticle] = useState<string | null>(null);
@@ -64,10 +77,55 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
     });
   };
 
+  const handleActClick = (e: React.MouseEvent, actTitle: string) => {
+    e.preventDefault();
+    const isGeneric = genericActTerms.some(term => actTitle.toLowerCase().includes(term.toLowerCase()));
+    dispatchNavigate({
+      view: 'acts',
+      actsSearchTerm: isGeneric ? '' : actTitle,
+    });
+  };
+
+  const processTextForActs = (text: string): React.ReactNode[] => {
+    if (language !== 'en') {
+        return [<Highlight key={`text-non-en`} text={text} highlight={highlight} />];
+    }
+
+    const actElements: React.ReactNode[] = [];
+    let lastIndex = 0;
+    let actMatch;
+  
+    actRegex.lastIndex = 0; // Reset regex state
+    while ((actMatch = actRegex.exec(text)) !== null) {
+      if (actMatch.index > lastIndex) {
+        actElements.push(<Highlight key={`act-text-${lastIndex}`} text={text.substring(lastIndex, actMatch.index)} highlight={highlight} />);
+      }
+      
+      const matchedActText = actMatch[0];
+      actElements.push(
+        <a
+          key={`act-link-${actMatch.index}`}
+          href="#"
+          onClick={(e) => handleActClick(e, matchedActText)}
+          className="text-primary dark:text-dark-primary hover:underline font-semibold transition-colors"
+        >
+          <Highlight text={matchedActText} highlight={highlight} />
+        </a>
+      );
+      lastIndex = actRegex.lastIndex;
+    }
+  
+    if (lastIndex < text.length) {
+      actElements.push(<Highlight key={`act-text-${lastIndex}`} text={text.substring(lastIndex)} highlight={highlight} />);
+    }
+    return actElements;
+  };
+
+
   const renderArticleLink = (articleNum: string, linkText: string) => {
     const chapterId = articleToChapterMap.get(articleNum);
     if (!chapterId) {
-      return <Highlight text={linkText} highlight={highlight} />;
+      return processTextForActs(linkText);
     }
     const titleText = language === 'sw' ? `Nakili kiungo cha Kifungu ${articleNum}` : `Copy link to Article ${articleNum}`;
     return (
@@ -112,9 +170,8 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
 
   while ((match = linkRegex.exec(text)) !== null) {
     if (match.index > lastIndex) {
-      elements.push(
-        <Highlight key={`text-${lastIndex}`} text={text.substring(lastIndex, match.index)} highlight={highlight} />
-      );
+        const nonMatchText = text.substring(lastIndex, match.index);
+        elements.push(...processTextForActs(nonMatchText));
     }
 
     const matchedText = match[0];
@@ -141,8 +198,8 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
             const separatorWithWhitespace = nextNumMatch[0].substring(0, nextNumMatch[0].indexOf(nextNumMatch[1]));
             const nextArticleNum = nextNumMatch[1];
             const fullNextMatchText = nextNumMatch[0].trim().replace(/^,/, '').replace(/^and/, '').replace(/^or/, '').replace(/^to/, '').replace(/^na/, '').replace(/^au/, '').replace(/^hadi/, '').trim();
-
-            elements.push(<Highlight key={`sep-${localIndex}`} text={separatorWithWhitespace} highlight={highlight} />);
+            
+            elements.push(...processTextForActs(separatorWithWhitespace));
             elements.push(<React.Fragment key={`submatch-${localIndex}`}>{renderArticleLink(nextArticleNum, fullNextMatchText)}</React.Fragment>);
             
             localIndex += nextNumMatch[0].length;
@@ -213,16 +270,14 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
     if (link) {
       elements.push(<React.Fragment key={`match-${match.index}`}>{link}</React.Fragment>);
     } else if (!articleBlock) { 
-      elements.push(<Highlight key={`match-${match.index}`} text={matchedText} highlight={highlight} />);
+      elements.push(...processTextForActs(matchedText));
     }
 
     lastIndex = linkRegex.lastIndex;
   }
 
   if (lastIndex < text.length) {
-    elements.push(
-      <Highlight key={`text-${lastIndex}`} text={text.substring(lastIndex)} highlight={highlight} />
-    );
+    elements.push(...processTextForActs(text.substring(lastIndex)));
   }
 
   return <>{elements}</>;

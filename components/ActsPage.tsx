@@ -1,9 +1,13 @@
-
-
-import React, { useState, useMemo } from 'react';
-import { InboxStackIcon, ChevronDownIcon } from './icons';
+import React, { useMemo, useState } from 'react';
+import { InboxStackIcon, ChevronDownIcon, ExternalLinkIcon } from './icons';
 import { actsOfParliament as actsData, ActsByCategory } from '../data/acts';
 import { getCachedData, setCachedData } from '../utils/cache';
+import { dispatchNavigate } from '../utils/navigation';
+
+interface ActsPageProps {
+    searchTerm: string;
+    onSearchChange: (term: string) => void;
+}
 
 const loadActsData = (): ActsByCategory => {
     const cacheKey = 'acts-data';
@@ -33,8 +37,6 @@ const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) =
 
   if (categoryKey && categoryToParam[categoryKey]) {
     params.set(`search[${categoryToParam[categoryKey]}]`, '1');
-    // The Kenya Law search page defaults to 'in force' checked. 
-    // If we are searching another category, we need to tell it to uncheck 'in force'.
     if (categoryKey !== 'in force') {
         params.set('search[seasy_bda]', '0');
     }
@@ -44,19 +46,17 @@ const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) =
 };
 
 
-const ActsPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
+  const [openAccordion, setOpenAccordion] = useState<string | null>('in force');
 
   const actsOfParliament = useMemo(() => loadActsData(), []);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    onSearchChange(event.target.value);
     setOpenAccordion(null);
   };
   
   const allActs = useMemo(() => {
-    // FIX: Explicitly type 'a' and 'b' as strings to resolve error where they were inferred as 'unknown'.
     return Object.values(actsOfParliament).flat().sort((a: string, b: string) => a.localeCompare(b));
   }, [actsOfParliament]);
 
@@ -74,6 +74,34 @@ const ActsPage: React.FC = () => {
   const formatCategoryTitle = (key: string) => {
     return key.replace(/(-)/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
+
+  const handleActClick = (actTitle: string) => {
+    dispatchNavigate({ view: 'act-detail', actTitle });
+  };
+
+  const renderActItem = (act: string, categoryKey?: keyof ActsByCategory) => (
+    <li key={act}>
+        <div className="group flex items-center justify-between pr-2 hover:bg-gray-50 dark:hover:bg-black/10 transition-colors">
+            <button
+                onClick={() => handleActClick(act)}
+                className="w-full text-left p-4 font-medium text-on-surface dark:text-dark-on-surface group-hover:text-primary dark:group-hover:text-dark-primary"
+            >
+                {act}
+            </button>
+            <a
+                href={createSearchUrl(act, categoryKey)}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="p-2 rounded-full text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 flex-shrink-0"
+                aria-label={`View ${act} on Kenya Law`}
+                title={`View ${act} on Kenya Law`}
+            >
+                <ExternalLinkIcon className="h-5 w-5" />
+            </a>
+        </div>
+    </li>
+  );
 
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
@@ -111,18 +139,7 @@ const ActsPage: React.FC = () => {
             {searchTerm ? (
               <ul className="divide-y divide-border dark:divide-dark-border">
                 {filteredActs.length > 0 ? (
-                  filteredActs.map((act, index) => (
-                    <li key={index}>
-                      <a href={createSearchUrl(act)} target="_blank" rel="noopener noreferrer" className="group block p-4 hover:bg-gray-50 dark:hover:bg-black/10 transition-colors">
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium text-on-surface dark:text-dark-on-surface group-hover:text-primary dark:group-hover:text-dark-primary">{act}</p>
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                          </svg>
-                        </div>
-                      </a>
-                    </li>
-                  ))
+                  filteredActs.map((act) => renderActItem(act))
                 ) : (
                   <li className="p-8 text-center text-gray-500 dark:text-gray-400">
                     No acts found matching your search.
@@ -149,20 +166,9 @@ const ActsPage: React.FC = () => {
                             id={`section-content-${category}`}
                             className={`overflow-hidden transition-all duration-300 ease-in-out bg-background dark:bg-black/20 ${openAccordion === category ? 'max-h-[3000px]' : 'max-h-0'}`}
                             >
-                            <ul className="divide-y divide-border dark:divide-dark-border">
-                                {acts.map((act, index) => (
-                                <li key={index}>
-                                    <a href={createSearchUrl(act, category)} target="_blank" rel="noopener noreferrer" className="group block py-3 px-4 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors">
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary dark:group-hover:text-dark-primary">{act}</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                        </svg>
-                                    </div>
-                                    </a>
-                                </li>
-                                ))}
-                            </ul>
+                              <ul className="divide-y divide-border dark:divide-dark-border">
+                                {acts.map((act) => renderActItem(act, category))}
+                              </ul>
                             </div>
                         </div>
                     );

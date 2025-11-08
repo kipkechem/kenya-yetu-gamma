@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import type { AppView, Theme } from './types';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import type { AppView, Theme, NavigationPayload } from './types';
 import MainSidebar from './components/MainSidebar';
 import HomePage from './components/HomePage';
 import KenyaLawsPage from './components/KenyaLawsPage';
@@ -10,6 +10,7 @@ import ResourcesPage from './components/ResourcesPage';
 import AboutUsPage from './components/AboutUsPage';
 import ContactPage from './components/ContactPage';
 import ActsPage from './components/ActsPage';
+import ActDetailPage from './components/ActDetailPage';
 import CabinetPage from './components/CabinetPage';
 import CommissionsPage from './components/CommissionsPage';
 import StateCorporationsPage from './data/StateCorporationsPage';
@@ -23,6 +24,8 @@ import AnthemPage from './components/AnthemPage';
 import AnthemsListPage from './components/AnthemsListPage';
 import SymbolPage from './components/SymbolPage';
 import { kenyaFlagSvg, kenyaFlagDescription, kenyaCoatOfArmsSvg, kenyaCoatOfArmsDescription } from './data/symbols';
+import CountyLawsPage from './components/CountyLawsPage';
+import { constitutionData as englishData } from './data/constitution';
 
 const App: React.FC = () => {
     const [viewHistory, setViewHistory] = useState<AppView[]>(['home']);
@@ -30,22 +33,72 @@ const App: React.FC = () => {
     const [isMainSidebarOpen, setMainSidebarOpen] = useState(false);
     const [isMainSidebarCollapsed, setMainSidebarCollapsed] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [actsSearchTerm, setActsSearchTerm] = useState('');
+    const [selectedActTitle, setSelectedActTitle] = useState('');
     
-    const navigateTo = (view: AppView) => {
-        // Reset search term when navigating to a new top-level view
+    const articleToChapterMap = useMemo(() => {
+        const map = new Map<string, number>();
+        englishData.chapters.forEach(chapter => {
+          chapter.parts.forEach(part => {
+            part.articles.forEach(article => {
+              map.set(article.number, chapter.id);
+            });
+          });
+        });
+        return map;
+      }, []);
+
+    const navigateTo = useCallback((view: AppView, payload?: Omit<Partial<NavigationPayload>, 'view'>) => {
+        // Reset constitution search term when navigating to a new top-level view
         if (view !== 'constitution') {
             setSearchTerm('');
         }
+        
+        // Set acts search term if provided, or clear it if navigating away from acts page
+        if (payload?.actsSearchTerm !== undefined) {
+            setActsSearchTerm(payload.actsSearchTerm);
+        } else if (activeView === 'acts' && view !== 'acts') {
+            setActsSearchTerm('');
+        }
+
+        // Handle selected Act Title
+        if (payload?.actTitle) {
+            setSelectedActTitle(payload.actTitle);
+        } else if (activeView === 'act-detail' && view !== 'act-detail') {
+            setSelectedActTitle('');
+        }
+
         setViewHistory(prev => [...prev, view]);
-    };
+    }, [activeView]);
+
+    useEffect(() => {
+        const handleNavigate = (event: Event) => {
+            const customEvent = event as CustomEvent<NavigationPayload>;
+            const { view, ...payload } = customEvent.detail;
+            navigateTo(view, payload);
+        };
+        window.addEventListener('navigate', handleNavigate);
+        return () => {
+            window.removeEventListener('navigate', handleNavigate);
+        };
+    }, [navigateTo]);
 
     const handleBack = () => {
         if (viewHistory.length > 1) {
+            const currentView = viewHistory[viewHistory.length - 1];
             const newHistory = viewHistory.slice(0, -1);
             const prevView = newHistory[newHistory.length - 1];
             // Reset search term if leaving constitution explorer
-            if (activeView === 'constitution' && prevView !== 'constitution') {
+            if (currentView === 'constitution' && prevView !== 'constitution') {
                 setSearchTerm('');
+            }
+             // Reset acts search term if leaving acts page
+            if (currentView === 'acts' && prevView !== 'acts') {
+                setActsSearchTerm('');
+            }
+            // Clear selected act title when navigating back from it
+            if (currentView === 'act-detail') {
+                setSelectedActTitle('');
             }
             setViewHistory(newHistory);
         }
@@ -82,9 +135,17 @@ const App: React.FC = () => {
             case 'kenya-laws':
                 return <KenyaLawsPage navigateTo={navigateTo} />;
             case 'constitution':
-                return <ConstitutionExplorer language={language} searchTerm={searchTerm} />;
+                return <ConstitutionExplorer language={language} searchTerm={searchTerm} articleToChapterMap={articleToChapterMap} />;
             case 'acts':
-                return <ActsPage />;
+                return <ActsPage searchTerm={actsSearchTerm} onSearchChange={setActsSearchTerm} />;
+            case 'act-detail':
+                return <ActDetailPage 
+                            actTitle={selectedActTitle} 
+                            language={language} 
+                            articleToChapterMap={articleToChapterMap} 
+                        />;
+            case 'county-laws':
+                return <CountyLawsPage />;
             case 'cabinet':
                 return <CabinetPage />;
             case 'commissions':

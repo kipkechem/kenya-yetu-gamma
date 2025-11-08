@@ -1,3 +1,6 @@
+// Fix: Import React to make the 'React' namespace available for types like React.ReactNode.
+import React from 'react';
+
 // This file is available for type definitions.
 
 export type SelectedItem = {
@@ -20,7 +23,7 @@ export interface Part {
 
 export interface Chapter {
   id: number;
-  title: string;
+  title:string;
   parts: Part[];
 }
 
@@ -39,7 +42,7 @@ export interface ConstitutionData {
   schedules: Schedule[];
 }
 
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'state-corporations' | 'infomap' | 'county-explorer' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems';
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'state-corporations' | 'infomap' | 'county-explorer' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -112,4 +115,21 @@ export interface Anthem {
     swahili: string;
     english: string;
   }[];
+}
+
+export interface CountyLaw {
+  name: string;
+  url: string;
+}
+
+export interface CountyLegislation {
+  countyName: string;
+  acts: CountyLaw[];
+  bills: CountyLaw[];
+}
+
+export interface NavigationPayload {
+  view: AppView;
+  actsSearchTerm?: string;
+  actTitle?: string;
 }
