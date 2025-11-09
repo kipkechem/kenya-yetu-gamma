@@ -14,7 +14,7 @@ import ActDetailPage from './components/ActDetailPage';
 import CabinetPage from './components/CabinetPage';
 import CommissionsPage from './components/CommissionsPage';
 import StateCorporationsPage from './data/StateCorporationsPage';
-import CountyExplorerPage from './components/CountyExplorerPage';
+import CountyGovernmentsPage from './components/CountyGovernmentsPage';
 import MyRepresentativesPage from './components/MyRepresentativesPage';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import LanguageSwitcher from './components/LanguageSwitcher';
@@ -154,8 +154,8 @@ const App: React.FC = () => {
                 return <StateCorporationsPage />;
             case 'infomap':
                 return <InfoMapPage navigateTo={navigateTo} />;
-            case 'county-explorer':
-                return <CountyExplorerPage />;
+            case 'county-governments':
+                return <CountyGovernmentsPage />;
             case 'my-representatives':
                 return <MyRepresentativesPage />;
             case 'projects':

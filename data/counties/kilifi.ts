@@ -1,19 +1,31 @@
-
 import type { County } from '../../types';
 
 export const kilifiCounty: County = {
   name: 'Kilifi',
   code: 3,
   capital: 'Kilifi',
-  governor: 'Gideon Mung\'aro',
-  population: '1,453,787 (2019 Census)',
-  area: '12,245.9 km²',
+  website: 'http://www.kilifi.go.ke/',
+  departments: [
+    'Finance and Economic Planning',
+    'Health and Sanitation',
+    'Agriculture, Livestock Development and Fisheries',
+    'Education, Youth Affairs, Sports and Culture',
+    'Lands, Physical Planning, Housing, Urban Development and Public Works',
+    'Trade, Tourism and Co-operative Development',
+    'Roads, Transport and Public Works',
+    'Water, Environment, Natural Resources and Forestry',
+    'Public Service, Management, Devolution and Citizen Participation',
+    'Gender and Social Services'
+  ],
   constituencies: [
     'Kilifi North', 'Kilifi South', 'Kaloleni', 'Rabai', 'Ganze', 'Malindi', 'Magarini'
   ],
+  // Fix: Add missing properties to satisfy the County type.
+  population: '1,453,787 (2019 Census)',
+  area: '12,609.7 km²',
   funFacts: [
-    'Known for its beautiful beaches and tourist destinations like Watamu and Malindi.',
-    'Home to the Gedi Ruins, the remains of an ancient Swahili town.',
-    'The Arabuko Sokoke Forest, the largest remaining coastal forest in East Africa, is located here.'
-  ]
+    'Has a long coastline with popular beaches.',
+    'The Gedi Ruins are a major historical site.',
+    'Malindi and Watamu are major tourist towns.'
+  ],
 };

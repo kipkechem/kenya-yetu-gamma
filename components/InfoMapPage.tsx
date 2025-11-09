@@ -30,11 +30,11 @@ const infoMapSections: {
     view?: AppView;
 }[] = [
     {
-        title: 'County Explorer',
+        title: 'County Governments',
         description: 'Explore detailed information about each county in Kenya.',
         icon: <MapPinIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
         isActionable: true,
-        view: 'county-explorer',
+        view: 'county-governments',
     },
     {
         title: 'My Representatives',

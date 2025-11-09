@@ -42,7 +42,7 @@ export interface ConstitutionData {
   schedules: Schedule[];
 }
 
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'state-corporations' | 'infomap' | 'county-explorer' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail';
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'commissions' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -59,10 +59,12 @@ export interface County {
   name: string;
   code: number;
   capital: string;
-  governor: string;
+  website: string;
+  departments: string[];
+  constituencies: string[];
+  // Fix: Add missing properties to the County interface to resolve errors in CountyDetailPage.
   population: string;
   area: string;
-  constituencies: string[];
   funFacts: string[];
 }
 

@@ -89,7 +89,7 @@ const governanceSections: Section[] = [
         title: 'County Governments',
         description: 'Learn about the structure, functions, and leadership of the 47 county governments.',
         icon: <MapPinIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        view: 'county-explorer',
+        view: 'county-governments',
         isExternal: false,
     },
 ];

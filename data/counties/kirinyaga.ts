@@ -1,19 +1,31 @@
-
 import type { County } from '../../types';
 
 export const kirinyagaCounty: County = {
   name: 'Kirinyaga',
   code: 20,
   capital: 'Kerugoya / Kutus',
-  governor: 'Anne Waiguru',
-  population: '610,411 (2019 Census)',
-  area: '1,479.1 km²',
+  website: 'http://www.kirinyaga.go.ke/',
+  departments: [
+    'Finance, Economic Planning and ICT',
+    'Health',
+    'Agriculture, Livestock, Veterinary and Fisheries',
+    'Education and Public Service',
+    'Lands, Physical Planning, Housing and Urban Development',
+    'Trade, Tourism, Cooperatives and Industrialization',
+    'Transport, Roads, Public Works and Housing',
+    'Water, Sanitation, Environment and Natural Resources',
+    'Gender, Culture and Social Services',
+    'Sports and Youth'
+  ],
   constituencies: [
     'Mwea', 'Gichugu', 'Ndia', 'Kirinyaga Central'
   ],
+  // Fix: Add missing properties to satisfy the County type.
+  population: '610,411 (2019 Census)',
+  area: '1,479.1 km²',
   funFacts: [
-    'The name "Kirinyaga" is the Gikuyu name for Mount Kenya.',
-    'Home to the Mwea Irrigation Scheme, which produces most of Kenya\'s rice.',
-    'It is a major producer of coffee and tea.'
-  ]
+    'Located at the foot of Mount Kenya.',
+    'Known for its extensive rice irrigation schemes in Mwea.',
+    'The name is a Kikuyu spelling of Mount Kenya.'
+  ],
 };
