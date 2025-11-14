@@ -1,6 +1,6 @@
 import React from 'react';
-import { BookOpenIcon, MapIcon, PresentationChartLineIcon, LinkIcon, UsersIcon, MailIcon } from './icons';
-import type { AppView } from '../types';
+import { BookOpenIcon, MapIcon, PresentationChartLineIcon, LinkIcon, UsersIcon, MailIcon } from '../components/icons';
+import type { AppView } from '../types/index';
 
 interface HomePageProps {
   navigateTo: (view: AppView) => void;

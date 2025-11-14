@@ -1,29 +1,7 @@
-
-
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon } from '../components/icons';
-import { categorizedCorporationsData as corporationsData } from './state-corporations';
-import type { Ministry, StateCorporation, StateCorporationCategory } from '../types';
-import { ministries as ministriesData } from './ministries';
+import type { Ministry, StateCorporation, StateCorporationCategory } from '../types/index';
 import { getCachedData, setCachedData } from '../utils/cache';
-
-const loadCorporationsData = (): StateCorporationCategory[] => {
-    const cacheKey = 'corporations-data';
-    let data = getCachedData<StateCorporationCategory[]>(cacheKey);
-    if (data) { return data; }
-    data = corporationsData;
-    setCachedData(cacheKey, data);
-    return data;
-};
-
-const loadMinistriesData = (): Ministry[] => {
-    const cacheKey = 'ministries-data';
-    let data = getCachedData<Ministry[]>(cacheKey);
-    if (data) { return data; }
-    data = ministriesData;
-    setCachedData(cacheKey, data);
-    return data;
-};
 
 const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: string }> = ({ corporation, ministryName }) => (
   <a 
@@ -52,12 +30,22 @@ const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: 
 const StateCorporationsPage: React.FC = () => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [categorizedCorporationsData, setCategorizedCorporationsData] = useState<StateCorporationCategory[] | null>(null);
+  const [ministries, setMinistries] = useState<Ministry[] | null>(null);
 
-  const categorizedCorporationsData = useMemo(() => loadCorporationsData(), []);
-  const ministries = useMemo(() => loadMinistriesData(), []);
+  useEffect(() => {
+    const loadData = async () => {
+        const corporationsModule = await import('../data/state-corporations');
+        const ministriesModule = await import('../data/ministries');
+        setCategorizedCorporationsData(corporationsModule.categorizedCorporationsData);
+        setMinistries(ministriesModule.ministries);
+    };
+    loadData();
+  }, []);
   
   // Create a map of entity names to their parent ministry
   const entityToMinistryMap = useMemo(() => {
+    if (!ministries) return new Map();
     const map = new Map<string, string>();
     ministries.forEach(ministry => {
       if (ministry.mandatedEntities) {
@@ -70,6 +58,7 @@ const StateCorporationsPage: React.FC = () => {
   }, [ministries]);
 
   const { descriptionText } = useMemo(() => {
+    if (!categorizedCorporationsData) return { descriptionText: '' };
     const allEntities = categorizedCorporationsData.flatMap(cat => cat.corporations);
     const totalEntities = allEntities.length;
     const totalCategories = categorizedCorporationsData.length;
@@ -125,12 +114,11 @@ const StateCorporationsPage: React.FC = () => {
         entitiesBreakdown = `${descriptionParts[0]}`;
     }
 
-    const descriptionText = `This page provides an overview of ${totalEntities} public entities across ${totalCategories} sectors. Discover the mandates of various national, regional, and county-level bodies—including ${entitiesBreakdown}—and learn about their role in public service delivery and national development.`;
-
-    return { descriptionText };
+    return { descriptionText: `This page provides an overview of ${totalEntities} public entities across ${totalCategories} sectors. Discover the mandates of various national, regional, and county-level bodies—including ${entitiesBreakdown}—and learn about their role in public service delivery and national development.` };
   }, [categorizedCorporationsData]);
   
   const allCorporationsWithMinistry = useMemo(() => {
+    if (!categorizedCorporationsData) return [];
     return categorizedCorporationsData.flatMap(category => 
         category.corporations.map(corp => ({
             ...corp,
@@ -163,6 +151,14 @@ const StateCorporationsPage: React.FC = () => {
         setOpenCategory(null); // Close accordions when searching
     }
   };
+  
+  if (!categorizedCorporationsData) {
+    return (
+        <div className="flex items-center justify-center h-full w-full">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
+        </div>
+    );
+  }
 
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
@@ -246,13 +242,3 @@ const StateCorporationsPage: React.FC = () => {
                     </div>
                     </div>
                 </div>
-                </div>
-            ))}
-            </section>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default StateCorporationsPage;

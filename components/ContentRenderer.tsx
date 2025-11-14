@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Highlight from './Highlight';
-import type { SelectedItem } from '../types';
+import type { SelectedItem } from '../types/index';
 import { CopyIcon, CheckIcon } from './icons';
 import { dispatchNavigate } from '../utils/navigation';
 import { actsOfParliament } from '../data/acts';

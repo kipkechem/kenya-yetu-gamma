@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ContentRenderer from '../components/ContentRenderer';
-import type { Chapter, SelectedItem } from '../types';
+import type { Chapter, SelectedItem } from '../types/index';
 import { ChatBubbleOvalLeftEllipsisIcon, FlagIcon } from '../components/icons';
 
 interface ChapterContentProps {

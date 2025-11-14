@@ -1,38 +1,26 @@
-
-import React, { useState, useMemo } from 'react';
-import KenyaMap from './KenyaMap';
-import CountyDetailPage from './CountyDetailPage';
-import { countiesData as allCountiesData } from '../data/counties';
-import { countyPaths as allCountyPaths } from '../data/mapdata';
-import { MapIcon } from './icons';
-import type { County } from '../types';
-import { getCachedData, setCachedData } from '../utils/cache';
-
-const loadCountiesData = (): County[] => {
-    const cacheKey = 'counties-data';
-    let data = getCachedData<County[]>(cacheKey);
-    if (data) { return data; }
-    data = allCountiesData;
-    setCachedData(cacheKey, data);
-    return data;
-};
-
-const loadCountyPaths = (): { name: string; path: string }[] => {
-    const cacheKey = 'county-paths-data';
-    let data = getCachedData<{ name: string; path: string }[]>(cacheKey);
-    if (data) { return data; }
-    data = allCountyPaths;
-    setCachedData(cacheKey, data);
-    return data;
-};
+import React, { useState, useMemo, useEffect } from 'react';
+import KenyaMap from '../components/KenyaMap';
+import CountyDetailPage from '../components/CountyDetailPage';
+import { MapIcon } from '../components/icons';
+import type { County } from '../types/index';
 
 const CountyExplorerPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
+    const [countiesData, setCountiesData] = useState<County[] | null>(null);
+    const [countyPaths, setCountyPaths] = useState<{ name: string; path: string }[] | null>(null);
 
-    const countiesData = useMemo(() => loadCountiesData(), []);
-    const countyPaths = useMemo(() => loadCountyPaths(), []);
+    useEffect(() => {
+        const loadData = async () => {
+            const countiesModule = await import('../data/counties');
+            const mapDataModule = await import('../data/mapdata');
+            setCountiesData(countiesModule.countiesData);
+            setCountyPaths(mapDataModule.countyPaths);
+        };
+        loadData();
+    }, []);
     
     const countiesMap = useMemo(() => {
+        if (!countiesData) return new Map();
         return new Map(countiesData.map(county => [county.name.toLowerCase(), county]));
     }, [countiesData]);
 
@@ -41,8 +29,6 @@ const CountyExplorerPage: React.FC = () => {
         if (county) {
             setSelectedCounty(county);
         } else {
-             // If county data is missing, show a message or a default state
-             // For this demo, we'll just log it and do nothing.
              console.warn(`Data for ${countyName} not found.`);
         }
     };
@@ -50,6 +36,14 @@ const CountyExplorerPage: React.FC = () => {
     const handleBack = () => {
         setSelectedCounty(null);
     };
+    
+    if (!countiesData || !countyPaths) {
+         return (
+            <div className="flex items-center justify-center h-full w-full">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="h-full w-full overflow-y-auto">

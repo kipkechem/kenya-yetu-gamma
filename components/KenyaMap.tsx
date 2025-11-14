@@ -22,16 +22,17 @@ const KenyaMap: React.FC<KenyaMapProps> = ({ onCountyClick, counties }) => {
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       <svg
-        viewBox="360 80 250 250" // This viewBox is an estimate to center the placeholder shapes
+        viewBox="34 -5 8 10"
         className="w-full h-auto max-w-2xl max-h-[70vh] drop-shadow-lg"
         aria-label="Map of Kenya"
       >
-        <g>
+        <g transform="scale(1, -1)">
           {counties.map(({ name, path }) => (
             <path
               key={name}
               d={path}
-              className={`transition-all duration-200 cursor-pointer stroke-surface dark:stroke-dark-surface stroke-[0.5] ${hoveredCounty === name ? 'fill-primary dark:fill-dark-primary' : 'fill-primary/60 dark:fill-dark-primary/50'}`}
+              strokeWidth="0.02"
+              className={`transition-all duration-200 cursor-pointer stroke-surface dark:stroke-dark-surface ${hoveredCounty === name ? 'fill-primary dark:fill-dark-primary' : 'fill-primary/60 dark:fill-dark-primary/50'}`}
               onMouseEnter={() => setHoveredCounty(name)}
               onMouseLeave={handleMouseLeave}
               onMouseMove={(e) => handleMouseMove(e, name)}

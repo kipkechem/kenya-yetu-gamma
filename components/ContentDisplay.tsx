@@ -2,7 +2,7 @@ import React from 'react';
 import PreambleContent from '../content/PreambleContent';
 import ChapterContent from '../content/ChapterContent';
 import ScheduleContent from '../content/ScheduleContent';
-import type { Chapter, Schedule, SelectedItem, ConstitutionData } from '../types';
+import type { Chapter, Schedule, SelectedItem, ConstitutionData } from '../types/index';
 
 interface ContentDisplayProps {
   searchTerm: string;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import type { ConstitutionData, SelectedItem } from '../types';
+import type { ConstitutionData, SelectedItem } from '../types/index';
 import { ChevronDownIcon, BookOpenIcon, FileTextIcon } from './icons';
 
 interface SidebarProps {

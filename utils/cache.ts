@@ -1,4 +1,3 @@
-
 const CACHE_VERSION = '1.1'; // Increment version to invalidate old caches.
 
 interface CacheItem<T> {
@@ -53,3 +52,45 @@ export function setCachedData<T>(key: string, data: T): void {
     // This could happen if localStorage is full.
   }
 }
+
+export interface DiscoveredLink {
+  name: string;
+  url: string;
+}
+
+const DISCOVERED_LINKS_KEY = 'discoveredLinks_v1.1';
+
+export const getDiscoveredLinks = (): DiscoveredLink[] => {
+  const cached = getCachedData<DiscoveredLink[]>(DISCOVERED_LINKS_KEY);
+  return cached || [];
+};
+
+export const addDiscoveredLinks = (newUrls: string[]) => {
+  if (newUrls.length === 0) return;
+  
+  try {
+      const existingLinks = getDiscoveredLinks();
+      const existingUrls = new Set(existingLinks.map(l => l.url));
+      
+      const linksToAdd: DiscoveredLink[] = newUrls
+        .filter(url => !existingUrls.has(url))
+        .map(url => {
+            try {
+                // Attempt to create a more readable name
+                const urlObj = new URL(url);
+                const name = urlObj.hostname.replace('www.', '') + (urlObj.pathname === '/' ? '' : urlObj.pathname);
+                return { name, url };
+            } catch (e) {
+                // Fallback for invalid URLs that might slip through regex
+                return { name: url, url };
+            }
+        });
+
+      if (linksToAdd.length > 0) {
+        const updatedLinks = [...existingLinks, ...linksToAdd];
+        setCachedData(DISCOVERED_LINKS_KEY, updatedLinks);
+      }
+  } catch (error) {
+    console.error(`Error adding discovered links:`, error);
+  }
+};

@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from 'react';
-import { PresentationChartLineIcon, HierarchyIcon } from './icons';
-import type { County } from '../types';
-import { countiesData } from '../data/counties';
-import CountyDetailPage from './CountyDetailPage';
+import React, { useState, useMemo, useEffect } from 'react';
+import { PresentationChartLineIcon, HierarchyIcon } from '../components/icons';
+import type { County } from '../types/index';
+import CountyDetailPage from '../components/CountyDetailPage';
 import { dispatchNavigate } from '../utils/navigation';
 
 const CountyTile: React.FC<{ name: string, onClick: () => void, children?: React.ReactNode }> = ({ name, onClick, children }) => (
@@ -18,7 +17,15 @@ const CountyTile: React.FC<{ name: string, onClick: () => void, children?: React
 
 const ProjectsPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
-    const counties = useMemo(() => [...countiesData].sort((a, b) => a.name.localeCompare(b.name)), []);
+    const [counties, setCounties] = useState<County[] | null>(null);
+
+    useEffect(() => {
+        const loadData = async () => {
+            const module = await import('../data/counties');
+            setCounties(module.countiesData.sort((a, b) => a.name.localeCompare(b.name)));
+        };
+        loadData();
+    }, []);
 
     const handleCountyClick = (county: County) => {
         setSelectedCounty(county);
@@ -34,6 +41,14 @@ const ProjectsPage: React.FC = () => {
 
     if (selectedCounty) {
         return <CountyDetailPage county={selectedCounty} onBack={handleBack} />;
+    }
+
+    if (!counties) {
+        return (
+            <div className="flex items-center justify-center h-full w-full">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
+            </div>
+        );
     }
 
     return (

@@ -1,7 +1,7 @@
 import React from 'react';
-import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon, FileTextIcon, BuildingLibraryIcon, MapPinIcon, FlagIcon, PhotoIcon, ScaleIcon } from './icons';
-import type { AppView, Section } from '../types';
-import Tile from './Tile';
+import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon, FileTextIcon, BuildingLibraryIcon, MapPinIcon, FlagIcon, PhotoIcon, ScaleIcon } from '../components/icons';
+import type { AppView, Section } from '../types/index';
+import Tile from '../components/Tile';
 
 interface KenyaLawsPageProps {
   navigateTo: (view: AppView) => void;

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { AppView } from '../types';
+import type { AppView } from '../types/index';
 import { 
     ScaleIcon, 
     BuildingLibraryIcon, 
@@ -14,9 +14,8 @@ import {
     CameraIcon,
     CurrencyDollarIcon,
     MapPinIcon,
-    // Fix: Import the 'SunIcon' component from './icons' to resolve the "Cannot find name 'SunIcon'" error.
     SunIcon
-} from './icons';
+} from '../components/icons';
 
 interface InfoMapPageProps {
   navigateTo: (view: AppView) => void;

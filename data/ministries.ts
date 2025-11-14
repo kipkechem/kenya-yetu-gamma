@@ -1,3 +1,4 @@
+
 import type { Ministry } from '../types';
 
 export const ministries: Ministry[] = [
@@ -13,6 +14,7 @@ export const ministries: Ministry[] = [
         'Betting Control and Licensing Board',
         'Kenya Vision 2030 Delivery Secretariat',
         'National Cohesion and Integration Commission',
+        'National Drought Management Authority',
     ].sort((a, b) => a.localeCompare(b))
   },
   {
@@ -34,7 +36,6 @@ export const ministries: Ministry[] = [
       { title: 'Principal Secretary', department: 'State Department for Parliamentary Affairs' },
     ],
     mandatedEntities: [
-        'Kenya National Commission for UNESCO',
     ].sort((a, b) => a.localeCompare(b))
   },
   {
@@ -91,6 +92,7 @@ export const ministries: Ministry[] = [
         'Insurance Regulatory Authority (IRA)',
         'Kenya Accountants and Secretaries National Examination Board',
         'Kenya Deposit Insurance Corporation (KDIC)',
+        'Kenya Institute for Public Policy Research and Analysis (KIPPRA)',
         'Kenya Institute of Certified Investments and Financial Analysts',
         'Kenya Institute of Supplies Management',
         'Kenya National Bureau of Statistics (KNBS)',
@@ -157,6 +159,7 @@ export const ministries: Ministry[] = [
         'Jomo Kenyatta Foundation (JKF)',
         'Kenya Institute of Curriculum Development (KICD)',
         'Kenya Literature Bureau (KLB)',
+        'Kenya National Commission for UNESCO',
         'Kenya National Examinations Council (KNEC)',
         'Kenya National Library Service (KNLS)',
         'Kenya National Qualifications Authority',
@@ -268,8 +271,6 @@ export const ministries: Ministry[] = [
     ],
     mandatedEntities: [
         'Anti-Doping Agency of Kenya (ADAK)',
-        'Kenya Film Classification Board (KFCB)',
-        'Kenya Film Commission (KFC)',
         'Sports Kenya',
         'Youth Enterprise Development Fund (YEDF)',
     ].sort((a, b) => a.localeCompare(b))
@@ -356,7 +357,6 @@ export const ministries: Ministry[] = [
         'Kenya Civil Aviation Authority',
         'Kenya Engineering Technologists Registration Board',
         'Kenya National Highways Authority (KeNHA)',
-        'Kenya Pipeline Company (KPC)',
         'Kenya Ports Authority (KPA)',
         'Kenya Railways Corporation',
         'Kenya Roads Board (KRB)',
@@ -381,6 +381,7 @@ export const ministries: Ministry[] = [
         'Geothermal Development Company (GDC)',
         'Kenya Electricity Generating Company (KenGen)',
         'Kenya Electricity Transmission Company (KETRACO)',
+        'Kenya Pipeline Company (KPC)',
         'Kenya Power and Lighting Company (KPLC)',
         'Rural Electrification and Renewable Energy Corporation (REREC)',
     ].sort((a, b) => a.localeCompare(b))
@@ -421,7 +422,6 @@ export const ministries: Ministry[] = [
         'Kerio Valley Development Authority (KVDA)',
         'Lake Basin Development Authority (LBDA)',
         'Lake Region Economic Bloc (LREB)',
-        'National Drought Management Authority',
         'North Rift Economic Bloc (NOREB)',
         'Northern Corridor Transit and Transport Coordination Authority (NCTTCA)',
         'South Eastern Kenya Economic Bloc (SEKEB)',

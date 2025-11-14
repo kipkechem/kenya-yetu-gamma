@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronDownIcon, LinkIcon } from './icons';
-import { getDiscoveredLinks, DiscoveredLink } from '../utils/cache';
+import { ChevronDownIcon, LinkIcon } from '../components/icons';
+import { getDiscoveredLinks } from '../utils/cache';
 
-const dataSourceCategories = [
+interface Link {
+    name: string;
+    url: string;
+}
+
+const dataSourceCategories: {title: string; key: string; links: Link[]}[] = [
   {
     title: 'International Data',
     key: 'international',

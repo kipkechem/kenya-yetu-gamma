@@ -1,4 +1,4 @@
-import type { AppView, NavigationPayload } from '../types';
+import type { NavigationPayload } from '../types/index';
 
 export const dispatchNavigate = (payload: NavigationPayload) => {
   const event = new CustomEvent('navigate', { detail: payload });

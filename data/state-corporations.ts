@@ -170,6 +170,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: '#',
       },
       {
+        name: 'Higher Education Loans Board (HELB)',
+        description: 'A state corporation established under the Higher Education Loans Board Act (Cap 213A). It provides financial support (loans, bursaries, and scholarships) to students in tertiary institutions.',
+        url: 'https://www.helb.co.ke/',
+      },
+      {
         name: 'Jomo Kenyatta Foundation (JKF)',
         description: 'A state-owned publishing house operating under the State Corporations Act. Its mandate is to advance education by providing affordable learning resources, with profits funding scholarships.',
         url: 'https://jkf.co.ke/',
@@ -220,6 +225,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.nacosti.go.ke/',
       },
       {
+        name: 'Teachers Service Commission (TSC)',
+        description: 'Registers, recruits, employs, promotes, and exercises disciplinary control over teachers in public schools.',
+        url: 'https://www.tsc.go.ke/',
+      },
+      {
         name: 'Technical and Vocational Education and Training Authority',
         description: 'The authority that regulates and coordinates training in the technical and vocational education and training sector.',
         url: 'https://www.tveta.go.ke/',
@@ -229,7 +239,7 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         description: 'A body that provides funding to universities in Kenya.',
         url: '#',
       },
-    ],
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Energy',
@@ -795,6 +805,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             url: 'https://www.nhc.co.ke/',
         },
         {
+            name: 'National Land Commission (NLC)',
+            description: 'Manages public land on behalf of national and county governments and recommends national land policy.',
+            url: 'https://landcommission.go.ke/',
+        },
+        {
             name: 'National Transport and Safety Authority (NTSA)',
             description: 'The authority for managing and regulating road transport, established by the NTSA Act, 2012. Its mandate includes vehicle registration, driver licensing, and enforcing traffic laws.',
             url: 'https://ntsa.go.ke/',
@@ -839,7 +854,7 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             description: 'The board that registers and regulates the practice of valuers in Kenya.',
             url: '#',
         },
-    ]
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Public Service, Governance & Regulation',
@@ -860,6 +875,16 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             url: 'https://bclb.go.ke/',
         },
         {
+            name: 'Commission on Revenue Allocation (CRA)',
+            description: 'Makes recommendations concerning the basis for equitable sharing of revenue between national and county governments.',
+            url: 'https://cra.go.ke/',
+        },
+        {
+            name: 'Independent Electoral and Boundaries Commission (IEBC)',
+            description: 'Responsible for conducting or supervising referenda and elections to any elective body or office established by the Constitution.',
+            url: 'https://www.iebc.or.ke/',
+        },
+        {
             name: 'Independent Policing Oversight Authority (IPOA)',
             description: 'A state authority established by the IPOA Act, 2011. It provides civilian oversight over the police by investigating complaints and ensuring police accountability.',
             url: 'https://www.ipoa.go.ke/',
@@ -868,6 +893,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             name: 'Institute of Human Resource Management',
             description: 'The professional body for human resource management practitioners in Kenya.',
             url: 'https://ihrm.or.ke/',
+        },
+        {
+            name: 'Judicial Service Commission (JSC)',
+            description: 'Promotes the independence and accountability of the judiciary and recommends persons for appointment as judges.',
+            url: 'https://www.jsc.go.ke/',
         },
         {
             name: 'Kenya Accountants and Secretaries National Examination Board',
@@ -883,6 +913,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
           name: 'Kenya National Bureau of Statistics (KNBS)',
           description: 'The principal agency of the Government for collecting, analysing and disseminating statistical data in Kenya.',
           url: 'https://www.knbs.or.ke/',
+        },
+        {
+            name: 'Kenya National Human Rights and Equality Commission (KNHREC)',
+            description: 'Promotes respect for human rights, gender equality, and monitors the observance of human rights in the Republic.',
+            url: 'https://www.knchr.org/',
         },
         {
             name: 'Kenya School of Government (KSG)',
@@ -905,14 +940,34 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             url: 'https://www.ngcdf.go.ke/',
         },
         {
+            name: 'National Police Service Commission (NPSC)',
+            description: 'Manages human resources for the National Police Service, including recruitment, appointments, and discipline.',
+            url: 'https://www.npsc.go.ke/',
+        },
+        {
             name: 'NGOs Co-ordination Board',
             description: 'The regulatory body for NGOs, established under the NGOs Co-ordination Act, 1990. It is responsible for registering, facilitating, and coordinating the work of all NGOs in Kenya.',
             url: 'https://www.ngobureau.go.ke/',
         },
         {
+            name: 'Office of the Auditor-General (OAG)',
+            description: 'Audits and reports on the accounts of national and county governments and other public entities.',
+            url: 'https://www.oagkenya.go.ke/',
+        },
+        {
+            name: 'Office of the Controller of Budget (OCOB)',
+            description: 'Oversees the implementation of the budgets of the national and county governments by authorising withdrawals from public funds.',
+            url: 'https://cob.go.ke/',
+        },
+        {
             name: 'Office of the Registrar of Political Parties',
             description: 'An independent office established by the Constitution, responsible for registering and regulating political parties in Kenya to ensure they comply with the law.',
             url: 'https://www.orpp.or.ke/',
+        },
+        {
+            name: 'Parliamentary Service Commission (PSC)',
+            description: 'Provides services and facilities to ensure the efficient functioning of Parliament and manages the parliamentary service.',
+            url: 'http://www.parliament.go.ke/the-psc',
         },
         {
             name: 'Private Security Regulatory Authority',
@@ -925,11 +980,21 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             url: 'https://ppra.go.ke/',
         },
         {
+            name: 'Public Service Commission (PSC)',
+            description: 'Establishes and abolishes offices in the public service, appoints persons to hold office, and exercises disciplinary control.',
+            url: 'https://www.publicservice.go.ke/',
+        },
+        {
             name: 'Registration of Certified Public Secretaries Board',
             description: 'The board that provides for the registration of Certified Public Secretaries and regulates their practice.',
             url: '#',
           },
-    ]
+        {
+            name: 'Salaries and Remuneration Commission (SRC)',
+            description: 'Sets and regularly reviews the remuneration and benefits of all State officers.',
+            url: 'https://www.src.go.ke/',
+        },
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Social Protection & Welfare',
