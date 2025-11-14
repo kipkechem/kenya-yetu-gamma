@@ -1,3 +1,4 @@
+
 import type { StateCorporationCategory } from '../types';
 
 export const categorizedCorporationsData: StateCorporationCategory[] = [
@@ -20,9 +21,39 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.afa.go.ke/',
       },
       {
+        name: 'Agro Chemical and Food Company Ltd',
+        description: 'A state-owned company that produces yeast, alcohol, fertilizers, and other chemical products from molasses.',
+        url: 'http://acfc.co.ke/',
+      },
+      {
+        name: 'Bukura Agricultural College',
+        description: 'A public institution that offers training in agriculture and related fields to produce skilled manpower for the agricultural sector.',
+        url: 'https://www.bukuracollege.ac.ke/',
+      },
+      {
+        name: 'Chemelil Sugar (CSC) Ltd.',
+        description: 'A state-owned sugar milling company involved in the cultivation of sugarcane and production of sugar.',
+        url: 'http://www.chemsugar.co.ke/',
+      },
+      {
+        name: 'Commodities Fund',
+        description: 'A state corporation that provides sustainable and affordable credit and financial solutions to farmers for the development of specified agricultural commodities.',
+        url: 'https://codf.co.ke/',
+      },
+      {
+        name: 'Fish Levy Trust Fund',
+        description: 'A fund established to support research, development, and marketing activities within the fisheries sector.',
+        url: '#',
+      },
+      {
         name: 'Kenya Agricultural and Livestock Research Organization (KALRO)',
         description: 'The premier national institution for agricultural and livestock research, established under the Kenya Agricultural and Livestock Research Act, 2013. Its mandate is to generate and disseminate knowledge and technologies to enhance agricultural productivity.',
         url: 'https://www.kalro.org/',
+      },
+      {
+        name: 'Kenya Animal Genetic Resource Centre',
+        description: 'A state corporation that conserves, promotes, and manages animal genetic material to improve livestock productivity.',
+        url: 'https://www.kagrc.co.ke/',
       },
       {
         name: 'Kenya Dairy Board (KDB)',
@@ -45,9 +76,19 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.kephis.org/',
       },
       {
+        name: 'Kenya Seed Company',
+        description: 'A state corporation that researches, develops, produces, and markets certified agricultural seeds to enhance crop productivity.',
+        url: 'https://www.kenyaseed.com/',
+      },
+      {
         name: 'Kenya Veterinary Board (KVB)',
         description: 'The statutory body that regulates veterinary professionals, established under the Veterinary Surgeons and Veterinary Para-professionals Act, 2011. Its mandate is to ensure the delivery of quality veterinary services.',
         url: 'https://www.kenyavetboard.or.ke/',
+      },
+      {
+        name: 'Kenya Veterinary Vaccines Production Institute',
+        description: 'A state corporation mandated to produce high-quality veterinary vaccines to control animal diseases.',
+        url: 'https://www.kevevapi.org/',
       },
       {
         name: 'National Biosafety Authority',
@@ -70,9 +111,34 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://newkcc.co.ke/',
       },
       {
+        name: 'New Kenya Planters Co-operative Union (New KPCU)',
+        description: 'A state-owned entity that provides services to coffee farmers, including milling, marketing, and financial support, to revitalize the coffee sub-sector.',
+        url: 'https://newkpcu.co.ke/',
+      },
+      {
+        name: 'Nyayo Tea Zones Development Corporation',
+        description: 'A state corporation established to promote forest conservation by providing buffer zones of tea and assorted tree species.',
+        url: 'https://www.teazones.co.ke/',
+      },
+      {
+        name: 'Nzoia Sugar Company',
+        description: 'A state-owned sugar milling company involved in sugarcane farming and sugar production in Western Kenya.',
+        url: 'https://www.nzoiasugar.com/',
+      },
+      {
         name: 'Pest Control Products Board',
         description: 'A statutory organization of the Government of Kenya that regulates the importation, exportation, manufacture, distribution, and use of pest control products.',
         url: 'https://www.pcpb.go.ke/',
+      },
+      {
+        name: 'Pyrethrum Processing Company of Kenya',
+        description: 'A state-owned company involved in the processing and marketing of pyrethrum, a natural insecticide.',
+        url: '#',
+      },
+      {
+        name: 'South Nyanza Sugar Company',
+        description: 'A state-owned sugar company located in Migori County, involved in sugarcane processing.',
+        url: 'http://www.sonysugar.co.ke/',
       },
       {
         name: 'Tea Board of Kenya',
@@ -84,7 +150,7 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         description: 'The body responsible for the regulation of veterinary medicines in Kenya.',
         url: '#',
       },
-    ],
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Culture & Sports',
@@ -100,9 +166,19 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
           url: 'https://www.bomasofkenya.co.ke/',
       },
       {
+          name: 'Kenya Academy of Sports',
+          description: 'A state corporation established to develop sports talent and provide training for sports professionals.',
+          url: 'https://www.sportsacademy.go.ke/',
+      },
+      {
           name: 'Kenya Copyright Board (KECOBO)',
           description: 'The state corporation for administering copyright, established under the Copyright Act, 2001. It protects the creative works of authors, artists, and musicians.',
           url: 'https://www.copyright.go.ke/',
+      },
+      {
+          name: 'Kenya Cultural Centre',
+          description: 'A state corporation that promotes and develops cultural and artistic activities, and manages the Kenya National Theatre.',
+          url: 'https://www.kenyaculturalcentre.go.ke/',
       },
       {
           name: 'Kenya Film Classification Board (KFCB)',
@@ -110,9 +186,14 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
           url: 'https://kfcb.go.ke/',
       },
       {
-          name: 'Kenya Film Commission (KFC)',
-          description: 'A state corporation established by Legal Notice No. 10 of 2005 under the State Corporations Act. Its role is to develop and promote a vibrant local film and TV industry.',
+          name: 'Kenya Film Commission',
+          description: 'A state corporation established to develop and promote a vibrant local film and TV industry.',
           url: 'https://kenyafilmcommission.go.ke/',
+      },
+      {
+          name: 'Kenya National Heroes Council',
+          description: 'A council tasked with the identification, selection, and honoring of national heroes.',
+          url: '#',
       },
       {
         name: 'Kenya Safari Lodges and Hotels',
@@ -123,6 +204,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         name: 'Kenya Tourism Board (KTB)',
         description: 'The national marketing body for the tourism industry, established under the Tourism Act, 2011. Its mandate is to market Kenya as a premier tourist destination globally and locally.',
         url: 'https://ktb.go.ke/',
+      },
+      {
+          name: 'Kenya Utalii College',
+          description: 'Africa\'s leading hospitality and tourism training institution, offering a wide range of courses in hotel and tourism management.',
+          url: 'https://www.utalii.ac.ke/',
       },
       {
         name: 'Kenyatta International Convention Centre (KICC)',
@@ -140,6 +226,16 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
           url: 'https://www.sportskenya.org/',
       },
       {
+          name: 'Sports, Arts and Social Development Fund',
+          description: 'A fund established to support the development of sports, arts, and social programs in Kenya.',
+          url: 'https://www.sportsfund.go.ke/',
+      },
+      {
+        name: 'Tourism Finance Corporation',
+        description: 'A Development Finance Institution that provides financing and business support to investors in the tourism sector.',
+        url: 'https://tfc.co.ke/',
+      },
+      {
         name: 'Tourism Fund',
         description: 'A state corporation established under the Tourism Act, 2011. It mobilizes resources through a tourism levy to provide funding for tourism training, research, and infrastructure development.',
         url: 'https://www.tourismfund.co.ke/',
@@ -152,8 +248,23 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
     ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
+    categoryName: 'Defence & Security',
+    corporations: [
+      {
+        name: 'Kenya Ordinance Factories Corporation',
+        description: 'A state corporation mandated with the manufacturing of small arms ammunition and related hardware.',
+        url: 'https://kofc.co.ke/',
+      },
+    ].sort((a, b) => a.name.localeCompare(b.name)),
+  },
+  {
     categoryName: 'Education',
     corporations: [
+      {
+        name: 'Centre for Mathematics, Science and Technology in Africa',
+        description: 'A continental institution that provides training for educators in mathematics, science, and technology.',
+        url: 'https://www.cemastea.ac.ke/',
+      },
       {
         name: 'Commission for University Education',
         description: 'A body corporate mandated to regulate university education in Kenya.',
@@ -170,9 +281,9 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: '#',
       },
       {
-        name: 'Higher Education Loans Board (HELB)',
-        description: 'A state corporation established under the Higher Education Loans Board Act (Cap 213A). It provides financial support (loans, bursaries, and scholarships) to students in tertiary institutions.',
-        url: 'https://www.helb.co.ke/',
+        name: 'Human Resource Management Professionals Examination Board',
+        description: 'The examination body for human resource management professionals in Kenya.',
+        url: '#',
       },
       {
         name: 'Jomo Kenyatta Foundation (JKF)',
@@ -180,14 +291,34 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://jkf.co.ke/',
       },
       {
-        name: 'Kenya Institute for Public Policy Research and Analysis (KIPPRA)',
-        description: 'A public policy research institute established by the KIPPRA Act, 2006. Its mandate is to provide quality, evidence-based policy advice to the government to inform national development.',
-        url: 'https://kippra.or.ke/',
+        name: 'Kenya Education Management Institute',
+        description: 'A corporate body that undertakes capacity building for education managers.',
+        url: 'https://www.kemi.ac.ke/',
+      },
+      {
+        name: 'Kenya Institute for the Blind',
+        description: 'A public institution that provides education and rehabilitation services for the visually impaired.',
+        url: '#',
       },
       {
         name: 'Kenya Institute of Curriculum Development (KICD)',
         description: 'The national body responsible for developing curricula, established under the KICD Act, 2013. It ensures the education system is relevant to national development goals.',
         url: 'https://kicd.ac.ke/',
+      },
+      {
+        name: 'Kenya Institute of Mass Communication',
+        description: 'A public institution that offers training in media and communication studies.',
+        url: 'https://www.kimc.ac.ke/',
+      },
+      {
+        name: 'Kenya Institute of Public Policy Research and Analysis (KIPPRA)',
+        description: 'A public policy research institute established by the KIPPRA Act, 2006. Its mandate is to provide quality, evidence-based policy advice to the government to inform national development.',
+        url: 'https://kippra.or.ke/',
+      },
+      {
+        name: 'Kenya Institute of Special Education',
+        description: 'A semi-autonomous government agency that provides educational services for children with special needs.',
+        url: 'https://kise.ac.ke/',
       },
       {
         name: 'Kenya Literature Bureau (KLB)',
@@ -203,6 +334,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         name: 'Kenya National Examinations Council (KNEC)',
         description: 'The national body for administering national examinations, established under the KNEC Act, 2012. Its mandate is to ensure the credibility and fairness of the examination process.',
         url: 'https://www.knec.ac.ke/',
+      },
+      {
+        name: 'Kenya National Innovation Agency',
+        description: 'A state corporation established to develop and manage the national innovation system.',
+        url: 'https://www.kenia.go.ke/',
       },
       {
         name: 'Kenya National Library Service (KNLS)',
@@ -225,6 +361,21 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.nacosti.go.ke/',
       },
       {
+        name: 'National Council for Nomadic Education in Kenya',
+        description: 'A semi-autonomous government agency that promotes educational opportunities for nomadic communities.',
+        url: 'http://naconek.go.ke/',
+      },
+      {
+        name: 'National Research Fund',
+        description: 'A state corporation established to mobilize, allocate, and manage funds for research in Kenya.',
+        url: 'https://researchfund.go.ke/',
+      },
+      {
+        name: 'School Equipment Production Unit',
+        description: 'A semi-autonomous government agency that designs, manufactures, and supplies science and technology equipment to educational institutions.',
+        url: 'http://www.sepu.go.ke/',
+      },
+      {
         name: 'Teachers Service Commission (TSC)',
         description: 'Registers, recruits, employs, promotes, and exercises disciplinary control over teachers in public schools.',
         url: 'https://www.tsc.go.ke/',
@@ -235,9 +386,9 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.tveta.go.ke/',
       },
       {
-        name: 'Universities Funding Board',
-        description: 'A body that provides funding to universities in Kenya.',
-        url: '#',
+        name: 'The Universities Fund',
+        description: 'A state corporation that provides funding to universities in accordance with a transparent and fair criterion.',
+        url: 'https://www.ufb.go.ke/',
       },
     ].sort((a, b) => a.name.localeCompare(b.name)),
   },
@@ -275,11 +426,21 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://kplc.co.ke/',
       },
       {
+        name: 'National Oil Corporation of Kenya',
+        description: 'A state corporation mandated to participate in all aspects of the petroleum business.',
+        url: 'https://www.nock.co.ke/',
+      },
+      {
+        name: 'Nuclear Power and Energy Agency',
+        description: 'A state corporation tasked with developing and implementing a nuclear energy program for electricity generation.',
+        url: 'https://www.nukibu.go.ke/',
+      },
+      {
         name: 'Rural Electrification and Renewable Energy Corporation (REREC)',
         description: 'The corporation responsible for rural electrification, established under the Energy Act, 2019. Its mandate is to increase electricity access in rural areas and promote renewable energy.',
         url: 'https://www.rerec.co.ke/',
       },
-    ],
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Environment & Wildlife',
@@ -288,6 +449,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             name: 'Kenya Forest Service (KFS)',
             description: 'The agency for forest conservation and management, established under the Forest Conservation and Management Act, 2016. Its mandate is to enforce forestry laws and promote sustainable forest management.',
             url: 'http://www.kenyaforestservice.org/',
+        },
+        {
+          name: 'Kenya Forestry Research Institute',
+          description: 'A state corporation that undertakes research in forests and allied natural resources.',
+          url: 'https://www.kefri.org/',
         },
         {
           name: 'Kenya Meteorological Department',
@@ -314,16 +480,16 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             description: 'The principal agency for environmental supervision, established under the Environmental Management and Co-ordination Act, 1999. Its mandate includes enforcing environmental laws and conducting impact assessments.',
             url: 'https://www.nema.go.ke/',
         },
-    ]
+        {
+            name: 'National Environment Trust Fund',
+            description: 'A state corporation established for the purposes of facilitating research and resource mobilization for environmental management.',
+            url: 'https://netfund.go.ke/',
+        },
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Financial Services, Trade & Industry',
     corporations: [
-      {
-        name: 'Agricultural Finance Corporation (AFC)',
-        description: 'A development finance institution established under the Agricultural Finance Corporation Act (Cap 323). It provides credit to support the development of agriculture and related industries.',
-        url: 'https://agrifinance.org/',
-      },
       {
         name: 'Anti-Counterfeit Authority',
         description: 'A state corporation mandated to combat counterfeiting, trade and other dealings in counterfeit goods.',
@@ -345,6 +511,16 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.cak.go.ke/',
       },
       {
+        name: 'Consolidated Bank of Kenya',
+        description: 'A commercial bank fully owned by the Government of Kenya, tasked with providing a range of financial services.',
+        url: 'https://consolidated-bank.com/',
+      },
+      {
+        name: 'Development Bank of Kenya Ltd',
+        description: 'A Development Finance Institution (DFI) focused on promoting and developing commercially viable projects in the SME sector.',
+        url: 'https://www.devbank.com/',
+      },
+      {
         name: 'East African Portland Cement Company',
         description: 'A leading cement manufacturer, partially state-owned, involved in the production and sale of cement.',
         url: 'https://www.eapcc.co.ke/',
@@ -360,19 +536,24 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.frc.go.ke/',
       },
       {
+        name: 'Financial Sector Deepening Trust (FSD Kenya)',
+        description: 'A trust working to promote financial inclusion and create a more accessible and efficient financial sector in Kenya.',
+        url: 'https://fsdkenya.org/',
+      },
+      {
         name: 'Geologists Registration Board',
         description: 'The board responsible for the registration and regulation of geologists in Kenya.',
         url: '#',
       },
       {
-        name: 'Government Digital Payments Unit (eCitizen)',
-        description: 'A government directorate under The National Treasury, established via Presidential Directive. It is responsible for managing the eCitizen portal, a one-stop shop for government services and digital payments.',
-        url: 'https://www.ecitizen.go.ke/',
-      },
-      {
         name: 'Industrial and Commercial Development Corporation (ICDC)',
         description: 'A development finance institution established by the ICDC Act (Cap 445). It facilitates the establishment and expansion of industrial and commercial enterprises.',
         url: 'https://www.icdc.co.ke/',
+      },
+      {
+        name: 'Industrial Development Bank (Capital) Limited',
+        description: 'A Development Finance Institution providing medium and long-term finance to industrial and commercial enterprises in Kenya.',
+        url: 'https://www.idbkenya.com/',
       },
       {
         name: 'Insurance Regulatory Authority (IRA)',
@@ -385,9 +566,19 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.kebs.org/',
       },
       {
+        name: 'Kenya Commercial Bank Group',
+        description: 'A leading commercial bank in the East African region, in which the Government of Kenya is a major shareholder.',
+        url: 'https://kcbgroup.com/',
+      },
+      {
         name: 'Kenya Deposit Insurance Corporation (KDIC)',
         description: 'A statutory institution established under the Kenya Deposit Insurance Act, 2012. Its mandate is to provide a deposit insurance scheme and resolve failed banks to enhance financial stability.',
         url: 'https://kdic.go.ke/',
+      },
+      {
+        name: 'Kenya Development Corporation Ltd (KDC)',
+        description: 'A premier Development Finance Institution (DFI) that promotes sustainable economic development by providing development finance, infrastructure finance, and business support.',
+        url: 'https://kdc.go.ke/',
       },
       {
         name: 'Kenya Export Promotion and Branding Agency (KEPROBA)',
@@ -405,6 +596,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: '#',
       },
       {
+        name: 'Kenya Fishing Industries Corporation',
+        description: 'A state corporation focused on promoting and developing the fishing industry in Kenya.',
+        url: '#',
+      },
+      {
         name: 'Kenya Industrial Estates (KIE)',
         description: 'A government agency operating under the State Corporations Act. It promotes indigenous entrepreneurship by providing industrial sheds, credit, and business development services to SMEs.',
         url: 'https://kie.co.ke/',
@@ -413,6 +609,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         name: 'Kenya Industrial Property Institute (KIPI)',
         description: 'The national body for administering industrial property rights, established by the Industrial Property Act, 2001. Its mandate includes granting patents and registering trademarks.',
         url: 'https://www.kipi.go.ke/',
+      },
+      {
+        name: 'Kenya Industrial Research and Development Institute',
+        description: 'A state corporation that undertakes research, development, and dissemination of industrial technologies.',
+        url: 'https://www.kirdi.go.ke/',
       },
       {
         name: 'Kenya Institute of Supplies Management',
@@ -440,14 +641,39 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://kenas.go.ke/',
       },
       {
+        name: 'Kenya National Assurance Co. (2001) Ltd',
+        description: 'A state entity handling the residual liabilities and assets of the former state-owned Kenya National Assurance Company.',
+        url: '#',
+      },
+      {
+        name: 'Kenya National Shipping Line',
+        description: 'The national shipping carrier of Kenya, involved in maritime transport and logistics services.',
+        url: 'https://www.knsl.co.ke/',
+      },
+      {
         name: 'Kenya National Trading Corporation (KNTC)',
         description: 'A state corporation operating under the State Corporations Act. Its mandate is to act as a procurement agent for the government and stabilize commodity prices.',
         url: 'https://www.kntc.co.ke/',
       },
       {
+        name: 'Kenya Reinsurance Corporation (Kenya Re)',
+        description: 'A state-owned corporation providing reinsurance services to insurance companies in Kenya and the wider region.',
+        url: 'https://www.kenyare.co.ke/',
+      },
+      {
         name: 'Kenya Revenue Authority (KRA)',
         description: 'The principal agent of the Government for the assessment and collection of revenue, established under the Kenya Revenue Authority Act (Cap 469). It administers taxes, duties, and other levies on behalf of the government.',
         url: 'https://www.kra.go.ke/',
+      },
+      {
+        name: 'Kenya Trade Network Agency',
+        description: 'A state corporation that facilitates cross-border trade through the implementation and management of a National Electronic Single Window System.',
+        url: 'https://www.kentradenet.go.ke/',
+      },
+      {
+        name: 'Kenya Trade Remedies Agency',
+        description: 'An agency responsible for investigating and addressing unfair international trade practices like dumping and subsidies.',
+        url: 'https://www.trades.go.ke/',
       },
       {
         name: 'Micro and Small Enterprise Authority',
@@ -460,6 +686,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: '#',
       },
       {
+        name: 'National Bank of Kenya',
+        description: 'A commercial bank that is now a subsidiary of KCB Group, in which the government maintains significant shareholding.',
+        url: 'https://nationalbank.co.ke/',
+      },
+      {
         name: 'National Mining Corporation',
         description: 'A state corporation established to invest in the mining sector on behalf of the government and to promote mineral exploration and development.',
         url: 'https://nmc.go.ke/',
@@ -470,19 +701,34 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.nmc.go.ke/',
       },
       {
+        name: 'Policyholders Compensation Fund',
+        description: 'A state corporation that protects insurance policyholders of insolvent insurance companies.',
+        url: 'https://www.pcf.go.ke/',
+      },
+      {
         name: 'Privatization Authority',
         description: 'The government agency tasked with managing the privatization of state-owned enterprises, established under the Privatization Act, 2023. It aims to enhance efficiency and private sector participation.',
         url: 'https://www.pa.go.ke/',
       },
       {
-        name: 'Public Financial Management Reforms Secretariat (PFMR)',
-        description: 'A secretariat within The National Treasury, established to coordinate the implementation of reforms under the Public Financial Management Act, 2012. It aims to enhance efficiency, transparency, and accountability in public finance.',
-        url: 'https://www.pfm.go.ke/',
+        name: 'Public Sector Accounting Standards Board (PSASB)',
+        description: 'A state corporation tasked with prescribing and regulating accounting and financial reporting standards for all state organs and public entities in Kenya.',
+        url: 'https://www.psasb.go.ke/',
+      },
+      {
+        name: 'Public Service Superannuation Fund',
+        description: 'A contributory pension scheme for public service employees, established to provide retirement benefits.',
+        url: 'https://www.psss.go.ke/',
       },
       {
         name: 'Retirement Benefits Authority (RBA)',
         description: 'The regulatory body for the pensions industry, established under the Retirement Benefits Act, 1997. It regulates retirement benefits schemes to protect the interests of members.',
         url: 'https://www.rba.go.ke/',
+      },
+      {
+        name: 'Rivatex East Africa Limited',
+        description: 'A vertically integrated textile manufacturing company owned by the government, specializing in the production of a wide range of fabrics.',
+        url: 'https://www.rivatex.co.ke/',
       },
       {
         name: 'Sacco Societies Regulatory Authority (SASRA)',
@@ -530,6 +776,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: '#',
       },
       {
+        name: 'Kenya Biovax Institute Ltd',
+        description: 'A state corporation tasked with the local manufacturing and commercialization of human vaccines.',
+        url: 'https://biovax.go.ke/',
+      },
+      {
         name: 'Kenya Health Professionals Oversight Authority',
         description: 'An authority that provides oversight for all health professional bodies in Kenya.',
         url: '#',
@@ -575,9 +826,24 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://knh.or.ke/',
       },
       {
+        name: 'Kenyatta University Teaching, Referral and Research Hospital (KUTRRH)',
+        description: 'A leading national referral hospital equipped with state-of-the-art medical technology.',
+        url: 'https://kutrrh.go.ke/',
+      },
+      {
+        name: 'Moi Teaching and Referral Hospital',
+        description: 'A national referral hospital providing specialized healthcare services, training, and research in Eldoret.',
+        url: 'https://mtrh.go.ke/',
+      },
+      {
         name: 'National Authority for the Campaign Against Alcohol and Drug Abuse (NACADA)',
         description: 'A state corporation established under the NACADA Act, 2012. It coordinates a multi-sectoral campaign against alcohol and drug abuse through public education and policy formulation.',
         url: 'https://www.nacada.go.ke/',
+      },
+      {
+        name: 'National Cancer Institute',
+        description: 'A state corporation responsible for coordinating all cancer control activities in the country.',
+        url: 'https://nci.or.ke/',
       },
       {
         name: 'National Syndemic Diseases Control Council',
@@ -609,7 +875,7 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         description: 'The authority established under the Social Health Insurance Act, 2023, to manage social health insurance funds. It aims to provide accessible and quality health insurance for all Kenyans, replacing the NHIF.',
         url: 'https://sha.go.ke/',
       },
-    ],
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Information, Communication & Technology',
@@ -628,6 +894,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             name: 'Kenya Broadcasting Corporation (KBC)',
             description: 'The state-run media organization established by the KBC Act (Cap 221). It is responsible for public broadcasting to inform, educate, and entertain.',
             url: 'https://www.kbc.co.ke/',
+        },
+        {
+            name: 'Kenya Yearbook Editorial Board',
+            description: 'A state corporation that produces publications on Kenya\'s development, progress, and national identity.',
+            url: 'https://kenyayearbook.co.ke/',
         },
         {
             name: 'Konza Technopolis Development Authority (KoTDA)',
@@ -649,11 +920,16 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             description: 'The national postal service provider, established by the Postal Corporation of Kenya Act, 1998. It provides accessible postal, communication, and financial services.',
             url: 'https://www.posta.co.ke/',
         },
-    ]
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Infrastructure, Housing & Development',
     corporations: [
+        {
+            name: 'Bandari Maritime Academy',
+            description: 'A centre of excellence in maritime training and research in the region.',
+            url: 'https://bma.ac.ke/',
+        },
         {
             name: 'Board of Registered Architects and Quantity Surveyors',
             description: 'The board that regulates the professions of architecture and quantity surveying.',
@@ -669,6 +945,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             description: 'A regional bloc formed by counties under the Intergovernmental Relations Act, 2012. It aims to harness the collective potential of ten Central Kenya counties in agriculture, tourism, and trade.',
             url: 'https://www.cog.go.ke/regional-economic-blocs/central-kenya-economic-bloc-ckeb',
           },
+        {
+            name: 'Central Rift Valley Water Works Development Agency',
+            description: 'A state corporation mandated to undertake the development, maintenance, and management of water and sewerage infrastructure in the Central Rift region.',
+            url: 'https://www.crvwwda.go.ke/',
+        },
         {
             name: 'Coast Development Authority (CDA)',
             description: 'A regional authority established by the Coast Development Authority Act (Cap 449). It is responsible for the planning and coordination of development projects in the Coast region.',
@@ -800,6 +1081,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             url: 'https://www.ndma.go.ke/',
         },
         {
+            name: 'National Environment Trust Fund',
+            description: 'A state corporation established for the purposes of facilitating research and resource mobilization for environmental management.',
+            url: 'https://netfund.go.ke/',
+        },
+        {
             name: 'National Housing Corporation (NHC)',
             description: 'A state corporation established by the Housing Act (Cap 117). Its primary mandate is to facilitate the provision of affordable housing by developing and managing housing estates.',
             url: 'https://www.nhc.co.ke/',
@@ -857,12 +1143,32 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
     ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
+    categoryName: 'National Funds',
+    corporations: [
+      {
+        name: 'Contingencies Fund',
+        description: 'A fund established by the Constitution to provide for advances for urgent and unforeseen expenditure.',
+        url: 'https://www.treasury.go.ke/contingencies-fund/',
+      },
+      {
+        name: 'Equalisation Fund',
+        description: 'A fund established by the Constitution to provide basic services to marginalized areas to bring them to the national standard.',
+        url: 'https://www.treasury.go.ke/equalisation-fund-board/',
+      },
+    ].sort((a, b) => a.name.localeCompare(b.name)),
+  },
+  {
     categoryName: 'Public Service, Governance & Regulation',
     corporations: [
         {
             name: 'Advocates Complaints Commission',
             description: 'A statutory body responsible for handling complaints against advocates of the High Court of Kenya.',
             url: '#',
+        },
+        {
+            name: 'Assets Recovery Agency',
+            description: 'A semi-autonomous government agency established to identify, trace, freeze, and recover proceeds of crime.',
+            url: 'https://www.ara.go.ke/',
         },
         {
             name: 'Auctioneers Licensing Board',
@@ -875,9 +1181,24 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             url: 'https://bclb.go.ke/',
         },
         {
+            name: 'Biosafety Appeals Board',
+            description: 'A board that hears and determines appeals arising from decisions of the National Biosafety Authority on GMOs.',
+            url: 'https://www.biosafetykenya.go.ke/appeals-board/',
+        },
+        {
+            name: 'Business Registration Service',
+            description: 'A state corporation responsible for the registration of companies, partnerships, and other business entities in Kenya.',
+            url: 'https://brs.go.ke/',
+        },
+        {
             name: 'Commission on Revenue Allocation (CRA)',
             description: 'Makes recommendations concerning the basis for equitable sharing of revenue between national and county governments.',
             url: 'https://cra.go.ke/',
+        },
+        {
+            name: 'Government Clearing Agency',
+            description: 'A government agency that provides clearing and forwarding services for all government ministries, departments, and agencies.',
+            url: '#',
         },
         {
             name: 'Independent Electoral and Boundaries Commission (IEBC)',
@@ -925,6 +1246,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             url: 'https://www.ksg.ac.ke/',
         },
         {
+            name: 'Nairobi Centre for International Arbitration',
+            description: 'An independent institution established to provide a neutral and efficient venue for the resolution of international and domestic disputes.',
+            url: 'https://ncia.or.ke/',
+        },
+        {
             name: 'National Cohesion and Integration Commission',
             description: 'A statutory body established to promote national unity and eliminate discrimination on all grounds.',
             url: 'https://www.cohesion.or.ke/',
@@ -933,6 +1259,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             name: 'National Council for Law Reporting (Kenya Law)',
             description: 'A state corporation established by the National Council for Law Reporting Act, 1994. It is responsible for publishing the official Kenya Law Reports and the Laws of Kenya.',
             url: 'http://kenyalaw.org/',
+        },
+        {
+            name: 'National Crime Research Centre',
+            description: 'A state corporation that carries out research into the causes of crime and its prevention.',
+            url: 'https://www.crimeresearch.go.ke/',
         },
         {
             name: 'National Government Constituency Development Fund (NG-CDF) Board',
@@ -994,11 +1325,64 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             description: 'Sets and regularly reviews the remuneration and benefits of all State officers.',
             url: 'https://www.src.go.ke/',
         },
+        {
+            name: 'Witness Protection Agency',
+            description: 'A state corporation established to provide special protection to witnesses in legal proceedings.',
+            url: 'https://wpa.go.ke/',
+        },
+    ].sort((a, b) => a.name.localeCompare(b.name)),
+  },
+  {
+    categoryName: 'Public Universities',
+    corporations: [
+      { name: 'Alupe University', description: 'A public university located in Busia County.', url: 'https://au.ac.ke/' },
+      { name: 'Bomet University College', description: 'A constituent college of Moi University, located in Bomet County.', url: 'https://www.buc.ac.ke/' },
+      { name: 'Chuka University', description: 'A public university in Chuka, Tharaka-Nithi County.', url: 'https://www.chuka.ac.ke/' },
+      { name: 'Cooperative University of Kenya', description: 'A public university specializing in cooperative education, research, and training.', url: 'https://www.cuk.ac.ke/' },
+      { name: 'Dedan Kimathi University of Technology', description: 'A public technological university in Nyeri County.', url: 'https://www.dkut.ac.ke/' },
+      { name: 'Egerton University', description: 'A public university with a focus on agriculture, located in Njoro.', url: 'https://www.egerton.ac.ke/' },
+      { name: 'Garissa University', description: 'A public university in Garissa County.', url: 'https://www.gau.ac.ke/' },
+      { name: 'Jaramogi Oginga Odinga University of Science & Technology', description: 'A public university in Siaya County.', url: 'https://www.jooust.ac.ke/' },
+      { name: 'Jomo Kenyatta University of Agriculture & Technology', description: 'A public university offering courses in technology, engineering, science, and agriculture.', url: 'https://www.jkuat.ac.ke/' },
+      { name: 'Kaimosi Friends University', description: 'A public university located in Vihiga County.', url: 'https://kafu.ac.ke/' },
+      { name: 'Karatina University', description: 'A public university located in Karatina, Nyeri County.', url: 'https://karu.ac.ke/' },
+      { name: 'Kenyatta University', description: 'A multi-campus public research university in Nairobi.', url: 'https://www.ku.ac.ke/' },
+      { name: 'Kirinyaga University', description: 'A public university in Kirinyaga County.', url: 'https://www.kyu.ac.ke/' },
+      { name: 'Kisii University', description: 'A public university in Kisii County.', url: 'https://www.kisiiuniversity.ac.ke/' },
+      { name: 'Koitalel Samoei University College', description: 'A public constituent college of the University of Nairobi located in Nandi County.', url: 'https://ksu.ac.ke/' },
+      { name: 'Laikipia University', description: 'A public university located in Laikipia County.', url: 'https://www.laikipia.ac.ke/' },
+      { name: 'Maasai Mara University', description: 'A public university in Narok County.', url: 'https://www.mmarau.ac.ke/' },
+      { name: 'Machakos University', description: 'A public university located in Machakos County.', url: 'https://www.mksu.ac.ke/' },
+      { name: 'Mama Ngina University College', description: 'A constituent college of Kenyatta University located in Gatundu, Kiambu County.', url: 'https://www.mnu.ac.ke/' },
+      { name: 'Maseno University', description: 'A public university located in Kisumu County.', url: 'https://www.maseno.ac.ke/' },
+      { name: 'Masinde Muliro University of Science & Technology', description: 'A public university in Kakamega, with a focus on science and technology.', url: 'https://www.mmust.ac.ke/' },
+      { name: 'Meru University of Science & Technology', description: 'A public university in Meru County.', url: 'https://www.must.ac.ke/' },
+      { name: 'Moi University', description: 'A public university located in Eldoret, Uasin Gishu County.', url: 'https://www.mu.ac.ke/' },
+      { name: 'Multimedia University of Kenya', description: 'A public university specializing in ICT, media, and communications.', url: 'https://www.mmu.ac.ke/' },
+      { name: 'Murang’a University of Technology', description: 'A public university in Murang\'a County.', url: 'https://mut.ac.ke/' },
+      { name: 'Pwani University', description: 'A public university in Kilifi County.', url: 'https://www.pu.ac.ke/' },
+      { name: 'Rongo University', description: 'A public university in Migori County.', url: 'https://www.rongovarsity.ac.ke/' },
+      { name: 'South Eastern Kenya University', description: 'A public university in Kitui County.', url: 'https://www.seku.ac.ke/' },
+      { name: 'Taita Taveta University', description: 'A public university with a focus on mining and mineral processing.', url: 'https://www.ttu.ac.ke/' },
+      { name: 'Technical University of Kenya', description: 'A public university in Nairobi, with a focus on technical education.', url: 'https://tukenya.ac.ke/' },
+      { name: 'Technical University of Mombasa', description: 'A public university in Mombasa, specializing in technical and vocational education.', url: 'https://www.tum.ac.ke/' },
+      { name: 'Tharaka University', description: 'A public university in Tharaka-Nithi County.', url: 'https://tharaka.ac.ke/' },
+      { name: 'Tom Mboya University', description: 'A public university located in Homa Bay Town.', url: 'https://www.tmu.ac.ke/' },
+      { name: 'Turkana University College', description: 'A public constituent college of Masinde Muliro University of Science and Technology, located in Turkana County.', url: 'https://www.tuc.ac.ke/' },
+      { name: 'University of Eldoret', description: 'A public university in Eldoret, with a focus on science, agriculture, and technology.', url: 'https://www.uoeld.ac.ke/' },
+      { name: 'University of Embu', description: 'A public university located in Embu County.', url: 'https://www.embuni.ac.ke/' },
+      { name: 'University of Kabianga', description: 'A public university in Kericho County.', url: 'https://www.kabianga.ac.ke/' },
+      { name: 'University of Nairobi', description: 'A collegiate research university based in Nairobi.', url: 'https://www.uonbi.ac.ke/' },
     ].sort((a, b) => a.name.localeCompare(b.name)),
   },
   {
     categoryName: 'Social Protection & Welfare',
     corporations: [
+      {
+        name: 'Anti Female Genital Mutilation Board',
+        description: 'A semi-autonomous government agency established to coordinate efforts to eliminate female genital mutilation.',
+        url: 'https://www.antifgmboard.go.ke/',
+      },
       {
         name: 'Higher Education Loans Board (HELB)',
         description: 'A state corporation established under the Higher Education Loans Board Act (Cap 213A). It provides financial support (loans, bursaries, and scholarships) to students in tertiary institutions.',
@@ -1080,6 +1464,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: '#',
       },
       {
+        name: 'Kenya Water Institute',
+        description: 'A public institution that provides training and research in the water and sanitation sector.',
+        url: 'https://kewi.go.ke/',
+      },
+      {
         name: 'Kisumu Water and Sanitation Company (KIWASCO)',
         description: 'The water and sanitation service provider for Kisumu City, operating under the Water Act, 2016. It manages the provision of clean water and sewerage systems.',
         url: 'https://www.kiwasco.co.ke/',
@@ -1135,9 +1524,19 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         url: 'https://www.nyewasco.co.ke/',
       },
       {
+        name: 'Regional Centre on Groundwater Resources Education Training and Research in Eastern Africa',
+        description: 'A regional center focused on capacity building, research, and data sharing on groundwater resources.',
+        url: 'https://rcgwr.org/',
+      },
+      {
         name: 'Rift Valley Water Works Development Agency',
         description: 'A state corporation responsible for the development, maintenance, and management of water and sewerage infrastructure in the Rift Valley region.',
         url: 'https://rvwwda.go.ke/',
+      },
+      {
+        name: 'Tana Water Works Development Agency',
+        description: 'A state corporation responsible for the development, maintenance, and management of water and sewerage infrastructure in its designated area.',
+        url: 'https://tanawwda.go.ke/',
       },
       {
         name: 'Tanathi Water Works Development Agency',
@@ -1154,7 +1553,7 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
         description: 'The national authority for water resource management, established by the Water Act, 2016. Its mandate is to regulate the conservation and use of water resources.',
         url: 'https://wra.go.ke/',
       },
-      {
+       {
         name: 'Water Sector Trust Fund (WaterFund)',
         description: 'A state corporation established under the Water Act, 2016. It provides grants to counties to finance water and sanitation services in marginalized and underserved areas.',
         url: 'https://waterfund.go.ke/',
