@@ -43,7 +43,7 @@ const ProjectsPage: React.FC = () => {
                     <div className="inline-block p-3 bg-primary-light dark:bg-dark-primary-light rounded-2xl">
                         <PresentationChartLineIcon className="h-8 w-8 text-primary dark:text-dark-primary" />
                     </div>
-                    <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Policy Development & Delivery</h1>
+                    <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Development Strategy</h1>
                     <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
                         Track policy development, projects, performance metrics, and delivery management related to governance and public services at both national and county levels.
                     </p>

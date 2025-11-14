@@ -32,18 +32,14 @@ const dataSourceCategories = [
     title: 'National Data',
     key: 'national',
     links: [
+      // National Data
       { name: 'Kenya Gazette', url: 'https://new.kenyalaw.org/gazettes/' },
       { name: 'Kenya Law Reports (National Council for Law Reporting)', url: 'http://kenyalaw.org/' },
       { name: 'Kenya National Commission on Human Rights (KNCHR)', url: 'https://www.knchr.org/' },
       { name: 'Parliament of Kenya', url: 'http://www.parliament.go.ke/' },
       { name: 'State Law Office & Department of Justice', url: 'https://www.statelaw.go.ke/' },
       { name: 'The Judiciary of Kenya', url: 'https://www.judiciary.go.ke/' },
-    ].sort((a,b) => a.name.localeCompare(b.name))
-  },
-  {
-    title: 'Government Ministries',
-    key: 'ministries',
-    links: [
+      // Government Ministries
       { name: 'Ministry of Agriculture and Livestock Development', url: 'https://www.kilimo.go.ke/' },
       { name: 'Ministry of Co-operatives and MSME Development', url: 'https://www.ushirika.go.ke/' },
       { name: 'Ministry of Defence', url: 'https://mod.go.ke/' },
@@ -69,24 +65,19 @@ const dataSourceCategories = [
       { name: 'Office of the President', url: 'https://www.president.go.ke/' },
       { name: 'Office of the Prime Cabinet Secretary & Ministry of Foreign and Diaspora Affairs', url: 'https://www.mfa.go.ke/' },
       { name: 'The National Treasury and Economic Planning', url: 'https://www.treasury.go.ke/' },
-    ].sort((a,b) => a.name.localeCompare(b.name))
-  },
-  {
-    title: 'Commissions & Independent Offices',
-    key: 'commissions-offices',
-    links: [
-        { name: 'Commission on Revenue Allocation (CRA)', url: 'https://cra.go.ke/' },
-        { name: 'Independent Electoral and Boundaries Commission (IEBC)', url: 'https://www.iebc.or.ke/' },
-        { name: 'Judicial Service Commission (JSC)', url: 'https://www.jsc.go.ke/' },
-        { name: 'Kenya National Human Rights and Equality Commission (KNHREC)', url: 'https://www.knchr.org/' },
-        { name: 'National Land Commission (NLC)', url: 'https://landcommission.go.ke/' },
-        { name: 'National Police Service Commission (NPSC)', url: 'https://www.npsc.go.ke/' },
-        { name: 'Office of the Auditor-General (OAG)', url: 'https://www.oagkenya.go.ke/' },
-        { name: 'Office of the Controller of Budget (OCOB)', url: 'https://cob.go.ke/' },
-        { name: 'Parliamentary Service Commission (PSC)', url: 'http://www.parliament.go.ke/the-psc' },
-        { name: 'Public Service Commission (PSC)', url: 'https://www.publicservice.go.ke/' },
-        { name: 'Salaries and Remuneration Commission (SRC)', url: 'https://www.src.go.ke/' },
-        { name: 'Teachers Service Commission (TSC)', url: 'https://www.tsc.go.ke/' },
+      // Commissions & Independent Offices
+      { name: 'Commission on Revenue Allocation (CRA)', url: 'https://cra.go.ke/' },
+      { name: 'Independent Electoral and Boundaries Commission (IEBC)', url: 'https://www.iebc.or.ke/' },
+      { name: 'Judicial Service Commission (JSC)', url: 'https://www.jsc.go.ke/' },
+      { name: 'Kenya National Human Rights and Equality Commission (KNHREC)', url: 'https://www.knchr.org/' },
+      { name: 'National Land Commission (NLC)', url: 'https://landcommission.go.ke/' },
+      { name: 'National Police Service Commission (NPSC)', url: 'https://www.npsc.go.ke/' },
+      { name: 'Office of the Auditor-General (OAG)', url: 'https://www.oagkenya.go.ke/' },
+      { name: 'Office of the Controller of Budget (OCOB)', url: 'https://cob.go.ke/' },
+      { name: 'Parliamentary Service Commission (PSC)', url: 'http://www.parliament.go.ke/the-psc' },
+      { name: 'Public Service Commission (PSC)', url: 'https://www.publicservice.go.ke/' },
+      { name: 'Salaries and Remuneration Commission (SRC)', url: 'https://www.src.go.ke/' },
+      { name: 'Teachers Service Commission (TSC)', url: 'https://www.tsc.go.ke/' },
     ].sort((a,b) => a.name.localeCompare(b.name))
   },
   {

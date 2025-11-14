@@ -8,7 +8,7 @@ interface HomePageProps {
 
 const sections: { title: string; description: string; icon: React.ReactNode; view: AppView }[] = [
     {
-        title: 'Policy Development & Delivery',
+        title: 'Development Strategy',
         description: 'Track policy development, projects, performance, and delivery management.',
         icon: <PresentationChartLineIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
         view: 'projects',

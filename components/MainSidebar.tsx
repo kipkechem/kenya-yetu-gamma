@@ -55,7 +55,7 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ activeView, navigateTo, isOpe
 
   const navItems: NavItemData[] = [
     { view: 'home', label: 'Home', icon: HomeIcon, activeStates: ['home'] },
-    { view: 'projects', label: 'Policy Development & Delivery', icon: PresentationChartLineIcon, activeStates: ['projects'] },
+    { view: 'projects', label: 'Development Strategy', icon: PresentationChartLineIcon, activeStates: ['projects', 'national-policy'] },
     // FIX: Removed 'commissions' from activeStates as it's not a valid AppView. Added 'act-detail' to keep the nav item active on the detail page.
     { view: 'kenya-laws', label: 'Laws & Governance', icon: BookOpenIcon, activeStates: ['kenya-laws', 'constitution', 'acts', 'cabinet', 'state-corporations', 'kenyan-anthem', 'east-african-anthem', 'national-flag', 'coat-of-arms', 'anthems', 'county-laws', 'county-governments', 'act-detail', 'historical-documents', 'legislature', 'judiciary'] },
     { view: 'infomap', label: 'Info Maps', icon: MapIcon, activeStates: ['infomap', 'my-representatives', 'county-explorer'] },
