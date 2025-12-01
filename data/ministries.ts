@@ -4,11 +4,11 @@ import type { Ministry } from '../types';
 export const ministries: Ministry[] = [
   {
     name: 'Office of the President',
-    cabinetSecretary: 'President',
+    cabinetSecretary: 'H.E. Dr. William Samoei Ruto, C.G.H.',
     url: 'https://www.president.go.ke/',
     principalSecretaries: [
-      { title: 'Comptroller of the Household', department: 'State House' },
-      { title: 'Principal Secretary', department: 'Cabinet Affairs' },
+      { title: 'Comptroller of State House', department: 'State House', name: 'Hon. Katoo Ole Metito' },
+      { title: 'Principal Secretary', department: 'Cabinet Affairs', name: 'Dr. Idris Salim Dokota' },
     ],
     mandatedEntities: [
         'Betting Control and Licensing Board',
@@ -19,31 +19,30 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Office of the Deputy President',
-    cabinetSecretary: 'Deputy President',
+    cabinetSecretary: 'H.E. Prof. Kithure Kindiki, E.G.H.',
     url: 'https://www.deputypresident.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'Office of the Deputy President' },
+      { title: 'Principal Secretary', department: 'Office of the Deputy President' }, // PS name typically handled by Chief of Staff in this context
     ],
   },
   {
     name: 'Office of the Prime Cabinet Secretary & Ministry of Foreign and Diaspora Affairs',
-    cabinetSecretary: 'Prime Cabinet Secretary',
+    cabinetSecretary: 'Hon. Dr. Musalia Mudavadi, E.G.H.',
     url: 'https://www.mfa.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'Office of the Prime Cabinet Secretary' },
-      { title: 'Principal Secretary', department: 'State Department for Foreign Affairs' },
-      { title: 'Principal Secretary', department: 'State Department for Diaspora Affairs' },
-      { title: 'Principal Secretary', department: 'State Department for Parliamentary Affairs' },
+      { title: 'Principal Secretary', department: 'State Department for Foreign Affairs', name: 'Dr. Korir Sing\'oei' },
+      { title: 'Principal Secretary', department: 'State Department for Diaspora Affairs', name: 'Ms. Roseline K. Njogu' },
+      { title: 'Principal Secretary', department: 'State Department for Parliamentary Affairs', name: 'Ms. Aurelia Rono' },
     ],
     mandatedEntities: [
     ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Office of the Attorney General & Department of Justice',
-    cabinetSecretary: 'Attorney General',
+    cabinetSecretary: 'Hon. Dorcas Oduor, SC, E.B.S., O.G.W.',
     url: 'https://www.statelaw.go.ke/',
     principalSecretaries: [
-        { title: 'Solicitor-General', department: 'Department of Justice' }
+        { title: 'Solicitor-General', department: 'Department of Justice', name: 'Hon. Shadrack J. Mose' }
     ],
     mandatedEntities: [
         'Advocates Complaints Commission',
@@ -60,12 +59,12 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Interior and National Administration',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Prof. Kithure Kindiki, E.G.H. (Vacant/Acting)', // Noted transition
     url: 'https://www.interior.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Internal Security and National Administration' },
-      { title: 'Principal Secretary', department: 'State Department for Correctional Services' },
-      { title: 'Principal Secretary', department: 'State Department for Citizen Services' },
+      { title: 'Principal Secretary', department: 'State Department for Internal Security and National Administration', name: 'Dr. Raymond Omollo' },
+      { title: 'Principal Secretary', department: 'State Department for Correctional Services', name: 'Ms. Salome Wairimu Muhia-Beacco' },
+      { title: 'Principal Secretary', department: 'State Department for Citizen Services', name: 'Amb. Prof. Julius Bitok' },
     ],
     mandatedEntities: [
         'Independent Policing Oversight Authority (IPOA)',
@@ -77,11 +76,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'The National Treasury and Economic Planning',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. John Mbadi, E.G.H.',
     url: 'https://www.treasury.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'The National Treasury' },
-      { title: 'Principal Secretary', department: 'State Department for Economic Planning' },
+      { title: 'Principal Secretary', department: 'The National Treasury', name: 'Dr. Chris Kiptoo' },
+      { title: 'Principal Secretary', department: 'State Department for Economic Planning', name: 'Mr. James Muhati' },
     ],
     mandatedEntities: [
         'Assets Recovery Agency',
@@ -110,6 +109,7 @@ export const ministries: Ministry[] = [
         'Kenya Institute of Supplies Management',
         'Kenya National Assurance Co. (2001) Ltd',
         'Kenya National Bureau of Statistics (KNBS)',
+        'Kenya Post Office Savings Bank (Postbank)',
         'Kenya Reinsurance Corporation (Kenya Re)',
         'Kenya Revenue Authority (KRA)',
         'National Bank of Kenya',
@@ -124,28 +124,29 @@ export const ministries: Ministry[] = [
         'Public Service Superannuation Fund',
         'Registration of Certified Public Secretaries Board',
         'Retirement Benefits Authority (RBA)',
-        'Salaries and Remuneration Commission (SRC)',
+        'Sacco Societies Regulatory Authority (SASRA)',
         'Unclaimed Financial Assets Authority (UFAA)',
     ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Defence',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Soipan Tuya, E.G.H.',
     url: 'https://mod.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Defence' },
+      { title: 'Principal Secretary', department: 'State Department for Defence', name: 'Mr. Patrick Mariru' },
     ],
     mandatedEntities: [
         'Kenya Ordinance Factories Corporation',
+        'Kenya Space Agency',
     ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Health',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Dr. Deborah Barasa, E.G.H.',
     url: 'https://www.health.go.ke/',
     principalSecretaries: [
-        { title: 'Principal Secretary', department: 'State Department for Medical Services' },
-        { title: 'Principal Secretary', department: 'State Department for Public Health and Professional Standards' },
+        { title: 'Principal Secretary', department: 'State Department for Medical Services', name: 'Mr. Harry Kimtai' },
+        { title: 'Principal Secretary', department: 'State Department for Public Health and Professional Standards', name: 'Ms. Mary Muthoni Muriuki' },
     ],
     mandatedEntities: [
         'Clinical Officers Council of Kenya',
@@ -174,12 +175,12 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Education',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Julius Ogamba, E.G.H.',
     url: 'https://www.education.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Basic Education' },
-      { title: 'Principal Secretary', department: 'State Department for Technical, Vocational Education and Training' },
-      { title: 'Principal Secretary', department: 'State Department for Higher Education and Research' },
+      { title: 'Principal Secretary', department: 'State Department for Basic Education', name: 'Dr. Belio Kipsang' },
+      { title: 'Principal Secretary', department: 'State Department for Technical, Vocational Education and Training', name: 'Dr. Esther Muoria' },
+      { title: 'Principal Secretary', department: 'State Department for Higher Education and Research', name: 'Dr. Beatrice Inyangala' },
     ],
     mandatedEntities: [
         'Alupe University',
@@ -205,7 +206,6 @@ export const ministries: Ministry[] = [
         'Kenya Institute of Mass Communication',
         'Kenya Institute of Special Education',
         'Kenya Literature Bureau (KLB)',
-        'Kenya National Commission for UNESCO',
         'Kenya National Examinations Council (KNEC)',
         'Kenya National Innovation Agency',
         'Kenya National Library Service (KNLS)',
@@ -232,7 +232,6 @@ export const ministries: Ministry[] = [
         'School Equipment Production Unit',
         'South Eastern Kenya University',
         'Taita Taveta University',
-        'Teachers Service Commission (TSC)',
         'Technical and Vocational Education and Training Authority',
         'Technical University of Kenya',
         'Technical University of Mombasa',
@@ -248,11 +247,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Agriculture and Livestock Development',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Dr. Andrew Mwihia Karanja, E.G.H.',
     url: 'https://www.kilimo.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Crop Development' },
-      { title: 'Principal Secretary', department: 'State Department for Livestock Development' },
+      { title: 'Principal Secretary', department: 'State Department for Crop Development', name: 'Dr. Paul Ronoh' },
+      { title: 'Principal Secretary', department: 'State Department for Livestock Development', name: 'Mr. Jonathan Mueke' },
     ],
     mandatedEntities: [
         'Agricultural Development Corporation (ADC)',
@@ -270,6 +269,7 @@ export const ministries: Ministry[] = [
         'Kenya Meat Commission (KMC)',
         'Kenya Plant Health Inspectorate Service (KEPHIS)',
         'Kenya Seed Company',
+        'Kenya Tsetse and Trypanosomiasis Eradication Council',
         'Kenya Veterinary Board (KVB)',
         'Kenya Veterinary Vaccines Production Institute',
         'National Biosafety Authority',
@@ -287,12 +287,12 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Investments, Trade and Industry',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Salim Mvurya, E.G.H.',
     url: 'https://www.trade.go.ke/',
     principalSecretaries: [
-        { title: 'Principal Secretary', department: 'State Department for Trade' },
-        { title: 'Principal Secretary', department: 'State Department for Industry' },
-        { title: 'Principal Secretary', department: 'State Department for Investment Promotion' },
+        { title: 'Principal Secretary', department: 'State Department for Trade', name: 'Mr. Alfred K\'Ombudo' },
+        { title: 'Principal Secretary', department: 'State Department for Industry', name: 'Dr. Juma Mukhwana' },
+        { title: 'Principal Secretary', department: 'State Department for Investment Promotion', name: 'Mr. Abubakar Hassan' },
     ],
     mandatedEntities: [
         'Anti-Counterfeit Authority',
@@ -318,12 +318,12 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Lands, Public Works, Housing and Urban Development',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Alice Wahome, E.G.H.',
     url: 'https://lands.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Lands and Physical Planning' },
-      { title: 'Principal Secretary', department: 'State Department for Public Works' },
-      { title: 'Principal Secretary', department: 'State Department for Housing and Urban Development' },
+      { title: 'Principal Secretary', department: 'State Department for Lands and Physical Planning', name: 'Hon. Nixon Korir' },
+      { title: 'Principal Secretary', department: 'State Department for Public Works', name: 'Mr. Joel Arumonyang' },
+      { title: 'Principal Secretary', department: 'State Department for Housing and Urban Development', name: 'Mr. Charles Hinga' },
     ],
     mandatedEntities: [
         'Board of Registered Architects and Quantity Surveyors',
@@ -332,7 +332,6 @@ export const ministries: Ministry[] = [
         'Land Surveyors Board',
         'National Construction Authority (NCA)',
         'National Housing Corporation (NHC)',
-        'National Land Commission (NLC)',
         'Physical Planners Registration Board',
         'The National Building Inspectorate',
         'Valuers Registration Board',
@@ -340,13 +339,14 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Environment, Climate Change and Forestry',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Aden Duale, E.G.H.',
     url: 'https://www.environment.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Environment and Climate Change' },
-      { title: 'Principal Secretary', department: 'State Department for Forestry' },
+      { title: 'Principal Secretary', department: 'State Department for Environment and Climate Change', name: 'Eng. Festus K. Ng\'eno' },
+      { title: 'Principal Secretary', department: 'State Department for Forestry', name: 'Mr. Gitonga Mugambi' },
     ],
     mandatedEntities: [
+        'Biosafety Appeals Board',
         'Kenya Forest Service (KFS)',
         'Kenya Forestry Research Institute',
         'Kenya Meteorological Department',
@@ -358,11 +358,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Youth Affairs, The Arts and Sports',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Onesimus Kipchumba Murkomen, E.G.H.',
     url: 'https://www.youth.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Youth Affairs and The Arts' },
-      { title: 'Principal Secretary', department: 'State Department for Sports' },
+      { title: 'Principal Secretary', department: 'State Department for Youth Affairs and The Arts', name: 'Mr. Ismail Maalim Madey' },
+      { title: 'Principal Secretary', department: 'State Department for Sports', name: 'Eng. Peter O. Tum' },
     ],
     mandatedEntities: [
         'Anti-Doping Agency of Kenya (ADAK)',
@@ -376,11 +376,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Water, Sanitation and Irrigation',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Eng. Eric Muriithi Mugaa, E.G.H.',
     url: 'https://www.water.go.ke/',
     principalSecretaries: [
-        { title: 'Principal Secretary', department: 'State Department for Water and Sanitation' },
-        { title: 'Principal Secretary', department: 'State Department for Irrigation' },
+        { title: 'Principal Secretary', department: 'State Department for Water and Sanitation', name: 'Mr. Julius Korir' },
+        { title: 'Principal Secretary', department: 'State Department for Irrigation', name: 'Mr. Ephantus Kimotho' },
     ],
     mandatedEntities: [
         'Athí Water Works Development Agency',
@@ -413,11 +413,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Information, Communications and the Digital Economy',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Dr. Margaret Nyambura Ndung\'u, E.G.H.',
     url: 'https://www.ict.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Broadcasting and Telecommunications' },
-      { title: 'Principal Secretary', department: 'State Department for ICT and the Digital Economy' },
+      { title: 'Principal Secretary', department: 'State Department for Broadcasting and Telecommunications', name: 'Prof. Edward Kisiang\'ani' },
+      { title: 'Principal Secretary', department: 'State Department for ICT and the Digital Economy', name: 'Eng. John Tanui' },
     ],
     mandatedEntities: [
         'Communications Authority of Kenya (CA)',
@@ -432,11 +432,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Tourism and Wildlife',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Rebecca Miano, E.G.H.',
     url: 'https://www.tourism.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Tourism' },
-      { title: 'Principal Secretary', department: 'State Department for Wildlife' },
+      { title: 'Principal Secretary', department: 'State Department for Tourism', name: 'Mr. John Ololtuaa' },
+      { title: 'Principal Secretary', department: 'State Department for Wildlife', name: 'Ms. Silvia Museiya' },
     ],
     mandatedEntities: [
         'Kenya Safari Lodges and Hotels',
@@ -451,11 +451,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Roads and Transport',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Davis Chirchir, E.G.H.',
     url: 'https://www.transport.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Roads' },
-      { title: 'Principal Secretary', department: 'State Department for Transport' },
+      { title: 'Principal Secretary', department: 'State Department for Roads', name: 'Eng. Joseph Mbugua' },
+      { title: 'Principal Secretary', department: 'State Department for Transport', name: 'Mr. Mohamed Daghar' },
     ],
     mandatedEntities: [
         'Bandari Maritime Academy',
@@ -477,11 +477,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Energy and Petroleum',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Opiyo Wandayi, E.G.H.',
     url: 'https://www.energy.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Energy' },
-      { title: 'Principal Secretary', department: 'State Department for Petroleum' },
+      { title: 'Principal Secretary', department: 'State Department for Energy', name: 'Mr. Alex Wachira' },
+      { title: 'Principal Secretary', department: 'State Department for Petroleum', name: 'Mr. Mohamed Liban' },
     ],
     mandatedEntities: [
         'Energy & Petroleum Regulatory Authority (EPRA)',
@@ -490,17 +490,18 @@ export const ministries: Ministry[] = [
         'Kenya Electricity Transmission Company (KETRACO)',
         'Kenya Pipeline Company (KPC)',
         'Kenya Power and Lighting Company (KPLC)',
+        'National Oil Corporation of Kenya',
         'Nuclear Power and Energy Agency',
         'Rural Electrification and Renewable Energy Corporation (REREC)',
     ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Labour and Social Protection',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Dr. Alfred Mutua, E.G.H.',
     url: 'https://www.labour.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Labour and Skills Development' },
-      { title: 'Principal Secretary', department: 'State Department for Social Protection and Senior Citizen Affairs' },
+      { title: 'Principal Secretary', department: 'State Department for Labour and Skills Development', name: 'Mr. Shadrack Mwadime' },
+      { title: 'Principal Secretary', department: 'State Department for Social Protection and Senior Citizen Affairs', name: 'Mr. Joseph Motari' },
     ],
     mandatedEntities: [
         'Kenya National Labour Board and the Wages Council',
@@ -513,11 +514,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of East African Community (EAC), The ASALS and Regional Development',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Beatrice Askul Moe, E.G.H.',
     url: 'https://www.meac.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for EAC Affairs' },
-      { title: 'Principal Secretary', department: 'State Department for ASALs and Regional Development' },
+      { title: 'Principal Secretary', department: 'State Department for EAC Affairs', name: 'Mr. Abdi Dubat' },
+      { title: 'Principal Secretary', department: 'State Department for ASALs and Regional Development', name: 'Dr. Kello Harsama' },
     ],
     mandatedEntities: [
         'Central Kenya Economic Bloc (CKEB)',
@@ -538,11 +539,11 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Co-operatives and Micro, Small and Medium Enterprises (MSME) Development',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Wycliffe Oparanya, E.G.H.',
     url: 'https://www.ushirika.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Co-operatives' },
-      { title: 'Principal Secretary', department: 'State Department for MSME Development' },
+      { title: 'Principal Secretary', department: 'State Department for Co-operatives', name: 'Mr. Patrick Kilemi' },
+      { title: 'Principal Secretary', department: 'State Department for MSME Development', name: 'Ms. Susan Mang\'eni' },
     ],
     mandatedEntities: [
         'Micro and Small Enterprise Authority',
@@ -551,12 +552,12 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Mining, Blue Economy and Maritime Affairs',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Ali Hassan Joho, E.G.H.',
     url: 'https://www.mining.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Mining' },
-      { title: 'Principal Secretary', department: 'State Department for Blue Economy and Fisheries' },
-      { title: 'Principal Secretary', department: 'State Department for Shipping and Maritime Affairs' },
+      { title: 'Principal Secretary', department: 'State Department for Mining', name: 'Mr. Elijah Mwangi' },
+      { title: 'Principal Secretary', department: 'State Department for Blue Economy and Fisheries', name: 'Ms. Betsy Muthoni Njagi' },
+      { title: 'Principal Secretary', department: 'State Department for Shipping and Maritime Affairs', name: 'Mr. Geoffrey Kaituko' },
     ],
     mandatedEntities: [
         'Geologists Registration Board',
@@ -572,25 +573,24 @@ export const ministries: Ministry[] = [
   },
   {
     name: 'Ministry of Public Service, Performance and Delivery Management',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Justin Bedan Njoka Muturi, E.G.H.',
     url: 'https://www.psyg.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Public Service' },
-      { title: 'Principal Secretary', department: 'State Department for Performance and Delivery Management' },
+      { title: 'Principal Secretary', department: 'State Department for Public Service', name: 'Mr. Amos Gathecha' },
+      { title: 'Principal Secretary', department: 'State Department for Performance and Delivery Management', name: 'Ms. Veronica Nduva' },
     ],
     mandatedEntities: [
         'Institute of Human Resource Management',
         'Kenya School of Government (KSG)',
-        'Public Service Commission (PSC)',
     ].sort((a, b) => a.localeCompare(b))
   },
   {
     name: 'Ministry of Gender, Culture, the Arts and Heritage',
-    cabinetSecretary: 'Cabinet Secretary',
+    cabinetSecretary: 'Hon. Stella Soi Lang\'at, E.G.H.',
     url: 'https://www.gender.go.ke/',
     principalSecretaries: [
-      { title: 'Principal Secretary', department: 'State Department for Gender and Affirmative Action' },
-      { title: 'Principal Secretary', department: 'State Department for Culture, the Arts and Heritage' },
+      { title: 'Principal Secretary', department: 'State Department for Gender and Affirmative Action', name: 'Ms. Anne Wang\'ombe' },
+      { title: 'Principal Secretary', department: 'State Department for Culture, the Arts and Heritage', name: 'Ms. Ummi Bashir' },
     ],
     mandatedEntities: [
         'Anti Female Genital Mutilation Board',
@@ -598,6 +598,7 @@ export const ministries: Ministry[] = [
         'Kenya Copyright Board (KECOBO)',
         'Kenya Cultural Centre',
         'Kenya Film Classification Board',
+        'Kenya National Commission for UNESCO',
         'Kenya National Heroes Council',
         'National Government Affirmative Action Fund (NGAAF)',
         'National Museums of Kenya (NMK)',

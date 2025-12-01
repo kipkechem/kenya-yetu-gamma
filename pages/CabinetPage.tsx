@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Ministry, StateCorporationCategory } from '../types/index';
 import { ChevronDownIcon, HierarchyIcon, ExternalLinkIcon } from '../components/icons';
@@ -70,6 +71,7 @@ const MinistryNode: React.FC<{ ministry: Ministry; isExpanded: boolean; onToggle
                             <div key={index}>
                                 <p className="font-semibold text-sm text-gray-800 dark:text-gray-200">{ps.department}</p>
                                 <p className="text-xs text-gray-500 dark:text-gray-400">{ps.title}</p>
+                                {ps.name && <p className="text-sm font-medium text-primary dark:text-dark-primary">{ps.name}</p>}
                             </div>
                         ))}
                     </div>

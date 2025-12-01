@@ -1,20 +1,31 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon } from '../components/icons';
 import type { Ministry, StateCorporation, StateCorporationCategory } from '../types/index';
 import { getCachedData, setCachedData } from '../utils/cache';
+import Highlight from '../components/Highlight';
 
-const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: string }> = ({ corporation, ministryName }) => (
+const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: string; searchTerm?: string }> = ({ corporation, ministryName, searchTerm = '' }) => (
   <a 
     href={corporation.url}
     target="_blank"
     rel="noopener noreferrer"
-    className="block bg-background dark:bg-dark-surface/50 p-6 rounded-2xl custom-shadow-lg transition-transform transform hover:-translate-y-1 hover:custom-shadow-xl h-full"
+    className="block bg-background dark:bg-dark-surface/50 p-6 rounded-2xl custom-shadow-lg transition-transform transform hover:-translate-y-1 hover:custom-shadow-xl h-full flex flex-col"
   >
-    <div className="flex justify-between items-start">
+    <div className="flex justify-between items-start mb-2">
       <div className="flex-1">
-          <h3 className="text-base font-bold text-on-surface dark:text-dark-on-surface">{corporation.name}</h3>
+          <h3 className="text-base font-bold text-on-surface dark:text-dark-on-surface">
+            <Highlight text={corporation.name} highlight={searchTerm} />
+          </h3>
           {ministryName && (
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">{ministryName}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">
+                 <Highlight text={ministryName} highlight={searchTerm} />
+              </p>
+          )}
+          {corporation.head && (
+            <p className="text-xs text-primary dark:text-dark-primary mt-1 font-medium">
+                <Highlight text={corporation.head} highlight={searchTerm} />
+            </p>
           )}
       </div>
       {corporation.url && corporation.url !== '#' && (
@@ -23,7 +34,9 @@ const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: 
         </svg>
       )}
     </div>
-    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">{corporation.description}</p>
+    <div className="text-sm text-gray-500 dark:text-gray-400 mt-auto">
+        <Highlight text={corporation.description} highlight={searchTerm} />
+    </div>
   </a>
 );
 
@@ -135,7 +148,8 @@ const StateCorporationsPage: React.FC = () => {
     return allCorporationsWithMinistry.filter(corp => 
       corp.name.toLowerCase().includes(lowercasedTerm) ||
       corp.description.toLowerCase().includes(lowercasedTerm) ||
-      (corp.ministryName && corp.ministryName.toLowerCase().includes(lowercasedTerm))
+      (corp.ministryName && corp.ministryName.toLowerCase().includes(lowercasedTerm)) ||
+      (corp.head && corp.head.toLowerCase().includes(lowercasedTerm))
     );
   }, [searchTerm, allCorporationsWithMinistry]);
 
@@ -150,6 +164,10 @@ const StateCorporationsPage: React.FC = () => {
     if (newSearchTerm.trim()) {
         setOpenCategory(null); // Close accordions when searching
     }
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
   };
   
   if (!categorizedCorporationsData) {
@@ -182,12 +200,22 @@ const StateCorporationsPage: React.FC = () => {
             </div>
             <input
               type="text"
-              placeholder="Search entities by name, description, or ministry..."
+              placeholder="Search entities by name, ministry, head, or description..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3 pl-12 pr-4 text-on-surface dark:text-dark-on-surface placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent custom-shadow"
+              className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3 pl-12 pr-10 text-on-surface dark:text-dark-on-surface placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent custom-shadow"
               aria-label="Search for an entity"
             />
+            {searchTerm && (
+                <button
+                    onClick={clearSearch}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            )}
           </div>
         </div>
 
@@ -200,6 +228,7 @@ const StateCorporationsPage: React.FC = () => {
                             key={corporation.name} 
                             corporation={corporation}
                             ministryName={corporation.ministryName}
+                            searchTerm={searchTerm}
                         />
                     ))
                 ) : (
@@ -242,3 +271,13 @@ const StateCorporationsPage: React.FC = () => {
                     </div>
                     </div>
                 </div>
+                </div>
+            ))}
+            </section>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default StateCorporationsPage;

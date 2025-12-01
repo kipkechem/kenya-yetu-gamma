@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { AppView } from '../types/index';
 import { 
@@ -28,20 +29,6 @@ const infoMapSections: {
     isActionable: boolean;
     view?: AppView;
 }[] = [
-    {
-        title: 'My Representatives',
-        description: 'Find and learn about your elected representatives from the president to your MCA.',
-        icon: <IdentificationIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        isActionable: true,
-        view: 'my-representatives',
-    },
-    {
-        title: 'County Explorer',
-        description: 'Visually explore Kenya\'s 47 counties on an interactive map with detailed information.',
-        icon: <MapIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        isActionable: true,
-        view: 'county-explorer',
-    },
     {
         title: 'Water Bodies',
         description: "Map of Kenya's major rivers, lakes, and ocean coastline.",
@@ -111,9 +98,9 @@ const InfoMapPage: React.FC<InfoMapPageProps> = ({ navigateTo }) => {
          <div className="inline-block p-3 bg-primary-light dark:bg-dark-primary-light rounded-2xl">
             <MapIcon className="h-8 w-8 text-primary dark:text-dark-primary" />
         </div>
-        <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Info Maps</h1>
+        <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Projects & Proposals</h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-          Visually explore the structure and key concepts of the Constitution through these interactive guides.
+          KenyaYetu synthesized projects and proposals.
         </p>
       </div>
       
@@ -123,7 +110,7 @@ const InfoMapPage: React.FC<InfoMapPageProps> = ({ navigateTo }) => {
             return (
                 <CardWrapper
                     key={section.title}
-                    onClick={section.isActionable && section.view ? () => navigateTo(section.view) : undefined}
+                    onClick={section.isActionable && section.view ? () => navigateTo(section.view!) : undefined}
                     className="bg-surface dark:bg-dark-surface p-6 rounded-3xl custom-shadow-lg flex flex-col text-left w-[240px] aspect-square relative hover:custom-shadow-xl hover:-translate-y-2 transform-gpu transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
                     {!section.isActionable && (

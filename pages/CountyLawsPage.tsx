@@ -1,12 +1,16 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon, BookOpenIcon } from '../components/icons';
 import type { CountyLegislation, CountyLaw } from '../types/index';
 import Highlight from '../components/Highlight';
 import { dispatchNavigate } from '../utils/navigation';
 
+interface CountyLawsPageProps {
+    initialSearchTerm?: string;
+}
 
-const CountyLawsPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' }) => {
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set(['devolution-laws']));
   const [countyLawsData, setCountyLawsData] = useState<CountyLegislation[] | null>(null);
   const [devolutionLawsData, setDevolutionLawsData] = useState<CountyLaw[] | null>(null);
@@ -19,6 +23,12 @@ const CountyLawsPage: React.FC = () => {
     };
     loadData();
   }, []);
+
+  useEffect(() => {
+      if (initialSearchTerm) {
+          setSearchTerm(initialSearchTerm);
+      }
+  }, [initialSearchTerm]);
 
   const isSearching = searchTerm.trim().length > 0;
   const lowercasedTerm = searchTerm.toLowerCase();

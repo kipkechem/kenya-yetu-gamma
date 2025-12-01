@@ -39,7 +39,7 @@ const AnthemsListPage: React.FC<AnthemsListPageProps> = ({ navigateTo }) => {
             </p>
         </header>
 
-        <main className="flex flex-row flex-wrap justify-center gap-6 px-4">
+        <main className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 px-4">
             {anthemSections.map((section) => (
                 <Tile key={section.view} section={section} navigateTo={navigateTo} />
             ))}

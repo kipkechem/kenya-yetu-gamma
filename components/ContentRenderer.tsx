@@ -47,14 +47,13 @@ const swLinkRegex = /((?:Kifungu|Vifungu)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|(
 // Create a regex for Acts of Parliament
 const allActTitles: string[] = Object.values(actsOfParliament).flat();
 const actTitlesPattern = allActTitles
+  .filter(title => title && title.length > 3) // Basic filter to avoid very short matches if any
   .map(title => title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape special characters
   .sort((a, b) => b.length - a.length) // Match longer titles first
   .join('|');
 
-const genericActTerms = ['Act of Parliament', 'an Act of Parliament', 'legislation'];
-const genericActPattern = genericActTerms.join('|');
-
-const actRegex = new RegExp(`\\b(${actTitlesPattern})\\b|\\b(${genericActPattern})\\b`, 'gi');
+// Only match specific Act titles, removing generic terms like "legislation"
+const actRegex = new RegExp(`\\b(${actTitlesPattern})\\b`, 'gi');
 
 const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSelectItem, articleToChapterMap, language }) => {
   const [copiedArticle, setCopiedArticle] = useState<string | null>(null);
@@ -79,10 +78,9 @@ const ContentRenderer: React.FC<ContentRendererProps> = ({ text, highlight, onSe
 
   const handleActClick = (e: React.MouseEvent, actTitle: string) => {
     e.preventDefault();
-    const isGeneric = genericActTerms.some(term => actTitle.toLowerCase().includes(term.toLowerCase()));
     dispatchNavigate({
       view: 'acts',
-      actsSearchTerm: isGeneric ? '' : actTitle,
+      actsSearchTerm: actTitle,
     });
   };
 

@@ -1,3 +1,4 @@
+
 // Fix: Import React to make the 'React' namespace available for types like React.ReactNode.
 import React from 'react';
 
@@ -79,6 +80,7 @@ export interface Representative {
 export interface PrincipalSecretary {
   title: string;
   department: string;
+  name?: string;
 }
 
 export interface Ministry {
@@ -100,6 +102,7 @@ export interface StateCorporation {
   name: string;
   description: string;
   url: string;
+  head?: string;
 }
 
 export interface StateCorporationCategory {
@@ -134,4 +137,5 @@ export interface NavigationPayload {
   view: AppView;
   actsSearchTerm?: string;
   actTitle?: string;
+  countySearchTerm?: string;
 }

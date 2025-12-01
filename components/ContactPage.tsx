@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MailIcon, GlobeAmericasIcon, InstagramIcon, HeartIcon, PayPalIcon } from './icons';
 
@@ -105,10 +106,10 @@ const ContactPage: React.FC = () => {
                                     <ol className="list-decimal list-inside text-gray-600 dark:text-gray-300 space-y-2 text-sm">
                                         <li>Go to M-Pesa on your phone</li>
                                         <li>Select "Lipa na M-Pesa"</li>
-                                        <li>Select "Pay Bill"</li>
-                                        <li>Enter Business No: <span className="font-bold text-on-surface dark:text-dark-on-surface">xxxxxx7</span></li>
-                                        <li>Enter Account No: <span className="font-bold text-on-surface dark:text-dark-on-surface">xxxxx</span></li>
+                                        <li>Select "Buy Goods and Services"</li>
+                                        <li>Enter Till Number: <span className="font-bold text-on-surface dark:text-dark-on-surface">6170663</span></li>
                                         <li>Enter the amount and your PIN</li>
+                                        <li>Confirm Name: <span className="font-bold text-on-surface dark:text-dark-on-surface">MICHAEL K BARTONJO</span></li>
                                     </ol>
                                 </div>
                             </div>

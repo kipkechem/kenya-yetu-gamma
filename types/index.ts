@@ -1,3 +1,4 @@
+
 // Fix: Import React to make the 'React' namespace available for types like React.ReactNode.
 import React from 'react';
 
@@ -43,7 +44,7 @@ export interface ConstitutionData {
 }
 
 // FIX: Add 'national-policy' to the AppView type to allow navigation to this view.
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'chat' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy';
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'chat' | 'historical-documents' | 'legislature' | 'judiciary' | 'national-policy';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -80,6 +81,7 @@ export interface Representative {
 export interface PrincipalSecretary {
   title: string;
   department: string;
+  name?: string;
 }
 
 export interface Ministry {
@@ -101,6 +103,7 @@ export interface StateCorporation {
   name: string;
   description: string;
   url: string;
+  head?: string;
 }
 
 export interface StateCorporationCategory {
@@ -135,4 +138,5 @@ export interface NavigationPayload {
   view: AppView;
   actsSearchTerm?: string;
   actTitle?: string;
+  countySearchTerm?: string;
 }

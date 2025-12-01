@@ -1,8 +1,8 @@
+
 import React, { useState } from 'react';
 import { legislatureData } from '../data/legislature';
 import type { LegislatureBody } from '../data/legislature';
-import { ChevronDownIcon, BuildingLibraryIcon, UsersIcon } from './icons';
-import { dispatchNavigate } from '../utils/navigation';
+import { ChevronDownIcon, BuildingLibraryIcon } from './icons';
 
 const DetailsCard: React.FC<{ body: LegislatureBody; level: number; onToggle: () => void; isExpanded: boolean; hasChildren: boolean; }> = ({ body, level, onToggle, isExpanded, hasChildren }) => (
     <div className="relative z-10">
@@ -55,20 +55,6 @@ const DetailsCard: React.FC<{ body: LegislatureBody; level: number; onToggle: ()
                                 </ul>
                             </div>
                         ))}
-                    </div>
-                )}
-                {body.linkToMembers && (
-                    <div className="pt-2">
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation(); // Prevent toggling the card
-                                dispatchNavigate({ view: body.linkToMembers! });
-                            }}
-                            className="w-full flex items-center justify-center text-center px-4 py-3 text-sm font-semibold rounded-lg bg-primary/10 text-primary dark:bg-dark-primary/20 dark:text-dark-primary hover:bg-primary/20 dark:hover:bg-dark-primary/30 transition-colors"
-                        >
-                            <UsersIcon className="h-5 w-5 mr-2" />
-                            View Members
-                        </button>
                     </div>
                 )}
             </div>

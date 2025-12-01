@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { PresentationChartLineIcon, ExternalLinkIcon } from './icons';
 import { nationalPoliciesData } from '../data/national-policies';
@@ -14,7 +15,7 @@ const PolicyCard: React.FC<{ policy: NationalPolicy }> = ({ policy }) => (
       <h3 className="text-lg font-bold text-on-surface dark:text-dark-on-surface flex-1 pr-4">{policy.title}</h3>
       <ExternalLinkIcon className="h-5 w-5 text-gray-400 dark:text-gray-500 flex-shrink-0 mt-1" />
     </div>
-    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 flex-grow">{policy.description}</p>
+    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 flex-grow hidden md:block">{policy.description}</p>
     <div className="mt-4">
         <span className="text-xs font-semibold px-2.5 py-1 bg-primary-light dark:bg-dark-primary-light text-primary dark:text-dark-primary rounded-full">
             {policy.category}

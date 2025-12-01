@@ -1,3 +1,4 @@
+
 import type { AppView } from '../types';
 
 export interface LegislatureMember {
@@ -16,7 +17,6 @@ export interface LegislatureBody {
     leadership: LegislatureMember[];
     membership?: { category: string; count: string; }[];
     committees?: CommitteeInfo[];
-    linkToMembers?: AppView;
     children?: LegislatureBody[];
 }
 
@@ -40,7 +40,6 @@ export const legislatureData: LegislatureBody = {
         {
             name: 'The National Assembly',
             description: 'Represents the people of the constituencies and special interests. Enacts legislation, determines revenue allocation, appropriates funds, and oversees the national executive.',
-            linkToMembers: 'my-representatives',
             leadership: [
                 { title: 'The Speaker' },
                 { title: 'The Deputy Speaker' },
@@ -70,7 +69,6 @@ export const legislatureData: LegislatureBody = {
         {
             name: 'The Senate',
             description: 'Represents the counties and serves to protect the interests of the counties and their governments. Participates in law-making concerning counties and oversees revenue allocation.',
-            linkToMembers: 'my-representatives',
             leadership: [
                 { title: 'The Speaker' },
                 { title: 'The Deputy Speaker' },

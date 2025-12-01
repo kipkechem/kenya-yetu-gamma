@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { ChevronDownIcon, LinkIcon } from './icons';
 import { getDiscoveredLinks, DiscoveredLink } from '../utils/cache';
@@ -85,7 +86,7 @@ const dataSourceCategories = [
     key: 'regional-county',
     links: [
       { name: 'County Assemblies Forum (CAF)', url: 'https://www.countyassemblies.or.ke/' },
-      { name: 'Council of Governors (CoG)', url: 'https://cog.go.ke/' },
+      { name: 'Council of Governors (CoG)', url: 'https://www.cog.go.ke/' },
       { name: 'Frontier Counties Development Council (FCDC)', url: 'https://fcdc.or.ke/' },
       { name: 'Jumuiya ya Kaunti za Pwani (JKP)', url: 'https://jumuiya.org/' },
       { name: 'Lake Region Economic Bloc (LREB)', url: 'https://lreb.or.ke/' },
