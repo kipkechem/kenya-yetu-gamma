@@ -1,3 +1,4 @@
+
 export interface NationalPolicy {
   title: string;
   description: string;
@@ -9,7 +10,7 @@ export const nationalPoliciesData: NationalPolicy[] = [
   {
     title: 'The Bottom-Up Economic Transformation Agenda (BETA)',
     description: "The current government's economic model focusing on empowering marginalized populations by investing in agriculture, MSMEs, housing, healthcare, and the digital & creative economy.",
-    url: 'https://www.treasury.go.ke/wp-content/uploads/2023/06/FOURTH-MEDIUM-TERM-PLAN-2023-2027.pdf',
+    url: 'https://www.industrialization.go.ke/sites/default/files/2023-11/BETA%20STATEMENT%20%281%29.pdf',
     category: 'Agenda',
   },
   {

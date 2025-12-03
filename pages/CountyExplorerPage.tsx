@@ -3,6 +3,7 @@ import KenyaMap from '../components/KenyaMap';
 import CountyDetailPage from '../components/CountyDetailPage';
 import { MapIcon } from '../components/icons';
 import type { County } from '../types/index';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const CountyExplorerPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
@@ -38,11 +39,7 @@ const CountyExplorerPage: React.FC = () => {
     };
     
     if (!countiesData || !countyPaths) {
-         return (
-            <div className="flex items-center justify-center h-full w-full">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
-            </div>
-        );
+         return <LoadingSpinner />;
     }
 
     return (

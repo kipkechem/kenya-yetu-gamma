@@ -1,9 +1,9 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon } from '../components/icons';
 import type { Ministry, StateCorporation, StateCorporationCategory } from '../types/index';
 import { getCachedData, setCachedData } from '../utils/cache';
 import Highlight from '../components/Highlight';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: string; searchTerm?: string }> = ({ corporation, ministryName, searchTerm = '' }) => (
   <a 
@@ -171,11 +171,7 @@ const StateCorporationsPage: React.FC = () => {
   };
   
   if (!categorizedCorporationsData) {
-    return (
-        <div className="flex items-center justify-center h-full w-full">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
-        </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (
@@ -191,7 +187,7 @@ const StateCorporationsPage: React.FC = () => {
           </p>
         </header>
         
-        <div className="mb-8 sticky top-0 py-4 bg-background/80 dark:bg-dark-background/80 backdrop-blur-sm z-10 -mx-4 px-4">
+        <div className="mb-8 py-4 -mx-4 px-4">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

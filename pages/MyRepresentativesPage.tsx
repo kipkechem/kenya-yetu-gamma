@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { IdentificationIcon, UsersIcon } from '../components/icons';
 import type { Representative } from '../types/index';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const RepresentativeCard: React.FC<{ rep: Representative }> = ({ rep }) => (
   <div className="bg-surface dark:bg-dark-surface p-5 rounded-2xl custom-shadow-lg text-center flex flex-col items-center">
@@ -44,11 +45,7 @@ const MyRepresentativesPage: React.FC = () => {
   }, [selectedCounty, searchTerm, representativesData]);
   
   if (!representativesData) {
-     return (
-        <div className="flex items-center justify-center h-full w-full">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
-        </div>
-    );
+     return <LoadingSpinner />;
   }
 
   return (

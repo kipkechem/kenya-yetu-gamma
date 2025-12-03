@@ -4,6 +4,7 @@ import Sidebar from '../components/Sidebar';
 import ContentDisplay from '../components/ContentDisplay';
 import Breadcrumbs from '../components/Breadcrumbs';
 import type { SelectedItem, ConstitutionData } from '../types/index';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string }> = ({ language, searchTerm }) => {
   const [selectedItem, setSelectedItem] = useState<SelectedItem>({ type: 'preamble', id: 'preamble' });
@@ -171,11 +172,7 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
   }, [articleToChapterMap, handleSelectItem, selectedItem]);
 
   if (isLoading) {
-    return (
-        <div className="flex items-center justify-center h-full w-full">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
-        </div>
-    );
+    return <LoadingSpinner />;
   }
 
   if (error || !currentData || !currentSummaries) {

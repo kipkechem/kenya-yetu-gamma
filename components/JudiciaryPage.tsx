@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { judiciaryData } from '../data/judiciary';
 import type { JudicialBody } from '../data/judiciary';
@@ -5,51 +6,55 @@ import { ChevronDownIcon, ScaleIcon, ExternalLinkIcon } from './icons';
 
 const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () => void; isExpanded: boolean; hasChildren: boolean; }> = ({ body, level, onToggle, isExpanded, hasChildren }) => {
     return (
-        <div className="relative z-10">
+        <div className="relative z-10 flex flex-col items-center">
             <button
                 onClick={onToggle}
-                className="bg-surface dark:bg-dark-surface p-5 rounded-xl custom-shadow-lg w-72 text-center group transition-all duration-300 hover:custom-shadow-xl hover:-translate-y-1"
+                className={`relative p-5 rounded-2xl custom-shadow-lg w-80 text-center group transition-all duration-300 border-2 ${level === 0 ? 'bg-surface dark:bg-dark-surface border-primary/20' : 'bg-white dark:bg-gray-800 border-transparent'} hover:border-primary hover:-translate-y-1`}
                 aria-expanded={isExpanded}
             >
                 <div className="flex items-center justify-center space-x-2">
-                    <h3 className={`font-bold text-on-surface dark:text-dark-on-surface ${level === 0 ? 'text-lg' : 'text-base'}`}>{body.name}</h3>
+                    <h3 className={`font-bold text-on-surface dark:text-dark-on-surface ${level === 0 ? 'text-xl' : 'text-lg'}`}>{body.name}</h3>
                     {body.url && (
                         <a
                             href={body.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={(e) => e.stopPropagation()}
-                            className="p-1 rounded-full text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700"
+                            className="p-1.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 hover:text-primary dark:hover:text-primary transition-colors"
                             aria-label={`Visit website for ${body.name}`}
-                            title={`Visit website for ${body.name}`}
                         >
-                            <ExternalLinkIcon className="h-4 w-4" />
+                            <ExternalLinkIcon className="h-3.5 w-3.5" />
                         </a>
                     )}
                 </div>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{body.description}</p>
-                {hasChildren && <ChevronDownIcon className={`h-5 w-5 mx-auto mt-2 text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />}
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">{body.description}</p>
+                {hasChildren && (
+                    <div className={`mt-3 flex justify-center transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
+                         <ChevronDownIcon className="h-5 w-5 text-gray-400" />
+                    </div>
+                )}
             </button>
-            <div className="w-72 transition-all duration-500 ease-in-out overflow-hidden" style={{ maxHeight: isExpanded ? '1500px' : '0px', opacity: isExpanded ? 1 : 0 }}>
-                 <div className="w-full space-y-3 pt-4">
+            
+            <div className={`w-80 transition-all duration-500 ease-[cubic-bezier(0.04,0.62,0.23,0.98)] overflow-hidden ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                 <div className="pt-4 pb-2 space-y-3">
                     {body.leadership && (
-                         <div className="bg-primary-light/50 dark:bg-dark-primary-light/50 p-4 rounded-lg custom-shadow text-center z-10">
-                            <h4 className="font-bold text-sm text-primary dark:text-dark-primary mb-2 border-b border-primary/20 pb-2">Leadership</h4>
+                         <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/10 text-center">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-primary dark:text-dark-primary mb-2">Leadership</h4>
                             {body.leadership.map((l, i) => <p key={i} className="font-semibold text-sm text-gray-800 dark:text-gray-200">{l.title}</p>)}
                          </div>
                     )}
                     {body.composition && (
-                        <div className="bg-gray-50 dark:bg-black/20 p-4 rounded-lg custom-shadow z-10">
-                            <h4 className="font-bold text-sm text-gray-600 dark:text-gray-300 mb-2 text-center border-b border-gray-200 dark:border-gray-600 pb-2">Composition</h4>
-                            <ul className="text-center space-y-1.5 mt-2">
-                                {body.composition.map((c, i) => <li key={i} className="text-sm text-gray-700 dark:text-gray-400">{c}</li>)}
+                        <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 text-center">Composition</h4>
+                            <ul className="space-y-1 text-center">
+                                {body.composition.map((c, i) => <li key={i} className="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 py-1 px-2 rounded shadow-sm inline-block m-0.5">{c}</li>)}
                             </ul>
                         </div>
                     )}
                      {body.jurisdiction && (
-                        <div className="bg-gray-50 dark:bg-black/20 p-4 rounded-lg custom-shadow z-10">
-                            <h4 className="font-bold text-sm text-gray-600 dark:text-gray-300 mb-2 text-center border-b border-gray-200 dark:border-gray-600 pb-2">Jurisdiction</h4>
-                            <p className="text-sm text-gray-700 dark:text-gray-400 mt-2">{body.jurisdiction}</p>
+                        <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 text-center">Jurisdiction</h4>
+                            <p className="text-sm text-gray-700 dark:text-gray-300 text-center leading-snug">{body.jurisdiction}</p>
                         </div>
                     )}
                 </div>
@@ -63,24 +68,26 @@ const HierarchyNode: React.FC<{ body: JudicialBody; level?: number; onToggle: (n
     const hasChildren = body.children && body.children.length > 0;
 
     return (
-        <div className="flex flex-col items-center relative px-2">
+        <div className="flex flex-col items-center">
             <DetailsCard body={body} level={level} onToggle={() => onToggle(body.name)} isExpanded={expanded} hasChildren={hasChildren} />
             
             {expanded && hasChildren && (
-                <div className="w-full mt-12 relative flex justify-center">
-                    {/* Vertical line connecting parent to its children block */}
-                    <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-0.5 h-12 bg-gray-300 dark:bg-gray-600 z-0"></div>
+                <div className="flex flex-col items-center w-full">
+                    {/* Vertical Stem */}
+                    <div className="h-8 w-0.5 bg-gray-300 dark:bg-gray-600"></div>
                     
-                    {/* Grid layout for children */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 w-full max-w-7xl">
+                    <div className="relative flex justify-center flex-wrap gap-8 w-full">
+                        {/* Horizontal Bar - conditionally rendered based on child count logic for pure visual tree, simpler here to use flex gap */}
+                        {body.children.length > 1 && (
+                             <div className="absolute top-0 left-8 right-8 h-0.5 bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
+                        )}
+
                         {body.children.map((child) => (
-                            <HierarchyNode 
-                                key={child.name} 
-                                body={child} 
-                                level={level + 1} 
-                                onToggle={onToggle} 
-                                isExpanded={isExpanded} 
-                            />
+                            <div key={child.name} className="flex flex-col items-center relative">
+                                {/* Vertical connector to child */}
+                                <div className="h-8 w-0.5 bg-gray-300 dark:bg-gray-600 sm:block hidden"></div>
+                                <HierarchyNode body={child} level={level + 1} onToggle={onToggle} isExpanded={isExpanded} />
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -111,11 +118,8 @@ const JudiciaryPage: React.FC = () => {
                 body.children.forEach(find);
             }
         };
-
         const startNode = findNode(data, name);
-        if (startNode) {
-            find(startNode);
-        }
+        if (startNode) find(startNode);
         return names;
     };
 
@@ -123,7 +127,6 @@ const JudiciaryPage: React.FC = () => {
         setExpandedNodes(prev => {
             const newSet = new Set(prev);
             if (newSet.has(nodeName)) {
-                // If collapsing a node, collapse all its children too
                 const nodesToCollapse = findNodeAndChildren(judiciaryData, nodeName);
                 nodesToCollapse.forEach(name => newSet.delete(name));
             } else {
@@ -138,23 +141,25 @@ const JudiciaryPage: React.FC = () => {
     return (
         <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
             <div className="max-w-7xl mx-auto">
-                <header className="text-center mb-12">
-                    <div className="inline-block p-3 bg-primary-light dark:bg-dark-primary-light rounded-2xl">
-                        <ScaleIcon className="h-8 w-8 text-primary dark:text-dark-primary" />
+                <header className="text-center mb-16">
+                    <div className="inline-block p-4 bg-primary-light dark:bg-dark-primary-light rounded-3xl mb-4 shadow-sm">
+                        <ScaleIcon className="h-10 w-10 text-primary dark:text-dark-primary" />
                     </div>
-                    <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Judiciary Structure</h1>
+                    <h1 className="text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Judiciary Structure</h1>
                     <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-                        An interactive chart of the Judiciary of Kenya. Explore the hierarchy from the Supreme Court down to the subordinate courts and learn about their roles and composition.
+                        An interactive hierarchy of the Courts of Kenya.
                     </p>
                 </header>
 
-                <main className="flex flex-col items-center gap-8 pb-12">
-                     <HierarchyNode
-                        body={judiciaryData}
-                        onToggle={handleToggle}
-                        isExpanded={isExpanded}
-                     />
-                </main>
+                <div className="w-full overflow-x-auto pb-12">
+                    <div className="min-w-max flex justify-center px-4">
+                        <HierarchyNode
+                            body={judiciaryData}
+                            onToggle={handleToggle}
+                            isExpanded={isExpanded}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );

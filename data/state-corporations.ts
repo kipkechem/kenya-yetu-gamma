@@ -705,7 +705,7 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
       },
       {
         name: 'Kenya Industrial Property Institute (KIPI)',
-        description: 'The national body for administering industrial property rights, established by the Industrial Property Act, 2001. Its mandate includes granting patents and registering trademarks.',
+        description: 'The national body for administering industrial property rights, established by the Industrial Property Act, 2011. Its mandate includes granting patents and registering trademarks.',
         url: 'https://www.kipi.go.ke/',
         head: 'MD: John Onyango',
       },
@@ -1103,6 +1103,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             head: 'MD: Dr. Mohamed Keinan',
         },
         {
+            name: 'East African School of Aviation',
+            description: 'The aviation training school of the Kenya Civil Aviation Authority, established under the Civil Aviation Act, No. 21 of 2013. It provides training for aviation professionals.',
+            url: 'https://www.easa.ac.ke/',
+        },
+        {
             name: 'Engineers Board of Kenya',
             description: 'The statutory body that regulates and develops the engineering profession in Kenya.',
             url: 'https://ebk.go.ke/',
@@ -1283,6 +1288,11 @@ export const categorizedCorporationsData: StateCorporationCategory[] = [
             name: 'Physical Planners Registration Board',
             description: 'The board that registers and regulates physical planners in Kenya.',
             url: '#',
+        },
+        {
+            name: 'Railway Training Institute',
+            description: 'A training institution established to provide practical skills training for the railway and transport sector.',
+            url: 'https://www.rti.ac.ke/',
         },
         {
             name: 'South Eastern Kenya Economic Bloc (SEKEB)',

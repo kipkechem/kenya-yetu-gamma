@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import type { County } from '../types/index';
 import { ChevronDownIcon, MapPinIcon, ExternalLinkIcon } from '../components/icons';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const CountyNode: React.FC<{ county: County; isExpanded: boolean; onToggle: () => void; }> = ({ county, isExpanded, onToggle }) => {
     return (
@@ -78,11 +79,7 @@ const CountyGovernmentsPage: React.FC = () => {
     };
     
     if (!counties) {
-        return (
-            <div className="flex items-center justify-center h-full w-full">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary dark:border-dark-primary"></div>
-            </div>
-        );
+        return <LoadingSpinner />;
     }
 
     return (

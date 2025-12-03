@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback, useMemo, lazy, Suspense } from 'react';
 import type { AppView, Theme, NavigationPayload } from './types';
 import MainSidebar from './components/MainSidebar';
@@ -6,6 +5,7 @@ import ThemeSwitcher from './components/ThemeSwitcher';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import SearchBar from './components/SearchBar';
 import { MenuIcon, ChatBubbleOvalLeftEllipsisIcon } from './components/icons';
+import LoadingSpinner from './components/LoadingSpinner';
 
 // Lazy load all page components for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -30,53 +30,11 @@ const HistoricalDocumentsPage = lazy(() => import('./pages/HistoricalDocumentsPa
 const LegislaturePage = lazy(() => import('./components/LegislaturePage'));
 const JudiciaryPage = lazy(() => import('./components/JudiciaryPage'));
 const NationalPolicyPage = lazy(() => import('./components/NationalPolicyPage'));
+const CountyExplorerPage = lazy(() => import('./components/CountyExplorerPage'));
+const SameLatLongPage = lazy(() => import('./pages/SameLatLongPage'));
 
 // Symbols are small, so they can be loaded directly
 import { kenyaFlagSvg, kenyaFlagDescription, kenyaCoatOfArmsSvg, kenyaCoatOfArmsDescription } from './data/symbols';
-
-
-const LoadingSpinner: React.FC = () => {
-    const [progress, setProgress] = useState(0);
-    const [message, setMessage] = useState("");
-
-    const messages = [
-        "Don't worry, the page is loading...",
-        "Consulting the Council of Elders for the data...",
-        "Running a quick referendum on this request...",
-        "Traversing the 47 counties to fetch your content...",
-        "Loading... faster than a matatu during rush hour (hopefully)...",
-        "Ensuring compliance with Chapter 6 before displaying..."
-    ];
-
-    useEffect(() => {
-        setMessage(messages[Math.floor(Math.random() * messages.length)]);
-        
-        const interval = setInterval(() => {
-            setProgress((prev) => {
-                // Simulate progress that slows down as it reaches 100
-                const remaining = 100 - prev;
-                const increment = Math.max(0.2, remaining * 0.1); 
-                const next = prev + increment;
-                return next >= 99 ? 99 : next;
-            });
-        }, 150);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    return (
-        <div className="flex flex-col items-center justify-center h-full w-full p-4 min-h-[50vh] animate-fade-in-up">
-            <div className="relative flex items-center justify-center mb-6">
-                <div className="w-24 h-24 rounded-full border-4 border-gray-200 dark:border-gray-700/30"></div>
-                <div className="w-24 h-24 rounded-full border-4 border-primary dark:border-dark-primary border-t-transparent animate-spin absolute inset0"></div>
-                <span className="absolute text-xl font-bold text-primary dark:text-dark-primary">{Math.floor(progress)}%</span>
-            </div>
-            <p className="text-lg font-medium text-gray-600 dark:text-gray-300 text-center animate-pulse max-w-md px-4">
-                {message}
-            </p>
-        </div>
-    );
-};
 
 // Mapping of views to Unsplash Image URLs
 const getBackgroundImage = (view: AppView): string => {
@@ -104,6 +62,7 @@ const getBackgroundImage = (view: AppView): string => {
         projects: 'https://images.unsplash.com/photo-1605152276897-4f618f831968?q=80&w=1920&auto=format&fit=crop', // Agriculture/Tea Farm
         'county-governments': 'https://images.unsplash.com/photo-1543796755-74b13794920d?q=80&w=1920&auto=format&fit=crop', // Aerial Landscape
         infomap: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=1920&auto=format&fit=crop', // Map/Globe
+        'same-lat-long': 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=1920&auto=format&fit=crop', // Globe
         
         // Resources & History
         resources: 'https://images.unsplash.com/photo-1507842217159-a28f2680d7d3?q=80&w=1920&auto=format&fit=crop', // Library
@@ -134,10 +93,45 @@ const App: React.FC = () => {
     const [actsSearchTerm, setActsSearchTerm] = useState('');
     const [selectedActTitle, setSelectedActTitle] = useState('');
     const [countyLawsSearchTerm, setCountyLawsSearchTerm] = useState('');
+    
+    // Background Image State
+    const [bgImages, setBgImages] = useState({
+        current: getBackgroundImage('home'),
+        next: '',
+    });
+    const [isTransitioning, setIsTransitioning] = useState(false);
 
     useEffect(() => {
         localStorage.setItem('sidebarCollapsed', String(isMainSidebarCollapsed));
     }, [isMainSidebarCollapsed]);
+
+    // Background Image Logic with Preloading
+    useEffect(() => {
+        const newImage = getBackgroundImage(activeView);
+        if (newImage === bgImages.current) return;
+
+        const img = new Image();
+        img.src = newImage;
+        
+        let isMounted = true;
+
+        img.onload = () => {
+             if (!isMounted) return;
+             
+             setBgImages(prev => ({ ...prev, next: newImage }));
+             setIsTransitioning(true);
+
+             // After transition duration, update current and reset
+             setTimeout(() => {
+                 if (!isMounted) return;
+                 setBgImages(prev => ({ current: newImage, next: '' }));
+                 setIsTransitioning(false);
+             }, 700); // Match transition duration
+        };
+
+        return () => { isMounted = false; };
+    }, [activeView, bgImages.current]);
+
 
     const navigateTo = useCallback((view: AppView, payload?: Omit<Partial<NavigationPayload>, 'view'>) => {
         // Reset constitution search term when navigating to a new top-level view
@@ -293,6 +287,10 @@ const App: React.FC = () => {
                     description={kenyaCoatOfArmsDescription}
                     fileName="kenya-coat-of-arms.svg"
                 />;
+            case 'county-explorer':
+                return <CountyExplorerPage />;
+            case 'same-lat-long':
+                return <SameLatLongPage />;
             default:
                 return <HomePage navigateTo={navigateTo} language={language} />;
         }
@@ -300,19 +298,31 @@ const App: React.FC = () => {
 
     return (
         <div className="h-screen w-screen relative flex flex-col md:flex-row overflow-hidden">
-             {/* Fixed Background Image Layer */}
+             {/* Fixed Background Image Layer - Current Image */}
              <div 
-                className="fixed inset-0 z-0 transition-all duration-700 ease-in-out transform-gpu"
+                className="fixed inset-0 z-0"
                 style={{
-                    backgroundImage: `url('${getBackgroundImage(activeView)}')`,
+                    backgroundImage: `url('${bgImages.current}')`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                 }}
-            >
-                {/* Overlay to ensure text readability on all backgrounds */}
-                <div className="absolute inset-0 bg-surface/70 dark:bg-dark-surface/80 backdrop-blur-[2px] transition-colors duration-500" />
-            </div>
+            />
+            
+            {/* Fixed Background Image Layer - Next Image (for Crossfade) */}
+            <div 
+                className="fixed inset-0 z-0 transition-opacity duration-700 ease-in-out"
+                style={{
+                    backgroundImage: `url('${bgImages.next}')`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    opacity: isTransitioning ? 1 : 0,
+                }}
+            />
+
+            {/* Overlay to ensure text readability on all backgrounds */}
+            <div className="fixed inset-0 z-0 bg-surface/85 dark:bg-dark-surface/85 backdrop-blur-[1px]" />
 
             {/* Main App Content Wrapper - z-10 ensures it sits above the background */}
             <div className="relative z-10 flex flex-col md:flex-row w-full h-full">
