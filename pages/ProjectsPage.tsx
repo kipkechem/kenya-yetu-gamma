@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { PresentationChartLineIcon, HierarchyIcon, MapPinIcon, ChevronDoubleRightIcon } from '../components/icons';
 import type { County } from '../types/index';
 import CountyDetailPage from '../components/CountyDetailPage';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 const CountyListItem: React.FC<{ name: string, code?: number, onClick: () => void }> = ({ name, code, onClick }) => (
     <button
@@ -27,16 +28,12 @@ const CountyListItem: React.FC<{ name: string, code?: number, onClick: () => voi
 
 const ProjectsPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
-    const [counties, setCounties] = useState<County[] | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
-
-    useEffect(() => {
-        const loadData = async () => {
-            const module = await import('../data/counties');
-            setCounties(module.countiesData.sort((a, b) => a.name.localeCompare(b.name)));
-        };
-        loadData();
-    }, []);
+    
+    const { data: counties, isLoading } = useLazyData<County[]>(
+        'counties-data',
+        () => import('../data/counties').then(m => m.countiesData.sort((a, b) => a.name.localeCompare(b.name)))
+    );
 
     const handleCountyClick = (county: County) => {
         setSelectedCounty(county);
@@ -60,7 +57,7 @@ const ProjectsPage: React.FC = () => {
         return <CountyDetailPage county={selectedCounty} onBack={handleBack} />;
     }
 
-    if (!counties) {
+    if (isLoading || !counties) {
         return <LoadingSpinner />;
     }
 

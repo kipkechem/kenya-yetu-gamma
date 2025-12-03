@@ -1,38 +1,26 @@
-
 import React, { useState, useMemo } from 'react';
 import KenyaMap from './KenyaMap';
 import CountyDetailPage from './CountyDetailPage';
-import { countiesData as allCountiesData } from '../data/counties';
-import { countyPaths as allCountyPaths } from '../data/mapdata';
 import { MapIcon } from './icons';
-import type { County } from '../types';
-import { getCachedData, setCachedData } from '../utils/cache';
-
-const loadCountiesData = (): County[] => {
-    const cacheKey = 'counties-data';
-    let data = getCachedData<County[]>(cacheKey);
-    if (data) { return data; }
-    data = allCountiesData;
-    setCachedData(cacheKey, data);
-    return data;
-};
-
-const loadCountyPaths = (): { name: string; path: string }[] => {
-    const cacheKey = 'county-paths-data';
-    let data = getCachedData<{ name: string; path: string }[]>(cacheKey);
-    if (data) { return data; }
-    data = allCountyPaths;
-    setCachedData(cacheKey, data);
-    return data;
-};
+import type { County } from '../types/index';
+import LoadingSpinner from './LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 const CountyExplorerPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
 
-    const countiesData = useMemo(() => loadCountiesData(), []);
-    const countyPaths = useMemo(() => loadCountyPaths(), []);
+    const { data: countiesData, isLoading: isCountiesLoading } = useLazyData<County[]>(
+        'counties-data',
+        () => import('../data/counties').then(m => m.countiesData)
+    );
+
+    const { data: countyPaths, isLoading: isPathsLoading } = useLazyData<{ name: string; path: string }[]>(
+        'county-paths-data',
+        () => import('../data/mapdata').then(m => m.countyPaths)
+    );
     
     const countiesMap = useMemo(() => {
+        if (!countiesData) return new Map();
         return new Map(countiesData.map(county => [county.name.toLowerCase(), county]));
     }, [countiesData]);
 
@@ -41,8 +29,6 @@ const CountyExplorerPage: React.FC = () => {
         if (county) {
             setSelectedCounty(county);
         } else {
-             // If county data is missing, show a message or a default state
-             // For this demo, we'll just log it and do nothing.
              console.warn(`Data for ${countyName} not found.`);
         }
     };
@@ -50,6 +36,10 @@ const CountyExplorerPage: React.FC = () => {
     const handleBack = () => {
         setSelectedCounty(null);
     };
+    
+    if (isCountiesLoading || isPathsLoading || !countiesData || !countyPaths) {
+         return <LoadingSpinner />;
+    }
 
     return (
         <div className="h-full w-full overflow-y-auto">

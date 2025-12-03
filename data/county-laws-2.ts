@@ -1,0 +1,325 @@
+
+import type { CountyLegislation } from '../types';
+
+export const countyLawsBatch2: CountyLegislation[] = [
+  {
+    countyName: 'Kisii',
+    acts: [
+      { name: "Kisii County Abattoirs Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/8/eng@2015-09-02" },
+      { name: "Kisii County Alcoholic Drinks Control Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/11/eng@2015-11-24" },
+      { name: "Kisii County Assembly Member's Loan and Mortgage Fund Act, 2014", url: "https://new.kenyalaw.org/akn/ke-045/act/2014/2/eng@2014-04-23" },
+      { name: "Kisii County Business Licensing Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/13/eng@2015-11-24" },
+      { name: "Kisii County Emergency Health Services Fund Act, 2016", url: "https://new.kenyalaw.org/akn/ke-045/act/2016/6/eng@2016-11-18" },
+      { name: "Kisii County Loans and Mortgage Fund Regulations, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/ln/2015/1a/eng@2015-12-09" },
+      { name: "Kisii County NHIF Support Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/6/eng@2015-09-04" },
+      { name: "Kisii County Outdoor Advertising Act, 2014", url: "https://new.kenyalaw.org/akn/ke-045/act/2014/9/eng@2014-11-14" },
+      { name: "Kisii County Persons with Disabilities Fund Act, 2016", url: "https://new.kenyalaw.org/akn/ke-045/act/2016/4/eng@2016-08-24" },
+      { name: "Kisii County Public Nuisances Act, 2014", url: "https://new.kenyalaw.org/akn/ke-045/act/2014/12/eng@2014-10-31" },
+      { name: "Kisii County Public Participation Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/2a/eng@2015-05-14" },
+      { name: "Kisii County Rating Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/12/eng@2015-11-24" },
+      { name: "Kisii County Revenue Administration Act, 2014", url: "https://new.kenyalaw.org/akn/ke-045/act/2014/8/eng@2014-11-14" },
+      { name: "Kisii County Science and Technology Park Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/14/eng@2015-11-02" },
+      { name: "Kisii County Solid Waste Management Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/5/eng@2015-09-30" },
+      { name: "Kisii County Transport Act, 2014", url: "https://new.kenyalaw.org/akn/ke-045/act/2014/13/eng@2014-10-24" },
+      { name: "Kisii County Village Polytechnics Act, 2015", url: "https://new.kenyalaw.org/akn/ke-045/act/2015/4/eng@2015-08-03" },
+      { name: "Kisii County Water Management and Water and Sanitation Services Act, 2014", url: "https://new.kenyalaw.org/akn/ke-045/act/2014/14/eng@2014-10-31" },
+      { name: "Kisii County Youth and Women Empowerment Fund Act, 2016", url: "https://new.kenyalaw.org/akn/ke-045/act/2016/5/eng@2016-08-24" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Kisumu',
+    acts: [
+      { name: "Kisumu County Administration (Village Units) Act 2019", url: "https://new.kenyalaw.org/akn/ke-042/act/2019/1/eng@2019-05-30" },
+      { name: "Kisumu County Community Health Services Act, 2022", url: "https://new.kenyalaw.org/akn/ke-042/act/2022/5/eng@2022-06-21" },
+      { name: "Kisumu County Disaster and Emergency Management Act, 2015", url: "https://new.kenyalaw.org/akn/ke-042/act/2015/10/eng@2015-12-11" },
+      { name: "Kisumu County Education Funds Act, 2014", url: "https://new.kenyalaw.org/akn/ke-042/act/2014/1/eng@2014-05-14" },
+      { name: "Kisumu County Emergency Fund Act, 2018", url: "https://new.kenyalaw.org/akn/ke-042/act/2018/4/eng@2018-12-11" },
+      { name: "Kisumu County Investment and Banking Act, 2015", url: "https://new.kenyalaw.org/akn/ke-042/act/2015/4/eng@2015-07-06" },
+      { name: "Kisumu County Investment and Development Corporation Act, 2021", url: "https://new.kenyalaw.org/akn/ke-042/act/2021/3/eng@2021-08-27" },
+      { name: "Kisumu County Lake Region Economic Bloc Act, 2018", url: "https://new.kenyalaw.org/akn/ke-042/act/2018/6/eng@2018-12-11" },
+      { name: "Kisumu County Law Enforcement Service Act, 2019", url: "https://new.kenyalaw.org/akn/ke-042/act/2019/6/eng@2019-12-20" },
+      { name: "Kisumu County Office of the County Attorney Act, 2018", url: "https://new.kenyalaw.org/akn/ke-042/act/2018/9/eng@2018-12-28" },
+      { name: "Kisumu County Provision Collection of Revenue Act, 2013", url: "https://new.kenyalaw.org/akn/ke-042/act/2013/2/eng@2013-10-30" },
+      { name: "Kisumu County Revenue Administration Act, 2015", url: "https://new.kenyalaw.org/akn/ke-042/act/2015/14/eng@2015-12-31" },
+      { name: "Kisumu County Tax Waivers Administration Act, 2014", url: "https://new.kenyalaw.org/akn/ke-042/act/2014/2/eng@2014-06-04" },
+      { name: "Kisumu County Trade Fund Act, 2015", url: "https://new.kenyalaw.org/akn/ke-042/act/2015/8/eng@2015-06-29" },
+      { name: "Kisumu County Trade Licensing Act, 2015", url: "https://new.kenyalaw.org/akn/ke-042/act/2015/6/eng@2015-06-29" },
+      { name: "Kisumu County Transport Act, 2019", url: "https://new.kenyalaw.org/akn/ke-042/act/2019/7/eng@2019-12-20" },
+      { name: "Kisumu County Women, Youth and People Living with Disabilities Fund Act, 2015", url: "https://new.kenyalaw.org/akn/ke-042/act/2015/7/eng@2015-07-03" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Kitui',
+    acts: [
+      { name: "Kitui County Charcoal Management Act, 2014", url: "https://new.kenyalaw.org/akn/ke-015/act/2014/6/eng@2014-11-28" },
+      { name: "Kitui County Emergency Fund Act, 2018", url: "https://new.kenyalaw.org/akn/ke-015/act/2018/4/eng@2018-08-17" },
+      { name: "Kitui County Markets and Farm Produce Trade Act, 2014", url: "https://new.kenyalaw.org/akn/ke-015/act/2014/4/eng@2014-11-21" },
+      { name: "Kitui County Sorghum Act, 2014", url: "https://new.kenyalaw.org/akn/ke-015/act/2014/8/eng@2014-09-05" },
+      { name: "Kitui County Villages Act, 2015", url: "https://new.kenyalaw.org/akn/ke-015/act/2015/1/eng@2015-03-24" },
+      { name: "Kitui County Ward Public Forums Act, 2019", url: "https://new.kenyalaw.org/akn/ke-015/act/2019/3/eng@2019-10-15" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Kwale',
+    acts: [
+      { name: "Kwale County Access to Information Act, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/14/eng@2017-03-10" },
+      { name: "Kwale County Air Pollution, Noise Pollution and Nuisances, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/10/eng@2017-03-10" },
+      { name: "Kwale County Anti-Pornography Act, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/8-/eng@2016-12-28" },
+      { name: "Kwale County Assembly Members and Staff Loan Scheme Fund Act", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/4/eng@2016-06-02" },
+      { name: "Kwale County Bursary Fund Act, 2014", url: "https://new.kenyalaw.org/akn/ke-002/act/2014/3/eng@2014-09-05" },
+      { name: "Kwale County Disaster Management Fund Act, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/7/eng@2016-11-04" },
+      { name: "Kwale County Early Childhood Development and Education Act, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/9/eng@2016-04-15" },
+      { name: "Kwale County Finance Act, 2014", url: "https://new.kenyalaw.org/akn/ke-002/act/2014/1/eng@2014-03-28" },
+      { name: "Kwale County Flag, Emblems and Names Protection Act, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/3/eng@2015-05-27" },
+      { name: "Kwale County Forest Conservation and Management Act", url: "https://new.kenyalaw.org/akn/ke-002/act/2017/5/eng@2019-07-15" },
+      { name: "Kwale County Meat Control Act, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/13/eng@2017-03-10" },
+      { name: "Kwale County Public Participation Act, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/12/eng@2017-03-10" },
+      { name: "Kwale County Quarrying Act, 2016", url: "https://new.kenyalaw.org/akn/ke-002/act/2016/11/eng@2017-03-10" },
+      { name: "Kwale County Quarrying Regulations, 2017", url: "https://new.kenyalaw.org/akn/ke-002/act/ln/2017/1/eng@2018-02-15" },
+      { name: "Kwale County Trade Revolving Fund, 2014", url: "https://new.kenyalaw.org/akn/ke-002/act/2014/2/eng@2014-09-26" },
+      { name: "Kwale County Transport Act", url: "https://new.kenyalaw.org/akn/ke-002/act/2017/3/eng@2019-04-15" },
+      { name: "Kwale County Vocational Training Institutes Act, 2017", url: "https://new.kenyalaw.org/akn/ke-002/act/2017/4/eng@2019-04-15" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Laikipia',
+    acts: [
+      { name: "Laikipia County Enterprise Fund Act, 2014", url: "https://new.kenyalaw.org/akn/ke-031/act/2014/10/eng@2014-07-03" },
+      { name: "Laikipia County Finance Act, 2017", url: "https://new.kenyalaw.org/akn/ke-031/act/2017/7/eng@2017-10-09" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Lamu',
+    acts: [
+      { name: "Lamu County Anti-Pornography Act, 2015", url: "https://new.kenyalaw.org/akn/ke-005/act/2015/2/eng@2015-06-25" },
+      { name: "Lamu County Cancer Control Act, 2019", url: "https://new.kenyalaw.org/akn/ke-005/act/2019/2a/eng@2019-03-28" },
+      { name: "Lamu County Fisheries Development Act, 2015", url: "https://new.kenyalaw.org/akn/ke-005/act/2015/3/eng@2015-06-25" },
+      { name: "Lamu County Gender and Social Development Act, 2018", url: "https://new.kenyalaw.org/akn/ke-005/act/2018/3/eng@2018-11-27" },
+      { name: "Lamu County Health Facility Improvement Financing Act, 2019", url: "https://new.kenyalaw.org/akn/ke-005/act/2023/3/eng@2023-10-24" },
+      { name: "Lamu County Health Services and Community Health Act, 2023", url: "https://new.kenyalaw.org/akn/ke-005/act/2023/4/eng@2023-10-23" },
+      { name: "Lamu County Maternal, Newborn and Child Health Act", url: "https://new.kenyalaw.org/akn/ke-005/act/2016/6/eng@2016-08-02" },
+      { name: "Lamu County Persons with Disabilities Act, 2018", url: "https://new.kenyalaw.org/akn/ke-005/act/2018/4/eng@2018-11-27" },
+      { name: "Lamu County Petition to County Assembly (Procedure) Act, 2015", url: "https://new.kenyalaw.org/akn/ke-005/act/2015/8/eng@2015-11-25" },
+      { name: "Lamu County Revenue Administration Act, 2015.", url: "https://new.kenyalaw.org/akn/ke-005/act/2015/9/eng@2015-11-25" },
+      { name: "Lamu County Trade Licence Act, 2015", url: "https://new.kenyalaw.org/akn/ke-005/act/2015/10/eng@2015-11-25" },
+      { name: "Lamu County Valuation and Rating Act, 2015", url: "https://new.kenyalaw.org/akn/ke-005/act/2015/11/eng@2015-11-25" },
+      { name: "Lamu County Youth Development Act", url: "https://new.kenyalaw.org/akn/ke-005/act/2018/2/eng@2018-11-27" },
+      { name: "Lamu County Youth Polytechnics Act, 2015", url: "https://new.kenyalaw.org/akn/ke-005/act/2015/4/eng@2015-06-25" },
+      { name: "Public Finance Management (Lamu County Assembly Mortgage (Members) Scheme Fund), 2015", url: "https://new.kenyalaw.org/akn/ke-005/act/ln/2015/1/eng@2015-05-12" },
+      { name: "Public Finance Management [Lamu County Assembly Mortgage (Members) Scheme Fund] Regulations, 2014", url: "https://new.kenyalaw.org/akn/ke-005/act/ln/2014/12/eng@2014-10-14" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Machakos',
+    acts: [
+      { name: "Machakos County Agricultural Development Fund Act,2014", url: "https://new.kenyalaw.org/akn/ke-016/act/2014/6/eng@2014-12-29" },
+      { name: "Machakos County Co-operatives Societies Act, 2015", url: "https://new.kenyalaw.org/akn/ke-016/act/2015/11/eng@2016-04-20" },
+      { name: "Machakos County Commuter Motor Vehicle Act, 2015", url: "https://new.kenyalaw.org/akn/ke-016/act/2015/8/eng@2015-12-24" },
+      { name: "Machakos County Designated Parking Places Act, 2015", url: "https://new.kenyalaw.org/akn/ke-016/act/2015/9/eng@2015-11-18" },
+      { name: "Machakos County E-Waste Management Act, 2015", url: "https://new.kenyalaw.org/akn/ke-016/act/2015/4/eng@2016-02-26" },
+      { name: "Machakos County Flags and Other Symbols Act, 2016", url: "https://new.kenyalaw.org/akn/ke-016/act/2016/7/eng@2017-04-13" },
+      { name: "Machakos County Government Administrative Structures Act, 2015", url: "https://new.kenyalaw.org/akn/ke-016/act/2015/23/eng@2016-04-20" },
+      { name: "Machakos County HIV and AIDS Management Act, 2015", url: "https://new.kenyalaw.org/akn/ke-016/act/2015/5/eng@2016-02-26" },
+      { name: "Machakos County Management of Quarrying Activities Act, 2016", url: "https://new.kenyalaw.org/akn/ke-016/act/2016/4/eng@2017-04-12" },
+      { name: "Machakos County Non-Motorized Vehicles Act, 2016", url: "https://new.kenyalaw.org/akn/ke-016/act/2016/5/eng@2017-04-12" },
+      { name: "Machakos County Persons with Disabilities Act, 2016", url: "https://new.kenyalaw.org/akn/ke-016/act/2016/6/eng@2017-04-12" },
+      { name: "Machakos County Public Markets and Stalls Act, 2016", url: "https://new.kenyalaw.org/akn/ke-016/act/2016/3a/eng@2017-04-12" },
+      { name: "Machakos County Public Participation Act, 2014", url: "https://new.kenyalaw.org/akn/ke-016/act/2014/8/eng@2014-12-29" },
+      { name: "Machakos County Rating Act, 2014", url: "https://new.kenyalaw.org/akn/ke-016/act/2014/5/eng@2014-12-29" },
+      { name: "Machakos County Revenue Administration Act, 2015", url: "https://new.kenyalaw.org/akn/ke-016/act/2015/7/eng@2015-05-07" },
+      { name: "Machakos County Sand Harvesting Act, 2014", url: "https://new.kenyalaw.org/akn/ke-016/act/2014/3/eng@2014-11-18" },
+      { name: "Machakos County Senior Citizens Act, 2022", url: "https://new.kenyalaw.org/akn/ke-016/act/2022/4/eng@2022-06-06" },
+      { name: "Machakos County Tax Waivers Administration Act, 2022", url: "https://new.kenyalaw.org/akn/ke-016/act/2022/3/eng@2022-05-11" },
+      { name: "Machakos County Trade Licence Act, 2014", url: "https://new.kenyalaw.org/akn/ke-016/act/2014/9/eng@2014-12-29" },
+      { name: "Machakos County Youth Empowerment Act, 2022", url: "https://new.kenyalaw.org/akn/ke-016/act/2022/11/eng@2022-08-03" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Makueni',
+    acts: [
+      { name: "Makueni County Administration Act, 2014", url: "https://new.kenyalaw.org/akn/ke-017/act/2014/2/eng@2014-08-07" },
+      { name: "Makueni County Cancer Control Act, 2016", url: "https://new.kenyalaw.org/akn/ke-017/act/2016/6/eng@2016-12-01" },
+      { name: "Makueni County Cultural Heritage Act, 2016", url: "https://new.kenyalaw.org/akn/ke-017/act/2016/5/eng@2016-11-15" },
+      { name: "Makueni County Emergency Fund Act, 2015", url: "https://new.kenyalaw.org/akn/ke-017/act/2015/4/eng@2015-10-23" },
+      { name: "Makueni County Investment Authority Act, 2018", url: "https://new.kenyalaw.org/akn/ke-017/act/2018/6/eng@2018-07-03" },
+      { name: "Makueni County Office of the County Attorney Act, 2018", url: "https://new.kenyalaw.org/akn/ke-017/act/2018/3/eng@2018-05-18" },
+      { name: "Makueni County Reproductive Health and Family Planning Act, 2019", url: "https://new.kenyalaw.org/akn/ke-017/act/2019/5/eng@2019-11-19" },
+      { name: "Makueni County Revenue Administration Act, 2017", url: "https://new.kenyalaw.org/akn/ke-017/act/2017/7/eng@2017-12-27" },
+      { name: "Makueni County Sand Conservation and Utilization Act, 2015", url: "https://new.kenyalaw.org/akn/ke-017/act/2015/1/eng@2015-02-18" },
+      { name: "Makueni County Senior Citizens Act, 2016", url: "https://new.kenyalaw.org/akn/ke-017/act/2016/4/eng@2016-11-15" },
+      { name: "Makueni County Technical and Vocational Skills Training Act, 2016", url: "https://new.kenyalaw.org/akn/ke-017/act/2016/4a/eng@2016-12-06" },
+      { name: "Makueni County Vetting and Approval of Public Officers Act, 2015", url: "https://new.kenyalaw.org/akn/ke-017/act/2015/5/eng@2015-12-10" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Mandera',
+    acts: [
+      { name: "Mandera County Anti-Pornography Act, 2014", url: "https://new.kenyalaw.org/akn/ke-009/act/2014/3/eng@2014-07-11" },
+      { name: "Mandera County Finance Act, 2013", url: "https://new.kenyalaw.org/akn/ke-009/act/2013/3/eng@2013-10-01" },
+      { name: "Mandera County Revenue Administration Act, 2016", url: "https://new.kenyalaw.org/akn/ke-009/act/2017/5/eng@2017-11-02" },
+      { name: "Mandera County Trade Development Fund Act, 2014", url: "https://new.kenyalaw.org/akn/ke-009/act/2014/6/eng@2014-07-11" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Marsabit',
+    acts: [
+      { name: "Marsabit County Alcoholic Drinks Control Act, 2016", url: "https://new.kenyalaw.org/akn/ke-010/act/2016/10/eng@2016-12-30" },
+      { name: "Marsabit County Climate Change Fund Act, 2020", url: "https://new.kenyalaw.org/akn/ke-010/act/2020/2/eng@2020-12-16" },
+      { name: "Marsabit County Early Childhood Development and Education Act, 2016", url: "https://new.kenyalaw.org/akn/ke-010/act/2016/9/eng@2016-12-30" },
+      { name: "Marsabit County Education Fund Act, 2018", url: "https://new.kenyalaw.org/akn/ke-010/act/2018/2/eng@2018-12-31" },
+      { name: "Marsabit County Emergency Fund Act, 2014", url: "https://new.kenyalaw.org/akn/ke-010/act/2014/1/eng@2014-12-17" },
+      { name: "Marsabit County Energy Development Act, 2016", url: "https://new.kenyalaw.org/akn/ke-010/act/2016/2/eng@2016-06-07" },
+      { name: "Marsabit County Enterprise Fund Act, 2015", url: "https://new.kenyalaw.org/akn/ke-010/act/2015/2/eng@2015-07-24" },
+      { name: "Marsabit County Flag Emblems and Names Act, 2014", url: "https://new.kenyalaw.org/akn/ke-010/act/2014/2/eng@2015-02-20" },
+      { name: "Marsabit County Frontier Counties Development Council Act, 2020", url: "https://new.kenyalaw.org/akn/ke-010/act/2020/1/eng@2020-10-19" },
+      { name: "Marsabit County Health Services Act, 2016", url: "https://new.kenyalaw.org/akn/ke-010/act/2016/7/eng@2016-06-09" },
+      { name: "Marsabit County Municipal Charter of the Municipality (Revised 2019), 2019", url: "https://new.kenyalaw.org/akn/ke-010/act/ln/2019/1/eng@2019-09-13" },
+      { name: "Marsabit County Planning Act, 2016", url: "https://new.kenyalaw.org/akn/ke-010/act/2016/1a/eng@2016-06-07" },
+      { name: "Marsabit County Rating Act, 2016", url: "https://new.kenyalaw.org/akn/ke-010/act/2016/11/eng@2016-12-30" },
+      { name: "Marsabit County Revenue Administration Act, 2016", url: "https://new.kenyalaw.org/akn/ke-010/act/2016/12/eng@2016-12-30" },
+      { name: "Marsabit County Scholarship Fund Act, 2015", url: "https://new.kenyalaw.org/akn/ke-010/act/2015/3/eng@2015-07-24" },
+      { name: "Marsabit County Tourism Act, 2016", url: "https://new.kenyalaw.org/akn/ke-010/act/2016/8/eng@2016-11-04" },
+      { name: "Marsabit County Trade Licensing Act, 2017", url: "https://new.kenyalaw.org/akn/ke-010/act/2017/3/eng@2017-05-25" },
+      { name: "Marsabit County Transport Act, 2017", url: "https://new.kenyalaw.org/akn/ke-010/act/2017/2/eng@2017-05-25" },
+      { name: "Marsabit County Vocational Training Act, 2017", url: "https://new.kenyalaw.org/akn/ke-010/act/2017/1/eng@2017-05-25" },
+      { name: "Public Finance (Marsabit County State Officers and Other Public Officers Mortgage Scheme Fund) Regulations, 2015", url: "https://new.kenyalaw.org/akn/ke-010/act/ln/2015/1/eng@2015-11-19" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Meru',
+    acts: [
+      { name: "County Assembly of Meru (Housing Scheme Fund) Regulations, 2017.", url: "https://new.kenyalaw.org/akn/ke-012/act/ln/2017/2/eng@2017-12-11" },
+      { name: "County Assembly of Meru Powers and Privileges Committee Procedures for Administration of Part IV of the Act", url: "https://new.kenyalaw.org/akn/ke-012/act/ln/2019/1/eng@2019-12-17" },
+      { name: "County Assembly of Meru Staff Car Loan Fund Regulations, 2015", url: "https://new.kenyalaw.org/akn/ke-012/act/ln/2015/1/eng@2015-12-21" },
+      { name: "County Assembly of Meru Staff Housing Fund Regulations, 2015", url: "https://new.kenyalaw.org/akn/ke-012/act/ln/2015/2/eng@2015-12-21" },
+      { name: "Meru County Alcoholic Drinks Control Act, 2014", url: "https://new.kenyalaw.org/akn/ke-012/act/2014/3/eng@2014-07-18" },
+      { name: "Meru County Alcoholic Drinks Control Act, 2017", url: "https://new.kenyalaw.org/akn/ke-012/act/2017/7/eng@2017-07-21" },
+      { name: "Meru County Alcoholic Drinks Control Act, 2024", url: "https://new.kenyalaw.org/akn/ke-012/act/2024/1/eng@2024-04-15" },
+      { name: "Meru County Assembly Service Act, 2016", url: "https://new.kenyalaw.org/akn/ke-012/act/2016/4/eng@2016-12-30" },
+      { name: "Meru County Assembly Service Board Procedures for Administration of Part IV of the Act", url: "https://new.kenyalaw.org/akn/ke-012/act/ln/2019/2/eng@2019-12-17" },
+      { name: "Meru County Disaster Management Act, 2017", url: "https://new.kenyalaw.org/akn/ke-012/act/2017/6/eng@2017-07-21" },
+      { name: "Meru County Early Childhood Development and Education Act, 2016", url: "https://new.kenyalaw.org/akn/ke-012/act/2017/2a/eng@2017-07-21" },
+      { name: "Meru County Executive Staff Car Loan Fund Regulations, 2015", url: "https://new.kenyalaw.org/akn/ke-012/act/ln/2015/3/eng@2015-12-21" },
+      { name: "Meru County Grants (Administration) Regulations, 2014", url: "https://new.kenyalaw.org/akn/ke-012/act/ln/2014/1/eng@2014-08-30" },
+      { name: "Meru County Health Services Act, 2016", url: "https://new.kenyalaw.org/akn/ke-012/act/2016/7/eng@2016-12-30" },
+      { name: "Meru County Honors and Award Act, 2018", url: "https://new.kenyalaw.org/akn/ke-012/act/2018/7/eng@2018-09-17" },
+      { name: "Meru County Investment and Development Corporation Act, 2014", url: "https://new.kenyalaw.org/akn/ke-012/act/2014/5/eng@2014-08-08" },
+      { name: "Meru County Microfinance Corporation Act, 2014", url: "https://new.kenyalaw.org/akn/ke-012/act/2014/4/eng@2014-08-08" },
+      { name: "Meru County Persons With Disabilities Act, 2016", url: "https://new.kenyalaw.org/akn/ke-012/act/2016/6/eng@2016-12-30" },
+      { name: "Meru County Public Participation Act, 2014", url: "https://new.kenyalaw.org/akn/ke-012/act/2014/6a/eng@2014-09-19" },
+      { name: "Meru County Revenue Board Act, 2014", url: "https://new.kenyalaw.org/akn/ke-012/act/2014/6/eng@2014-10-10" },
+      { name: "Meru County Spatial Planning Act, 2016", url: "https://new.kenyalaw.org/akn/ke-012/act/2016/8/eng@2016-12-30" },
+      { name: "Meru County Symbols and Emblems Act, 2016", url: "https://new.kenyalaw.org/akn/ke-012/act/2016/1/eng@2016-04-01" },
+      { name: "Meru County Tax Waivers Administration Act, 2020", url: "https://new.kenyalaw.org/akn/ke-012/act/2020/7/eng@2020-12-09" },
+      { name: "Meru County Tea Cess Act, 2018", url: "https://new.kenyalaw.org/akn/ke-012/act/2018/6/eng@2018-09-13" },
+      { name: "Meru County Water and Sanitation Services Act, 2014", url: "https://new.kenyalaw.org/akn/ke-012/act/2014/10/eng@2014-12-11" },
+      { name: "Meru County Wildlife and Conservancies Management Act, 2014", url: "https://new.kenyalaw.org/akn/ke-012/act/2014/9/eng@2014-12-11" },
+      { name: "Meru County Youth Service Act, 2018", url: "https://new.kenyalaw.org/akn/ke-012/act/2018/4a/eng@2018-06-22" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Migori',
+    acts: [
+      { name: "Migori County Agriculture Training Centre (ATC) Act, 2020", url: "https://new.kenyalaw.org/akn/ke-044/act/2020/7/eng@2020-12-23" },
+      { name: "Migori County Assembly (Powers and Privileges) Act, 2016", url: "https://new.kenyalaw.org/akn/ke-044/act/2016/6/eng@2018-08-25" },
+      { name: "Migori County Assembly Service Act, 2016", url: "https://new.kenyalaw.org/akn/ke-044/act/2016/7/eng@2016-10-13" },
+      { name: "Migori County Finance Act, 2014", url: "https://new.kenyalaw.org/akn/ke-044/act/2014/18/eng@2014-12-29" },
+      { name: "Migori County Flag, Emblems and Names Act, 2017", url: "https://new.kenyalaw.org/akn/ke-044/act/2017/10/eng@2017-01-13" },
+      { name: "Migori County Health Services Act, 2019", url: "https://new.kenyalaw.org/akn/ke-044/act/2019/3a/eng@2019-11-21" },
+      { name: "Migori County Lake Region Economic Bloc Act, 2019", url: "https://new.kenyalaw.org/akn/ke-044/act/2019/1/eng@2019-02-15" },
+      { name: "Migori County Trade Development Credit Scheme Act, 2016", url: "https://new.kenyalaw.org/akn/ke-044/act/2016/3/eng@2016-09-20" },
+      { name: "Migori County Trade Licensing Act, 2016.", url: "https://new.kenyalaw.org/akn/ke-044/act/2016/2a/eng@2016-04-08" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Mombasa',
+    acts: [
+      { name: "Mombasa County Child Care Act, 2016", url: "https://new.kenyalaw.org/akn/ke-001/act/2016/7/eng@2016-05-27" },
+      { name: "Mombasa County Consolidated Revolving Fund Act, 2016", url: "https://new.kenyalaw.org/akn/ke-001/act/2016/5/eng@2016-05-27" },
+      { name: "Mombasa County Education Development Act, 2014", url: "https://new.kenyalaw.org/akn/ke-001/act/2014/11/eng@2015-01-02" },
+      { name: "Mombasa County Elimu Scheme Act, 2023", url: "https://new.kenyalaw.org/akn/ke-001/act/2023/3/eng@2023-05-31" },
+      { name: "Mombasa County Health Act, 2018", url: "https://new.kenyalaw.org/akn/ke-001/act/2018/6/eng@2018-12-16" },
+      { name: "Mombasa County Investment Corporation Act, 2019", url: "https://new.kenyalaw.org/akn/ke-001/act/2019/7/eng@2019-12-31" },
+      { name: "Mombasa County Liquor Licensing Act, 2014", url: "https://new.kenyalaw.org/akn/ke-001/act/2014/12/eng@2014-12-31" },
+      { name: "Mombasa County Local Tourism Act, 2017", url: "https://new.kenyalaw.org/akn/ke-001/act/2017/4/eng@2017-07-24" },
+      { name: "Mombasa County Office of the County Attorney Act, 2017", url: "https://new.kenyalaw.org/akn/ke-001/act/2017/3/eng@2017-07-17" },
+      { name: "Mombasa County Outdoor Advertising Act. 2016", url: "https://new.kenyalaw.org/akn/ke-001/act/2016/3/eng@2016-05-27" },
+      { name: "Mombasa County Port Health Act, 2016", url: "https://new.kenyalaw.org/akn/ke-001/act/2016/4/eng@2016-05-27" },
+      { name: "Mombasa County Public Participation Act, 2017", url: "https://new.kenyalaw.org/akn/ke-001/act/2017/6/eng@2017-06-23" },
+      { name: "Mombasa County Reproductive Healthcare Act, 2017", url: "https://new.kenyalaw.org/akn/ke-001/act/2017/10/eng@2017-06-23" },
+      { name: "Mombasa County Roads Act, 2016", url: "https://new.kenyalaw.org/akn/ke-001/act/2016/8/eng@2016-05-27" },
+      { name: "Mombasa County Solid Waste Management Act, 2021", url: "https://new.kenyalaw.org/akn/ke-001/act/2021/4/eng@2021-12-31" },
+      { name: "Mombasa County Tax Waiver and Variation Act, 2017", url: "https://new.kenyalaw.org/akn/ke-001/act/2017/2-/eng@2017-06-23" }
+    ],
+    bills: []
+  },
+  {
+    countyName: "Murang'a",
+    acts: [
+      { name: "Murang'a County Scholarship Fund Act, 2014", url: "https://new.kenyalaw.org/akn/ke-021/act/2014/3a/eng@2014-12-05" },
+      { name: "Muranga County Alcoholic Drinks Control Act, 2014", url: "https://new.kenyalaw.org/akn/ke-021/act/2014/3/eng@2014-12-05" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Nairobi City',
+    acts: [
+      { name: "Nairobi City Council Provisional Collection of Revenue Act, 2013", url: "https://new.kenyalaw.org/akn/ke-047/act/2013/3/eng@2013-09-20" },
+      { name: "Nairobi City County Air Quality Act, 2022", url: "https://new.kenyalaw.org/akn/ke-047/act/2022/4/eng@2023-03-28" },
+      { name: "Nairobi City County Alcoholic Drinks Control and Licensing Act, 2014", url: "https://new.kenyalaw.org/akn/ke-047/act/2014/3/eng@2014-05-19" },
+      { name: "Nairobi City County Betting, Lotteries and Gaming Act, 2014", url: "https://new.kenyalaw.org/akn/ke-047/act/2014/5/eng@2014-05-19" },
+      { name: "Nairobi City County Childcare Facilities Act, 2017", url: "https://new.kenyalaw.org/akn/ke-047/act/2017/7/eng@2017-07-24" },
+      { name: "Nairobi City County Community Health Service  Act, 2019", url: "https://new.kenyalaw.org/akn/ke-047/act/2019/1/eng@2019-09-27" },
+      { name: "Nairobi City County Community and Neighbourhood Associations Engagement Act, 2016", url: "https://new.kenyalaw.org/akn/ke-047/act/2016/4/eng@2016-01-01" },
+      { name: "Nairobi City County Cultural Heritage Act, 2017", url: "https://new.kenyalaw.org/akn/ke-047/act/2017/9/eng@2017-07-14" },
+      { name: "Nairobi City County Disaster and Emergency Management Act, 2015", url: "https://new.kenyalaw.org/akn/ke-047/act/2015/6/eng@2015-10-27" },
+      { name: "Nairobi City County Dog Control and Welfare Act, 2015", url: "https://new.kenyalaw.org/akn/ke-047/act/2015/10/eng@2016-09-21" },
+      { name: "Nairobi City County Early Childhood Education Act, 2017", url: "https://new.kenyalaw.org/akn/ke-047/act/2017/8/eng@2017-06-28" },
+      { name: "Nairobi City County Finance Act, 2013", url: "https://new.kenyalaw.org/akn/ke-047/act/2013/1b/eng@2013-01-01" },
+      { name: "Nairobi City County Flag and Other Symbols Act, 2013", url: "https://new.kenyalaw.org/akn/ke-047/act/2013/5/eng@2013-10-28" },
+      { name: "Nairobi City County Inspectorate Service Act, 2017", url: "https://new.kenyalaw.org/akn/ke-047/act/2017/5/eng@2017-07-28" },
+      { name: "Nairobi City County Office of the County Attorney Act, 2016", url: "https://new.kenyalaw.org/akn/ke-047/act/2016/5/eng@2016-06-05" },
+      { name: "Nairobi City County Persons with Disabilities Act, 2015", url: "https://new.kenyalaw.org/akn/ke-047/act/2015/9/eng@2016-01-25" },
+      { name: "Nairobi City County Plastic Control Act, 2016", url: "https://new.kenyalaw.org/akn/ke-047/act/2016/1/eng@2016-01-01" },
+      { name: "Nairobi City County Public Nuisance, 2021", url: "https://new.kenyalaw.org/akn/ke-047/act/2021/4/eng@2021-08-20" },
+      { name: "Nairobi City County Public Participation Act, 2015", url: "https://new.kenyalaw.org/akn/ke-047/act/2015/11/eng@2016-04-22" },
+      { name: "Nairobi City County Regularisation of Developments Act, 2015", url: "https://new.kenyalaw.org/akn/ke-047/act/2015/3/eng@2024-01-01" },
+      { name: "Nairobi City County Revenue Administration Act, 2021", url: "https://new.kenyalaw.org/akn/ke-047/act/2021/5/eng@2021-09-20" },
+      { name: "Nairobi City County Solid Waste Act, 2015", url: "https://new.kenyalaw.org/akn/ke-047/act/2015/5/eng@2016-07-14" },
+      { name: "Nairobi City County Sports Management Act, 2017", url: "https://new.kenyalaw.org/akn/ke-047/act/2017/6/eng@2017-07-24" },
+      { name: "Nairobi City County Tax Waivers Administration Act, 2013", url: "https://new.kenyalaw.org/akn/ke-047/act/2013/4/eng@2013-09-06" },
+      { name: "Nairobi City County Trade Licensing Act, 2019", url: "https://new.kenyalaw.org/akn/ke-047/act/2019/2/eng@2019-05-23" },
+      { name: "Nairobi City County Transport Act, 2020", url: "https://new.kenyalaw.org/akn/ke-047/act/2020/3/eng@2020-07-10" },
+      { name: "Nairobi City County Urban Agriculture Promotion and Regulation Act, 2015", url: "https://new.kenyalaw.org/akn/ke-047/act/2015/4/eng@2015-08-27" }
+    ],
+    bills: []
+  },
+  {
+    countyName: 'Nyamira',
+    acts: [
+      { name: "Nyamira County Agricultural Development Fund Act, 2019", url: "https://new.kenyalaw.org/akn/ke-046/act/2019/3/eng@2019-10-15" },
+      { name: "Nyamira County Climate Change Act, 2021", url: "https://new.kenyalaw.org/akn/ke-046/act/2021/4/eng@2021-12-10" },
+      { name: "Nyamira County Early Childhood Development Education Act, 2014", url: "https://new.kenyalaw.org/akn/ke-046/act/2014/5/eng@2015-01-02" },
+      { name: "Nyamira County Finance Act, 2023", url: "https://new.kenyalaw.org/akn/ke-046/act/2023/6/eng@2023-12-22" },
+      { name: "Nyamira County Flag, Emblems and Order of Protocol Act, 2017", url: "https://new.kenyalaw.org/akn/ke-046/act/2017/3/eng@2017-06-30" },
+      { name: "Nyamira County Health Care Services Fund, 2015", url: "https://new.kenyalaw.org/akn/ke-046/act/2015/6/eng@2015-01-22" },
+      { name: "Nyamira County Investment and Development Corporation Act, 2023", url: "https://new.kenyalaw.org/akn/ke-046/act/2023/9/eng@2023-12-29" },
+      { name: "Nyamira County Trade Development Revolving Fund Act, 2023", url: "https://new.kenyalaw.org/akn/ke-046/act/2023/10/eng@2023-12-29" },
+      { name: "Nyamira County Ward Development Fund Act, 2015", url: "https://new.kenyalaw.org/akn/ke-046/act/2015/5/eng@2015-01-22" },
+      { name: "Nyamira County and Animal Diseases Control Act, 2014", url: "https://new.kenyalaw.org/akn/ke-046/act/2014/3/eng@2015-01-02" }
+    ],
+    bills: []
+  }
+];

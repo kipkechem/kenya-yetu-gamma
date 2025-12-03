@@ -1,9 +1,9 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon } from '../components/icons';
 import type { Ministry, StateCorporation, StateCorporationCategory } from '../types/index';
-import { getCachedData, setCachedData } from '../utils/cache';
 import Highlight from '../components/Highlight';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: string; searchTerm?: string }> = ({ corporation, ministryName, searchTerm = '' }) => (
   <a 
@@ -43,19 +43,17 @@ const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: 
 const StateCorporationsPage: React.FC = () => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [categorizedCorporationsData, setCategorizedCorporationsData] = useState<StateCorporationCategory[] | null>(null);
-  const [ministries, setMinistries] = useState<Ministry[] | null>(null);
-
-  useEffect(() => {
-    const loadData = async () => {
-        const corporationsModule = await import('../data/state-corporations');
-        const ministriesModule = await import('../data/ministries');
-        setCategorizedCorporationsData(corporationsModule.categorizedCorporationsData);
-        setMinistries(ministriesModule.ministries);
-    };
-    loadData();
-  }, []);
   
+  const { data: categorizedCorporationsData, isLoading: isCorpLoading } = useLazyData<StateCorporationCategory[]>(
+      'corporations-data',
+      () => import('../data/state-corporations').then(m => m.categorizedCorporationsData)
+  );
+
+  const { data: ministries, isLoading: isMinistriesLoading } = useLazyData<Ministry[]>(
+      'ministries-data',
+      () => import('../data/ministries').then(m => m.ministries)
+  );
+
   // Create a map of entity names to their parent ministry
   const entityToMinistryMap = useMemo(() => {
     if (!ministries) return new Map();
@@ -170,7 +168,7 @@ const StateCorporationsPage: React.FC = () => {
     setSearchTerm('');
   };
   
-  if (!categorizedCorporationsData) {
+  if (isCorpLoading || isMinistriesLoading || !categorizedCorporationsData) {
     return <LoadingSpinner />;
   }
 

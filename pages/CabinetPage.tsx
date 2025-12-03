@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Ministry, StateCorporationCategory } from '../types/index';
 import { ChevronDownIcon, HierarchyIcon, ExternalLinkIcon } from '../components/icons';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 const MinistryNode: React.FC<{ ministry: Ministry; isExpanded: boolean; onToggle: () => void; entityUrlMap: Map<string, string> }> = ({ ministry, isExpanded, onToggle, entityUrlMap }) => {
   const [loadedEntities, setLoadedEntities] = useState<string[] | null>(null);
@@ -136,18 +136,16 @@ const MinistryNode: React.FC<{ ministry: Ministry; isExpanded: boolean; onToggle
 
 const CabinetPage: React.FC = () => {
     const [expandedMinistry, setExpandedMinistry] = useState<string | null>(null);
-    const [ministries, setMinistries] = useState<Ministry[] | null>(null);
-    const [categorizedCorporationsData, setCategorizedCorporationsData] = useState<StateCorporationCategory[] | null>(null);
+    
+    const { data: ministries, isLoading: isMinistriesLoading } = useLazyData<Ministry[]>(
+        'ministries-data',
+        () => import('../data/ministries').then(m => m.ministries)
+    );
 
-    useEffect(() => {
-        const loadData = async () => {
-            const ministriesModule = await import('../data/ministries');
-            const corporationsModule = await import('../data/state-corporations');
-            setMinistries(ministriesModule.ministries);
-            setCategorizedCorporationsData(corporationsModule.categorizedCorporationsData);
-        };
-        loadData();
-    }, []);
+    const { data: categorizedCorporationsData, isLoading: isCorpLoading } = useLazyData<StateCorporationCategory[]>(
+        'corporations-data',
+        () => import('../data/state-corporations').then(m => m.categorizedCorporationsData)
+    );
     
     const entityUrlMap = useMemo(() => {
         if (!categorizedCorporationsData) return new Map<string, string>();
@@ -159,7 +157,7 @@ const CabinetPage: React.FC = () => {
         setExpandedMinistry(prev => (prev === ministryName ? null : ministryName));
     };
     
-    if (!ministries) {
+    if (isMinistriesLoading || !ministries) {
         return <LoadingSpinner />;
     }
 

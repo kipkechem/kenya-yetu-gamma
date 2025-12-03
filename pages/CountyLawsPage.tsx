@@ -1,9 +1,11 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon, BookOpenIcon } from '../components/icons';
 import type { CountyLegislation, CountyLaw } from '../types/index';
 import Highlight from '../components/Highlight';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 interface CountyLawsPageProps {
     initialSearchTerm?: string;
@@ -12,17 +14,17 @@ interface CountyLawsPageProps {
 const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' }) => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set(['devolution-laws']));
-  const [countyLawsData, setCountyLawsData] = useState<CountyLegislation[] | null>(null);
-  const [devolutionLawsData, setDevolutionLawsData] = useState<CountyLaw[] | null>(null);
 
-  useEffect(() => {
-    const loadData = async () => {
-        const module = await import('../data/county-laws');
-        setCountyLawsData(module.countyLawsData);
-        setDevolutionLawsData(module.devolutionLawsData);
-    };
-    loadData();
-  }, []);
+  // Use custom hook to load data
+  const { data: countyLawsData, isLoading: isCountyLoading } = useLazyData<CountyLegislation[]>(
+      'county-laws-data',
+      () => import('../data/county-laws').then(m => m.countyLawsData)
+  );
+
+  const { data: devolutionLawsData, isLoading: isDevolutionLoading } = useLazyData<CountyLaw[]>(
+      'devolution-laws-data',
+      () => import('../data/county-laws').then(m => m.devolutionLawsData)
+  );
 
   useEffect(() => {
       if (initialSearchTerm) {
@@ -128,7 +130,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
     );
   }
   
-  if (!countyLawsData || !devolutionLawsData) {
+  if (isCountyLoading || isDevolutionLoading || !countyLawsData || !devolutionLawsData) {
     return <LoadingSpinner />;
   }
 

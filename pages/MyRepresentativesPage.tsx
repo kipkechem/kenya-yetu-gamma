@@ -1,7 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { IdentificationIcon, UsersIcon } from '../components/icons';
 import type { Representative } from '../types/index';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 const RepresentativeCard: React.FC<{ rep: Representative }> = ({ rep }) => (
   <div className="bg-surface dark:bg-dark-surface p-5 rounded-2xl custom-shadow-lg text-center flex flex-col items-center">
@@ -16,15 +17,11 @@ const RepresentativeCard: React.FC<{ rep: Representative }> = ({ rep }) => (
 const MyRepresentativesPage: React.FC = () => {
   const [selectedCounty, setSelectedCounty] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState('');
-  const [representativesData, setRepresentativesData] = useState<Representative[] | null>(null);
-
-  useEffect(() => {
-      const loadData = async () => {
-          const module = await import('../data/representatives');
-          setRepresentativesData(module.representativesData);
-      };
-      loadData();
-  }, []);
+  
+  const { data: representativesData, isLoading } = useLazyData<Representative[]>(
+      'representatives-data',
+      () => import('../data/representatives').then(m => m.representativesData)
+  );
 
   const countyOptions = useMemo(() => {
     if (!representativesData) return ['All'];
@@ -44,7 +41,7 @@ const MyRepresentativesPage: React.FC = () => {
     });
   }, [selectedCounty, searchTerm, representativesData]);
   
-  if (!representativesData) {
+  if (isLoading || !representativesData) {
      return <LoadingSpinner />;
   }
 

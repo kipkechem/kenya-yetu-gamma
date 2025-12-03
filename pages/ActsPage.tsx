@@ -1,9 +1,9 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { InboxStackIcon, ChevronDownIcon, ExternalLinkIcon } from '../components/icons';
 import type { ActsByCategory } from '../data/acts';
-import { getCachedData, setCachedData } from '../utils/cache';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 interface ActsPageProps {
     searchTerm: string;
@@ -37,23 +37,11 @@ const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) =
 
 const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
   const [openAccordion, setOpenAccordion] = useState<string | null>('in force');
-  const [actsOfParliament, setActsOfParliament] = useState<ActsByCategory | null>(null);
 
-  useEffect(() => {
-    const loadData = async () => {
-        const cacheKey = 'acts-data';
-        let data = getCachedData<ActsByCategory>(cacheKey);
-        if (data) {
-            setActsOfParliament(data);
-            return;
-        }
-        const module = await import('../data/acts');
-        data = module.actsOfParliament;
-        setCachedData(cacheKey, data);
-        setActsOfParliament(data);
-    };
-    loadData();
-  }, []);
+  const { data: actsOfParliament, isLoading } = useLazyData<ActsByCategory>(
+      'acts-data',
+      () => import('../data/acts').then(m => m.actsOfParliament)
+  );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSearchChange(event.target.value);
@@ -108,7 +96,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
     </li>
   );
   
-  if (!actsOfParliament) {
+  if (isLoading || !actsOfParliament) {
     return <LoadingSpinner />;
   }
 
@@ -125,7 +113,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
           </p>
         </header>
 
-        <div className="mb-8 py-4 -mx-4 px-4">
+        <div className="mb-8 sticky top-0 py-4 bg-background/80 dark:bg-dark-background/80 backdrop-blur-sm z-10 -mx-4 px-4">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
