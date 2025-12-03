@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo, lazy, Suspense } from 'react';
+
+import React, { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import type { AppView, Theme, NavigationPayload } from './types';
 import MainSidebar from './components/MainSidebar';
 import ThemeSwitcher from './components/ThemeSwitcher';
@@ -6,6 +7,7 @@ import LanguageSwitcher from './components/LanguageSwitcher';
 import SearchBar from './components/SearchBar';
 import { MenuIcon, ChatBubbleOvalLeftEllipsisIcon } from './components/icons';
 import LoadingSpinner from './components/LoadingSpinner';
+import { useLanguage } from './contexts/LanguageContext';
 
 // Lazy load all page components for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -27,14 +29,11 @@ const SymbolPage = lazy(() => import('./pages/SymbolPage'));
 const CountyLawsPage = lazy(() => import('./pages/CountyLawsPage'));
 const ChatPage = lazy(() => import('./pages/ChatPage'));
 const HistoricalDocumentsPage = lazy(() => import('./pages/HistoricalDocumentsPage'));
-const LegislaturePage = lazy(() => import('./components/LegislaturePage'));
-const JudiciaryPage = lazy(() => import('./components/JudiciaryPage'));
-const NationalPolicyPage = lazy(() => import('./components/NationalPolicyPage'));
-const CountyExplorerPage = lazy(() => import('./components/CountyExplorerPage'));
+const LegislaturePage = lazy(() => import('./pages/LegislaturePage'));
+const JudiciaryPage = lazy(() => import('./pages/JudiciaryPage'));
+const NationalPolicyPage = lazy(() => import('./pages/NationalPolicyPage'));
+const CountyExplorerPage = lazy(() => import('./pages/CountyExplorerPage'));
 const SameLatLongPage = lazy(() => import('./pages/SameLatLongPage'));
-
-// Symbols are small, so they can be loaded directly
-import { kenyaFlagSvg, kenyaFlagDescription, kenyaCoatOfArmsSvg, kenyaCoatOfArmsDescription } from './data/symbols';
 
 // Mapping of views to Unsplash Image URLs
 const getBackgroundImage = (view: AppView): string => {
@@ -83,6 +82,7 @@ const getBackgroundImage = (view: AppView): string => {
 };
 
 const App: React.FC = () => {
+    const { language } = useLanguage();
     const [viewHistory, setViewHistory] = useState<AppView[]>(['home']);
     const activeView = viewHistory[viewHistory.length - 1];
     const [isMainSidebarOpen, setMainSidebarOpen] = useState(false);
@@ -205,11 +205,6 @@ const App: React.FC = () => {
         () => (localStorage.getItem('theme') as Theme) || 'system'
     );
 
-    // Language state management
-    const [language, setLanguage] = useState<'en' | 'sw'>(
-        () => (localStorage.getItem('language') as 'en' | 'sw') || 'en'
-    );
-
     useEffect(() => {
         const root = window.document.documentElement;
         const isDark =
@@ -220,16 +215,12 @@ const App: React.FC = () => {
         localStorage.setItem('theme', theme);
     }, [theme]);
 
-    useEffect(() => {
-        localStorage.setItem('language', language);
-    }, [language]);
-
     const renderActiveView = () => {
         switch (activeView) {
             case 'home':
                 return <HomePage navigateTo={navigateTo} language={language} />;
             case 'kenya-laws':
-                return <KenyaLawsPage navigateTo={navigateTo} />;
+                return <KenyaLawsPage navigateTo={navigateTo} language={language} />;
             case 'constitution':
                 return <ConstitutionExplorer language={language} searchTerm={searchTerm} />;
             case 'acts':
@@ -274,19 +265,9 @@ const App: React.FC = () => {
             case 'anthems':
                 return <AnthemsListPage navigateTo={navigateTo} />;
             case 'national-flag':
-                return <SymbolPage 
-                    title="The National Flag"
-                    svgContent={kenyaFlagSvg}
-                    description={kenyaFlagDescription}
-                    fileName="kenya-national-flag.svg"
-                />;
+                return <SymbolPage symbolId="national-flag" />;
             case 'coat-of-arms':
-                return <SymbolPage 
-                    title="The Coat of Arms"
-                    svgContent={kenyaCoatOfArmsSvg}
-                    description={kenyaCoatOfArmsDescription}
-                    fileName="kenya-coat-of-arms.svg"
-                />;
+                return <SymbolPage symbolId="coat-of-arms" />;
             case 'county-explorer':
                 return <CountyExplorerPage />;
             case 'same-lat-long':
@@ -372,7 +353,7 @@ const App: React.FC = () => {
                                 )}
 
                                 <div className="flex items-center gap-4 z-10">
-                                    <LanguageSwitcher language={language} setLanguage={setLanguage} />
+                                    <LanguageSwitcher />
                                     <ThemeSwitcher theme={theme} setTheme={setTheme} />
                                 </div>
                             </div>

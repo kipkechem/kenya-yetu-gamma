@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
 import type { Ministry, StateCorporationCategory } from '../types/index';
 import { ChevronDownIcon, HierarchyIcon, ExternalLinkIcon } from '../components/icons';
@@ -139,12 +140,12 @@ const CabinetPage: React.FC = () => {
     
     const { data: ministries, isLoading: isMinistriesLoading } = useLazyData<Ministry[]>(
         'ministries-data',
-        () => import('../data/ministries').then(m => m.ministries)
+        () => import('../data/governance/ministries').then(m => m.ministries)
     );
 
     const { data: categorizedCorporationsData, isLoading: isCorpLoading } = useLazyData<StateCorporationCategory[]>(
         'corporations-data',
-        () => import('../data/state-corporations').then(m => m.categorizedCorporationsData)
+        () => import('../data/governance/state-corporations').then(m => m.categorizedCorporationsData)
     );
     
     const entityUrlMap = useMemo(() => {

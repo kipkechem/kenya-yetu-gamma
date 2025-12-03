@@ -1,7 +1,9 @@
+
 import React from 'react';
-import { anthems } from '../data/anthems';
-import type { Anthem } from '../types/index';
 import { FlagIcon, DownloadIcon } from '../components/icons';
+import { useLazyData } from '../hooks/useLazyData';
+import LoadingSpinner from '../components/LoadingSpinner';
+import type { Anthem } from '../types/index';
 
 interface AnthemPageProps {
   anthemId: 'kenyan' | 'east-african';
@@ -9,6 +11,15 @@ interface AnthemPageProps {
 }
 
 const AnthemPage: React.FC<AnthemPageProps> = ({ anthemId, language }) => {
+  const { data: anthems, isLoading } = useLazyData<Record<string, Anthem>>(
+      'anthems-data',
+      () => import('../data/culture/anthems').then(m => m.anthems)
+  );
+
+  if (isLoading || !anthems) {
+      return <LoadingSpinner />;
+  }
+
   const anthem = anthems[anthemId];
   const pageTitle = language === 'sw' ? anthem.swahiliTitle : anthem.englishTitle;
 

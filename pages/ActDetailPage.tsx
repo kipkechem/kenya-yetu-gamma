@@ -1,10 +1,11 @@
+
 import React, { useEffect, useState, useMemo } from 'react';
-import type { SelectedItem } from '../types/index';
-import { actContentData } from '../data/act-content';
+import type { SelectedItem, ConstitutionData } from '../types/index';
 import ContentRenderer from '../components/ContentRenderer';
 import { dispatchNavigate } from '../utils/navigation';
 import { InboxStackIcon } from '../components/icons';
-import type { ConstitutionData } from '../types/index';
+import { useLazyData } from '../hooks/useLazyData';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 interface ActDetailPageProps {
   actTitle: string;
@@ -12,17 +13,18 @@ interface ActDetailPageProps {
 }
 
 const ActDetailPage: React.FC<ActDetailPageProps> = ({ actTitle, language }) => {
-  const [constitutionData, setConstitutionData] = useState<ConstitutionData | null>(null);
+  
+  // Lazy load constitution data for article linking
+  const { data: constitutionData } = useLazyData<ConstitutionData>(
+      'constitution-data-en', // Always load English for linking logic for now
+      () => import('../data/constitution').then(m => m.constitutionData)
+  );
 
-  useEffect(() => {
-    const loadConstitution = async () => {
-      // Act content links are currently only parsed for English.
-      // We load the english data to build the article map.
-      const dataModule = await import('../data/constitution');
-      setConstitutionData(dataModule.constitutionData);
-    };
-    loadConstitution();
-  }, []);
+  // Lazy load act content data
+  const { data: actContentData, isLoading } = useLazyData<Record<string, string>>(
+      'act-content-data',
+      () => import('../data/legislation/act-content').then(m => m.actContentData)
+  );
 
   const articleToChapterMap = useMemo(() => {
     if (!constitutionData) return new Map<string, number>();
@@ -37,7 +39,7 @@ const ActDetailPage: React.FC<ActDetailPageProps> = ({ actTitle, language }) => 
     return map;
   }, [constitutionData]);
 
-  const content = actContentData[actTitle] || 'Content for this Act is not available.';
+  const content = actContentData?.[actTitle] || 'Content for this Act is not available.';
   
   const handleSelectItem = (item: SelectedItem) => {
     let hash = '';
@@ -54,6 +56,10 @@ const ActDetailPage: React.FC<ActDetailPageProps> = ({ actTitle, language }) => 
     }
     dispatchNavigate({ view: 'constitution' });
   };
+  
+  if (isLoading) {
+      return <LoadingSpinner />;
+  }
   
   if (language === 'sw') {
     return (

@@ -2,7 +2,7 @@
 import React from 'react';
 import type { County } from '../types';
 import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon } from './icons';
-import { countyPolicyDocuments } from '../data/policy-documents';
+import { countyPolicyDocuments } from '../data/knowledge-base/county-policies';
 import { dispatchNavigate } from '../utils/navigation';
 
 interface CountyDetailPageProps {

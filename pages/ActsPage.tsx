@@ -1,6 +1,7 @@
+
 import React, { useMemo, useState } from 'react';
 import { InboxStackIcon, ChevronDownIcon, ExternalLinkIcon } from '../components/icons';
-import type { ActsByCategory } from '../data/acts';
+import type { ActsByCategory } from '../data/legislation/acts';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useLazyData } from '../hooks/useLazyData';
@@ -40,7 +41,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
 
   const { data: actsOfParliament, isLoading } = useLazyData<ActsByCategory>(
       'acts-data',
-      () => import('../data/acts').then(m => m.actsOfParliament)
+      () => import('../data/legislation/acts').then(m => m.actsOfParliament)
   );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

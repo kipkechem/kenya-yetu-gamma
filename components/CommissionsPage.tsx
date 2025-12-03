@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { ShieldCheckIcon } from './icons';
-import { commissionsData, independentOfficesData } from '../data/commissions';
+import { commissionsData, independentOfficesData } from '../data/governance/commissions';
 import type { Commission } from '../types';
 
 const CommissionCard: React.FC<{ commission: Commission }> = ({ commission }) => (

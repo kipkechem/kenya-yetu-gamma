@@ -1,0 +1,186 @@
+
+import React, { useState } from 'react';
+import type { JudicialBody } from '../data/governance/judiciary';
+import { ChevronDownIcon, ScaleIcon, ExternalLinkIcon } from '../components/icons';
+import { useLazyData } from '../hooks/useLazyData';
+import LoadingSpinner from '../components/LoadingSpinner';
+
+const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () => void; isExpanded: boolean; hasChildren: boolean; }> = ({ body, level, onToggle, isExpanded, hasChildren }) => {
+    return (
+        <div className="relative z-10 flex flex-col items-center">
+            <button
+                onClick={onToggle}
+                className={`relative p-5 rounded-2xl custom-shadow-lg w-80 text-center group transition-all duration-300 border-2 ${level === 0 ? 'bg-surface dark:bg-dark-surface border-primary/20' : 'bg-white dark:bg-gray-800 border-transparent'} hover:border-primary hover:-translate-y-1`}
+                aria-expanded={isExpanded}
+            >
+                <div className="flex items-center justify-center space-x-2">
+                    <h3 className={`font-bold text-on-surface dark:text-dark-on-surface ${level === 0 ? 'text-xl' : 'text-lg'}`}>{body.name}</h3>
+                    {body.url && (
+                        <a
+                            href={body.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="p-1.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 hover:text-primary dark:hover:text-primary transition-colors"
+                            aria-label={`Visit website for ${body.name}`}
+                        >
+                            <ExternalLinkIcon className="h-3.5 w-3.5" />
+                        </a>
+                    )}
+                </div>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">{body.description}</p>
+                {hasChildren && (
+                    <div className={`mt-3 flex justify-center transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}>
+                         <ChevronDownIcon className="h-5 w-5 text-gray-400" />
+                    </div>
+                )}
+            </button>
+            
+            <div className={`w-80 transition-all duration-500 ease-[cubic-bezier(0.04,0.62,0.23,0.98)] overflow-hidden ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                 <div className="pt-4 pb-2 space-y-3">
+                    {body.leadership && (
+                         <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/10 text-center">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-primary dark:text-dark-primary mb-2">Leadership</h4>
+                            {body.leadership.map((l, i) => <p key={i} className="font-semibold text-sm text-gray-800 dark:text-gray-200">{l.title}</p>)}
+                         </div>
+                    )}
+                    {body.composition && (
+                        <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 text-center">Composition</h4>
+                            <ul className="space-y-1 text-center">
+                                {body.composition.map((c, i) => <li key={i} className="text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 py-1 px-2 rounded shadow-sm inline-block m-0.5">{c}</li>)}
+                            </ul>
+                        </div>
+                    )}
+                     {body.jurisdiction && (
+                        <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                            <h4 className="font-bold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 text-center">Jurisdiction</h4>
+                            <p className="text-sm text-gray-700 dark:text-gray-300 text-center leading-snug">{body.jurisdiction}</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const HierarchyNode: React.FC<{ body: JudicialBody; level?: number; onToggle: (name: string) => void; isExpanded: (name: string) => boolean; }> = ({ body, level = 0, onToggle, isExpanded }) => {
+    const expanded = isExpanded(body.name);
+    const hasChildren = !!(body.children && body.children.length > 0);
+
+    return (
+        <div className="flex flex-col items-center">
+            <DetailsCard body={body} level={level} onToggle={() => onToggle(body.name)} isExpanded={expanded} hasChildren={hasChildren} />
+            
+            {expanded && hasChildren && (
+                <div className="flex flex-col items-center w-full">
+                    {/* Vertical Stem */}
+                    <div className="h-8 w-0.5 bg-gray-300 dark:bg-gray-600"></div>
+                    
+                    <div className="relative flex justify-center flex-wrap gap-8 w-full">
+                        {/* Horizontal Bar */}
+                        {body.children!.length > 1 && (
+                             <div className="absolute top-0 left-8 right-8 h-0.5 bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
+                        )}
+
+                        {body.children!.map((child) => (
+                            <div key={child.name} className="flex flex-col items-center relative">
+                                {/* Vertical connector to child */}
+                                <div className="h-8 w-0.5 bg-gray-300 dark:bg-gray-600 sm:block hidden"></div>
+                                <HierarchyNode body={child} level={level + 1} onToggle={onToggle} isExpanded={isExpanded} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+const JudiciaryPage: React.FC = () => {
+    const { data: judiciaryData, isLoading } = useLazyData<JudicialBody>(
+        'judiciary-data',
+        () => import('../data/governance/judiciary').then(m => m.judiciaryData)
+    );
+
+    const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
+    
+    // Initialize expanded node for root once data is loaded
+    React.useEffect(() => {
+        if (judiciaryData) {
+             setExpandedNodes(new Set([judiciaryData.name]));
+        }
+    }, [judiciaryData]);
+
+    const findNode = (data: JudicialBody, name: string): JudicialBody | null => {
+        if (data.name === name) return data;
+        if (data.children) {
+            for (const child of data.children) {
+                const found = findNode(child, name);
+                if (found) return found;
+            }
+        }
+        return null;
+    }
+
+    const findNodeAndChildren = (data: JudicialBody, name: string): string[] => {
+        const names: string[] = [];
+        const find = (body: JudicialBody) => {
+            names.push(body.name);
+            if(body.children) {
+                body.children.forEach(find);
+            }
+        };
+        const startNode = findNode(data, name);
+        if (startNode) find(startNode);
+        return names;
+    };
+
+    const handleToggle = (nodeName: string) => {
+        if (!judiciaryData) return;
+        setExpandedNodes(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(nodeName)) {
+                const nodesToCollapse = findNodeAndChildren(judiciaryData, nodeName);
+                nodesToCollapse.forEach(name => newSet.delete(name));
+            } else {
+                newSet.add(nodeName);
+            }
+            return newSet;
+        });
+    };
+
+    const isExpanded = (nodeName: string) => expandedNodes.has(nodeName);
+    
+    if (isLoading || !judiciaryData) {
+        return <LoadingSpinner />;
+    }
+
+    return (
+        <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
+            <div className="max-w-7xl mx-auto">
+                <header className="text-center mb-16">
+                    <div className="inline-block p-4 bg-primary-light dark:bg-dark-primary-light rounded-3xl mb-4 shadow-sm">
+                        <ScaleIcon className="h-10 w-10 text-primary dark:text-dark-primary" />
+                    </div>
+                    <h1 className="text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Judiciary Structure</h1>
+                    <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
+                        An interactive hierarchy of the Courts of Kenya.
+                    </p>
+                </header>
+
+                <div className="w-full overflow-x-auto pb-12">
+                    <div className="min-w-max flex justify-center px-4">
+                        <HierarchyNode
+                            body={judiciaryData}
+                            onToggle={handleToggle}
+                            isExpanded={isExpanded}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default JudiciaryPage;

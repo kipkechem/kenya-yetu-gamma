@@ -1,14 +1,32 @@
+
 import React from 'react';
 import { DownloadIcon } from '../components/icons';
+import { useLazyData } from '../hooks/useLazyData';
+import LoadingSpinner from '../components/LoadingSpinner';
+import type { SymbolData } from '../data/culture/symbols';
 
 interface SymbolPageProps {
-  title: string;
-  svgContent: string;
-  description: string;
-  fileName: string;
+  symbolId: string;
 }
 
-const SymbolPage: React.FC<SymbolPageProps> = ({ title, svgContent, description, fileName }) => {
+const SymbolPage: React.FC<SymbolPageProps> = ({ symbolId }) => {
+  const { data: symbolsData, isLoading } = useLazyData<Record<string, SymbolData>>(
+      'symbols-data',
+      () => import('../data/culture/symbols').then(m => m.symbolsData)
+  );
+
+  if (isLoading || !symbolsData) {
+      return <LoadingSpinner />;
+  }
+
+  const symbol = symbolsData[symbolId];
+
+  if (!symbol) {
+      return <div className="p-10 text-center text-red-500">Symbol not found.</div>;
+  }
+
+  const { title, svgContent, description, fileName } = symbol;
+
   const handleDownload = () => {
     const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
     const url = URL.createObjectURL(blob);

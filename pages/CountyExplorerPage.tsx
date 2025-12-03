@@ -1,24 +1,24 @@
-import React, { useState, useMemo, useEffect } from 'react';
+
+import React, { useState, useMemo } from 'react';
 import KenyaMap from '../components/KenyaMap';
 import CountyDetailPage from '../components/CountyDetailPage';
 import { MapIcon } from '../components/icons';
 import type { County } from '../types/index';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 const CountyExplorerPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
-    const [countiesData, setCountiesData] = useState<County[] | null>(null);
-    const [countyPaths, setCountyPaths] = useState<{ name: string; path: string }[] | null>(null);
 
-    useEffect(() => {
-        const loadData = async () => {
-            const countiesModule = await import('../data/counties');
-            const mapDataModule = await import('../data/mapdata');
-            setCountiesData(countiesModule.countiesData);
-            setCountyPaths(mapDataModule.countyPaths);
-        };
-        loadData();
-    }, []);
+    const { data: countiesData, isLoading: isCountiesLoading } = useLazyData<County[]>(
+        'counties-data',
+        () => import('../data/counties').then(m => m.countiesData)
+    );
+
+    const { data: countyPaths, isLoading: isPathsLoading } = useLazyData<{ name: string; path: string }[]>(
+        'county-paths-data',
+        () => import('../data/counties/mapdata').then(m => m.countyPaths)
+    );
     
     const countiesMap = useMemo(() => {
         if (!countiesData) return new Map();
@@ -38,7 +38,7 @@ const CountyExplorerPage: React.FC = () => {
         setSelectedCounty(null);
     };
     
-    if (!countiesData || !countyPaths) {
+    if (isCountiesLoading || isPathsLoading || !countiesData || !countyPaths) {
          return <LoadingSpinner />;
     }
 
