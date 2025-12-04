@@ -21,7 +21,6 @@ const ResourcesPage = lazy(() => import('./pages/ResourcesPage'));
 const AboutUsPage = lazy(() => import('./pages/AboutUsPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const ActsPage = lazy(() => import('./pages/ActsPage'));
-const ActDetailPage = lazy(() => import('./pages/ActDetailPage'));
 const CabinetPage = lazy(() => import('./pages/CabinetPage'));
 const StateCorporationsPage = lazy(() => import('./pages/StateCorporationsPage'));
 const CountyGovernmentsPage = lazy(() => import('./pages/CountyGovernmentsPage'));
@@ -47,7 +46,6 @@ const App: React.FC = () => {
     );
     const [searchTerm, setSearchTerm] = useState('');
     const [actsSearchTerm, setActsSearchTerm] = useState('');
-    const [selectedActTitle, setSelectedActTitle] = useState('');
     const [countyLawsSearchTerm, setCountyLawsSearchTerm] = useState('');
     
     // Command Palette State
@@ -117,13 +115,6 @@ const App: React.FC = () => {
             setActsSearchTerm('');
         }
 
-        // Handle selected Act Title
-        if (payload?.actTitle) {
-            setSelectedActTitle(payload.actTitle);
-        } else if (activeView === 'act-detail' && view !== 'act-detail') {
-            setSelectedActTitle('');
-        }
-
         // Handle county laws search term
         if (payload?.countySearchTerm !== undefined) {
             setCountyLawsSearchTerm(payload.countySearchTerm);
@@ -178,11 +169,6 @@ const App: React.FC = () => {
                 return <ConstitutionExplorer language={language} searchTerm={searchTerm} />;
             case 'acts':
                 return <ActsPage searchTerm={actsSearchTerm} onSearchChange={setActsSearchTerm} />;
-            case 'act-detail':
-                return <ActDetailPage 
-                            actTitle={selectedActTitle} 
-                            language={language}
-                        />;
             case 'county-laws':
                 return <CountyLawsPage initialSearchTerm={countyLawsSearchTerm} />;
             case 'historical-documents':

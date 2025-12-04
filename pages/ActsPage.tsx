@@ -1,8 +1,7 @@
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useDeferredValue, useEffect } from 'react';
 import { InboxStackIcon, ChevronDownIcon, ExternalLinkIcon } from '../components/icons';
 import type { ActsByCategory, Act } from '../data/legislation/acts';
-import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useLazyData } from '../hooks/useLazyData';
 
@@ -10,6 +9,16 @@ interface ActsPageProps {
     searchTerm: string;
     onSearchChange: (term: string) => void;
 }
+
+const ITEMS_PER_PAGE = 50;
+
+const CATEGORY_ORDER: (keyof ActsByCategory)[] = [
+  'in force',
+  'uncommenced',
+  'repealed',
+  'county',
+  'east african'
+];
 
 const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) => {
   const baseUrl = 'https://new.kenyalaw.org/kl/index.php?id=search';
@@ -38,15 +47,32 @@ const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) =
 
 const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
   const [openAccordion, setOpenAccordion] = useState<string | null>('in force');
+  
+  // Pagination state for large lists in search results
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+
+  // Defer the search term to keep the UI responsive during typing
+  const deferredSearchTerm = useDeferredValue(searchTerm);
 
   const { data: actsOfParliament, isLoading } = useLazyData<ActsByCategory>(
       'acts-data',
       () => import('../data/legislation/acts').then(m => m.actsOfParliament)
   );
 
+  // Reset pagination when search changes
+  useEffect(() => {
+    setVisibleCount(ITEMS_PER_PAGE);
+    if (deferredSearchTerm) {
+        setOpenAccordion(null);
+    }
+  }, [deferredSearchTerm]);
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onSearchChange(event.target.value);
-    setOpenAccordion(null);
+  };
+
+  const handleLoadMore = () => {
+    setVisibleCount(prev => prev + ITEMS_PER_PAGE);
   };
   
   const allActs = useMemo(() => {
@@ -55,11 +81,11 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
   }, [actsOfParliament]);
 
   const filteredActs = useMemo(() => {
-    if (!searchTerm) return [];
+    if (!deferredSearchTerm) return [];
     return allActs.filter(act =>
-      act.title.toLowerCase().includes(searchTerm.toLowerCase())
+      act.title.toLowerCase().includes(deferredSearchTerm.toLowerCase())
     );
-  }, [searchTerm, allActs]);
+  }, [deferredSearchTerm, allActs]);
   
   const toggleAccordion = (category: string) => {
     setOpenAccordion(openAccordion === category ? null : category);
@@ -69,33 +95,31 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
     return key.replace(/(-)/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
-  const handleActClick = (actTitle: string) => {
-    dispatchNavigate({ view: 'act-detail', actTitle });
-  };
-
-  const renderActItem = (act: Act, categoryKey?: keyof ActsByCategory) => (
-    <li key={act.title}>
-        <div className="group flex items-center justify-between pr-2 hover:bg-gray-50 dark:hover:bg-black/10 transition-colors">
-            <button
-                onClick={() => handleActClick(act.title)}
-                className="w-full text-left p-4 font-medium text-on-surface dark:text-dark-on-surface group-hover:text-primary dark:group-hover:text-dark-primary"
-            >
-                {act.title}
-            </button>
+  const renderActItem = (act: Act, categoryKey?: keyof ActsByCategory) => {
+    const targetUrl = act.url || createSearchUrl(act.title, categoryKey);
+    return (
+        <li key={act.title} className="border-b border-gray-100 dark:border-gray-800 last:border-0">
             <a
-                href={act.url || createSearchUrl(act.title, categoryKey)}
+                href={targetUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
-                className={`p-2 rounded-full text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 flex-shrink-0 ${act.url ? 'text-primary/70 dark:text-dark-primary/70' : ''}`}
-                aria-label={act.url ? `Open ${act.title}` : `View ${act.title} on Kenya Law`}
-                title={act.url ? `Open ${act.title}` : `View ${act.title} on Kenya Law`}
+                className="group flex items-center justify-between w-full p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
             >
-                <ExternalLinkIcon className="h-5 w-5" />
+                <div className="flex items-center gap-3">
+                    <div className="p-1.5 rounded-lg bg-primary/10 dark:bg-primary/5 text-primary dark:text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    <span className="font-medium text-sm text-gray-700 dark:text-gray-200 group-hover:text-primary dark:group-hover:text-dark-primary text-left leading-snug">
+                        {act.title}
+                    </span>
+                </div>
+                <ExternalLinkIcon className="h-4 w-4 text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-dark-primary flex-shrink-0 ml-4" />
             </a>
-        </div>
-    </li>
-  );
+        </li>
+    );
+  };
   
   if (isLoading || !actsOfParliament) {
     return <LoadingSpinner />;
@@ -110,12 +134,12 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
           </div>
           <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Acts of Parliament</h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-            A searchable repository of laws enacted by the Parliament of Kenya, sourced from Kenya Law.
+            Browse the Laws of Kenya organized by category. Access full texts directly from Kenya Law.
           </p>
         </header>
 
-        <div className="mb-8 sticky top-0 py-4 bg-background/80 dark:bg-dark-background/80 backdrop-blur-sm z-10 -mx-4 px-4">
-          <div className="relative">
+        <div className="mb-8 sticky top-0 py-4 bg-background/95 dark:bg-dark-background/95 backdrop-blur-sm z-10 -mx-4 px-4 transition-all">
+          <div className="relative max-w-2xl mx-auto">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <svg className="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
@@ -123,50 +147,95 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
             </div>
             <input
               type="text"
-              placeholder="Search all Acts..."
+              placeholder="Search for an Act..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3 pl-12 pr-4 text-on-surface dark:text-dark-on-surface placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent custom-shadow"
+              className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3.5 pl-12 pr-12 text-on-surface dark:text-dark-on-surface placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent custom-shadow-lg"
               aria-label="Search Acts of Parliament"
             />
+            {searchTerm !== deferredSearchTerm && (
+                 <div className="absolute right-4 top-3.5">
+                    <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                 </div>
+            )}
           </div>
         </div>
 
-        <div className="bg-surface dark:bg-dark-surface rounded-2xl custom-shadow-lg">
-          <div className="max-h-[calc(100vh-25rem)] overflow-y-auto rounded-2xl">
+        <div className="bg-surface dark:bg-dark-surface rounded-2xl custom-shadow-lg overflow-hidden min-h-[400px]">
+          <div className="">
             {searchTerm ? (
-              <ul className="divide-y divide-border dark:divide-dark-border">
-                {filteredActs.length > 0 ? (
-                  filteredActs.map((act) => renderActItem(act))
-                ) : (
-                  <li className="p-8 text-center text-gray-500 dark:text-gray-400">
-                    No acts found matching your search.
-                  </li>
+              <>
+                <div className="p-4 border-b border-border dark:border-dark-border bg-gray-50/50 dark:bg-white/5">
+                    <h3 className="font-semibold text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider">
+                        Search Results ({filteredActs.length})
+                    </h3>
+                </div>
+                <ul className="divide-y divide-border dark:divide-dark-border">
+                    {filteredActs.slice(0, visibleCount).map((act) => renderActItem(act))}
+                    
+                    {filteredActs.length === 0 && (
+                        <li className="p-12 text-center">
+                            <div className="inline-block p-4 bg-gray-100 dark:bg-gray-800 rounded-full mb-3">
+                                <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <p className="text-gray-500 dark:text-gray-400">No acts found matching "{searchTerm}".</p>
+                        </li>
+                    )}
+                </ul>
+                {filteredActs.length > visibleCount && (
+                    <div className="p-6 text-center border-t border-gray-100 dark:border-gray-800">
+                         <button 
+                            onClick={handleLoadMore}
+                            className="px-6 py-2.5 bg-primary/10 hover:bg-primary/20 text-primary dark:text-dark-primary rounded-full text-sm font-medium transition-colors"
+                         >
+                             Load More Results
+                         </button>
+                    </div>
                 )}
-              </ul>
+              </>
             ) : (
               <div>
-                {(Object.keys(actsOfParliament) as Array<keyof ActsByCategory>).map(category => {
+                {CATEGORY_ORDER.map(category => {
+                    // Only render if category exists in data
+                    if (!actsOfParliament[category]) return null;
+                    
                     const acts = actsOfParliament[category].sort((a,b) => a.title.localeCompare(b.title));
                     if (acts.length === 0) return null;
+                    
+                    const isOpen = openAccordion === category;
+                    
                     return (
                         <div key={category} className="border-b border-border dark:border-dark-border last:border-b-0">
                             <button
-                            onClick={() => toggleAccordion(category)}
-                            className="w-full flex justify-between items-center p-4 text-left hover:bg-gray-50 dark:hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                            aria-expanded={openAccordion === category}
-                            aria-controls={`section-content-${category}`}
+                                onClick={() => toggleAccordion(category)}
+                                className={`w-full flex justify-between items-center p-5 text-left transition-colors focus:outline-none ${isOpen ? 'bg-gray-50 dark:bg-white/5' : 'hover:bg-gray-50 dark:hover:bg-white/5'}`}
+                                aria-expanded={isOpen}
+                                aria-controls={`section-content-${category}`}
                             >
-                            <h3 className="text-lg font-bold text-on-surface dark:text-dark-on-surface">{formatCategoryTitle(category)} <span className="text-sm font-normal text-gray-500 dark:text-gray-400">({acts.length})</span></h3>
-                            <ChevronDownIcon className={`h-6 w-6 text-gray-500 dark:text-gray-400 transform transition-transform duration-300 ${openAccordion === category ? 'rotate-180' : ''}`} />
+                                <div className="flex items-center gap-3">
+                                    <h3 className={`text-lg font-bold ${isOpen ? 'text-primary dark:text-dark-primary' : 'text-on-surface dark:text-dark-on-surface'}`}>
+                                        {formatCategoryTitle(category)} 
+                                    </h3>
+                                    <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-700 px-2.5 py-0.5 rounded-full">
+                                        {acts.length}
+                                    </span>
+                                </div>
+                                <div className={`p-1 rounded-full transition-all duration-300 ${isOpen ? 'bg-primary text-white rotate-180' : 'text-gray-400 bg-gray-100 dark:bg-gray-800'}`}>
+                                    <ChevronDownIcon className="h-5 w-5" />
+                                </div>
                             </button>
+                            
                             <div
-                            id={`section-content-${category}`}
-                            className={`overflow-hidden transition-all duration-300 ease-in-out bg-background dark:bg-black/20 ${openAccordion === category ? 'max-h-[3000px]' : 'max-h-0'}`}
+                                id={`section-content-${category}`}
+                                className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[8000px] opacity-100' : 'max-h-0 opacity-0'}`}
                             >
-                              <ul className="divide-y divide-border dark:divide-dark-border">
-                                {acts.map((act) => renderActItem(act, category))}
-                              </ul>
+                                <div className="bg-gray-50/30 dark:bg-black/10 border-t border-border dark:border-dark-border/50">
+                                    <ul className="divide-y divide-border dark:divide-dark-border">
+                                        {acts.map((act) => renderActItem(act, category))}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     );

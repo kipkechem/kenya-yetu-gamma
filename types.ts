@@ -47,6 +47,17 @@ export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet
 
 export type Theme = 'light' | 'dark' | 'system';
 
+export interface AppRoute {
+    view: AppView;
+    title: { en: string; sw: string };
+    description?: { en: string; sw: string };
+    icon: React.FC<{ className?: string }>;
+    backgroundImage: string;
+    inSidebar: boolean;
+    inHomeGrid: boolean;
+    category?: string;
+}
+
 export interface Section {
     title: string;
     description: string;

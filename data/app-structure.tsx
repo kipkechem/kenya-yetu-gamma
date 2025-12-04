@@ -5,18 +5,7 @@ import {
     PresentationChartLineIcon, BuildingLibraryIcon, ScaleIcon, FlagIcon, 
     PhotoIcon, InboxStackIcon, UserGroupIcon, MapPinIcon, FileTextIcon
 } from '../components/icons';
-import type { AppView } from '../types';
-
-export interface AppRoute {
-    view: AppView;
-    title: { en: string; sw: string };
-    description?: { en: string; sw: string };
-    icon: React.FC<{ className?: string }>;
-    backgroundImage: string;
-    inSidebar: boolean;
-    inHomeGrid: boolean;
-    category?: 'laws' | 'governance' | 'culture' | 'general';
-}
+import type { AppRoute, AppView } from '../types';
 
 export const appStructure: AppRoute[] = [
     {
@@ -77,10 +66,10 @@ export const appStructure: AppRoute[] = [
     },
     {
         view: 'about',
-        title: { en: 'About Us', sw: 'Kutuhusu' },
+        title: { en: 'About & Contact', sw: 'Kutuhusu na Mawasiliano' },
         description: { 
-            en: 'Learn about our mission to promote civic education.',
-            sw: 'Jifunze kuhusu dhamira yetu ya kukuza elimu ya uraia.'
+            en: 'Learn about our mission and get in touch with us.',
+            sw: 'Jifunze kuhusu dhamira yetu na uwasiliane nasi.'
         },
         icon: UsersIcon,
         backgroundImage: 'https://images.unsplash.com/photo-1521669602905-e85a6177c2a1?q=80&w=1920&auto=format&fit=crop',
@@ -96,8 +85,8 @@ export const appStructure: AppRoute[] = [
         },
         icon: MailIcon,
         backgroundImage: 'https://images.unsplash.com/photo-1557200134-90327ee9fafa?q=80&w=1920&auto=format&fit=crop',
-        inSidebar: true,
-        inHomeGrid: true
+        inSidebar: false,
+        inHomeGrid: false
     },
     // Sub-pages
     {
@@ -213,14 +202,6 @@ export const appStructure: AppRoute[] = [
         title: { en: 'National Policy', sw: 'Sera ya Taifa' },
         icon: PresentationChartLineIcon,
         backgroundImage: 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?q=80&w=1920&auto=format&fit=crop',
-        inSidebar: false,
-        inHomeGrid: false
-    },
-    {
-        view: 'act-detail',
-        title: { en: 'Act Detail', sw: 'Maelezo ya Sheria' },
-        icon: FileTextIcon,
-        backgroundImage: 'https://images.unsplash.com/photo-1450101499121-e5b07505b1b0?q=80&w=1920&auto=format&fit=crop',
         inSidebar: false,
         inHomeGrid: false
     },

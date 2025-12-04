@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BookOpenIcon, InboxStackIcon, UserGroupIcon, ShieldCheckIcon, FileTextIcon, BuildingLibraryIcon, MapPinIcon, FlagIcon, PhotoIcon, ScaleIcon } from '../components/icons';
 import type { AppView, Section } from '../types/index';
@@ -23,6 +24,7 @@ const translations = {
             countyLaws: { title: 'County Laws', desc: 'Access legislation enacted by the 47 county assemblies.' },
             historical: { title: 'Historical Documents', desc: 'Access key historical legal documents, including the first constitution, drafts, and influential papers.' },
             gazette: { title: 'Kenya Gazette', desc: 'Official publication of the Government of Kenya containing notices, appointments, and new legislation.' },
+            myGov: { title: 'MyGov', desc: 'Official government newspaper for tenders, jobs, public notices, and government programmes.' },
             legislature: { title: 'Legislature', desc: 'Understand the structure and role of Kenya\'s Parliament, including the National Assembly and the Senate.' },
             judiciary: { title: 'Judiciary', desc: 'Explore the structure of the Kenyan court system, from the Supreme Court to local tribunals.' },
             cabinet: { title: 'Cabinet', desc: 'Meet the Cabinet Secretaries of the National Executive.' },
@@ -47,6 +49,7 @@ const translations = {
             countyLaws: { title: 'Sheria za Kaunti', desc: 'Fikia sheria zilizotungwa na mabunge 47 ya kaunti.' },
             historical: { title: 'Nyaraka za Kihistoria', desc: 'Fikia nyaraka muhimu za kisheria za kihistoria, ikiwa ni pamoja na katiba ya kwanza na rasimu.' },
             gazette: { title: 'Gazeti la Kenya', desc: 'Chapisho rasmi la Serikali ya Kenya lenye matangazo, uteuzi, na sheria mpya.' },
+            myGov: { title: 'MyGov', desc: 'Gazeti rasmi la serikali la zabuni, kazi, matangazo ya umma, na mipango ya serikali.' },
             legislature: { title: 'Bunge', desc: 'Elewa muundo na jukumu la Bunge la Kenya, ikiwa ni pamoja na Bunge la Kitaifa na Seneti.' },
             judiciary: { title: 'Mahakama', desc: 'Chunguza muundo wa mfumo wa mahakama wa Kenya, kuanzia Mahakama ya Juu hadi mahakama za chini.' },
             cabinet: { title: 'Baraza la Mawaziri', desc: 'Kutana na Mawaziri wa Serikali ya Kitaifa.' },
@@ -101,30 +104,6 @@ const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ navigateTo, language }) =
     }
   ];
 
-  const nationalSymbolsSections: Section[] = [
-    {
-        title: t.items.anthems.title,
-        description: t.items.anthems.desc,
-        icon: <FlagIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        view: 'anthems',
-        isExternal: false,
-    },
-    {
-        title: t.items.flag.title,
-        description: t.items.flag.desc,
-        icon: <PhotoIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        view: 'national-flag',
-        isExternal: false,
-    },
-    {
-        title: t.items.coat.title,
-        description: t.items.coat.desc,
-        icon: <PhotoIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        view: 'coat-of-arms',
-        isExternal: false,
-    },
-  ];
-
   const governanceSections: Section[] = [
     {
         title: t.items.legislature.title,
@@ -159,6 +138,38 @@ const KenyaLawsPage: React.FC<KenyaLawsPageProps> = ({ navigateTo, language }) =
         description: t.items.counties.desc,
         icon: <MapPinIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
         view: 'county-governments',
+        isExternal: false,
+    },
+    {
+        title: t.items.myGov.title,
+        description: t.items.myGov.desc,
+        icon: <FileTextIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'kenya-laws', // Placeholder as isExternal is true
+        isExternal: true,
+        url: 'https://www.mygov.go.ke/index.php/mygov-newspaper-2025',
+    }
+  ];
+
+  const nationalSymbolsSections: Section[] = [
+    {
+        title: t.items.anthems.title,
+        description: t.items.anthems.desc,
+        icon: <FlagIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'anthems',
+        isExternal: false,
+    },
+    {
+        title: t.items.flag.title,
+        description: t.items.flag.desc,
+        icon: <PhotoIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'national-flag',
+        isExternal: false,
+    },
+    {
+        title: t.items.coat.title,
+        description: t.items.coat.desc,
+        icon: <PhotoIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'coat-of-arms',
         isExternal: false,
     },
   ];

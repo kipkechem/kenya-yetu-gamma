@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useDeferredValue } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon, BookOpenIcon, ChevronDoubleRightIcon, ScaleIcon, MapPinIcon } from '../components/icons';
 import type { CountyLegislation, CountyLaw } from '../types/index';
 import Highlight from '../components/Highlight';
@@ -29,6 +29,9 @@ const CountyTile: React.FC<{ name: string, count?: number, onClick: () => void }
 
 const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' }) => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  // Defer the search term to prevent UI blocking during filtering
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+  
   const [selectedCountyName, setSelectedCountyName] = useState<string | null>(null);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set(['devolution-laws']));
   const [isDevolutionOpen, setIsDevolutionOpen] = useState(false);
@@ -50,8 +53,8 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
       }
   }, [initialSearchTerm]);
 
-  const isSearching = searchTerm.trim().length > 0;
-  const lowercasedTerm = searchTerm.toLowerCase();
+  const isSearching = deferredSearchTerm.trim().length > 0;
+  const lowercasedTerm = deferredSearchTerm.toLowerCase();
 
   const filteredDevolutionLaws = useMemo(() => {
     if (!devolutionLawsData) return [];
@@ -85,8 +88,6 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
 
   // Filtered counties for the grid view (based on name match)
   const visibleCounties = useMemo(() => {
-      // Use the imported countiesData for the grid list to ensure all 47 are represented nicely
-      // even if laws data is still loading in the background
       return countiesData
         .filter(c => c.name.toLowerCase().includes(lowercasedTerm))
         .sort((a,b) => a.name.localeCompare(b.name));
@@ -128,7 +129,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
   }, [isSearching, selectedCountyName, countyLawsData, lowercasedTerm]);
 
   const toggleItem = (itemName: string) => {
-    if (isSearching) return; // Don't allow toggling when searching
+    if (isSearching) return; 
     setOpenItems(prev => {
       const newSet = new Set(prev);
       if (newSet.has(itemName)) newSet.delete(itemName);
@@ -180,7 +181,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                         {law.url.startsWith('#internal:') ? 
                             <BookOpenIcon className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-gray-400 dark:text-gray-500" />
                             : <FileTextIcon className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-gray-400 dark:text-gray-500" />}
-                        <span><Highlight text={law.name} highlight={searchTerm} /></span>
+                        <span><Highlight text={law.name} highlight={deferredSearchTerm} /></span>
                         {!law.url.startsWith('#internal:') && (
                            <ExternalLinkIcon className="h-3.5 w-3.5 ml-1.5 mt-1 flex-shrink-0 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                         )}
@@ -212,7 +213,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                         >
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-gray-800 dark:text-gray-200 group-hover:text-primary dark:group-hover:text-dark-primary transition-colors line-clamp-2">
-                                    <Highlight text={law.name} highlight={searchTerm} />
+                                    <Highlight text={law.name} highlight={deferredSearchTerm} />
                                 </p>
                             </div>
                             {!law.url.startsWith('#internal:') && (
@@ -261,6 +262,11 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-xl py-3 pl-10 px-4 focus:outline-none focus:ring-2 focus:ring-primary custom-shadow"
                             />
+                             {searchTerm !== deferredSearchTerm && (
+                                <div className="absolute right-4 top-3">
+                                    <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                             )}
                         </div>
                       </div>
                   </header>
@@ -320,6 +326,11 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
               onChange={(e) => setSearchTerm(e.target.value)}
               className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3.5 pl-12 pr-4 text-on-surface dark:text-dark-on-surface placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary custom-shadow-lg"
             />
+             {searchTerm !== deferredSearchTerm && (
+                <div className="absolute right-4 top-4">
+                    <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+             )}
         </div>
 
         {/* Global Search Results (Laws) */}
@@ -345,7 +356,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                                      <li key={i} className="text-sm truncate text-gray-700 dark:text-gray-300 flex items-center">
                                          <FileTextIcon className="h-3 w-3 mr-2 text-gray-400 flex-shrink-0" />
                                          <a href={law.url} target="_blank" rel="noreferrer" className="hover:underline hover:text-primary truncate">
-                                            <Highlight text={law.name} highlight={searchTerm} />
+                                            <Highlight text={law.name} highlight={deferredSearchTerm} />
                                          </a>
                                      </li>
                                  ))}
@@ -404,7 +415,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                           aria-expanded={isCountyOpen}
                           disabled={isSearching}
                         >
-                            <h3 className="font-semibold text-lg"><Highlight text={`${county.countyName} County`} highlight={searchTerm} /></h3>
+                            <h3 className="font-semibold text-lg"><Highlight text={`${county.countyName} County`} highlight={deferredSearchTerm} /></h3>
                             <ChevronDownIcon className={`h-5 w-5 text-gray-500 transform transition-transform duration-200 ${isCountyOpen ? 'rotate-180' : ''}`} />
                         </button>
                         <div

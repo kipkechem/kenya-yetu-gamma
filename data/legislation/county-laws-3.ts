@@ -1,4 +1,6 @@
 
+
+
 import type { CountyLegislation } from '../../types';
 
 export const countyLawsBatch3: CountyLegislation[] = [
@@ -239,10 +241,11 @@ export const countyLawsBatch3: CountyLegislation[] = [
   {
     countyName: 'Trans Nzoia',
     acts: [
-      { name: "Trans Nzoia County Youth and Women Development Fund Act, 2014", url: "https://new.kenyalaw.org/akn/ke-026/act/2014/2/eng@2014-06-04" },
-      { name: "Trans Nzoia Elimu Bursary Fund, 2014", url: "https://new.kenyalaw.org/akn/ke-026/act/2014/1/eng@2014-05-09" }
+      { name: "Trans Nzoia County Youth and Women Development Fund Act, 2014", url: "https://new.kenyalaw.org/akn/ke-026/act/2014/2/eng@2014-06-04" }
     ],
-    bills: []
+    bills: [
+      { name: "Trans Nzoia Elimu Bursary Fund, 2014", url: "https://new.kenyalaw.org/akn/ke-026/act/2014/1/eng@2014-05-09" }
+    ]
   },
   {
     countyName: 'Turkana',
@@ -280,7 +283,6 @@ export const countyLawsBatch3: CountyLegislation[] = [
       { name: "Uasin Gishu County Appropriation Act, 2015", url: "https://new.kenyalaw.org/akn/ke-027/act/2015/16/eng@2015-07-27" },
       { name: "Uasin Gishu County Appropriation Act, 2020", url: "https://new.kenyalaw.org/akn/ke-027/act/2020/5/eng@2020-08-11" },
       { name: "Uasin Gishu County Appropriation Act, 2023", url: "https://new.kenyalaw.org/akn/ke-027/act/2023/3/eng@2023-07-03" },
-      { name: "Uasin Gishu County Bursary and Skill Development Support Fund Disbursement , 2014", url: "https://new.kenyalaw.org/akn/ke-027/act/2014/2/eng@2014-04-01" },
       { name: "Uasin Gishu County Education Revolving Fund Act, 2016", url: "https://new.kenyalaw.org/akn/ke-027/act/2016/2/eng@2016-03-14" },
       { name: "Uasin Gishu County Equitable Development Act, 2019", url: "https://new.kenyalaw.org/akn/ke-027/act/2019/2/eng@2019-06-20" },
       { name: "Uasin Gishu County Inspectorate Service Act, 2022", url: "https://new.kenyalaw.org/akn/ke-027/act/2022/2/eng@2022-06-22" },
@@ -293,7 +295,9 @@ export const countyLawsBatch3: CountyLegislation[] = [
       { name: "Uasin Gishu Supplementary Appropriation (No.2) Act, 2016", url: "https://new.kenyalaw.org/akn/ke-027/act/2016/4/eng@2016-05-18" },
       { name: "Uasin Gishu Way Leaves Act, 2014", url: "https://new.kenyalaw.org/akn/ke-027/act/2014/8/eng@2014-06-24" }
     ],
-    bills: []
+    bills: [
+      { name: "Uasin Gishu County Bursary and Skill Development Support Fund Disbursement , 2014", url: "https://new.kenyalaw.org/akn/ke-027/act/2014/2/eng@2014-04-01" }
+    ]
   },
   {
     countyName: 'Vihiga',
@@ -343,9 +347,10 @@ export const countyLawsBatch3: CountyLegislation[] = [
       { name: "West Pokot County Supplementary Appropriation Act, 2014", url: "https://new.kenyalaw.org/akn/ke-024/act/2014/1/eng@2014-03-19" },
       { name: "West Pokot County Trade and Markets Administration Act, 2015", url: "https://new.kenyalaw.org/akn/ke-024/act/2015/6/eng@2015-10-16" },
       { name: "West Pokot County Urban Planning Act, 2016", url: "https://new.kenyalaw.org/akn/ke-024/act/2016/4/eng@2016-06-07" },
-      { name: "West Pokot County Valuation and Rating Act, 2015", url: "https://new.kenyalaw.org/akn/ke-024/act/2015/9/eng@2015-12-31" },
-      { name: "West Pokot County Ward Development Fund, 2015", url: "https://new.kenyalaw.org/akn/ke-024/act/2015/2/eng@2015-06-06" }
+      { name: "West Pokot County Valuation and Rating Act, 2015", url: "https://new.kenyalaw.org/akn/ke-024/act/2015/9/eng@2015-12-31" }
     ],
-    bills: []
+    bills: [
+      { name: "West Pokot County Ward Development Fund, 2015", url: "https://new.kenyalaw.org/akn/ke-024/act/2015/2/eng@2015-06-06" }
+    ]
   }
 ];

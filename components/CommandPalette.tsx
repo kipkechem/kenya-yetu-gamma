@@ -39,7 +39,7 @@ const CommandPalette: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
 
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, selectedIndex]); // Add results to dependency if it wasn't derived from state
+    }, [isOpen, selectedIndex]); 
 
     const results = useMemo(() => {
         if (!query.trim()) return [];
@@ -60,7 +60,7 @@ const CommandPalette: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
                 type: 'County',
                 label: `${county.name} County`,
                 icon: MapPinIcon,
-                action: () => dispatchNavigate({ view: 'projects', countySearchTerm: county.name }) // Assuming Projects page handles opening specific county
+                action: () => dispatchNavigate({ view: 'projects', countySearchTerm: county.name }) 
             })).slice(0, 3);
 
         const actsResults = Object.values(actsOfParliament).flat()
@@ -69,7 +69,10 @@ const CommandPalette: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
                 type: 'Act',
                 label: act.title,
                 icon: ScaleIcon,
-                action: () => dispatchNavigate({ view: 'act-detail', actTitle: act.title })
+                action: () => {
+                    const targetUrl = act.url || `https://new.kenyalaw.org/kl/index.php?id=search&search[search_word]=${encodeURIComponent(act.title)}`;
+                    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                }
             })).slice(0, 5);
 
         const constitutionResults = [

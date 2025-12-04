@@ -225,9 +225,9 @@ export const countyLawsBatch1: CountyLegislation[] = [
       { name: "Isiolo County Tourism Act, 2015", url: "https://new.kenyalaw.org/akn/ke-011/act/2015/12/eng@2015-12-21" },
       { name: "Isiolo County Villages Administration Act, 2019", url: "https://new.kenyalaw.org/akn/ke-011/act/2019/5/eng@2019-11-27" },
       { name: "Isiolo County Wards Development Fund Act, 2015", url: "https://new.kenyalaw.org/akn/ke-011/act/2015/11/eng@2015-12-21" },
+      { name: "Isiolo County Youth, Women and Persons with Disabilities Enterprise Development Fund Act", url: "https://new.kenyalaw.org/akn/ke-011/act/ln/2019/2/eng@2019-11-13" }
     ],
     bills: [
-      { name: "Isiolo County Youth, Women and Persons with Disabilities Enterprise Development Fund Act", url: "https://new.kenyalaw.org/akn/ke-011/act/ln/2019/2/eng@2019-11-13" },
       { name: "Public Finance Management (Isiolo County Assembly Car Loan and Mortgage Scheme Fund) Regulations, 2021", url: "https://new.kenyalaw.org/akn/ke-011/act/ln/2021/1/eng@2021-02-18" }
     ]
   },
