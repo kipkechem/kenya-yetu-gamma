@@ -8,6 +8,8 @@ import SearchBar from './components/SearchBar';
 import { MenuIcon, ChatBubbleOvalLeftEllipsisIcon } from './components/icons';
 import LoadingSpinner from './components/LoadingSpinner';
 import { useLanguage } from './contexts/LanguageContext';
+import CommandPalette from './components/CommandPalette';
+import { getBackgroundImage } from './data/app-structure';
 
 // Lazy load all page components for better performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -35,52 +37,6 @@ const NationalPolicyPage = lazy(() => import('./pages/NationalPolicyPage'));
 const CountyExplorerPage = lazy(() => import('./pages/CountyExplorerPage'));
 const SameLatLongPage = lazy(() => import('./pages/SameLatLongPage'));
 
-// Mapping of views to Unsplash Image URLs
-const getBackgroundImage = (view: AppView): string => {
-    const images: Record<string, string> = {
-        // Landscapes / Nature
-        home: 'https://images.unsplash.com/photo-1489396160836-2c99c977e9a0?q=80&w=1920&auto=format&fit=crop', // Mt Kenya/Landscape
-        about: 'https://images.unsplash.com/photo-1521669602905-e85a6177c2a1?q=80&w=1920&auto=format&fit=crop', // People
-        contact: 'https://images.unsplash.com/photo-1557200134-90327ee9fafa?q=80&w=1920&auto=format&fit=crop', // Communication/Connect
-        
-        // Law & Justice
-        'kenya-laws': 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1920&auto=format&fit=crop', // Law Books/Pillars
-        constitution: 'https://images.unsplash.com/photo-1623943443369-750b9064c4b6?q=80&w=1920&auto=format&fit=crop', // Open Book
-        acts: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1920&auto=format&fit=crop', // Gavel
-        'act-detail': 'https://images.unsplash.com/photo-1450101499121-e5b07505b1b0?q=80&w=1920&auto=format&fit=crop', // Writing
-        'county-laws': 'https://images.unsplash.com/photo-1589578527966-fdac0f44566c?q=80&w=1920&auto=format&fit=crop', // Scales of Justice
-        judiciary: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1920&auto=format&fit=crop', // Gavel/Court
-
-        // Governance & Urban
-        cabinet: 'https://images.unsplash.com/photo-1596422846543-75c6a1966c22?q=80&w=1920&auto=format&fit=crop', // KICC/Nairobi Skyline
-        'state-corporations': 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1920&auto=format&fit=crop', // Modern Building
-        legislature: 'https://images.unsplash.com/photo-1575540325855-4b5d285a3845?q=80&w=1920&auto=format&fit=crop', // Parliament/Architecture
-        'national-policy': 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?q=80&w=1920&auto=format&fit=crop', // Highway/Infrastructure
-        
-        // Development & Counties
-        projects: 'https://images.unsplash.com/photo-1605152276897-4f618f831968?q=80&w=1920&auto=format&fit=crop', // Agriculture/Tea Farm
-        'county-governments': 'https://images.unsplash.com/photo-1543796755-74b13794920d?q=80&w=1920&auto=format&fit=crop', // Aerial Landscape
-        infomap: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=1920&auto=format&fit=crop', // Map/Globe
-        'same-lat-long': 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=1920&auto=format&fit=crop', // Globe
-        
-        // Resources & History
-        resources: 'https://images.unsplash.com/photo-1507842217159-a28f2680d7d3?q=80&w=1920&auto=format&fit=crop', // Library
-        'historical-documents': 'https://images.unsplash.com/photo-1461360370896-922624d12aa1?q=80&w=1920&auto=format&fit=crop', // Old Paper
-        
-        // Culture
-        anthems: 'https://images.unsplash.com/photo-1519429778229-0430c372678d?q=80&w=1920&auto=format&fit=crop', // Singing/Crowd
-        'kenyan-anthem': 'https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=1920&auto=format&fit=crop', // Kenya Flag
-        'east-african-anthem': 'https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=1920&auto=format&fit=crop',
-        'national-flag': 'https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=1920&auto=format&fit=crop',
-        'coat-of-arms': 'https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=1920&auto=format&fit=crop',
-
-        // Other
-        chat: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop', // Abstract
-    };
-
-    return images[view] || images.home;
-};
-
 const App: React.FC = () => {
     const { language } = useLanguage();
     const [viewHistory, setViewHistory] = useState<AppView[]>(['home']);
@@ -94,6 +50,9 @@ const App: React.FC = () => {
     const [selectedActTitle, setSelectedActTitle] = useState('');
     const [countyLawsSearchTerm, setCountyLawsSearchTerm] = useState('');
     
+    // Command Palette State
+    const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
     // Background Image State
     const [bgImages, setBgImages] = useState({
         current: getBackgroundImage('home'),
@@ -104,6 +63,18 @@ const App: React.FC = () => {
     useEffect(() => {
         localStorage.setItem('sidebarCollapsed', String(isMainSidebarCollapsed));
     }, [isMainSidebarCollapsed]);
+
+    // Handle Command Palette shortcut (Ctrl+K or Cmd+K)
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                setIsCommandPaletteOpen(true);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
     // Background Image Logic with Preloading
     useEffect(() => {
@@ -177,25 +148,7 @@ const App: React.FC = () => {
 
     const handleBack = () => {
         if (viewHistory.length > 1) {
-            const currentView = viewHistory[viewHistory.length - 1];
             const newHistory = viewHistory.slice(0, -1);
-            const prevView = newHistory[newHistory.length - 1];
-            // Reset search term if leaving constitution explorer
-            if (currentView === 'constitution' && prevView !== 'constitution') {
-                setSearchTerm('');
-            }
-             // Reset acts search term if leaving acts page
-            if (currentView === 'acts' && prevView !== 'acts') {
-                setActsSearchTerm('');
-            }
-            // Clear selected act title when navigating back from it
-            if (currentView === 'act-detail') {
-                setSelectedActTitle('');
-            }
-            // Reset county laws search term if leaving county laws page
-            if (currentView === 'county-laws' && prevView !== 'county-laws') {
-                setCountyLawsSearchTerm('');
-            }
             setViewHistory(newHistory);
         }
     };
@@ -344,15 +297,31 @@ const App: React.FC = () => {
                                     </button>
                                 </div>
                                 
-                                {activeView === 'constitution' && (
+                                {activeView === 'constitution' ? (
                                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md lg:max-w-xl px-12 md:px-20 pointer-events-none">
                                         <div className="pointer-events-auto opacity-0 animate-fade-in-up [animation-delay:100ms] forwards">
                                             <SearchBar onSearch={setSearchTerm} language={language} />
                                         </div>
                                     </div>
+                                ) : (
+                                    // Command Palette Trigger for other pages
+                                    <button 
+                                        onClick={() => setIsCommandPaletteOpen(true)}
+                                        className="hidden md:flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-dark-primary transition-colors bg-black/5 dark:bg-white/5 px-3 py-1.5 rounded-lg text-sm border border-transparent hover:border-primary/30"
+                                    >
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                        <span className="hidden lg:inline">Quick Search...</span>
+                                        <kbd className="hidden lg:inline-block font-sans text-xs border border-gray-300 dark:border-gray-600 rounded px-1 ml-2">Ctrl K</kbd>
+                                    </button>
                                 )}
 
                                 <div className="flex items-center gap-4 z-10">
+                                    <button 
+                                        onClick={() => setIsCommandPaletteOpen(true)}
+                                        className="md:hidden p-2 rounded-full text-gray-600 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                                    >
+                                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                    </button>
                                     <LanguageSwitcher />
                                     <ThemeSwitcher theme={theme} setTheme={setTheme} />
                                 </div>
@@ -384,6 +353,8 @@ const App: React.FC = () => {
                         </button>
                     </div>
                 )}
+                
+                <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} />
             </div>
         </div>
     );

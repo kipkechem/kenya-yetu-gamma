@@ -1,9 +1,10 @@
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import type { County } from '../types';
 import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon } from './icons';
-import { countyPolicyDocuments } from '../data/knowledge-base/county-policies';
 import { dispatchNavigate } from '../utils/navigation';
+import { useLazyData } from '../hooks/useLazyData';
+import type { PolicyDocument } from '../data/knowledge-base/county-policies';
 
 interface CountyDetailPageProps {
   county: County;
@@ -39,7 +40,24 @@ const DocumentCard: React.FC<{ title: string; url: string }> = ({ title, url }) 
 );
 
 const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) => {
-  const policyDocuments = countyPolicyDocuments[county.name] || [];
+  // Lazy load county policies
+  const { data: countyPolicies, isLoading } = useLazyData<Record<string, PolicyDocument[]>>(
+    'county-policies-data',
+    () => import('../data/knowledge-base/county-policies').then(m => m.countyPolicyDocuments)
+  );
+
+  const policyDocuments = useMemo(() => {
+    if (!countyPolicies) return [];
+    // Try direct match first, then try matching logic for names like "Nairobi City" vs "Nairobi"
+    if (countyPolicies[county.name]) return countyPolicies[county.name];
+    
+    const normalizedName = Object.keys(countyPolicies).find(
+        key => key.toLowerCase().includes(county.name.toLowerCase()) || county.name.toLowerCase().includes(key.toLowerCase())
+    );
+    
+    return normalizedName ? countyPolicies[normalizedName] : [];
+  }, [countyPolicies, county.name]);
+
 
   const handleViewLaws = () => {
     dispatchNavigate({
@@ -116,10 +134,16 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
             <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm">
                 Key strategic planning documents including County Integrated Development Plans (CIDP), Annual Development Plans (ADP), and Budget Outlook Papers.
             </p>
-            {policyDocuments.length > 0 ? (
+            
+            {isLoading ? (
+                 <div className="p-8 text-center">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400 text-sm">Loading documents...</p>
+                 </div>
+            ) : policyDocuments.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {policyDocuments.map(doc => (
-                        <DocumentCard key={doc.title} title={doc.title} url={doc.url} />
+                    {policyDocuments.map((doc, index) => (
+                        <DocumentCard key={`${doc.title}-${index}`} title={doc.title} url={doc.url} />
                     ))}
                 </div>
             ) : (

@@ -1,17 +1,18 @@
 
 import React from 'react';
-import { BookOpenIcon, HomeIcon, LinkIcon, UsersIcon, MailIcon, MapIcon, PresentationChartLineIcon, BuildingLibraryIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from './icons';
+import { BuildingLibraryIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from './icons';
 import type { AppView } from '../types/index';
+import { appStructure } from '../data/app-structure';
 
 interface NavItemProps {
   onClick: () => void;
   isSelected: boolean;
   isCollapsed: boolean;
   label: string;
-  children: React.ReactNode;
+  icon: React.FC<{ className?: string }>;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ onClick, isSelected, children, isCollapsed, label }) => {
+const NavItem: React.FC<NavItemProps> = ({ onClick, isSelected, isCollapsed, label, icon: Icon }) => {
   const baseClasses = "w-full py-3 text-sm font-medium rounded-xl transition-all duration-300 ease-out flex items-center group relative overflow-hidden";
   const selectedClasses = "bg-primary-light text-primary dark:bg-dark-primary-light dark:text-dark-primary shadow-sm";
   const unselectedClasses = "text-gray-600 dark:text-gray-400 hover:bg-gray-100/80 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-gray-200";
@@ -28,7 +29,12 @@ const NavItem: React.FC<NavItemProps> = ({ onClick, isSelected, children, isColl
       {isSelected && (
           <div className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 bg-primary dark:bg-dark-primary rounded-r-full"></div>
       )}
-      {children}
+      <div className={`flex items-center justify-center h-6 w-6 transition-transform duration-200 ${isCollapsed ? '' : 'mr-3'} ${isSelected ? 'scale-110' : 'group-hover:scale-110'}`}>
+         <Icon className="h-5 w-5" />
+      </div>
+      <span className={`whitespace-nowrap font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'w-0 opacity-0 -translate-x-4' : 'w-auto opacity-100 translate-x-0'}`}>
+        {label}
+      </span>
     </button>
   );
 };
@@ -43,38 +49,8 @@ interface MainSidebarProps {
   language: 'en' | 'sw';
 }
 
-interface NavItemData {
-  view: AppView;
-  labelKey: string;
-  icon: React.FC<{ className?: string }>;
-  activeStates: AppView[];
-}
-
-const translations = {
-    en: {
-        home: 'Home',
-        projects: 'Development Strategy',
-        laws: 'Laws & Governance',
-        maps: 'Projects & Proposals',
-        resources: 'Data Sources/Links',
-        about: 'About Us',
-        contact: 'Contact'
-    },
-    sw: {
-        home: 'Nyumbani',
-        projects: 'Mkakati wa Maendeleo',
-        laws: 'Sheria na Utawala',
-        maps: 'Miradi na Mapendekezo',
-        resources: 'Vyanzo vya Data',
-        about: 'Kutuhusu',
-        contact: 'Wasiliana Nasi'
-    }
-};
-
 const MainSidebar: React.FC<MainSidebarProps> = ({ activeView, navigateTo, isOpen, setIsOpen, isCollapsed, setIsCollapsed, language }) => {
   
-  const t = translations[language];
-
   const handleItemClick = (view: AppView) => {
     navigateTo(view);
     if (window.innerWidth < 768) {
@@ -82,15 +58,8 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ activeView, navigateTo, isOpe
     }
   };
 
-  const navItems: NavItemData[] = [
-    { view: 'home', labelKey: 'home', icon: HomeIcon, activeStates: ['home'] },
-    { view: 'projects', labelKey: 'projects', icon: PresentationChartLineIcon, activeStates: ['projects', 'national-policy'] },
-    { view: 'kenya-laws', labelKey: 'laws', icon: BookOpenIcon, activeStates: ['kenya-laws', 'constitution', 'acts', 'cabinet', 'state-corporations', 'kenyan-anthem', 'east-african-anthem', 'national-flag', 'coat-of-arms', 'anthems', 'county-laws', 'county-governments', 'act-detail', 'historical-documents', 'legislature', 'judiciary'] },
-    { view: 'infomap', labelKey: 'maps', icon: MapIcon, activeStates: ['infomap'] },
-    { view: 'resources', labelKey: 'resources', icon: LinkIcon, activeStates: ['resources'] },
-    { view: 'about', labelKey: 'about', icon: UsersIcon, activeStates: ['about'] },
-    { view: 'contact', labelKey: 'contact', icon: MailIcon, activeStates: ['contact'] },
-  ];
+  // Get items marked for sidebar
+  const navItems = appStructure.filter(item => item.inSidebar);
 
   const sidebarContent = (
     <div className="h-full flex flex-col bg-surface/95 dark:bg-dark-surface/95 backdrop-blur-xl border-r border-border dark:border-dark-border custom-shadow z-50">
@@ -125,17 +94,11 @@ const MainSidebar: React.FC<MainSidebarProps> = ({ activeView, navigateTo, isOpe
                 <NavItem
                     key={item.view}
                     onClick={() => handleItemClick(item.view)}
-                    isSelected={item.activeStates.includes(activeView)}
+                    isSelected={activeView === item.view || (item.view === 'kenya-laws' && ['constitution', 'acts', 'legislature', 'judiciary', 'cabinet'].includes(activeView))}
                     isCollapsed={isCollapsed}
-                    label={t[item.labelKey as keyof typeof t]}
-                >
-                    <div className={`flex items-center justify-center h-6 w-6 transition-transform duration-200 ${isCollapsed ? '' : 'mr-3'} ${item.activeStates.includes(activeView) ? 'scale-110' : 'group-hover:scale-110'}`}>
-                        <item.icon className="h-5 w-5" />
-                    </div>
-                    <span className={`whitespace-nowrap font-medium transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isCollapsed ? 'w-0 opacity-0 -translate-x-4' : 'w-auto opacity-100 translate-x-0'}`}>
-                        {t[item.labelKey as keyof typeof t]}
-                    </span>
-                </NavItem>
+                    label={item.title[language]}
+                    icon={item.icon}
+                />
             ))}
         </nav>
         
