@@ -5,6 +5,7 @@ export interface JudicialBody {
     leadership?: { title: string; name?: string; }[];
     composition?: string[];
     jurisdiction?: string;
+    powers?: string[];
     url?: string;
     children?: JudicialBody[];
 }
@@ -14,6 +15,12 @@ export const judiciaryData: JudicialBody = {
     description: 'Vested with judicial authority derived from the people, it administers justice in accordance with the Constitution and the law.',
     leadership: [{ title: 'The Chief Justice & President of the Supreme Court' }],
     url: 'https://www.judiciary.go.ke/',
+    powers: [
+        'Administer justice irrespective of status',
+        'Promote alternative forms of dispute resolution',
+        'Interpret the Constitution',
+        'Protect and promote the purposes and principles of the Constitution'
+    ],
     children: [
         {
             name: 'Superior Courts',
@@ -28,6 +35,12 @@ export const judiciaryData: JudicialBody = {
                     ],
                     composition: ['5 Other Judges'],
                     jurisdiction: 'Exclusive original jurisdiction in presidential election disputes; appellate jurisdiction on constitutional matters and matters of general public importance.',
+                    powers: [
+                        'Hear and determine disputes relating to the elections to the office of President',
+                        'Hear appeals from the Court of Appeal',
+                        'Provide advisory opinions at the request of the National Government, any State organ, or any County Government',
+                        'Review certifications by the Court of Appeal on matters of general public importance'
+                    ],
                     url: 'https://www.judiciary.go.ke/courts/supreme-court/',
                 },
                 {
@@ -36,6 +49,10 @@ export const judiciaryData: JudicialBody = {
                     leadership: [{ title: 'President of the Court of Appeal' }],
                     composition: ['Not fewer than 12 Judges'],
                     jurisdiction: 'Appellate jurisdiction over the High Court and other courts/tribunals as prescribed by law.',
+                    powers: [
+                        'Hear appeals from the High Court',
+                        'Hear appeals from any other court or tribunal as prescribed by an Act of Parliament'
+                    ],
                     url: 'https://www.judiciary.go.ke/courts/court-of-appeal/',
                 },
                 {
@@ -44,6 +61,12 @@ export const judiciaryData: JudicialBody = {
                     leadership: [{ title: 'Principal Judge' }],
                     composition: ['Number of judges prescribed by Parliament'],
                     jurisdiction: 'Unlimited original jurisdiction, supervisory jurisdiction over subordinate courts, and interpretation of the Constitution.',
+                    powers: [
+                        'Determine whether a right or fundamental freedom in the Bill of Rights has been denied, violated, infringed or threatened',
+                        'Hear any question respecting the interpretation of the Constitution',
+                        'Supervisory jurisdiction over subordinate courts and any person, body or authority exercising a judicial or quasi-judicial function',
+                        'Hear appeals from a decision of a tribunal appointed to consider the removal of a person from office'
+                    ],
                     url: 'https://www.judiciary.go.ke/courts/high-court/',
                 },
                 {

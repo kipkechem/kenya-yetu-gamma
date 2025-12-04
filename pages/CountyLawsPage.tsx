@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo, useEffect, useDeferredValue } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon, BookOpenIcon, ChevronDoubleRightIcon, ScaleIcon, MapPinIcon } from '../components/icons';
-import type { CountyLegislation, CountyLaw } from '../types/index';
+import type { CountyLegislation, CountyLaw, County } from '../types/index';
 import Highlight from '../components/Highlight';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -36,15 +36,24 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
   const [openItems, setOpenItems] = useState<Set<string>>(new Set(['devolution-laws']));
   const [isDevolutionOpen, setIsDevolutionOpen] = useState(false);
 
-  // Load data using the lazy hook
+  // Load data using the lazy hook with skipCache to optimize performance for large datasets
   const { data: countyLawsData, isLoading: isCountyLoading } = useLazyData<CountyLegislation[]>(
       'county-laws-data',
-      () => import('../data/county-laws').then(m => m.countyLawsData)
+      () => import('../data/legislation/county-laws').then(m => m.countyLawsData),
+      [],
+      { skipCache: true }
   );
 
   const { data: devolutionLawsData, isLoading: isDevolutionLoading } = useLazyData<CountyLaw[]>(
       'devolution-laws-data',
-      () => import('../data/county-laws').then(m => m.devolutionLawsData)
+      () => import('../data/legislation/devolution-laws').then(m => m.devolutionLawsData),
+      [],
+      { skipCache: true }
+  );
+
+  const { data: countiesData, isLoading: isCountiesLoading } = useLazyData<County[]>(
+    'counties-data',
+    () => import('../data/counties').then(m => m.countiesData)
   );
 
   useEffect(() => {
@@ -88,10 +97,11 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
 
   // Filtered counties for the grid view (based on name match)
   const visibleCounties = useMemo(() => {
+      if (!countiesData) return [];
       return countiesData
         .filter(c => c.name.toLowerCase().includes(lowercasedTerm))
         .sort((a,b) => a.name.localeCompare(b.name));
-  }, [lowercasedTerm]);
+  }, [lowercasedTerm, countiesData]);
 
   // Get laws data specifically for the selected county
   const selectedCountyLaws = useMemo(() => {

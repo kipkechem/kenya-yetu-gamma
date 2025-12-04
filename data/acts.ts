@@ -1,551 +1,2891 @@
+
+export interface Act {
+  title: string;
+  url?: string;
+  subsidiary?: Act[];
+}
+
 export interface ActsByCategory {
-  'in force': string[];
-  uncommenced: string[];
-  repealed: string[];
-  county: string[];
-  'east african': string[];
+  'in force': Act[];
+  uncommenced?: Act[];
+  repealed?: Act[];
+  county?: Act[];
+  'east african'?: Act[];
 }
 
 export const actsOfParliament: ActsByCategory = {
   'in force': [
-    "Access to Information Act, 2016",
-    "Accountants Act, 2008",
-    "Advocates Act",
-    "Age of Majority Act",
-    "Agricultural Development Corporation Act",
-    "Agricultural Finance Corporation Act",
-    "Agricultural Produce (Export) Act",
-    "Agricultural Produce Marketing Act",
-    "Agriculture and Food Authority Act, 2013",
-    "Air Passenger Service Charge Act",
-    "Anglican Church of Kenya Act",
-    "Animal Diseases Act",
-    "Anti-Counterfeit Act, 2008",
-    "Anti-Doping Act, 2016",
-    "Anti-Money Laundering and Combating of Terrorism Financing (Amendment) Act, 2023",
-    "Antiochian Orthodox Church Act",
-    "Antioxidants Act",
-    "Appellate Jurisdiction Act",
-    "Appropriation Act, 2023",
-    "Arbitration Act, 1995",
-    "Architects and Quantity Surveyors Act",
-    "Asian Officers’ Family Pensions Act",
-    "Assumption of the Office of President Act, 2012",
-    "Auctioneers Act, 1996",
-    "Aviation Act",
-    "Banking Act",
-    "Bankruptcy Act",
-    "Basic Education Act, 2013",
-    "Betting, Lotteries and Gaming Act",
-    "Bills of Exchange Act",
-    "Biosafety Act, 2009",
-    "Births and Deaths Registration Act",
-    "Bomas of Kenya Act",
-    "Boy Scouts Act",
-    "Branding of Stock Act",
-    "Breast Milk Substitutes (Regulation and Control) Act, 2012",
-    "Bretton Woods Agreements Act",
-    "Bribery Act, 2016",
-    "British Standard Portland Cement Company, Limited (Bamburi Factory) Act",
-    "Broadcasting Receiving (Licensing) Act",
-    "Building Societies Act",
-    "Business Registration Service Act, 2015",
-    "Cancer Prevention and Control Act, 2012",
-    "Capital Markets Act",
-    "Care and Protection of Older Members of Society Act, 2023",
-    "Carriage of Goods by Sea Act",
-    "Cattle Cleansing Act",
-    "Central Bank of Kenya Act",
-    "Certified Public Secretaries of Kenya Act",
-    "Chattels Transfer Act",
-    "Cheques Act",
-    "Children Act, 2022",
-    "Chuka University Act, 2012",
-    "Civil Aviation Act, 2013",
-    "Civil Contingencies Fund Act",
-    "Civil Procedure Act",
-    "Climate Change Act, 2016",
-    "Clinical Officers (Training, Registration and Licensing) Act, 2017",
-    "Coast Development Authority Act",
-    "Coffee Act, 2001",
-    "Commission on Administrative Justice Act, 2011",
-    "Commission on Revenue Allocation Act, 2011",
-    "Common Leasehold Property Act, 2024",
-    "Community Land Act, 2016",
-    "Companies Act, 2015",
-    "Competition Act, 2010",
-    "Computer Misuse and Cybercrimes Act, 2018",
-    "Consular Conventions Act",
-    "Consumer Protection Act, 2012",
-    "Controller of Budget Act, 2016",
-    "Co-operative Societies Act",
-    "Co-operative University of Kenya Act, 2014",
-    "Copyright Act, 2001",
-    "Coroners Service Act, 2017",
-    "Council of Legal Education Act",
-    "Counter Trafficking in Persons Act, 2010",
-    "Court of Appeal (Organization and Administration) Act, 2015",
-    "Credit Reference Bureau Regulations, 2020",
-    "Crime and Anti-Money Laundering Act, 2023",
-    "Criminal Procedure Code",
-    "Crops Act, 2013",
-    "Data Protection Act, 2019",
-    "Debts (Summary Recovery) Act",
-    "Dedicated University of Africa Act, 2012",
-    "Defamation Act",
-    "Demonstrations Act",
-    "Dental Mechanicians Act",
-    "Diplomatic Privileges Act",
-    "Distress for Rent Act",
-    "Distribution of Forfeited Property Act, 2024",
-    "Division of Revenue Act, 2023",
-    "Dog Act",
-    "Egerton University Act",
-    "Election Campaign Financing Act, 2013",
-    "Election Offences Act, 2016",
-    "Elections Act, 2011",
-    "Embakasi (Nairobi Airport) Act",
-    "Embassies and Consulates (Conferment of Immunities and Privileges) Act",
-    "Employment Act, 2007",
-    "Energy Act, 2019",
-    "Engineers Act, 2011",
-    "Entertainment Tax Act",
-    "Environment (Management and Co-ordination) Act, 1999",
-    "Estate Agents Act",
-    "Estate Duty Act",
-    "Ethics and Anti-Corruption Commission Act, 2011",
-    "Evidence Act",
-    "Excise Duty Act, 2015",
-    "Explosives Act",
-    "Export Duty Act",
-    "Export Processing Zones Act",
-    "Extradition (Commonwealth Countries) Act",
-    "Extradition (Contiguous and Foreign Countries) Act",
-    "Factors Act",
-    "Facility Improvement Financing Act, 2023",
-    "Fair Administrative Action Act, 2015",
-    "Family Protection Act",
-    "Farm Produce (Grading and Marking) Act",
-    "Farmers’ Stop-orders Act",
-    "Fatal Accidents Act",
-    "Fertilizers and Animal Foodstuffs Act",
-    "Films and Stage Plays Act",
-    "Finance Act, 2023",
-    "Financial Reporting Act, 2015",
-    "Firearms Act",
-    "Fisheries Management and Development Act, 2016",
-    "Flag, Emblems and Names Act",
-    "Food and Drugs (Adulteration) Act",
-    "Food, Drugs and Chemical Substances Act",
-    "Foreign Investment Protection Act",
-    "Foreign Judgments (Reciprocal Enforcement) Act",
-    "Forest Conservation and Management Act, 2016",
-    "Fugitive Offenders Act",
-    "Garissa University Act, 2017",
-    "Girl Guides Act",
-    "Goods in Transit Act",
-    "Government Contracts Act",
-    "Government Lands Act",
-    "Government Proceedings Act",
-    "Guarantee (High Commission Posts and Telegraphs Loan) Act",
-    "Guarantee (House Purchase) Act",
-    "Guarantee (Loans) Act",
-    "Health Act, 2017",
-    "Health Records and Information Managers Act, 2016",
-    "Hide, Skin and Leather Trade Act",
-    "High Court (Organization and Administration) Act, 2015",
-    "Hindu Marriage and Divorce Act",
-    "Hindu Wills Act",
-    "Hire-Purchase Act",
-    "HIV and AIDS Prevention and Control Act, 2006",
-    "House of Representatives (Privileges, Powers and Immunities) Act",
-    "Housing Act",
-    "Housing and Loan Bonds Act",
-    "Human Resource Management Professionals Act, 2012",
-    "Indemnity Act",
-    "Independent Electoral and Boundaries Commission Act, 2011",
-    "Indian Acts (Amendments) Act",
-    "Industrial and Commercial Development Corporation Act",
-    "Industrial Property Act, 2001",
-    "Industrial Training Act",
-    "Infortrak University Act",
-    "Insolvency Act, 2015",
-    "Insurance Act",
-    "Insurance (Motor Vehicles Third Party Risks) Act",
-    "International Conference on the Great Lakes Region (Privileges and Immunities) Act, 2017",
-    "International Crimes Act, 2008",
-    "International Development Association Act",
-    "International Finance Corporation Act",
-    "International Monetary Fund Act",
-    "Interpretation and General Provisions Act",
-    "Investment and Financial Analysts Act, 2015",
-    "Investment Disputes Convention Act",
-    "Investment Promotion Act, 2004",
-    "Jaramogi Oginga Odinga University of Science and Technology Act, 2012",
-    "Jomo Kenyatta Foundation Act",
-    "Jomo Kenyatta University of Agriculture and Technology Act",
-    "Judicature Act",
-    "Judicial Service Act, 2011",
-    "Kadhis’ Courts Act",
-    "Karatina University Act, 2012",
-    "Kazi Mtaani Act",
-    "Kenya Anglican Act, 2015",
-    "Kenya Broadcasting Corporation Act",
-    "Kenya Citizenship Act",
-    "Kenya Citizenship and Immigration Act, 2011",
-    "Kenya Coast Guard Service Act, 2018",
-    "Kenya Conference of Catholic Bishops Act",
-    "Kenya Cultural Centre Act",
-    "Kenya Defence Forces Act",
-    "Kenya Deposit Insurance Act, 2012",
-    "Kenya Development Corporation Act, 2021",
-    "Kenya Engineering Technology Registration Board Act, 2016",
-    "Kenya Film Classification Board Act",
-    "Kenya Girl Guides Act",
-    "Kenya Health Professions Oversight Authority Act",
-    "Kenya Heroes Act, 2014",
-    "Kenya Highways Act",
-    "Kenya Institute for Public Policy Research and Analysis Act, 2006",
-    "Kenya Institute of Management Act, 2016",
-    "Kenya Institute of Mass Communication Act, 2023",
-    "Kenya Institute of Personnel Management Act",
-    "Kenya Institute of Special Education Act",
-    "Kenya Institute of Supplies Management Act, 2007",
-    "Kenya Law Reform Commission Act, 2013",
-    "Kenya Literature Bureau Act",
-    "Kenya Maritime Act, 2006",
-    "Kenya Medical Research Institute Act",
-    "Kenya Medical Supplies Authority Act",
-    "Kenya Medical Training College Act",
-    "Kenya Methodist University Act",
-    "Kenya National Commission for UNESCO Act, 2013",
-    "Kenya National Examinations Council Act, 2012",
-    "Kenya National Human Rights Commission Act",
-    "Kenya National Library Service Board Act",
-    "Kenya National Youth Service Act",
-    "Kenya Nuclear Regulatory Act, 2019",
-    "Kenya Post Office Savings Bank Act",
-    "Kenya Qualifications Framework Act, 2014",
-    "Kenya Railways Corporation Act",
-    "Kenya Red Cross Society Act",
-    "Kenya Revenue Authority Act",
-    "Kenya Roads Act, 2007",
-    "Kenya School of Government Act, 2012",
-    "Kenya School of Law Act, 2012",
-    "Kenya Scouts Act",
-    "Kenya Shipping Line Act",
-    "Kenya Space Act, 2017",
-    "Kenya Sugar Board Act",
-    "Kenya Tsetse and Trypanosomiasis Eradication Council Act",
-    "Kenya Veterinary Board Act",
-    "Kenya Water Institute Act, 2001",
-    "Kenyatta University Act",
-    "KUSCCO Ltd. (Special Provisions) Act",
-    "Labour Institutions Act, 2007",
-    "Labour Relations Act, 2007",
-    "Laikipia University Act, 2012",
-    "Land Act, 2012",
-    "Land Adjudication Act",
-    "Land Consolidation Act",
-    "Land Control Act",
-    "Land Development and Settlement Act",
-    "Landlord and Tenant (Shops, Hotels and Catering Establishments) Act",
-    "Land Registration Act, 2012",
-    "Law of Contract Act",
-    "Law of Domicil Act",
-    "Law of Evidence Act",
-    "Law of Limitation Act",
-    "Law of Property (Miscellaneous Provisions) Act",
-    "Law of Succession Act",
-    "Law Reform Act",
-    "Law Society of Kenya Act, 2014",
-    "Leadership and Integrity Act, 2012",
-    "Legal Aid Act, 2016",
-    "Legal Education Act, 2012",
-    "Legitimacy Act",
-    "Libraries Act",
-    "Limitation of Actions Act",
-    "Limited Liability Partnership Act, 2011",
-    "Livestock Improvement Act",
-    "Maasai Mara University Act, 2012",
-    "Machakos University Act, 2012",
-    "Magistrates’ Courts Act, 2015",
-    "Maintenance Orders Enforcement Act",
-    "Maize and Produce Board Act",
-    "Maritime Zones Act",
-    "Marketing of Agricultural Produce Act",
-    "Marriage Act, 2014",
-    "Maseno University Act",
-    "Masinde Muliro University of Science and Technology Act",
-    "Matrimonial Causes Act",
-    "Matrimonial Property Act, 2013",
-    "Meat Control Act",
-    "Media Council Act, 2013",
-    "Medical Practitioners and Dentists Act",
-    "Mental Health Act",
-    "Meru University of Science and Technology Act, 2008",
-    "Methodist Church in Kenya Act",
-    "Metric System (Natural Resources) Act",
-    "Micro and Small Enterprises Act, 2012",
-    "Mining Act, 2016",
-    "Moi University Act",
-    "Mortgages (Special Provisions) Act",
-    "Motor Vehicles (Third Party Insurance) Act",
-    "Mount Kenya University Act, 2011",
-    "Movable Property Security Rights Act, 2017",
-    "Multimedia University of Kenya Act, 2012",
-    "Murang’a University of Technology Act, 2012",
-    "Museums and Heritage Act",
-    "Music and Dance Act",
-    "Mutual Legal Assistance Act, 2011",
-    "Nairobi Hospital Act",
-    "Nairobi International School of Theology Act",
-    "Nairobi University Act",
-    "National Agricultural Research Act",
-    "National Aids Control Council Act",
-    "National Anthem Act",
-    "National Archives and Documentation Service Act",
-    "National Assembly (Powers and Privileges) Act",
-    "National Assembly Elections Act",
-    "National Assembly Remuneration Act",
-    "National Authority for the Campaign Against Alcohol and Drug Abuse Act, 2012",
-    "National Biosafety Authority Act",
-    "National Cereals and Produce Board Act",
-    "National Cohesion and Integration Act, 2008",
-    "National Construction Authority Act, 2011",
-    "National Council for Children’s Services Act",
-    "National Council for Law Reporting Act",
-    "National Council for Persons with Disabilities Act",
-    "National Council for Science and Technology Act",
-    "National Crime Research Centre Act, 1997",
-    "National Drought Management Authority Act, 2016",
-    "National Employment Authority Act, 2016",
-    "National Environment Management Authority Act",
-    "National Flag, Emblems and Names Act",
-    "National Government Co-ordination Act, 2013",
-    "National Government Constituency Development Fund Act, 2015",
-    "National Government Loans Guarantee Act",
-    "National Health Insurance Fund Act, 1998",
-    "National Hospital Insurance Fund Act, 1998",
-    "National Housing Corporation Act",
-    "National Intelligence Service Act, 2012",
-    "National Land Commission Act, 2012",
-    "National Library Service Board Act",
-    "National Museums and Heritage Act, 2006",
-    "National Oil Corporation of Kenya Act",
-    "National Payment System Act, 2011",
-    "National Police Service Act, 2011",
-    "National Police Service Commission Act, 2011",
-    "National Social Security Fund Act, 2013",
-    "National Sports Fund Act, 2013",
-    "National Youth Council Act, 2009",
-    "National Youth Service Act, 2018",
-    "Native Christian Marriage Act",
-    "Natural Resources (Benefit Sharing) Act, 2024",
-    "Ndegwa Commission Report",
-    "Non-Governmental Organizations Co-ordination Act",
-    "Notaries Public Act",
-    "Nurses Act",
-    "Oaths and Statutory Declarations Act",
-    "Occupiers’ Liability Act",
-    "Occupational Safety and Health Act, 2007",
-    "Office of the Attorney-General Act, 2012",
-    "Office of the Director of Public Prosecutions Act, 2013",
-    "Official Secrets Act",
-    "Opticians Act",
-    "Parliamentary Pensions Act",
-    "Parliamentary Service Act",
-    "Parliamentary Service Commission Act, 2000",
-    "Partnership Act, 2012",
-    "Patents Act",
-    "Pawnbrokers Act",
-    "Penal Code",
-    "Pensions Act",
-    "Performing Animals Act",
-    "Persons with Disabilities Act, 2003",
-    "Pest Control Products Act",
-    "Petroleum Act, 2019",
-    "Petroleum Development Fund Act",
-    "Pharmacy and Poisons Act",
-    "Physical and Land Use Planning Act, 2019",
-    "Pig Industry Act",
-    "Plant Protection Act",
-    "Political Parties Act, 2011",
-    "Post Office Savings Bank Act",
-    "Postal Corporation Act",
-    "Power of Attorney Act",
-    "PPOA Regulations",
-    "Presbyterian Church of East Africa Act",
-    "Preservation of Public Security Act",
-    "Presidential Retirement Benefits Act, 2003",
-    "Prevention of Cruelty to Animals Act",
-    "Prevention of Fraud (Investment) Act",
-    "Prevention of Terrorism Act, 2012",
-    "Price Control Act",
-    "Prisons Act",
-    "Private Security Regulation Act, 2016",
-    "Privatization Act, 2023",
-    "Privileges and Immunities Act",
-    "Probation of Offenders Act",
-    "Proceeds of Crime and Anti-Money Laundering Act, 2009",
-    "Promissory Oaths Act",
-    "Protection Against Domestic Violence Act, 2015",
-    "Protection of Aircraft Act",
-    "Protection of Traditional Knowledge and Cultural Expressions Act, 2016",
-    "Provident Fund Act",
-    "Public Archives Act",
-    "Public Audit Act, 2015",
-    "Public Finance Management Act, 2012",
-    "Public Health Act",
-    "Public Holidays Act",
-    "Public Inquiries Act",
-    "Public Order Act",
-    "Public Procurement and Asset Disposal Act, 2015",
-    "Public Roads and Roads of Access Act",
-    "Public Service Commission Act, 2017",
-    "Public Service (Superannuation) Fund Act",
-    "Public Trustee Act",
-    "Public-Private Partnerships Act, 2021",
-    "Pyrethrum Act, 2013",
-    "Rabies Act",
-    "Radiation Protection Act",
-    "Rating Act",
-    "Records Disposal Act",
-    "Refugees Act, 2021",
-    "Regional Centre on Groundwater Resources Education, Training and Research in Eastern Africa Act, 2015",
-    "Registration of Business Names Act",
-    "Registration of Documents Act",
-    "Registration of Persons Act",
-    "Regulation of Wages and Conditions of Employment Act",
-    "Rent Restriction Act",
-    "Retirement Benefits Act, 1997",
-    "Revision of the Laws Act",
-    "Rice Promotion Act",
-    "Rights of Persons Deprived of Liberty Act",
-    "Rivatex East Africa Limited (Special Provisions) Act",
-    "Sacco Societies Act, 2008",
-    "Salaries and Remuneration Commission Act, 2011",
-    "Sale of Goods Act",
-    "Salvation Army Act",
-    "Sawmills Act",
-    "Science, Technology and Innovation Act, 2013",
-    "Seeds and Plant Varieties Act",
-    "Sectional Properties Act, 2020",
-    "Security Laws (Amendment) Act, 2014",
-    "Senate (Powers and Privileges) Act",
-    "Sexual Offences Act, 2006",
-    "Shipping and Maritime Affairs Act",
-    "Small Claims Court Act, 2016",
-    "Social Assistance Act",
-    "Social Health Insurance Act, 2023",
-    "Societies Act",
-    "South Eastern University College Act, 2008",
-    "South Eastern University of Kenya Act",
-    "Special Economic Zones Act, 2015",
-    "Sports Act, 2013",
-    "Stamp Duty Act",
-    "Standards Act",
-    "State Corporations Act",
-    "State House Girls’ High School (Kiriri Trust) Act",
-    "Statistics Act, 2006",
-    "Statute Law (Miscellaneous Amendments) Act, 2023",
-    "Statutory Instruments Act, 2013",
-    "Stock and Produce Theft Act",
-    "Street Traders (Licensing) Act",
-    "Subordinate Courts (Separation and Administration) Act",
-    "Supreme Court Act, 2011",
-    "Survey Act",
-    "Taita Taveta University Act, 2016",
-    "Tax Appeals Tribunal Act, 2013",
-    "Tax Procedures Act, 2015",
-    "Tea Act, 2020",
-    "Teachers Service Commission Act, 2012",
-    "Technical and Vocational Education and Training Act, 2013",
-    "Technical University of Kenya Act, 2012",
-    "Technical University of Mombasa Act, 2012",
-    "Telecommunications and Postal Sector Policy Guidelines",
-    "Timber Act",
-    "Tobacco Control Act, 2007",
-    "Tourism Act, 2011",
-    "Trade Descriptions Act",
-    "Trade Unions Act",
-    "Traffic Act",
-    "Transfer of Businesses Act",
-    "Transfer of Property Act",
-    "Treaty Making and Ratification Act, 2012",
-    "Trespass Act",
-    "Trust for the Education of the People of African Descent (Kenya) Act",
-    "Trustee Act",
-    "Trustee (Perpetual Succession) Act",
-    "Tuktuk Act, 2013",
-    "Unclaimed Financial Assets Act, 2011",
-    "United Nations (Immunities and Privileges) Act",
-    "Universities Act, 2012",
-    "University of Eldoret Act, 2012",
-    "University of Kabianga Act, 2012",
-    "University of Nairobi Act",
-    "Use of Poisonous Substances Act",
-    "Valuers Act",
-    "Value Added Tax Act, 2013",
-    "Veterinary Surgeons and Veterinary Para-professionals Act, 2011",
-    "Victim Protection Act, 2014",
-    "Visiting Forces Act",
-    "Water Act, 2016",
-    "Wayleaves Act",
-    "Weights and Measures Act",
-    "Widows’ and Children’s Pensions Act",
-    "Widows’ and Orphans’ Pensions Act",
-    "Wildlife Conservation and Management Act, 2013",
-    "Witchcraft Act",
-    "Witness Protection Act, 2006",
-    "Work Injury Benefits Act, 2007",
+    {
+      "title": "Access to Information Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/31/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Access to Information (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/161/eng@2023-12-01"
+        }
+      ]
+    },
+    {
+      "title": "Accountants Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2008/15/eng@2025-06-20",
+      "subsidiary": [
+        {
+          "title": "The Accountants (Standards of Professional Practice and Ethical Conduct) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/147/eng@2022-12-31"
+        },
+        {
+          "title": "The Accountants Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/153/eng@2022-12-31"
+        },
+        {
+          "title": "The Accountants (Examinations) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/152/eng@2022-12-31"
+        },
+        {
+          "title": "The Accountants (Quality Assurance Review) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/146/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Advocates Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1989/18/eng@2024-04-26",
+      "subsidiary": [
+        {
+          "title": "The Advocates (Practice) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1967/19/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Accounts) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1966/137/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Practising Certificate) (Fees) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/110/eng@2024-07-19"
+        },
+        {
+          "title": "The Advocates (Continuing Professional Development) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/43/eng@2014-05-02"
+        },
+        {
+          "title": "The Advocates (Disciplinary Committee) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1990/458/eng@2004-07-02"
+        },
+        {
+          "title": "The Advocates (Remuneration) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1962/64/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Deposit Interest) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1967/205/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Fees for Restoration to the Roll) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1962/311/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Senior Counsel Conferment and Privileges) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2011/155/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Complaints Commission) (Structure and Procedure) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/213/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Accountant's Certificate) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1968/80/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Professional Indemnity) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2004/82/eng@2022-12-31"
+        },
+        {
+          "title": "The Advocates (Marketing and Advertising) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/42/eng@2014-05-02"
+        },
+        {
+          "title": "The Advocates (Degree Qualifications) (Revocation) Regulations, 1991",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1991/467/eng@1991-06-12"
+        }
+      ]
+    },
+    {
+      "title": "Affordable Housing Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2024/2/eng@2024-03-21",
+      "subsidiary": [
+        {
+          "title": "The Affordable Housing Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/114/eng@2025-07-09"
+        }
+      ]
+    },
+    {
+      "title": "Agriculture and Food Authority Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2013/13/eng@2024-11-21"
+    },
+    {
+      "title": "Air Passenger Service Charge Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1970/21/eng@2025-11-04",
+      "subsidiary": [
+        {
+          "title": "The Air Passenger Service Charge (Apportionment) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/143/eng@2022-12-31"
+        },
+        {
+          "title": "The Air Passenger Service Charge (Apportionment) Order 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/23/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Alcoholic Drinks Control Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2010/4/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Alcoholic Drinks Control (Licensing) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2010/206/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Anti-Bribery Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/47/eng@2023-12-11",
+      "subsidiary": [
+        {
+          "title": "The Bribery Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/88/eng@2022-12-31"
+        },
+        {
+          "title": "The Anti-Bribery Act (Guidelines to Assist Public and Private Entities in the Preparation of Procedures for the Prevention of Bribery and Corruption, 2022",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/2022/6022/eng@2022-05-27"
+        }
+      ]
+    },
+    {
+      "title": "Anti-Corruption and Economic Crimes Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2003/3/eng@2025-08-19",
+      "subsidiary": [
+        {
+          "title": "The Anti-Corruption and Economic Crimes Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/119/eng@2022-12-31"
+        },
+        {
+          "title": "The Anti-Corruption and Economic Crimes (Amnesty and Restitution) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2011/44/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Anti-Doping Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/5/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Anti-Doping Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/211/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Appellate Jurisdiction Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1977/15/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Court of Appeal Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/40/eng@2022-12-31"
+        },
+        {
+          "title": "The Court of Appeal for East Africa Rules, 1972",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/199/eng@1972-10-13"
+        },
+        {
+          "title": "The Court of Appeal (Election Petition) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/114/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Architects and Quantity Surveyors Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1933/60/eng@2023-12-11",
+      "subsidiary": [
+        {
+          "title": "The Architects and Quantity Surveyors By-laws",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1959/420/eng@2022-12-31"
+        },
+        {
+          "title": "The Architects and Quantity Surveyors (Continuing Professional Development) By-Laws",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/202/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Asian Widows' and Orphans' Pensions (Repeal) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2022/5/eng@2022-04-01"
+    },
+    {
+      "title": "Banking Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1989/9/eng@2024-12-27",
+      "subsidiary": [
+        {
+          "title": "The Banking (Credit Reference Bureau) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/55/eng@2022-12-31"
+        },
+        {
+          "title": "The Banking (Penalties) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/116/eng@2025-07-09"
+        },
+        {
+          "title": "The Banking (Liquidation of Institutions) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1992/402/eng@2022-12-31"
+        },
+        {
+          "title": "The Banking (Increase of Rate of Banking and other Charges) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2006/34/eng@2022-12-31"
+        },
+        {
+          "title": "The Banking (Licences) (Forms and Fees) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/116/eng@2022-12-31"
+        },
+        {
+          "title": "The Banking Act - Exemption",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/154/eng@2022-12-31"
+        },
+        {
+          "title": "The Banking (Fees) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1994/188/eng@2022-12-31"
+        },
+        {
+          "title": "The Banking (Deposit Protection Fund) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/10/eng@2022-12-31"
+        },
+        {
+          "title": "Banking Act - Exemption",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/52/eng@2024-04-12"
+        },
+        {
+          "title": "The Banking Act-Exemption",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/85/eng@2024-06-07"
+        }
+      ]
+    },
+    {
+      "title": "Basic Education Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2013/14/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Basic Education Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/39/eng@2022-12-31"
+        },
+        {
+          "title": "The Basic Education (Education Standards and Quality Assurance Council) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/11/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Bills of Exchange Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1927/7/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Bills of Exchange (Cheque Truncation) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2010/123/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Births and Deaths Registration Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1928/2/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Births and Deaths Registration Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1966/270/eng@2024-10-01"
+        },
+        {
+          "title": "The Births and Deaths (Late Registration) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1971/154/eng@2024-10-01"
+        },
+        {
+          "title": "Towns, Districts and Areas in Which Registration of Births and Deaths is Declared to Be Compulsory",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1963/172/eng@2022-12-31"
+        },
+        {
+          "title": "The Births and Deaths Registration (Births and Deaths Occurring Outside Kenya) (Forms and Fees) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/170/eng@2022-12-31"
+        },
+        {
+          "title": "The Births and Deaths Registration Act - Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/151/eng@2024-10-11"
+        }
+      ]
+    },
+    {
+      "title": "Branding of Stock Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1907/12/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Branding of Stock Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/1950/1223/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Brokers Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1930/56/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Brokers (Licence Fees) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1981/84/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Building Societies Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1956/29/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "Appointment of Registrar of Building Societies",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/1956/2165/eng@2022-12-31"
+        },
+        {
+          "title": "The Building Societies Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1956/378/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Cabinet Secretary to the Treasury (Incorporation) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1962/2/eng@2022-12-31"
+    },
+    {
+      "title": "Capital Markets Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1989/17/eng@2025-11-04",
+      "subsidiary": [
+        {
+          "title": "The Capital Markets (Derivatives Markets) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/37/eng@2025-02-14"
+        },
+        {
+          "title": "The Capital Markets (Securities) (Public Offers, Listing and Disclosures) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2002/60/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Collective Investment Schemes) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2001/181/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Real Estate Investment Trusts) (Collective Investment Schemes) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2013/116/eng@2023-10-06"
+        },
+        {
+          "title": "The Capital Markets (Registered Venture Capital Companies) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2007/183/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Derivatives Markets) (Fees) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/127/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Foreign Investors) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2002/134/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Whistleblower) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/65/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Demutualization of the Nairobi Securities Exchange Limited) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2012/87/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets Authority Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1992/429/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Licensing Requirements) (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2002/125/eng@2023-10-06"
+        },
+        {
+          "title": "The Capital Markets (Securities Lending, Borrowing and Short-selling) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/295/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Nairobi Securities Exchange Limited Shareholding) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/74/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Asset-Backed Securities) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2007/184/eng@2022-12-31"
+        },
+        {
+          "title": "The Guidelines on Corporate Governance Practices by Public Listed Companies in Kenya",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/2002/3362/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Conduct of Business) (Market Intermediaries) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2011/145/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Online Foreign Exchange Trading) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/226/eng@2023-10-06"
+        },
+        {
+          "title": "The Guidelines on the Approval and Registration of Credit Rating Agencies",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/2001/8512/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Corporate Governance) (Market Intermediaries) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2011/144/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Coffee Exchange) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/40/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Take-Overs and Mergers) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2002/126/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Investment-Based Crowdfunding) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/175/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Commodity Markets) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/41/eng@2022-12-31"
+        },
+        {
+          "title": "Capital Markets Tribunal Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2002/179/eng@2022-12-31"
+        },
+        {
+          "title": "The Capital Markets (Collective Investments Schemes) Regulations, 2023",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/173/eng@2023-12-15"
+        },
+        {
+          "title": "The Capital Markets (Alternative Investment Funds) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/170/eng@2023-12-15"
+        },
+        {
+          "title": "The Capital Markets (Credit Rating Agencies) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/171/eng@2023-12-15"
+        },
+        {
+          "title": "The Capital Markets (Public Offers, Listings and Disclosures) Regulations, 2023",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/172/eng@2023-12-15"
+        },
+        {
+          "title": "The Capital Markets (Coffee Exchange)(Fees) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/9/eng@2025-02-07"
+        }
+      ]
+    },
+    {
+      "title": "Cattle Cleansing Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1929/32/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "Prescription of Cleaning Methods",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1979/194/eng@2022-12-31"
+        },
+        {
+          "title": "PRESCRIPTION OF EFFECTIVE TICK DESTROYING AGENT",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/60/eng@2023-06-16"
+        },
+        {
+          "title": "Prescription of Effective Tick Destroying Agents Notice",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1979/5/eng@2022-12-31"
+        },
+        {
+          "title": "The Cattle Cleansing Act—Prescription of Effective Tick Destroying Agent",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/107/eng@2024-07-19"
+        },
+        {
+          "title": "Cattle Cleansing Areas",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1967/192/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Central Bank of Kenya Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1966/15/eng@2025-11-04",
+      "subsidiary": [
+        {
+          "title": "Specified Banks and Financial Institutions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/143/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Withdrawal of Bank Notes, 1974",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1974/307/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Withdrawal of East African Shillings, 1972",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/233/eng@2022-12-31"
+        },
+        {
+          "title": "Legal Tender of East African Shillings",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1966/253/eng@1966-08-23"
+        },
+        {
+          "title": "The Central Bank of Kenya (Foreign Exchange Business) Regulations, 2007",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2007/62/eng@2022-12-31"
+        },
+        {
+          "title": "Determination of Par Value of the Kenyan Shilling, 1973",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1973/35/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya (Currency Handling) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2011/19/eng@2022-12-31"
+        },
+        {
+          "title": "Specified Public Entities under Section 2",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1979/138/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Declaration of a Public Entity, 2003",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/75/eng@2003-06-20"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Declaration of a Public Entity, 2003",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/174/eng@2003-11-07"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Specification of Public Entity, 2013",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2013/194/eng@2013-08-30"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Specification of Public Entity",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/67/eng@2014-06-13"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New issue of Forty Shillings Coin and Two Hundred Shillings Note, 2003",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/210/eng@2022-12-31"
+        },
+        {
+          "title": "Regulation of Interest Rates and Terms of Credit of Specified Banks and Specified Financial Institutions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/1990/1617/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Specified Banks and Financial Institutions, 2007",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2007/76/eng@2007-06-15"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Specification of Bank, 2009",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/147/eng@2009-10-09"
+        },
+        {
+          "title": "Description of New Issue of Fifty, One Hundred, Two Hundred, Five Hundred and One Thousand Shillings Kenya Currency Notes",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/72/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Commemorative Gold and Silver Coins, 2003",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/209/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya- Description of New Kenya Currency Notes and Coins, 1980",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1980/165/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New issue of Fifty, Five Hundred and One Thousand Shillings Currency Notes, 2003",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/58/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of the Central Bank of Kenya's 20th Anniversary Commemorative Coins, 1986",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1986/311/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya (Declaration of Currency) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1998/118/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Five Hundred and One Thousand Shillings Notes, 1998",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1998/88/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya (Mortgage Refinance Companies) Regulations, 2019",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/134/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya- Description of New Issue of Commemorative Gold and Silver Coins, 1979",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1979/259/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Fifty, One Hundred, Two Hundred, Five Hundred and One Thousand Shillings Currency Notes",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2004/13/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Five Cents, Ten Cents, Fifty Cents, One Shilling, Five Shillings, Ten Shillings and Twenty Shillings Coins, 2005",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2005/40/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of One Hundred and Two Hundred Shillings Notes, 1996",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1996/300/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New One Thousand Shillings Note, 1995",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1995/17/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Shillings Coin, 1985",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1985/232/eng@2022-12-31"
+        },
+        {
+          "title": "The Money Remittance Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2013/66/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Bank Notes, 1974",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1974/306/eng@2022-12-31"
+        },
+        {
+          "title": "lnstructions to Specified Financial lnstitutions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1971/160/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Twenty Shillings Coin, 1999",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1999/13/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Five Hundred Shillings Note, 1995",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1995/363/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of the Central Bank of Kenya's Silver Jubilee Commemorative Coins, 1991",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1991/543/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Ten Cents Coin, 1996",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1996/57/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Fifty Cents, One Shilling and Five Shillings Coins, 1995",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1995/293/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya- Determination of Par Value of the Kenya Shilling",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1966/303/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya (Foreign Exchange Bureau) (Penalties) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/82/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Fifty Shillings Note, 1990",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1990/505/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Determination as to the Par Value of the Kenya Shilling",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1971/297/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Fifty Shillings Note, 1996",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1996/59/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya- Description of Bank Notes, 1979",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1979/258/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Increase in Capital, 1989",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1989/408/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Twenty Shillings Note, 1995",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1995/362/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Issue of Two Hundred Shillings Note, 1986",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1986/242/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of New Twenty Shillings Note, 1994",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1994/144/eng@2022-12-31"
+        },
+        {
+          "title": "Central Bank of Kenya Act- Description of New Coin, 1973",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1973/225/eng@2022-12-31"
+        },
+        {
+          "title": "Description of New Issue of One Shilling, Five Shillings, Ten Shillings and Twenty Shillings Coins",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/235/eng@2022-12-31"
+        },
+        {
+          "title": "Specification of Institution",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/136/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Determination, 1994",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1994/160/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya- Description of New Issue of Ten Shillings (Bi-metal) Coin, 1994",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1994/492/eng@1994-12-09"
+        },
+        {
+          "title": "The Central Bank of Kenya Act- Description of Ten and One Hundred Shillings Note, 1989",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1989/334/eng@2022-12-31"
+        },
+        {
+          "title": "Waiver",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1986/371/eng@2022-12-31"
+        },
+        {
+          "title": "The Central Bank of Kenya (Digital Credit Providers) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/46/eng@2022-04-22"
+        }
+      ]
+    },
+    {
+      "title": "Certified Public Secretaries of Kenya Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1988/12/eng@2025-06-20",
+      "subsidiary": [
+        {
+          "title": "The Certified Public Secretaries (Application for Registration) (Permitted Age) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1990/429/eng@2022-12-31"
+        },
+        {
+          "title": "The Certified Public Secretaries (Application for Practising Certificates) (Forms and Fees) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1990/204/eng@2022-12-31"
+        },
+        {
+          "title": "The Certified Public Secretaries (Application for Registration) (Form and Fees) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1990/355/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Chiefs' Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1937/2/eng@2022-12-31"
+    },
+    {
+      "title": "Children Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2022/29/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Children (Foster Care) (Practice and Procedure) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/160/eng@2024-10-18"
+        },
+        {
+          "title": "The Children (Guardianship) (Practice and Procedure) Rules, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/159/eng@2024-10-18"
+        }
+      ]
+    },
+    {
+      "title": "Civil Aviation Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2013/21/eng@2024-04-26",
+      "subsidiary": [
+        {
+          "title": "The Civil Aviation (Certification of Air Navigation Service Providers) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/125/eng@2022-12-31"
+        },
+        {
+          "title": "The Civil Aviation Act (Air Operator Certification and Administration) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/92/eng@2018-05-04"
+        },
+        {
+          "title": "The Civil Aviation (Rules of the Air) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/124/eng@2022-12-31"
+        },
+        {
+          "title": "The Civil Aviation (Air Traffic Services) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/137/eng@2022-12-31"
+        },
+        {
+          "title": "The Civil Aviation (Unmanned Aircraft Systems) Regulations, 2020",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/42/eng@2020-04-03"
+        },
+        {
+          "title": "The Civil Aviation (Construction of Visual and Instrument Flight Procedures) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/121/eng@2022-12-31"
+        },
+        {
+          "title": "The Civil Aviation (Aeronautical Telecommunication Communication Systems) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/146/eng@2022-12-31"
+        },
+        {
+          "title": "The Civil Aviation (Licensing of Air Services) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/167/eng@2022-12-31"
+        },
+        {
+          "title": "The Civil Aviation (Operation of Aircraft-General Aviation Aeroplanes) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/165/eng@2022-12-31"
+        },
+        {
+          "title": "The Civil Aviation (Security) Regulations, 2020",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/128/eng@2020-07-24"
+        },
+        {
+          "title": "The Civil Aviation (Units of Measurement to be used in Air and Ground Operations), Regulations 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/120/eng@2022-12-31"
+        },
+        {
+          "title": "The Civil Aviation (Aeronautical Search and Rescue) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/119/eng@2022-12-31"
+        },
+        {
+          "title": "Civil Aviation (Charges for Air Navigation Services) Regulations, 2014",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/46/eng@2014-05-16"
+        },
+        {
+          "title": "The Civil Aviation (Communication Procedures) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/135/eng@2022-12-31"
+        },
+        {
+          "title": "Civil Aviation (Airworthiness) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/90/eng@2018-05-04"
+        },
+        {
+          "title": "The Kenya Civil Aviation (Application) Order, 2022",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/21/eng@2022-02-25"
+        },
+        {
+          "title": "The Civil Aviation (Regulatory Fees and charges for unmanned Aircraft Systems) Regulations, 2020",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/4/eng@2021-01-29"
+        },
+        {
+          "title": "The Civil Aviation (Prohibition to Fly Unmanned Aircraft) Regulations, 2019",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/76/eng@2019-06-14"
+        },
+        {
+          "title": "The Civil Aviation (Aircraft Accident and Incident Investigation) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/5/eng@2025-01-31"
+        },
+        {
+          "title": "The Civil Aviation (Aeronautical Radio Frequency Spectrum Utilization) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/136/eng@2018-07-06"
+        },
+        {
+          "title": "Civil Aviation (Safety Management) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/91/eng@2018-05-04"
+        },
+        {
+          "title": "Civil Aviation (Regulatory Fees and Charges for Air Navigation Services) Regulations, 2016",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/84/eng@2016-05-20"
+        },
+        {
+          "title": "Civil Aviation (Aircraft Nationality and Registration Marks) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/94/eng@2018-05-04"
+        },
+        {
+          "title": "Civil Aviation (Remote Piloted Aircraft Systems) Regulations, 2017",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/259/eng@2017-12-22"
+        },
+        {
+          "title": "The Civil Aviation Act—Conferrement of Functions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/163/eng@2018-07-13"
+        },
+        {
+          "title": "Civil Aviation (Approved Training Organizations) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/93/eng@2018-05-04"
+        },
+        {
+          "title": "The Civil Aviation (Meteorology Services for Air Navigation) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/166/eng@2018-07-20"
+        },
+        {
+          "title": "Civil Aviation (Operation of Aircraft-Helicopter) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/97/eng@2018-05-11"
+        },
+        {
+          "title": "Civil Aviation (Personnel Licensing) Regulations, 2018",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/95/eng@2018-05-11"
+        }
+      ]
+    },
+    {
+      "title": "Civil Procedure Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1924/3/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Civil Procedure (Court-Annexed Mediation) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/145/eng@2022-12-31"
+        },
+        {
+          "title": "Civil Procedure Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2010/151/eng@2022-12-31"
+        },
+        {
+          "title": "The Mediation (Pilot Project) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/197/eng@2015-10-16"
+        }
+      ]
+    },
+    {
+      "title": "Community Land Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/27/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Community Land Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/279/eng@2024-04-25"
+        }
+      ]
+    },
+    {
+      "title": "Companies Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2015/17/eng@2024-12-27",
+      "subsidiary": [
+        {
+          "title": "The Registrar of Companies (Forms) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/103/eng@2022-12-31"
+        },
+        {
+          "title": "The Companies (Beneficial Ownership Information) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/12/eng@2023-10-19"
+        },
+        {
+          "title": "The Companies (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/239/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Competition Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2010/12/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/97/eng@2023-07-07"
+        },
+        {
+          "title": "The Competition Act—Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/161/eng@2022-12-31"
+        },
+        {
+          "title": "Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/69/eng@2023-07-28"
+        },
+        {
+          "title": "The Competition Act—Exclusions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/108/eng@2024-07-19"
+        },
+        {
+          "title": "Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/7/eng@2023-02-17"
+        },
+        {
+          "title": "Competition Act—Exclusions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/179/eng@2023-12-22"
+        },
+        {
+          "title": "The Competition Act - Proposed Acquisition",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/168/eng@2022-12-31"
+        },
+        {
+          "title": "Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/93/eng@2023-08-25"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/58/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/167/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Proposed Acquisition",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/166/eng@2022-12-31"
+        },
+        {
+          "title": "Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/5/eng@2024-01-01"
+        },
+        {
+          "title": "Exclusions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/61/eng@2023-06-16"
+        },
+        {
+          "title": "The Competition Act - Proposed Acquisition",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/164/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Tribunal (Procedure) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/108/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Proposed Acquisition",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/165/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/161/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/166/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/165/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/162/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Proposed Acquisition",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/167/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/163/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act—Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/160/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/44/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/160/eng@2022-12-31"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/164/eng@2022-12-31"
+        },
+        {
+          "title": "Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/71/eng@2023-07-28"
+        },
+        {
+          "title": "The Competition Act—Exclusions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/65/eng@2024-05-03"
+        },
+        {
+          "title": "The Competition Act—Exclusions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/66/eng@2024-05-03"
+        },
+        {
+          "title": "The Competition Act—Exclusions",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/67/eng@2024-05-03"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/128/eng@2022-07-01"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/37/eng@2022-03-10"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/38/eng@2022-03-10"
+        },
+        {
+          "title": "The Competition Act-Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/89/eng@2024-06-07"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/3/eng@2024-01-19"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/4/eng@2024-01-19"
+        },
+        {
+          "title": "The Competition Act-Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/197/eng@2024-12-27"
+        },
+        {
+          "title": "The Competition Act-Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/196/eng@2024-12-27"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/201/eng@2024-12-27"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/202/eng@2024-12-27"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/203/eng@2024-12-27"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/204/eng@2024-12-27"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/205/eng@2024-12-27"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/11/eng@2025-01-30"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/73/eng@2025-04-10"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/74/eng@2025-04-10"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/80/eng@2025-04-25"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/81/eng@2025-04-25"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/75/eng@2025-06-20"
+        },
+        {
+          "title": "The Competition Act (Exclusion), 2020",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/216/eng@2020-12-24"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/92/eng@2025-05-30"
+        },
+        {
+          "title": "The Competition Act (General) Rules, 2019",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/176/eng@2019-12-06"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/162/eng@2025-09-26"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/163/eng@2025-09-26"
+        },
+        {
+          "title": "The Competition Act - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/129/eng@2025-10-09"
+        },
+        {
+          "title": "The Competition Act—Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/164/eng@2019-11-15"
+        },
+        {
+          "title": "The Competition - Exclusion",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/164/eng@2025-09-26"
+        }
+      ]
+    },
+    {
+      "title": "Conflict of Interest Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2025/11/eng@2025-08-05"
+    },
+    {
+      "title": "Constituencies Development Fund Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2013/30/eng@2022-12-31"
+    },
+    {
+      "title": "Constitutional Offices (Remuneration) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1968/64/eng@2022-12-31"
+    },
+    {
+      "title": "Controller of Budget Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/26/eng@2023-12-11",
+      "subsidiary": [
+        {
+          "title": "The Controller of Budget Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/254/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Co-operative College of Kenya Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1995/6/eng@2022-12-31"
+    },
+    {
+      "title": "Co-operative Societies Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1997/12/eng@2023-12-11",
+      "subsidiary": [
+        {
+          "title": "The Co-operative Tribunal (Practice and Procedure) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/59/eng@2022-12-31"
+        },
+        {
+          "title": "The Co-operative Societies Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2004/123/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Copyright Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2001/12/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Copyright Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/177/eng@2022-12-31"
+        },
+        {
+          "title": "Copyright Act (Joint Collection Tariffs), 2020",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/39/eng@2020-04-03"
+        },
+        {
+          "title": "Consolidated Music Tariffs for the Period 1st January 2023 to 31st December, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/84/eng@2023-06-29"
+        },
+        {
+          "title": "The Collecting Society Tariffs",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/57/eng@2022-12-31"
+        },
+        {
+          "title": "The Copyright Act (Collective Management) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/178/eng@2022-12-31"
+        },
+        {
+          "title": "The Copyright Act-Declaration of Share Ratios for Blank Tape Royalties",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/88/eng@2024-06-07"
+        }
+      ]
+    },
+    {
+      "title": "Counsellors and Psychologists Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2014/14/eng@2022-12-31"
+    },
+    {
+      "title": "Counter-Trafficking in Persons Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2010/8/eng@2023-12-11",
+      "subsidiary": [
+        {
+          "title": "The Counter-Trafficking in Persons (National Assistance Trust Fund for Victims of Trafficking in Persons) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/168/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "County Allocation of Revenue Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2021/9/eng@2021-07-16"
+    },
+    {
+      "title": "County Assemblies Powers and Privileges Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2017/6/eng@2022-12-31"
+    },
+    {
+      "title": "County Assembly Services Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2017/24/eng@2025-08-19"
+    },
+    {
+      "title": "County Governments Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2012/17/eng@2022-12-31"
+    },
+    {
+      "title": "County Governments Retirement Scheme Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2019/21/eng@2022-12-31"
+    },
+    {
+      "title": "County Licensing (Uniform Procedures) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2024/8/eng@2024-12-28",
+      "subsidiary": [
+        {
+          "title": "The County Licensing (Uniform Procedures) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/91/eng@2025-05-30"
+        }
+      ]
+    },
+    {
+      "title": "County Outdoor Advertising Control Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2020/19/eng@2022-12-31"
+    },
+    {
+      "title": "Court of Appeal (Organization and Administration) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2015/28/eng@2022-12-31"
+    },
+    {
+      "title": "Criminal Procedure Code",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1930/11/eng@2023-12-11",
+      "subsidiary": [
+        {
+          "title": "The Criminal Procedure (Record of Evidence in The Supreme Court) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1958/344/eng@2022-12-31"
+        },
+        {
+          "title": "The Criminal Procedure (Police Supervision) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1966/33/eng@2022-12-31"
+        },
+        {
+          "title": "The Criminal Procedure (Expert Witnesses Fees) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1961/478/eng@2022-12-31"
+        },
+        {
+          "title": "Persons Exempted From Liability to Serve as Assessors",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1962/345/eng@2022-12-31"
+        },
+        {
+          "title": "The Criminal Procedure (Directions in the Nature of Habeas Corpus) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1948/70/eng@2022-12-31"
+        },
+        {
+          "title": "The Criminal Procedure (Appeal from Refusal of Bail) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1959/363/eng@2022-12-31"
+        },
+        {
+          "title": "Form of Certificate",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/1955/574/eng@2022-12-31"
+        },
+        {
+          "title": "The Criminal Procedure (Remuneration of Witnesses and Assessors) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1948/75/eng@2022-12-31"
+        },
+        {
+          "title": "The Criminal Procedure (Plea Bargaining) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/47/eng@2022-12-31"
+        },
+        {
+          "title": "Public Procecutors Appointed Under Section 85(1)",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/1957/1424/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Crops Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2013/16/eng@2024-11-21",
+      "subsidiary": [
+        {
+          "title": "The Coffee (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/120/eng@2022-12-31"
+        },
+        {
+          "title": "The Tea (Ad Valorem Levy) (Revocation) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/104/eng@2022-12-31"
+        },
+        {
+          "title": "The Sugar (Imposition of Levy) (Revocation) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/103/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Miraa) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/101/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Horticultural Crops) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/118/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Sugar) (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/99/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Coffee) (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/102/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/119/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Nuts and Oil Crops) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/164/eng@2025-02-14"
+        },
+        {
+          "title": "The Crops (Tea Industry) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/97/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Sugar) (Imports, Exports and By-products) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/125/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Food Crops) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/217/eng@2024-11-18"
+        },
+        {
+          "title": "The Crops (Fibre Crops) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/120/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Miraa) Regulations, 2023",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/41/eng@2023-04-28"
+        },
+        {
+          "title": "The Crops (Irish Potato) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/17/eng@2022-12-31"
+        },
+        {
+          "title": "The Crops (Bixa) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/145/eng@2025-08-28"
+        }
+      ]
+    },
+    {
+      "title": "Dairy Industry Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1958/34/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Dairy Industry (Imports and Exports) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/21/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Registration, Licensing, Cess and Levy) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/16/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Carriage of Milk) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1964/366/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Dairy Produce Safety) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/22/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Sales by Producers) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2004/102/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Pricing of Dairy Produce) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/23/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Compliance Officer) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/18/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Milk) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1970/127/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry Citation (Returns, Reports and Estimates) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/17/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Imports) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1964/190/eng@2022-12-31"
+        },
+        {
+          "title": "Prescribed Areas",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1961/290/eng@2022-12-31"
+        },
+        {
+          "title": "Days Appointed for the Commencement of the Act Under Section 1(2)",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1958/364/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Returns, Reports and Estimates)Distributors) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1960/428/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Milk Sales Contract) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/20/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Traceability and Recall) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/19/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Prices of Dairy Produce)(Kisumu) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1971/131/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Prices of Dairy Produce) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1977/143/eng@2022-12-31"
+        },
+        {
+          "title": "Regions Into Which Kenya Has Been Divided Under Section 21(1)",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1959/405/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Election of Delegates) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1959/511/eng@2022-12-31"
+        },
+        {
+          "title": "The Dairy Industry (Inspectors) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1964/215/eng@2022-12-31"
+        },
+        {
+          "title": "Dairy Produce Prescribed Under Regulation 2",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1964/290/eng@2022-12-31"
+        },
+        {
+          "title": "Dairy Industry (Returns, Reports and Estimates) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1958/534/eng@2022-12-31"
+        },
+        {
+          "title": "Dairy Industry (Returns, Reports and Estimates)(Scheduled Areas) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/1958/4542/eng@2022-12-31"
+        },
+        {
+          "title": "Areas Prescribed Under Regulation 1",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1961/289/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Data Protection Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2019/24/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Data Protection (Complaints Handling Procedure and Enforcement) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/264/eng@2022-12-31"
+        },
+        {
+          "title": "The Data Protection (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/263/eng@2022-12-31"
+        },
+        {
+          "title": "The Data Protection (Registration of Data Controllers and Data Processors) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/265/eng@2022-12-31"
+        },
+        {
+          "title": "The Data Protection (Civil Registration) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/196/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Debts (Summary Recovery) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1913/5/eng@1913-05-26"
+    },
+    {
+      "title": "Deeds of Arrangement Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1930/38/eng@1930-09-03"
+    },
+    {
+      "title": "Defamation Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1970/10/eng@1992-10-23"
+    },
+    {
+      "title": "Digital Health Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2023/15/eng@2023-11-24",
+      "subsidiary": [
+        {
+          "title": "The Digital Health (Data Exchange Component) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/77/eng@2025-04-11"
+        },
+        {
+          "title": "The Digital Health (Health Information Management Procedures) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/76/eng@2025-04-11"
+        }
+      ]
+    },
+    {
+      "title": "Disposal of Uncollected Goods Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1987/3/eng@1987-05-08"
+    },
+    {
+      "title": "Division of Revenue Act, 2025",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2025/10/eng@2025-07-11"
+    },
+    {
+      "title": "Early Childhood Education Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2021/3/eng@2022-12-31"
+    },
+    {
+      "title": "East African Development Bank Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1984/3/eng@2022-12-31"
+    },
+    {
+      "title": "Eastern and Southern African Management Institute Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1987/8/eng@1987-08-07"
+    },
+    {
+      "title": "Election Campaign Financing Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2013/42/eng@2022-12-31"
+    },
+    {
+      "title": "Election Offences Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/37/eng@2022-12-31"
+    },
+    {
+      "title": "Elections Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2011/24/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Elections (Voter Education) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/70/eng@2022-12-31"
+        },
+        {
+          "title": "The Elections (Parliamentary and County Elections) Petitions Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/116/eng@2022-12-31"
+        },
+        {
+          "title": "The Elections (Registration of Voters) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2012/126/eng@2022-12-31"
+        },
+        {
+          "title": "The Elections (Technology) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/68/eng@2022-12-31"
+        },
+        {
+          "title": "The Rules of Procedure on Settlement of Disputes",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2012/139/eng@2022-12-31"
+        },
+        {
+          "title": "The Elections (Party Primaries and Party Lists) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/69/eng@2022-12-31"
+        },
+        {
+          "title": "The Elections (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2012/128/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Employment Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2007/11/eng@2024-04-26",
+      "subsidiary": [
+        {
+          "title": "The Employment (General) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/28/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Employment and Labour Relations Court Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2011/20/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Employment and Labour Relations Court (Procedure) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/146/eng@2022-12-31"
+        },
+        {
+          "title": "The Employment and Labour Relations Court (Procedure) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/133/eng@2025-04-25"
+        }
+      ]
+    },
+    {
+      "title": "Energy Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2019/1/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Energy (Energy Management) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/18/eng@2025-02-07"
+        },
+        {
+          "title": "The Energy (Retail Facility Construction and Licensing)(Revocation) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/103/eng@2025-05-30"
+        },
+        {
+          "title": "The Energy (Reliability and Quality of Electrical Energy Supply and Service) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/79/eng@2022-12-31"
+        },
+        {
+          "title": "The Energy (Petroleum Pricing) (Revocation) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/191/eng@2022-12-31"
+        },
+        {
+          "title": "The Energy (Revocation) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/2/eng@2023-02-03"
+        },
+        {
+          "title": "The Energy (Energy and Petroleum Regulatory Authority Petroleum Levy) Regulation, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/45/eng@2024-02-23"
+        },
+        {
+          "title": "The Energy (Electricity Market, Bulk Supply and Open Access) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/2024/2512/eng@2024-03-01"
+        },
+        {
+          "title": "The Energy (Licensing of Petroleum Road Transportation Businesses) Regulations, 2013",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/8/eng@2019-07-05"
+        },
+        {
+          "title": "The Energy (Net-Metering) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/104/eng@2024-07-26"
+        },
+        {
+          "title": "The Energy (Electricity Regulatory Accounts) Regulations, 2022",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/2023/10556/eng@2023-08-11"
+        },
+        {
+          "title": "The Energy (Integrated National Energy Plan) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/83/eng@2025-05-07"
+        },
+        {
+          "title": "The Energy (Petroleum Information and Statistics)(Revocation) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/102/eng@2025-05-30"
+        },
+        {
+          "title": "The Energy (Solar Water Heating) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/115/eng@2025-07-09"
+        },
+        {
+          "title": "The Energy (Electric Power Undertaking Licensing) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/2024/2089/eng@2025-02-21"
+        },
+        {
+          "title": "The Energy Act (System Operations) Regulations, 2023",
+          "url": "https://new.kenyalaw.org/akn/ke/act/2023/2727/eng@2024-03-08"
+        }
+      ]
+    },
+    {
+      "title": "Engineering Technology Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/23/eng@2022-12-31"
+    },
+    {
+      "title": "Engineers Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2011/43/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "Engineers (Scale of Fees for Professional Engineering Services) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/20/eng@2022-12-31"
+        },
+        {
+          "title": "The Engineers Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/18/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Entertainments Tax Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1950/63/eng@1951-01-01"
+    },
+    {
+      "title": "Environmental Management and Co-ordination Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1999/8/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Environmental Management and Co-ordination (Waste Management) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2006/121/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Access to Biological Resources and Benefit Sharing)(No. 2) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/68/eng@2025-03-24"
+        },
+        {
+          "title": "Environmental Management and Co-ordination (Deposit Bonds)(No. 2) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/67/eng@2025-03-24"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Strategic and Integrated Environmental Assessments and Environmental Audits)(No. 2) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/71/eng@2025-04-02"
+        },
+        {
+          "title": "The Environmental (Impact Assessment and Audit) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/101/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Wetlands, Riverbanks, Lake Shores and Sea Shore Management) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/19/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Water Quality) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2006/120/eng@2022-12-31"
+        },
+        {
+          "title": "The National Environmental Tribunal Procedure Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/177/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental (Prevention of Pollution in Coastal Zone and Other Segments of The Environment) Regulation",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/159/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Controlled Substances) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2007/73/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Noise and Excessive Vibration Pollution) (Control) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/61/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Conservation of Biological Diversity and Resources, Access to Genetic Resources and Benefit Sharing) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2006/160/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management (Lake Naivasha Management Plan) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2004/108/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Air Quality) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/34/eng@2022-12-31"
+        },
+        {
+          "title": "The National Environmental Tribunal Procedure Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2003/191/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Protected Area",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/179/eng@2022-12-31"
+        },
+        {
+          "title": "The Environmental Management and Coordination (Water Quality) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/177/eng@2025-03-24"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Waste Management) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/178/eng@2025-03-24"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Sand Harvesting) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/179/eng@2025-03-24"
+        },
+        {
+          "title": "The Environmental Management and Coordination (Air Quality) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/180/eng@2025-03-24"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Management and Control of Plastic Packaging Materials) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/181/eng@2024-12-06"
+        },
+        {
+          "title": "The Environmental Management and Co-ordination (Management of Toxic and Hazardous Chemicals and Materials) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/182/eng@2024-12-06"
+        },
+        {
+          "title": "The Environment Management and Co-ordination (Controlled Substances) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/53/eng@2025-04-25"
+        }
+      ]
+    },
+    {
+      "title": "Environment and Land Court Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2011/19/eng@2022-12-31"
+    },
+    {
+      "title": "Equitable Mortgages Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1909/14/eng@1909-11-30"
+    },
+    {
+      "title": "Estate Agents Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1984/17/eng@2025-06-20",
+      "subsidiary": [
+        {
+          "title": "The Estate Agents (Disciplinary Proceedings) (Procedure) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1987/35/eng@2022-12-31"
+        },
+        {
+          "title": "The Estate Agents (Remuneration) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1987/36/eng@2022-12-31"
+        },
+        {
+          "title": "The Estate Agents (Deposit Interest) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1987/34/eng@2022-12-31"
+        },
+        {
+          "title": "The Estate Agents (Forms and Fees) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1986/290/eng@2022-12-31"
+        },
+        {
+          "title": "The Estate Agents (Accounts) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1989/20/eng@2022-12-31"
+        },
+        {
+          "title": "The Estate Agents (Accountant's Certificate) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1989/36/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Estate Duty (Abolition) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1982/10/eng@1982-06-28"
+    },
+    {
+      "title": "Estate Duty Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1963/15/eng@1991-12-27"
+    },
+    {
+      "title": "Ethics and Anti-Corruption Commission Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2011/22/eng@2025-08-19"
+    },
+    {
+      "title": "Evidence Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1963/46/eng@2023-12-11",
+      "subsidiary": [
+        {
+          "title": "The Evidence (Out of Court Confessions) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/41/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Ewaso Ng'iro South River Basin Development Authority Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1989/12/eng@1989-12-01"
+    },
+    {
+      "title": "Ewaso Ng’iro North River Basin Development Authority Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1989/13/eng@1989-12-01"
+    },
+    {
+      "title": "Exchequer and Audit Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1955/13/eng@2022-12-31"
+    },
+    {
+      "title": "Excise Duty Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2015/23/eng@2024-12-27",
+      "subsidiary": [
+        {
+          "title": "Adjustment of Rates of Excise Duty for Inflation",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/204/eng@2022-12-31"
+        },
+        {
+          "title": "Adjustment of Rates for Inflation",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/239/eng@2022-12-31"
+        },
+        {
+          "title": "Adjustment of Rates for Inflation",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/109/eng@2022-12-31"
+        },
+        {
+          "title": "The Excise Duty (Excisable Goods Management System) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/53/eng@2022-12-31"
+        },
+        {
+          "title": "The Excise Duty Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/113/eng@2023-03-31"
+        },
+        {
+          "title": "Decrease Rates of Excise Duty",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/240/eng@2022-12-31"
+        },
+        {
+          "title": "Adjustment of Rates for Inflation",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/217/eng@2022-12-31"
+        },
+        {
+          "title": "The Excise Duty (Remission of Excise Duty) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/52/eng@2022-12-31"
+        },
+        {
+          "title": "Adjustment of Rates of Excise Levy for Inflation",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/177/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Explosives Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1929/13/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Explosives (Blasting Explosives) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1962/321/eng@2022-12-31"
+        },
+        {
+          "title": "The Explosives (Fireworks) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1962/322/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Export Processing Zones Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1990/12/eng@2023-07-01",
+      "subsidiary": [
+        {
+          "title": "The Export Processing Zones Act—Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2005/31/eng@2005-05-06"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/166/eng@2022-12-31"
+        },
+        {
+          "title": "The Export Processing Zones Act—Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2000/13/eng@2000-01-28"
+        },
+        {
+          "title": "The Export Processing Zones Act - Revocation of Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/122/eng@2025-07-17"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/3/eng@2016-01-29"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/83/eng@2022-12-31"
+        },
+        {
+          "title": "The Export Processing Zones (Business Services) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2004/57/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/14/eng@2022-12-31"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/163/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/221/eng@2015-10-30"
+        },
+        {
+          "title": "The Revocation of Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/27/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/164/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/21/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/63/eng@2016-04-22"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/45/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/16/eng@2016-02-12"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/165/eng@2016-09-30"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/49/eng@2022-12-31"
+        },
+        {
+          "title": "The Export Processing Zones Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1991/228/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/222/eng@2015-10-30"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/57/eng@2016-04-15"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/81/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/175/eng@2018-08-10"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/176/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zones",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/97/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/224/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/223/eng@2022-12-31"
+        },
+        {
+          "title": "The Revocation of Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/94/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/103/eng@2014-08-01"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/59/eng@2022-12-31"
+        },
+        {
+          "title": "The Revocation of Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2018/237/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2020/213/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/18/eng@2016-02-19"
+        },
+        {
+          "title": "The Export Processing Zones (Fees) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1994/372/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/169/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/30/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/138/eng@2022-12-31"
+        },
+        {
+          "title": "The Revocation of Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/64/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/119/eng@2022-12-31"
+        },
+        {
+          "title": "The Export Processing Zones Act - Revocation of Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/82/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/270/eng@2017-11-17"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/44/eng@2022-12-31"
+        },
+        {
+          "title": "Revocation of Declaration of Declaration of Special Economic Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/132/eng@2023-08-28"
+        },
+        {
+          "title": "Declaration of Zones",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/128/eng@2023-08-28"
+        },
+        {
+          "title": "Declaration of Zones",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/127/eng@2023-08-28"
+        },
+        {
+          "title": "Declaration of Zones",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/126/eng@2023-08-28"
+        },
+        {
+          "title": "Declaration of Zones",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/129/eng@2023-08-28"
+        },
+        {
+          "title": "Revocation of Declaration of Declaration of Special Economic Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/130/eng@2023-08-28"
+        },
+        {
+          "title": "Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/120/eng@2023-09-22"
+        },
+        {
+          "title": "Export Processing Zones Act - Declaration of Zones",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/34/eng@2024-02-02"
+        },
+        {
+          "title": "Declaration of Export Processing Zones",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/31/eng@2024-02-02"
+        },
+        {
+          "title": "Export Processing Zones Act - Declaration of Zones",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/30/eng@2024-02-02"
+        },
+        {
+          "title": "Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/156/eng@2024-10-04"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/22/eng@2022-02-25"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2022/43/eng@2022-04-08"
+        },
+        {
+          "title": "Revocation of Declaration of Declaration of Special Economic Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/131/eng@2023-08-28"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/2/eng@2024-01-19"
+        },
+        {
+          "title": "The Export Processing Zones Act (Declaration of Export Processing Zone), 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/27/eng@2025-02-14"
+        },
+        {
+          "title": "The Export Processing Zones Act (Declaration of Export Processing Zone), 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/12/eng@2025-02-07"
+        },
+        {
+          "title": "The Export Processing Zones Act (Revocation of Declaration of Export Processing Zone), 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/13/eng@2025-01-30"
+        },
+        {
+          "title": "The Export Processing Zones Act (Declaration of Export Processing Zone), 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/14/eng@2025-02-07"
+        },
+        {
+          "title": "Revocation of Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/216/eng@2024-01-12"
+        },
+        {
+          "title": "Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/105/eng@2025-06-10"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/123/eng@2025-07-16"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/124/eng@2025-07-16"
+        },
+        {
+          "title": "The Export Processing Zones Act - Declaration of Export Processing Zone",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/141/eng@2025-08-22"
+        }
+      ]
+    },
+    {
+      "title": "Extradition (Commonwealth Countries) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1968/65/eng@2023-12-11",
+      "subsidiary": [
+        {
+          "title": "The Extradition (New Zealand) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/168/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Singapore) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1970/45/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (United Kingdom Dependent Territories) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1973/15/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Australia) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/126/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Zambia) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/208/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Papua New Guinea) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1976/255/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Lesotho) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1971/183/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Malawi) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/136/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (United Kingdom) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/219/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Extradition (Contiguous and Foreign Countries) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1966/7/eng@2023-09-15",
+      "subsidiary": [
+        {
+          "title": "Extradition (Contiguous and Foreign Countries) (People’s Republic of China) Order, 2023",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2023/136/eng@2023-09-29"
+        },
+        {
+          "title": "Order Applying Part II to the Republic of Liberia",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/220/eng@2022-12-31"
+        },
+        {
+          "title": "Order Applying Part II to the Kingdom of Greece",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/210/eng@2022-12-31"
+        },
+        {
+          "title": "Order Applying Part II to the Federal Republic of Germany",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/184/eng@2022-12-31"
+        },
+        {
+          "title": "Order Applying Part II to the Republic of Italy",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/206/eng@2022-12-31"
+        },
+        {
+          "title": "Order Applying Part II to the Polish People's Republic",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/211/eng@2022-12-31"
+        },
+        {
+          "title": "Order Applying Part II to the United States of America",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/185/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Application of Part III)(Tanzania and Uganda) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1966/95/eng@2022-12-31"
+        },
+        {
+          "title": "Order Applying Part II to the State of Spain",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1969/257/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Contiguous and Foreign Countries)(Rwanda) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1991/300/eng@2022-12-31"
+        },
+        {
+          "title": "Order Applying Part II to the Republic of Finland",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1970/51/eng@2022-12-31"
+        },
+        {
+          "title": "Order Applying Part II to Rwanda",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1991/306/eng@2022-12-31"
+        },
+        {
+          "title": "The Extradition (Contiguous and Foreign Countries) (United Arab Emirates) Order, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/131/eng@2025-08-01"
+        },
+        {
+          "title": "The Extradition (Contiguous and Foreign Countries) (Republic of Italy) Order, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/133/eng@2025-08-01"
+        },
+        {
+          "title": "The Extradition (Contiguous and Foreign Countries) (People's Republic of China) Order, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/132/eng@2025-08-01"
+        }
+      ]
+    },
+    {
+      "title": "Facilities Improvement Financing Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2023/14/eng@2023-11-24"
+    },
+    {
+      "title": "Fair Administrative Action Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2015/4/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Fair Administrative Action Rules, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/165/eng@2024-10-25"
+        }
+      ]
+    },
+    {
+      "title": "Fatal Accidents Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1946/7/eng@1946-02-08"
+    },
+    {
+      "title": "Ferries Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1936/15/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "Likoni and Mutongwe Ferry Services",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1948/236/eng@2022-12-31"
+        },
+        {
+          "title": "The Ferries (Vehicle Toll Charges) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2001/138/eng@2022-12-31"
+        },
+        {
+          "title": "Ferries Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/1951/914/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Fertilizers and Animal Foodstuffs Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1962/23/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Packing Of Approved Animal Foodstuffs) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/212/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Packing Of Approved Fertilizers) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/210/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Declaration and Warranty) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/216/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Importation and Use Of Meat And Bone Meal) (Prohibition) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2001/19/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Analysis) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/215/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Sterilization Of Bones) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/213/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Records and Returns) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/217/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Approved Animal Foodstuffs) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/211/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Approved Fertilizers) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/209/eng@2022-12-31"
+        },
+        {
+          "title": "The Fertilizers and Animal Foodstuffs (Sampling) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1972/214/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Films and Stage Plays Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1962/34/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Films and Stage Plays (Cinematographic Films) (Forms and Fees) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1967/241/eng@2024-11-14"
+        },
+        {
+          "title": "The Films and Stage Plays (Film Censorship) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1968/349/eng@2025-05-09"
+        },
+        {
+          "title": "The Films and Stage Plays (Film Distribution and Exhibition) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/114/eng@2024-07-26"
+        },
+        {
+          "title": "The Films and Stage Plays (Film Distribution and Exhibition) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/184/eng@2024-11-14"
+        },
+        {
+          "title": "The Films and Stage Plays (Self-Classification) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/185/eng@2024-11-14"
+        },
+        {
+          "title": "The Films and Stage Plays (Self-Classification) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/84/eng@2025-07-04"
+        },
+        {
+          "title": "The Films and Stage Plays (Film Distribution and Exhibition) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/85/eng@2025-07-04"
+        }
+      ]
+    },
+    {
+      "title": "Fire Inquiry Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1929/33/eng@1929-12-31"
+    },
+    {
+      "title": "Firearms Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1953/40/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Firearms Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/gn/1953/2062/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Fisheries Management and Development Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/35/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Designated Fishing Port (Liwatoni Fishing Port)",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2019/7/eng@2022-12-31"
+        },
+        {
+          "title": "The Fisheries Management and Development (Beach Management Units) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/55/eng@2024-04-19"
+        },
+        {
+          "title": "The Fisheries Management and Development (Inland Fisheries) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/56/eng@2024-04-19"
+        },
+        {
+          "title": "The Fisheries Management and Development (Fish Levy Trust Fund) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/58/eng@2024-04-19"
+        },
+        {
+          "title": "The Fisheries Management and Development (Marine Fisheries) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/59/eng@2024-04-19"
+        },
+        {
+          "title": "The Fisheries Management and Development (General) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/60/eng@2024-04-19"
+        },
+        {
+          "title": "The Fisheries Management and Development (Safety and Quality) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/61/eng@2024-04-19"
+        },
+        {
+          "title": "The Fisheries Management and Development (Aquaculture) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/62/eng@2024-04-19"
+        },
+        {
+          "title": "Fisheries Management and Development (Safety and Quality) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/120/eng@2024-08-02"
+        },
+        {
+          "title": "Fisheries Management and Development (Beach Management Units) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/121/eng@2024-08-02"
+        },
+        {
+          "title": "The Fisheries Management and Development (Inland Fisheries) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/122/eng@2024-08-02"
+        },
+        {
+          "title": "Fisheries Management and Development (Fish Levy Trust Fund) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/123/eng@2024-08-02"
+        },
+        {
+          "title": "Fisheries Management and Development (General) Regulations, 2024",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/124/eng@2024-08-02"
+        },
+        {
+          "title": "Fisheries Management and Development (Marine Fisheries) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/125/eng@2024-08-02"
+        },
+        {
+          "title": "The Fisheries Management and Development (Aquaculture) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/126/eng@2024-08-02"
+        },
+        {
+          "title": "The Fisheries Management and Development (Recreational Fisheries) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2024/127/eng@2024-08-02"
+        },
+        {
+          "title": "The Marine Aquarium Fishery Management Plan, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/48/eng@2025-02-28"
+        },
+        {
+          "title": "The Lake Turkana Fisheries Management Plan, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/49/eng@2025-02-28"
+        },
+        {
+          "title": "The Lobster Fishery Management Plan, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/50/eng@2025-02-28"
+        },
+        {
+          "title": "The Small Purse Seine Fishery Management Plan, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/51/eng@2025-02-28"
+        }
+      ]
+    },
+    {
+      "title": "Food, Drugs and Chemical Substances Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1965/8/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Food, Drugs and Chemical Substances (General) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1978/105/eng@2022-12-31"
+        },
+        {
+          "title": "The Food, Drugs and Chemical Substances (Food Hygiene) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1988/425/eng@2022-12-31"
+        },
+        {
+          "title": "The Food, Drugs and Chemical Substances (Food Labelling, Additives and Standards) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1978/107/eng@2022-12-31"
+        },
+        {
+          "title": "The Food, Drugs and Chemical Substances (Food Hygiene) Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1978/106/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Foreign Investments Protection Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1964/35/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/149/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/148/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of the Special Arrangements for the Reciprocal Promotion and Protection of Investments",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/109/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/152/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/138/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/3/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/150/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/170/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/151/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/56/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2015/4/eng@2022-12-31"
+        },
+        {
+          "title": "Declaration of Special Arrangements for the Reciprocal Promotion and Protection of Investment",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/219/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Foreign Judgments (Reciprocal Enforcement) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1984/4/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Foreign Judgements (Reciprocal Enforcement) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1984/132/eng@2022-12-31"
+        },
+        {
+          "title": "The Foreign Judgments(Reciprocal Enforcement)(Extension of Act) Order",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1984/135/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Foreign Service Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2021/12/eng@2022-12-31"
+    },
+    {
+      "title": "Forest Conservation and Management Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/34/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Forests (Harvesting) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/185/eng@2022-12-31"
+        },
+        {
+          "title": "The Forest (Charcoal) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/186/eng@2022-12-31"
+        },
+        {
+          "title": "The Forests (Participation in Sustainable Forest Management) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2009/165/eng@2022-12-31"
+        },
+        {
+          "title": "The Forests (Fees and Charges) Rules",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2012/104/eng@2022-12-31"
+        },
+        {
+          "title": "The Forests (Fees and Charges) Rules, 2016",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2016/21/eng@2022-12-31"
+        },
+        {
+          "title": "The Declaration of Forest Area, Gembe Forest, 2017",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/141/eng@2017-08-04"
+        },
+        {
+          "title": "The Declaration of Public Forest, Boni-Lungi Forest, 2017",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/261/eng@2017-11-17"
+        }
+      ]
+    },
+    {
+      "title": "Fugitive Offenders Pursuit Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1936/33/eng@1936-12-03"
+    },
+    {
+      "title": "Gambling Control Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2025/14/eng@2025-08-12"
+    },
+    {
+      "title": "Geneva Conventions Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1968/51/eng@2023-12-11"
+    },
+    {
+      "title": "Geologists Registration Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1993/10/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Geologists Registration Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2001/105/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Girl Guides Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1935/34/eng@1935-08-23"
+    },
+    {
+      "title": "Government Accommodation Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1963/37/eng@1963-12-03"
+    },
+    {
+      "title": "Government Contracts Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1956/44/eng@2022-12-31",
+      "subsidiary": [
+        {
+          "title": "The Government Contracts Act - Authorization",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/1958/183/eng@2022-12-31"
+        }
+      ]
+    },
+    {
+      "title": "Government Proceedings Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1956/47/eng@2022-12-31"
+    },
+    {
+      "title": "Government Securities Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1963/41/eng@1964-01-07"
+    },
+    {
+      "title": "Guarantee (High Commission Posts and Telecommunications Loan) (No. 1) Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/1950/10/eng@1950-08-29"
+    },
+    {
+      "title": "Water Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2016/43/eng@2024-12-24",
+      "subsidiary": [
+        {
+          "title": "The Water Resources Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/170/eng@2022-12-31"
+        },
+        {
+          "title": "The Water Services Regulations",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2021/168/eng@2022-12-31"
+        },
+        {
+          "title": "Water (Services) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/54/eng@2025-02-28"
+        },
+        {
+          "title": "The Water (Harvesting and Storage) Regulations, 2025",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/57/eng@2025-03-06"
+        }
+      ]
+    },
+    {
+      "title": "Wildlife Conservation and Management Act",
+      "url": "https://new.kenyalaw.org/akn/ke/act/2013/47/eng@2025-11-04",
+      "subsidiary": [
+        {
+          "title": "The Wildlife (Conservation and Management) National Parks Regulations, 2013",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2014/1/eng@2022-03-18"
+        },
+        {
+          "title": "The Wildlife Conservation and Management (Compensation) Regulations, 2017",
+          "url": "https://new.kenyalaw.org/akn/ke/act/ln/2017/245/eng@2022-12-31"
+        }
+      ]
+    }
   ],
   uncommenced: [
-    "Public Benefits Organizations Act, 2013",
+    {
+      "title": "The Environmental Management and Co-ordination (Public Complaints Committee) Regulations",
+      "url": "https://new.kenyalaw.org/akn/ke/act/ln/2012/112/eng@2022-12-31"
+    },
+    {
+      "title": "The Medical Practitioners and Dentists (Continuing Professional Development) Regulations",
+      "url": "https://new.kenyalaw.org/akn/ke/act/ln/2005/132/eng@2022-12-31"
+    },
+    {
+      "title": "The Petroleum (Lubricants Facility Construction and Business Licensing) Regulations, 2025",
+      "url": "https://new.kenyalaw.org/akn/ke/act/ln/2025/99/eng@2025-05-30"
+    },
+    {
+      "title": "The Pharmacy and Poisons (Prohibited Medicines) Order",
+      "url": "https://new.kenyalaw.org/akn/ke/act/ln/1963/36/eng@2022-12-31"
+    },
+    {
+      "title": "The Pharmacy and Poisons Rules",
+      "url": "https://new.kenyalaw.org/akn/ke/act/ln/1957/186/eng@2022-12-31"
+    },
+    {
+      "title": "Public Benefits Organizations Act, 2013"
+    }
   ],
   repealed: [
-    "Agriculture, Fisheries and Food Authority Act, 2013",
-    "Armed Forces Act",
-    "Education Act",
-    "Fisheries Act",
-    "Forest Act",
-    "Government Financial Management Act, 2004",
-    "Immigration Act",
-    "Land Acquisition Act",
-    "Land Disputes Tribunals Act",
-    "Land Group Representatives Act",
-    "Land Planning Act",
-    "Local Government Act",
-    "Police Act",
-    "Prevention of Corruption Act",
-    "Public Officer Ethics Act, 2003",
-    "Public Procurement and Disposal Act, 2005",
-    "Registration of Land Act",
-    "Registration of Titles Act",
-    "Science and Technology Act",
-    "Sugar Act, 2001",
-    "Trade Disputes Act",
-    "Trust Land Act",
-    "Wildlife (Conservation and Management) Act",
+    {
+      "title": "Agriculture, Fisheries and Food Authority Act, 2013"
+    },
+    {
+      "title": "Armed Forces Act"
+    },
+    {
+      "title": "Education Act"
+    },
+    {
+      "title": "Fisheries Act"
+    },
+    {
+      "title": "Forest Act"
+    },
+    {
+      "title": "Government Financial Management Act, 2004"
+    },
+    {
+      "title": "Immigration Act"
+    },
+    {
+      "title": "Land Acquisition Act"
+    },
+    {
+      "title": "Land Disputes Tribunals Act"
+    },
+    {
+      "title": "Land Group Representatives Act"
+    },
+    {
+      "title": "Land Planning Act"
+    },
+    {
+      "title": "Local Government Act"
+    },
+    {
+      "title": "Police Act"
+    },
+    {
+      "title": "Prevention of Corruption Act"
+    },
+    {
+      "title": "Public Officer Ethics Act, 2003"
+    },
+    {
+      "title": "Public Procurement and Disposal Act, 2005"
+    },
+    {
+      "title": "Registration of Land Act"
+    },
+    {
+      "title": "Registration of Titles Act"
+    },
+    {
+      "title": "Science and Technology Act"
+    },
+    {
+      "title": "Sugar Act, 2001"
+    },
+    {
+      "title": "Trade Disputes Act"
+    },
+    {
+      "title": "Trust Land Act"
+    },
+    {
+      "title": "Wildlife (Conservation and Management) Act"
+    },
+    {
+      "title": "Estate Duty Act"
+    },
+    {
+      "title": "Public Fees Act"
+    },
+    {
+      "title": "Widows' and Orphans' Pension Act"
+    }
   ],
   county: [
-    "Council of Governors Act, 2012",
-    "County Allocation of Revenue Act, 2023",
-    "County Assembly Services Act, 2017",
-    "County Governments Act, 2012",
-    "County Governments (Amendment) Act, 2020",
-    "County Governments (Revenue Raising Process) Act, 2023",
-    "County Hall of Fame Act, 2017",
-    "County Statistics Act, 2019",
-    "Intergovernmental Relations Act, 2012",
-    "Local Authorities (Recovery of Debts) Act",
-    "Local Authorities Provident Fund Act",
-    "Local Government Loans Act",
+    {
+      "title": "Council of Governors Act, 2012"
+    },
+    {
+      "title": "County Allocation of Revenue Act, 2023"
+    }
   ],
   'east african': [
-    "East African Community Act",
-    "East African Community Customs Management Act, 2004",
-    "East African Community Mediation Act, 2023",
-    "East African Development Bank Act",
+    {
+      "title": "East African Community Act"
+    }
   ]
 };

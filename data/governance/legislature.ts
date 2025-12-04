@@ -1,5 +1,4 @@
 
-
 import type { AppView } from '../../types';
 
 export interface LegislatureMember {
@@ -18,6 +17,7 @@ export interface LegislatureBody {
     leadership: LegislatureMember[];
     membership?: { category: string; count: string; }[];
     committees?: CommitteeInfo[];
+    powers?: string[];
     children?: LegislatureBody[];
 }
 
@@ -27,6 +27,13 @@ export const legislatureData: LegislatureBody = {
     leadership: [
         { title: 'Speaker of the National Assembly' },
         { title: 'Speaker of the Senate' },
+    ],
+    powers: [
+        'Exercise legislative authority derived from the people',
+        'Manifest the diversity of the nation and represent the will of the people',
+        'Consider and pass amendments to the Constitution',
+        'Alter county boundaries as provided in the Constitution',
+        'Protect the Constitution and promote democratic governance'
     ],
     committees: [
         {
@@ -52,6 +59,15 @@ export const legislatureData: LegislatureBody = {
                 { category: 'Constituency Representatives', count: '290' },
                 { category: 'County Women Representatives', count: '47' },
                 { category: 'Nominated Members', count: '12' },
+            ],
+            powers: [
+                'Determine allocation of national revenue between levels of government',
+                'Appropriate funds for expenditure by the national government',
+                'Exercise oversight over national revenue and its expenditure',
+                'Review the conduct in office of the President, Deputy President and other State officers',
+                'Initiate the process of removing State officers from office',
+                'Approve declarations of war and extensions of states of emergency',
+                'Check the conduct of the Executive and other State organs'
             ],
             committees: [
                 {
@@ -80,6 +96,13 @@ export const legislatureData: LegislatureBody = {
                 { category: 'Nominated Women Members', count: '16' },
                 { category: 'Youth Representatives', count: '2 (one man, one woman)' },
                 { category: 'PWD Representatives', count: '2 (one man, one woman)' },
+            ],
+            powers: [
+                'Represent and protect the interests of the counties and their governments',
+                'Participate in the law-making function of Parliament by considering Bills concerning counties',
+                'Determine the allocation of national revenue among counties',
+                'Exercise oversight over national revenue allocated to the county governments',
+                'Consider and determine any resolution to remove the President or Deputy President from office'
             ],
             committees: [
                 {

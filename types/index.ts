@@ -44,9 +44,20 @@ export interface ConstitutionData {
 }
 
 // FIX: Add 'national-policy' to the AppView type to allow navigation to this view.
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'chat' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long';
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long' | 'viewcount' | 'chat';
 
 export type Theme = 'light' | 'dark' | 'system';
+
+export interface AppRoute {
+    view: AppView;
+    title: { en: string; sw: string };
+    description?: { en: string; sw: string };
+    icon: React.FC<{ className?: string }>;
+    backgroundImage: string;
+    inSidebar: boolean;
+    inHomeGrid: boolean;
+    category?: string;
+}
 
 export interface Section {
     title: string;

@@ -1,7 +1,9 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import type { County } from '../types/index';
 import { ChevronDownIcon, MapPinIcon, ExternalLinkIcon } from '../components/icons';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useLazyData } from '../hooks/useLazyData';
 
 const CountyNode: React.FC<{ county: County; isExpanded: boolean; onToggle: () => void; }> = ({ county, isExpanded, onToggle }) => {
     return (
@@ -64,21 +66,17 @@ const CountyNode: React.FC<{ county: County; isExpanded: boolean; onToggle: () =
 
 const CountyGovernmentsPage: React.FC = () => {
     const [expandedCounty, setExpandedCounty] = useState<string | null>(null);
-    const [counties, setCounties] = useState<County[] | null>(null);
-
-    useEffect(() => {
-        const loadData = async () => {
-            const countiesModule = await import('../data/counties');
-            setCounties(countiesModule.countiesData.sort((a, b) => a.name.localeCompare(b.name)));
-        };
-        loadData();
-    }, []);
+    
+    const { data: counties, isLoading } = useLazyData<County[]>(
+        'counties-data',
+        () => import('../data/counties').then(m => m.countiesData.sort((a, b) => a.name.localeCompare(b.name)))
+    );
 
     const handleToggle = (countyName: string) => {
         setExpandedCounty(prev => (prev === countyName ? null : countyName));
     };
     
-    if (!counties) {
+    if (isLoading || !counties) {
         return <LoadingSpinner />;
     }
 

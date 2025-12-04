@@ -1,15 +1,31 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { appStructure } from '../data/app-structure';
-import { countiesData } from '../data/counties';
-import { actsOfParliament } from '../data/legislation/acts';
-import type { AppView } from '../types';
+import type { AppView, County } from '../types';
+import type { ActsByCategory, Act } from '../data/legislation/acts';
 import { dispatchNavigate } from '../utils/navigation';
 import { BookOpenIcon, MapPinIcon, FileTextIcon, ScaleIcon } from './icons';
+import { useLazyData } from '../hooks/useLazyData';
 
 const CommandPalette: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
     const [query, setQuery] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
+
+    // Lazy load Acts data only when palette is open
+    const { data: actsData } = useLazyData<ActsByCategory>(
+        'acts-data',
+        () => import('../data/legislation/acts').then(m => m.actsOfParliament),
+        [],
+        { enabled: isOpen, skipCache: true }
+    );
+
+    // Lazy load Counties data only when palette is open
+    const { data: countiesData } = useLazyData<County[]>(
+        'counties-data',
+        () => import('../data/counties').then(m => m.countiesData),
+        [],
+        { enabled: isOpen }
+    );
 
     // Reset selection when query changes or when opening
     useEffect(() => {
@@ -55,25 +71,29 @@ const CommandPalette: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
             }));
 
         const countyResults = countiesData
-            .filter(county => county.name.toLowerCase().includes(lowerQuery))
-            .map(county => ({
-                type: 'County',
-                label: `${county.name} County`,
-                icon: MapPinIcon,
-                action: () => dispatchNavigate({ view: 'projects', countySearchTerm: county.name }) 
-            })).slice(0, 3);
+            ? countiesData
+                .filter(county => county.name.toLowerCase().includes(lowerQuery))
+                .map(county => ({
+                    type: 'County',
+                    label: `${county.name} County`,
+                    icon: MapPinIcon,
+                    action: () => dispatchNavigate({ view: 'projects', countySearchTerm: county.name }) 
+                })).slice(0, 3)
+            : [];
 
-        const actsResults = Object.values(actsOfParliament).flat()
-            .filter(act => act.title.toLowerCase().includes(lowerQuery))
-            .map(act => ({
-                type: 'Act',
-                label: act.title,
-                icon: ScaleIcon,
-                action: () => {
-                    const targetUrl = act.url || `https://new.kenyalaw.org/kl/index.php?id=search&search[search_word]=${encodeURIComponent(act.title)}`;
-                    window.open(targetUrl, '_blank', 'noopener,noreferrer');
-                }
-            })).slice(0, 5);
+        const actsResults = actsData
+            ? Object.values(actsData).flat()
+                .filter((act: Act) => act.title.toLowerCase().includes(lowerQuery))
+                .map((act: Act) => ({
+                    type: 'Act',
+                    label: act.title,
+                    icon: ScaleIcon,
+                    action: () => {
+                        const targetUrl = act.url || `https://new.kenyalaw.org/kl/index.php?id=search&search[search_word]=${encodeURIComponent(act.title)}`;
+                        window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                    }
+                })).slice(0, 5)
+            : [];
 
         const constitutionResults = [
             { label: 'Constitution Preamble', id: 'preamble' },
@@ -92,7 +112,7 @@ const CommandPalette: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ is
          }));
 
         return [...navigationResults, ...countyResults, ...actsResults, ...constitutionResults];
-    }, [query]);
+    }, [query, actsData, countiesData]);
 
     const handleSelect = (item: any) => {
         item.action();

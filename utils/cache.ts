@@ -1,16 +1,19 @@
-const CACHE_VERSION = '1.1'; // Increment version to invalidate old caches.
+
+const CACHE_VERSION = '1.2'; // Increment version to invalidate old caches.
 
 interface CacheItem<T> {
   version: string;
+  timestamp: number;
   data: T;
 }
 
 /**
- * Retrieves data from localStorage if it exists and matches the current cache version.
+ * Retrieves data from localStorage if it exists, matches version, and is not expired.
  * @param key The key for the data item.
+ * @param ttl Optional Time To Live in milliseconds. If 0 or undefined, assumes valid indefinitely (until version change).
  * @returns The cached data, or null if not found, expired, or version mismatch.
  */
-export function getCachedData<T>(key: string): T | null {
+export function getCachedData<T>(key: string, ttl: number = 0): T | null {
   try {
     const itemStr = localStorage.getItem(key);
     if (!itemStr) {
@@ -19,37 +22,59 @@ export function getCachedData<T>(key: string): T | null {
 
     const item: CacheItem<T> = JSON.parse(itemStr);
     
-    if (item.version === CACHE_VERSION) {
-      return item.data;
-    } else {
-      // Version mismatch, invalidate this specific cache entry
+    // Check Version
+    if (item.version !== CACHE_VERSION) {
       localStorage.removeItem(key);
-      console.log(`Cache for key "${key}" invalidated due to version mismatch.`);
       return null;
     }
+
+    // Check TTL if provided
+    if (ttl > 0) {
+      const now = Date.now();
+      if (now - item.timestamp > ttl) {
+        localStorage.removeItem(key);
+        return null;
+      }
+    }
+
+    return item.data;
   } catch (error) {
-    console.error(`Error reading cache for key "${key}":`, error);
-    // In case of parsing error, remove the corrupted item
+    // Silently fail on cache read errors
     localStorage.removeItem(key);
     return null;
   }
 }
 
 /**
- * Stores data in localStorage with the current cache version.
+ * Stores data in localStorage with the current cache version and timestamp.
  * @param key The key for the data item.
  * @param data The data to store.
  */
 export function setCachedData<T>(key: string, data: T): void {
+  // Define item outside try block so it is available in catch block
+  const item: CacheItem<T> = {
+    version: CACHE_VERSION,
+    timestamp: Date.now(),
+    data: data,
+  };
+
   try {
-    const item: CacheItem<T> = {
-      version: CACHE_VERSION,
-      data: data,
-    };
     localStorage.setItem(key, JSON.stringify(item));
   } catch (error) {
-    console.error(`Error setting cache for key "${key}":`, error);
-    // This could happen if localStorage is full.
+    // Specific check for QuotaExceededError
+    if (error instanceof DOMException && 
+        (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+      console.warn(`LocalStorage quota exceeded for key "${key}". Clearing old cache.`);
+      // Optional: Strategy to clear old cache items could go here
+      try {
+         localStorage.clear(); // Drastic measure, but keeps app running
+         localStorage.setItem(key, JSON.stringify(item));
+      } catch (e) {
+         // If it still fails, we just don't cache. The app will still work.
+      }
+    } else {
+      console.error(`Error setting cache for key "${key}":`, error);
+    }
   }
 }
 
@@ -58,7 +83,7 @@ export interface DiscoveredLink {
   url: string;
 }
 
-const DISCOVERED_LINKS_KEY = 'discoveredLinks_v1.1';
+const DISCOVERED_LINKS_KEY = 'discoveredLinks_v1.2';
 
 export const getDiscoveredLinks = (): DiscoveredLink[] => {
   const cached = getCachedData<DiscoveredLink[]>(DISCOVERED_LINKS_KEY);

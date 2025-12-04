@@ -5,6 +5,8 @@ import { countyLawsBatch2 } from './county-laws-2';
 import { countyLawsBatch3 } from './county-laws-3';
 export { devolutionLawsData } from './devolution-laws';
 
+// Initial data consolidated from batches. 
+// The automated script will overwrite this variable with fresh data.
 export const countyLawsData: CountyLegislation[] = [
   ...countyLawsBatch1,
   ...countyLawsBatch2,

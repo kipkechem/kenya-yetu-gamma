@@ -1,6 +1,7 @@
+
 import React, { useMemo, useState } from 'react';
 import { InboxStackIcon, ChevronDownIcon, ExternalLinkIcon } from './icons';
-import { actsOfParliament as actsData, ActsByCategory } from '../data/acts';
+import { actsOfParliament as actsData, ActsByCategory, Act } from '../data/acts';
 import { getCachedData, setCachedData } from '../utils/cache';
 import { dispatchNavigate } from '../utils/navigation';
 
@@ -57,13 +58,13 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
   };
   
   const allActs = useMemo(() => {
-    return Object.values(actsOfParliament).flat().sort((a: string, b: string) => a.localeCompare(b));
+    return Object.values(actsOfParliament).flat().sort((a: Act, b: Act) => a.title.localeCompare(b.title));
   }, [actsOfParliament]);
 
   const filteredActs = useMemo(() => {
     if (!searchTerm) return [];
     return allActs.filter(act =>
-      act.toLowerCase().includes(searchTerm.toLowerCase())
+      act.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm, allActs]);
   
@@ -79,23 +80,23 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
     dispatchNavigate({ view: 'act-detail', actTitle });
   };
 
-  const renderActItem = (act: string, categoryKey?: keyof ActsByCategory) => (
-    <li key={act}>
+  const renderActItem = (act: Act, categoryKey?: keyof ActsByCategory) => (
+    <li key={act.title}>
         <div className="group flex items-center justify-between pr-2 hover:bg-gray-50 dark:hover:bg-black/10 transition-colors">
             <button
-                onClick={() => handleActClick(act)}
+                onClick={() => handleActClick(act.title)}
                 className="w-full text-left p-4 font-medium text-on-surface dark:text-dark-on-surface group-hover:text-primary dark:group-hover:text-dark-primary"
             >
-                {act}
+                {act.title}
             </button>
             <a
-                href={createSearchUrl(act, categoryKey)}
+                href={act.url || createSearchUrl(act.title, categoryKey)}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
                 className="p-2 rounded-full text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 flex-shrink-0"
-                aria-label={`View ${act} on Kenya Law`}
-                title={`View ${act} on Kenya Law`}
+                aria-label={`View ${act.title} on Kenya Law`}
+                title={`View ${act.title} on Kenya Law`}
             >
                 <ExternalLinkIcon className="h-5 w-5" />
             </a>
@@ -149,7 +150,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
             ) : (
               <div>
                 {(Object.keys(actsOfParliament) as Array<keyof ActsByCategory>).map(category => {
-                    const acts = actsOfParliament[category].sort((a,b) => a.localeCompare(b));
+                    const acts = actsOfParliament[category].sort((a,b) => a.title.localeCompare(b.title));
                     if (acts.length === 0) return null;
                     return (
                         <div key={category} className="border-b border-border dark:border-dark-border last:border-b-0">

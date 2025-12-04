@@ -1,8 +1,10 @@
 
 import React, { useState } from 'react';
-import { judiciaryData } from '../data/judiciary';
-import type { JudicialBody } from '../data/judiciary';
-import { ChevronDownIcon, ScaleIcon, ExternalLinkIcon } from './icons';
+import { judiciaryData } from '../data/governance/judiciary';
+import type { JudicialBody } from '../data/governance/judiciary';
+import { ChevronDownIcon, ScaleIcon, ExternalLinkIcon, ShieldCheckIcon } from './icons';
+import { useLazyData } from '../hooks/useLazyData';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () => void; isExpanded: boolean; hasChildren: boolean; }> = ({ body, level, onToggle, isExpanded, hasChildren }) => {
     return (
@@ -35,7 +37,7 @@ const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () =>
                 )}
             </button>
             
-            <div className={`w-80 transition-all duration-500 ease-[cubic-bezier(0.04,0.62,0.23,0.98)] overflow-hidden ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div className={`w-80 transition-all duration-500 ease-[cubic-bezier(0.04,0.62,0.23,0.98)] overflow-hidden ${isExpanded ? 'max-h-[1500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                  <div className="pt-4 pb-2 space-y-3">
                     {body.leadership && (
                          <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/10 text-center">
@@ -43,6 +45,24 @@ const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () =>
                             {body.leadership.map((l, i) => <p key={i} className="font-semibold text-sm text-gray-800 dark:text-gray-200">{l.title}</p>)}
                          </div>
                     )}
+
+                    {body.powers && body.powers.length > 0 && (
+                        <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                             <div className="flex items-center justify-center gap-2 mb-2 text-gray-600 dark:text-gray-300">
+                                <ShieldCheckIcon className="h-4 w-4" />
+                                <h4 className="font-bold text-xs uppercase tracking-wider">Powers & Jurisdiction</h4>
+                            </div>
+                            <ul className="space-y-2">
+                                {body.powers.map((power, index) => (
+                                    <li key={index} className="text-sm text-gray-700 dark:text-gray-300 flex items-start text-left">
+                                        <span className="mr-2 text-primary dark:text-dark-primary mt-1">•</span>
+                                        <span className="flex-1">{power}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
                     {body.composition && (
                         <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
                             <h4 className="font-bold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 text-center">Composition</h4>
@@ -51,7 +71,7 @@ const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () =>
                             </ul>
                         </div>
                     )}
-                     {body.jurisdiction && (
+                     {body.jurisdiction && !body.powers && (
                         <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
                             <h4 className="font-bold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 text-center">Jurisdiction</h4>
                             <p className="text-sm text-gray-700 dark:text-gray-300 text-center leading-snug">{body.jurisdiction}</p>
@@ -65,7 +85,7 @@ const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () =>
 
 const HierarchyNode: React.FC<{ body: JudicialBody; level?: number; onToggle: (name: string) => void; isExpanded: (name: string) => boolean; }> = ({ body, level = 0, onToggle, isExpanded }) => {
     const expanded = isExpanded(body.name);
-    const hasChildren = body.children && body.children.length > 0;
+    const hasChildren = !!(body.children && body.children.length > 0);
 
     return (
         <div className="flex flex-col items-center">
@@ -77,12 +97,12 @@ const HierarchyNode: React.FC<{ body: JudicialBody; level?: number; onToggle: (n
                     <div className="h-8 w-0.5 bg-gray-300 dark:bg-gray-600"></div>
                     
                     <div className="relative flex justify-center flex-wrap gap-8 w-full">
-                        {/* Horizontal Bar - conditionally rendered based on child count logic for pure visual tree, simpler here to use flex gap */}
-                        {body.children.length > 1 && (
+                        {/* Horizontal Bar */}
+                        {body.children!.length > 1 && (
                              <div className="absolute top-0 left-8 right-8 h-0.5 bg-gray-300 dark:bg-gray-600 hidden sm:block"></div>
                         )}
 
-                        {body.children.map((child) => (
+                        {body.children!.map((child) => (
                             <div key={child.name} className="flex flex-col items-center relative">
                                 {/* Vertical connector to child */}
                                 <div className="h-8 w-0.5 bg-gray-300 dark:bg-gray-600 sm:block hidden"></div>
@@ -97,8 +117,20 @@ const HierarchyNode: React.FC<{ body: JudicialBody; level?: number; onToggle: (n
 };
 
 const JudiciaryPage: React.FC = () => {
-    const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set([judiciaryData.name]));
+    const { data: judiciaryData, isLoading } = useLazyData<JudicialBody>(
+        'judiciary-data',
+        () => import('../data/governance/judiciary').then(m => m.judiciaryData)
+    );
+
+    const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
     
+    // Initialize expanded node for root once data is loaded
+    React.useEffect(() => {
+        if (judiciaryData) {
+             setExpandedNodes(new Set([judiciaryData.name]));
+        }
+    }, [judiciaryData]);
+
     const findNode = (data: JudicialBody, name: string): JudicialBody | null => {
         if (data.name === name) return data;
         if (data.children) {
@@ -124,6 +156,7 @@ const JudiciaryPage: React.FC = () => {
     };
 
     const handleToggle = (nodeName: string) => {
+        if (!judiciaryData) return;
         setExpandedNodes(prev => {
             const newSet = new Set(prev);
             if (newSet.has(nodeName)) {
@@ -137,6 +170,10 @@ const JudiciaryPage: React.FC = () => {
     };
 
     const isExpanded = (nodeName: string) => expandedNodes.has(nodeName);
+    
+    if (isLoading || !judiciaryData) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
@@ -147,7 +184,7 @@ const JudiciaryPage: React.FC = () => {
                     </div>
                     <h1 className="text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Judiciary Structure</h1>
                     <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-                        An interactive hierarchy of the Courts of Kenya.
+                        Explore the structure and powers of the Courts of Kenya.
                     </p>
                 </header>
 

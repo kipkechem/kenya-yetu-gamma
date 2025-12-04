@@ -1,5 +1,5 @@
 
-import React, { useState, memo } from 'react';
+import React, { useState, memo, useMemo } from 'react';
 import Highlight from './Highlight';
 import type { SelectedItem } from '../types/index';
 import { CopyIcon, CheckIcon } from './icons';
@@ -45,19 +45,22 @@ const swahiliScheduleNameToId: { [key: string]: string } = {
 const enLinkRegex = /((?:Article(?:s)?)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|((?:Part\s+([a-zA-Z0-9]+)\s+of\s+)?Chapter\s+([a-zA-Z0-9]+))|((First|Second|Third|Fourth|Fifth|Sixth)\s+Schedule)/gi;
 const swLinkRegex = /((?:Kifungu|Vifungu)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|((?:Sehemu\s+ya\s+([a-zA-Z0-9\s]+)\s+ya\s+)?Sura\s+ya\s+([a-zA-Z0-9\s]+))|((Jedwali\s+la\s+(Kwanza|Pili|Tatu|Nne|Tano|Sita)))/gi;
 
-// Create a regex for Acts of Parliament
-const allActTitles: string[] = [];
-// Optimization: Flatten once, or use a lazily computed list if extremely large
-// In this case, doing it once at module level is fine as acts don't change at runtime.
-const actsList = Object.values(actsOfParliament).flat();
-const actTitlesPattern = actsList
-  .filter(title => title && title.length > 3) // Basic filter to avoid very short matches if any
-  .map(title => title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape special characters
-  .sort((a, b) => b.length - a.length) // Match longer titles first
-  .join('|');
+// Optimization: Lazy initialization for Act Regex
+let cachedActRegex: RegExp | null = null;
 
-// Only match specific Act titles, removing generic terms like "legislation"
-const actRegex = new RegExp(`\\b(${actTitlesPattern})\\b`, 'gi');
+const getActRegex = () => {
+  if (cachedActRegex) return cachedActRegex;
+  
+  const actsList = Object.values(actsOfParliament).flat();
+  const actTitlesPattern = actsList
+    .filter(title => title && title.length > 3) // Basic filter to avoid very short matches
+    .map(title => title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape special characters
+    .sort((a, b) => b.length - a.length) // Match longer titles first
+    .join('|');
+
+  cachedActRegex = new RegExp(`\\b(${actTitlesPattern})\\b`, 'gi');
+  return cachedActRegex;
+};
 
 const ContentRenderer: React.FC<ContentRendererProps> = memo(({ text, highlight, onSelectItem, articleToChapterMap, language }) => {
   const [copiedArticle, setCopiedArticle] = useState<string | null>(null);
@@ -65,6 +68,8 @@ const ContentRenderer: React.FC<ContentRendererProps> = memo(({ text, highlight,
   if (!text) {
     return null;
   }
+
+  const actRegex = useMemo(() => getActRegex(), []);
   
   const handleCopyLink = (e: React.MouseEvent, articleNum: string) => {
     e.stopPropagation();

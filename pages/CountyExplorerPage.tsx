@@ -15,9 +15,10 @@ const CountyExplorerPage: React.FC = () => {
         () => import('../data/counties').then(m => m.countiesData)
     );
 
+    // Fixed import path from '../data/counties/mapdata' to '../data/mapdata'
     const { data: countyPaths, isLoading: isPathsLoading } = useLazyData<{ name: string; path: string }[]>(
         'county-paths-data',
-        () => import('../data/counties/mapdata').then(m => m.countyPaths)
+        () => import('../data/mapdata').then(m => m.countyPaths)
     );
     
     const countiesMap = useMemo(() => {

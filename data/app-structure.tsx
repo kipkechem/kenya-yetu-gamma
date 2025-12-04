@@ -221,14 +221,6 @@ export const appStructure: AppRoute[] = [
         inSidebar: false,
         inHomeGrid: false
     },
-     {
-        view: 'chat',
-        title: { en: 'Assistant', sw: 'Msaidizi' },
-        icon: InboxStackIcon,
-        backgroundImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop',
-        inSidebar: false,
-        inHomeGrid: false
-    },
     {
         view: 'county-explorer',
         title: { en: 'County Explorer', sw: 'Mchunguzi wa Kaunti' },

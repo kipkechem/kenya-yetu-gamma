@@ -1,6 +1,6 @@
 
 import React, { useMemo, useState, useDeferredValue, useEffect } from 'react';
-import { InboxStackIcon, ChevronDownIcon, ExternalLinkIcon } from '../components/icons';
+import { InboxStackIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon } from '../components/icons';
 import type { ActsByCategory, Act } from '../data/legislation/acts';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { useLazyData } from '../hooks/useLazyData';
@@ -44,6 +44,79 @@ const createSearchUrl = (actTitle: string, categoryKey?: keyof ActsByCategory) =
   return `${baseUrl}?${params.toString()}`;
 };
 
+const ActItem: React.FC<{ act: Act, categoryKey?: keyof ActsByCategory }> = React.memo(({ act, categoryKey }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
+    const hasSubsidiary = act.subsidiary && act.subsidiary.length > 0;
+    const targetUrl = act.url || createSearchUrl(act.title, categoryKey);
+
+    return (
+        <li className="border-b border-gray-100 dark:border-gray-800 last:border-0">
+            <div className="flex flex-col">
+                <div className="group flex items-center justify-between w-full p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                    <div className="flex items-center gap-3 flex-1">
+                        <div className="p-1.5 rounded-lg bg-primary/10 dark:bg-primary/5 text-primary dark:text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <div className="flex-1">
+                            <a 
+                                href={targetUrl}
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="font-medium text-sm text-gray-700 dark:text-gray-200 group-hover:text-primary dark:group-hover:text-dark-primary text-left leading-snug hover:underline"
+                            >
+                                {act.title}
+                            </a>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        {hasSubsidiary && (
+                            <button 
+                                onClick={() => setIsExpanded(!isExpanded)}
+                                className="p-1.5 rounded-full text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors focus:outline-none"
+                                title={isExpanded ? "Hide subsidiary legislation" : "Show subsidiary legislation"}
+                            >
+                                <ChevronDownIcon className={`h-4 w-4 transform transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+                            </button>
+                        )}
+                        <a
+                            href={targetUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="p-1.5 rounded-full text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 flex-shrink-0"
+                            aria-label={`View ${act.title} on Kenya Law`}
+                        >
+                            <ExternalLinkIcon className="h-4 w-4" />
+                        </a>
+                    </div>
+                </div>
+                
+                {/* Subsidiary Legislation List */}
+                {hasSubsidiary && isExpanded && (
+                    <div className="bg-gray-50/50 dark:bg-black/20 border-t border-gray-100 dark:border-gray-800 pl-12 pr-4 py-2">
+                        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2 mt-1">Subsidiary Legislation</p>
+                        <ul className="space-y-1 mb-2">
+                            {act.subsidiary!.map((sub, idx) => (
+                                <li key={idx} className="flex items-start gap-2 py-1">
+                                    <FileTextIcon className="h-3.5 w-3.5 text-gray-400 mt-0.5 flex-shrink-0" />
+                                    <a 
+                                        href={sub.url || createSearchUrl(sub.title, categoryKey)}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-sm text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-dark-primary hover:underline leading-tight"
+                                    >
+                                        {sub.title}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </div>
+        </li>
+    );
+});
 
 const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
   const [openAccordion, setOpenAccordion] = useState<string | null>('in force');
@@ -56,7 +129,9 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
 
   const { data: actsOfParliament, isLoading } = useLazyData<ActsByCategory>(
       'acts-data',
-      () => import('../data/legislation/acts').then(m => m.actsOfParliament)
+      () => import('../data/legislation/acts').then(m => m.actsOfParliament),
+      [],
+      { skipCache: true } // Optimization: Do not store giant dataset in localStorage
   );
 
   // Reset pagination when search changes
@@ -75,6 +150,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
     setVisibleCount(prev => prev + ITEMS_PER_PAGE);
   };
   
+  // Memoize the flattened list separately to avoid re-flattening on every render if acts haven't changed
   const allActs = useMemo(() => {
     if (!actsOfParliament) return [];
     return Object.values(actsOfParliament).flat().sort((a: Act, b: Act) => a.title.localeCompare(b.title));
@@ -82,8 +158,10 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
 
   const filteredActs = useMemo(() => {
     if (!deferredSearchTerm) return [];
+    const term = deferredSearchTerm.toLowerCase();
     return allActs.filter(act =>
-      act.title.toLowerCase().includes(deferredSearchTerm.toLowerCase())
+      act.title.toLowerCase().includes(term) ||
+      (act.subsidiary && act.subsidiary.some(sub => sub.title.toLowerCase().includes(term)))
     );
   }, [deferredSearchTerm, allActs]);
   
@@ -93,32 +171,6 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
 
   const formatCategoryTitle = (key: string) => {
     return key.replace(/(-)/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  };
-
-  const renderActItem = (act: Act, categoryKey?: keyof ActsByCategory) => {
-    const targetUrl = act.url || createSearchUrl(act.title, categoryKey);
-    return (
-        <li key={act.title} className="border-b border-gray-100 dark:border-gray-800 last:border-0">
-            <a
-                href={targetUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center justify-between w-full p-4 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
-            >
-                <div className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-primary/10 dark:bg-primary/5 text-primary dark:text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                    </div>
-                    <span className="font-medium text-sm text-gray-700 dark:text-gray-200 group-hover:text-primary dark:group-hover:text-dark-primary text-left leading-snug">
-                        {act.title}
-                    </span>
-                </div>
-                <ExternalLinkIcon className="h-4 w-4 text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-dark-primary flex-shrink-0 ml-4" />
-            </a>
-        </li>
-    );
   };
   
   if (isLoading || !actsOfParliament) {
@@ -171,7 +223,9 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
                     </h3>
                 </div>
                 <ul className="divide-y divide-border dark:divide-dark-border">
-                    {filteredActs.slice(0, visibleCount).map((act) => renderActItem(act))}
+                    {filteredActs.slice(0, visibleCount).map((act) => (
+                        <ActItem key={act.title} act={act} />
+                    ))}
                     
                     {filteredActs.length === 0 && (
                         <li className="p-12 text-center">
@@ -198,10 +252,11 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
             ) : (
               <div>
                 {CATEGORY_ORDER.map(category => {
-                    // Only render if category exists in data
                     if (!actsOfParliament[category]) return null;
                     
-                    const acts = actsOfParliament[category].sort((a,b) => a.title.localeCompare(b.title));
+                    // Sort acts once, or rely on data file being sorted. Sorting here is safer.
+                    // Optimization: We could pre-sort in the data file to save runtime here.
+                    const acts = actsOfParliament[category];
                     if (acts.length === 0) return null;
                     
                     const isOpen = openAccordion === category;
@@ -227,16 +282,18 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
                                 </div>
                             </button>
                             
-                            <div
-                                id={`section-content-${category}`}
-                                className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[8000px] opacity-100' : 'max-h-0 opacity-0'}`}
-                            >
-                                <div className="bg-gray-50/30 dark:bg-black/10 border-t border-border dark:border-dark-border/50">
+                            {isOpen && (
+                                <div
+                                    id={`section-content-${category}`}
+                                    className="bg-gray-50/30 dark:bg-black/10 border-t border-border dark:border-dark-border/50 animate-fade-in"
+                                >
                                     <ul className="divide-y divide-border dark:divide-dark-border">
-                                        {acts.map((act) => renderActItem(act, category))}
+                                        {acts.map((act) => (
+                                            <ActItem key={act.title} act={act} categoryKey={category} />
+                                        ))}
                                     </ul>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     );
                 })}

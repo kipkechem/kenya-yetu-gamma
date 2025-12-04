@@ -1,36 +1,24 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronDownIcon, LinkIcon } from '../components/icons';
-import { getDiscoveredLinks } from '../utils/cache';
 import type { DataSourceCategory } from '../data/knowledge-base/resources';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const ResourcesPage: React.FC = () => {
-  const [openSection, setOpenSection] = useState<string | null>('discovered-in-chat');
-  const [dynamicCategories, setDynamicCategories] = useState<DataSourceCategory[]>([]);
+  const [openSection, setOpenSection] = useState<string | null>(null);
 
   const { data: dataSourceCategories, isLoading } = useLazyData<DataSourceCategory[]>(
       'resources-data',
       () => import('../data/knowledge-base/resources').then(m => m.dataSourceCategories)
   );
 
-  useEffect(() => {
-    const discoveredLinks = getDiscoveredLinks();
-    if (discoveredLinks.length > 0) {
-      setDynamicCategories([{
-        title: 'Discovered in Chat',
-        key: 'discovered-in-chat',
-        links: discoveredLinks.sort((a, b) => a.name.localeCompare(b.name)),
-      }]);
-    }
-  }, []);
-
   if (isLoading || !dataSourceCategories) {
       return <LoadingSpinner />;
   }
 
-  const allCategories = [...dynamicCategories, ...dataSourceCategories];
+  // Using the data source categories directly without dynamic chat links
+  const allCategories = [...dataSourceCategories];
 
   const toggleSection = (key: string) => {
     setOpenSection(openSection === key ? null : key);
