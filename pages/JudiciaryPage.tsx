@@ -1,9 +1,10 @@
 
 import React, { useState } from 'react';
 import type { JudicialBody } from '../data/governance/judiciary';
-import { ChevronDownIcon, ScaleIcon, ExternalLinkIcon } from '../components/icons';
+import { ChevronDownIcon, ScaleIcon, ExternalLinkIcon, ShieldCheckIcon } from '../components/icons';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 
 const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () => void; isExpanded: boolean; hasChildren: boolean; }> = ({ body, level, onToggle, isExpanded, hasChildren }) => {
     return (
@@ -36,7 +37,7 @@ const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () =>
                 )}
             </button>
             
-            <div className={`w-80 transition-all duration-500 ease-[cubic-bezier(0.04,0.62,0.23,0.98)] overflow-hidden ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div className={`w-80 transition-all duration-500 ease-[cubic-bezier(0.04,0.62,0.23,0.98)] overflow-hidden ${isExpanded ? 'max-h-[1500px] opacity-100' : 'max-h-0 opacity-0'}`}>
                  <div className="pt-4 pb-2 space-y-3">
                     {body.leadership && (
                          <div className="bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border border-primary/10 text-center">
@@ -44,6 +45,24 @@ const DetailsCard: React.FC<{ body: JudicialBody; level: number; onToggle: () =>
                             {body.leadership.map((l, i) => <p key={i} className="font-semibold text-sm text-gray-800 dark:text-gray-200">{l.title}</p>)}
                          </div>
                     )}
+
+                    {body.powers && body.powers.length > 0 && (
+                        <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                             <div className="flex items-center justify-center gap-2 mb-2 text-gray-600 dark:text-gray-300">
+                                <ShieldCheckIcon className="h-4 w-4" />
+                                <h4 className="font-bold text-xs uppercase tracking-wider">Powers & Jurisdiction</h4>
+                            </div>
+                            <ul className="space-y-2">
+                                {body.powers.map((power, index) => (
+                                    <li key={index} className="text-sm text-gray-700 dark:text-gray-300 flex items-start text-left">
+                                        <span className="mr-2 text-primary dark:text-dark-primary mt-1">•</span>
+                                        <span className="flex-1">{power}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
                     {body.composition && (
                         <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
                             <h4 className="font-bold text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2 text-center">Composition</h4>
@@ -98,7 +117,7 @@ const HierarchyNode: React.FC<{ body: JudicialBody; level?: number; onToggle: (n
 };
 
 const JudiciaryPage: React.FC = () => {
-    const { data: judiciaryData, isLoading } = useLazyData<JudicialBody>(
+    const { data: judiciaryData, isLoading, error, refetch } = useLazyData<JudicialBody>(
         'judiciary-data',
         () => import('../data/governance/judiciary').then(m => m.judiciaryData)
     );
@@ -152,8 +171,12 @@ const JudiciaryPage: React.FC = () => {
 
     const isExpanded = (nodeName: string) => expandedNodes.has(nodeName);
     
-    if (isLoading || !judiciaryData) {
+    if (isLoading) {
         return <LoadingSpinner />;
+    }
+
+    if (error || !judiciaryData) {
+        return <ErrorDisplay message="Failed to load Judiciary data." onRetry={refetch} />;
     }
 
     return (

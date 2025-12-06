@@ -26,30 +26,84 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigateTo }) => {
 
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
-        <div className="max-w-5xl mx-auto space-y-8">
-            {/* About Header */}
+        <div className="max-w-5xl mx-auto space-y-10 animate-fade-in">
+            {/* Header */}
             <header className="text-center mb-8">
-              <div className="inline-block p-3 bg-primary-light dark:bg-dark-primary-light rounded-2xl">
+              <div className="inline-block p-3 bg-primary-light dark:bg-dark-primary-light rounded-2xl mb-4">
                 <UsersIcon className="h-8 w-8 text-primary dark:text-dark-primary" />
               </div>
-              <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">About Us</h1>
+              <h1 className="text-3xl md:text-5xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight mb-6">
+                  KenyaYetu: Empowering Citizens Through Accessible Knowledge
+              </h1>
+              <p className="max-w-3xl mx-auto text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                  KenyaYetu.co.ke makes Kenya’s public information easy to understand and accessible to everyone. We are a nonprofit digital public infrastructure platform that organizes laws, policies, governance frameworks, and civic education into simple, clear, and usable resources. Our goal is to help citizens and institutions access reliable civic information, understand their <span className="text-primary dark:text-dark-primary font-semibold">rights and responsibilities</span>, and participate confidently in public life.
+              </p>
             </header>
             
-            {/* About Content */}
-            <div className="p-8 text-center bg-surface dark:bg-dark-surface rounded-3xl custom-shadow-lg prose prose-lg max-w-none dark:prose-invert mx-auto">
-                <p>
-                    <span className="font-semibold text-on-surface dark:text-dark-on-surface">KenyaYetu.co.ke<sub className="text-sm font-medium opacity-60 ml-1">BETA</sub></span> is a project dedicated to making the foundational legal and governance elements of Kenya accessible to everyone. Our mission is to promote civic education and engagement. 
+            {/* What We Aim to Do */}
+            <div className="bg-surface dark:bg-dark-surface p-8 rounded-3xl custom-shadow-lg">
+                <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold text-on-surface dark:text-dark-on-surface mb-3">What We Aim to Do</h2>
+                    <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                        KenyaYetu is being developed as a space where complex ideas about public policy, planning, and governance are translated into clear, practical information that anyone can understand.
+                    </p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-6">
+                    <div className="p-5 rounded-2xl bg-background dark:bg-dark-background border border-border dark:border-dark-border/50 hover:border-primary/30 transition-colors">
+                        <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold mb-4">1</div>
+                        <h3 className="font-bold text-lg mb-2 text-on-surface dark:text-dark-on-surface">Simplifying Public Policy</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                            We aim to break down policy concepts—such as how issues are identified, how solutions are explored, and how public programmes are implemented—into language that is accessible to everyday citizens.
+                        </p>
+                    </div>
+                    
+                    <div className="p-5 rounded-2xl bg-background dark:bg-dark-background border border-border dark:border-dark-border/50 hover:border-primary/30 transition-colors">
+                        <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 font-bold mb-4">2</div>
+                        <h3 className="font-bold text-lg mb-2 text-on-surface dark:text-dark-on-surface">Making Evidence Easy to Understand</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">As the platform grows, we plan to offer:</p>
+                        <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1 ml-1">
+                            <li>Short policy explainers</li>
+                            <li>Visual summaries and diagrams</li>
+                            <li>Clear, people-focused insights on issues like urban mobility, infrastructure, and climate resilience</li>
+                        </ul>
+                    </div>
+
+                    <div className="p-5 rounded-2xl bg-background dark:bg-dark-background border border-border dark:border-dark-border/50 hover:border-primary/30 transition-colors">
+                        <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 font-bold mb-4">3</div>
+                        <h3 className="font-bold text-lg mb-2 text-on-surface dark:text-dark-on-surface">Aligning With Kenya’s Development Vision</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Our work is inspired by national and global frameworks such as:</p>
+                        <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1 ml-1">
+                            <li>Kenya Vision 2030</li>
+                            <li>Sustainable Development Goals (SDG 9 & 11)</li>
+                            <li>African Union Agenda 2063</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {/* Founder */}
+            <div className="bg-surface dark:bg-dark-surface p-8 rounded-3xl custom-shadow border border-border dark:border-dark-border">
+                <h2 className="text-xl font-bold text-on-surface dark:text-dark-on-surface mb-4">About the Founder</h2>
+                <div className="prose dark:prose-invert text-sm text-gray-600 dark:text-gray-400">
+                        <p className="mb-3">
+                        KenyaYetu was founded by <a href="https://www.linkedin.com/in/mkbartonjo/" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-dark-primary font-semibold hover:underline">Michael Bartonjo</a>, an RTPI-accredited urban planner with experience in urban planning, port-city operations, spatial analysis, and infrastructure research.
+                    </p>
+                    <p>
+                        His work reflects a commitment to <strong>user-centered design</strong>, sustainability, and contributing to Kenya’s long-term development.
+                    </p>
+                </div>
+            </div>
+
+            {/* Beta Notice */}
+            <div className="text-center max-w-2xl mx-auto py-4">
+                 <p className="text-gray-500 dark:text-gray-400 italic">
+                    KenyaYetu.co.ke is currently in <strong className="text-primary dark:text-dark-primary not-italic">BETA</strong>. If this mission resonates with you, we invite you to follow, share, and <a href="#contact-section" onClick={scrollToContact} className="text-primary dark:text-dark-primary hover:underline font-semibold not-italic">support the journey</a> as the platform grows.
                 </p>
-                <p>
-                    The project is founded by <a href="https://www.linkedin.com/in/mkbartonjo/" target="_blank" rel="noopener noreferrer" className="text-primary dark:text-dark-primary hover:underline font-semibold">Michael Bartonjo</a>, an Urban Planner based in Mombasa, Kenya.
-                </p>   
-                <p>
-                    <span className="font-semibold text-on-surface dark:text-dark-on-surface">KenyaYetu.co.ke<sub className="text-sm font-medium opacity-60 ml-1">BETA</sub></span> is still under development. If you find this project useful, please consider <a href="#contact-section" onClick={scrollToContact} className="text-primary dark:text-dark-primary hover:underline font-semibold">supporting our mission</a>.             
-                </p> 
             </div>
 
             {/* Contact & Support Section */}
-            <div id="contact-section" className="pt-12">
+            <div id="contact-section" className="pt-8 border-t border-border dark:border-dark-border">
                 <div className="flex flex-col lg:flex-row gap-8">
                     {/* Contact Form */}
                     <div className="lg:w-3/5 bg-surface dark:bg-dark-surface p-8 rounded-3xl custom-shadow-lg">
@@ -73,7 +127,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigateTo }) => {
                                     id="name" 
                                     name="Name" 
                                     required 
-                                    className="mt-1 block w-full rounded-xl border-border dark:border-dark-border bg-background dark:bg-dark-background py-2 px-3 shadow-sm focus:border-primary focus:ring-primary dark:text-white"
+                                    className="mt-1 block w-full rounded-xl border-border dark:border-dark-border bg-background dark:bg-dark-background py-2 px-3 shadow-sm focus:border-primary focus:ring-primary dark:text-white focus:outline-none"
                                 />
                             </div>
                             <div>
@@ -83,7 +137,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigateTo }) => {
                                     id="email" 
                                     name="Email"
                                     required 
-                                    className="mt-1 block w-full rounded-xl border-border dark:border-dark-border bg-background dark:bg-dark-background py-2 px-3 shadow-sm focus:border-primary focus:ring-primary dark:text-white"
+                                    className="mt-1 block w-full rounded-xl border-border dark:border-dark-border bg-background dark:bg-dark-background py-2 px-3 shadow-sm focus:border-primary focus:ring-primary dark:text-white focus:outline-none"
                                 />
                             </div>
                             <div>
@@ -93,7 +147,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigateTo }) => {
                                     name="Message"
                                     rows={4} 
                                     required 
-                                    className="mt-1 block w-full rounded-xl border-border dark:border-dark-border bg-background dark:bg-dark-background py-2 px-3 shadow-sm focus:border-primary focus:ring-primary dark:text-white"
+                                    className="mt-1 block w-full rounded-xl border-border dark:border-dark-border bg-background dark:bg-dark-background py-2 px-3 shadow-sm focus:border-primary focus:ring-primary dark:text-white focus:outline-none"
                                 ></textarea>
                             </div>
                             <div>
@@ -131,7 +185,7 @@ const AboutUsPage: React.FC<AboutUsPageProps> = ({ navigateTo }) => {
                                 Support Our Mission
                             </h2>
                             <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                                Your generous contribution helps us maintain this platform and continue promoting civic education.
+                                Your generous contribution helps us maintain this platform and continue our mission of promoting civic education in Kenya.
                             </p>
                             
                             <div className="space-y-6">

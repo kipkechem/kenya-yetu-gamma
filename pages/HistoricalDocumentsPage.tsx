@@ -4,6 +4,7 @@ import { BookOpenIcon, ExternalLinkIcon, ChevronDownIcon } from '../components/i
 import type { DocumentItem, SubDocument } from '../data/knowledge-base/historical-documents';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 
 const DocumentCard: React.FC<{ doc: DocumentItem }> = ({ doc }) => (
   <a
@@ -61,13 +62,17 @@ const CollapsibleDocumentCard: React.FC<{ doc: DocumentItem }> = ({ doc }) => {
 };
 
 const HistoricalDocumentsPage: React.FC = () => {
-  const { data: documents, isLoading } = useLazyData<DocumentItem[]>(
+  const { data: documents, isLoading, error, refetch } = useLazyData<DocumentItem[]>(
     'historical-documents-data',
     () => import('../data/knowledge-base/historical-documents').then(m => m.documentsData)
   );
 
-  if (isLoading || !documents) {
+  if (isLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (error || !documents) {
+    return <ErrorDisplay message="Failed to load historical documents." onRetry={refetch} />;
   }
 
   return (

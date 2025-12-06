@@ -5,8 +5,8 @@ import type { CountyLegislation, CountyLaw, County } from '../types/index';
 import Highlight from '../components/Highlight';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
-import { countiesData } from '../data/counties/index';
 
 interface CountyLawsPageProps {
     initialSearchTerm?: string;
@@ -37,21 +37,21 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
   const [isDevolutionOpen, setIsDevolutionOpen] = useState(false);
 
   // Load data using the lazy hook with skipCache to optimize performance for large datasets
-  const { data: countyLawsData, isLoading: isCountyLoading } = useLazyData<CountyLegislation[]>(
+  const { data: countyLawsData, isLoading: isCountyLoading, error: countyError, refetch: refetchCountyLaws } = useLazyData<CountyLegislation[]>(
       'county-laws-data',
       () => import('../data/legislation/county-laws').then(m => m.countyLawsData),
       [],
       { skipCache: true }
   );
 
-  const { data: devolutionLawsData, isLoading: isDevolutionLoading } = useLazyData<CountyLaw[]>(
+  const { data: devolutionLawsData, isLoading: isDevolutionLoading, error: devolutionError, refetch: refetchDevolutionLaws } = useLazyData<CountyLaw[]>(
       'devolution-laws-data',
       () => import('../data/legislation/devolution-laws').then(m => m.devolutionLawsData),
       [],
       { skipCache: true }
   );
 
-  const { data: countiesData, isLoading: isCountiesLoading } = useLazyData<County[]>(
+  const { data: countiesData, isLoading: isCountiesLoading, error: countiesError, refetch: refetchCounties } = useLazyData<County[]>(
     'counties-data',
     () => import('../data/counties').then(m => m.countiesData)
   );
@@ -64,6 +64,12 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
 
   const isSearching = deferredSearchTerm.trim().length > 0;
   const lowercasedTerm = deferredSearchTerm.toLowerCase();
+
+  const handleRetry = () => {
+      if (countyError) refetchCountyLaws();
+      if (devolutionError) refetchDevolutionLaws();
+      if (countiesError) refetchCounties();
+  };
 
   const filteredDevolutionLaws = useMemo(() => {
     if (!devolutionLawsData) return [];
@@ -237,6 +243,14 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
     );
   };
 
+  if (isCountyLoading || isDevolutionLoading || isCountiesLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (countyError || devolutionError || countiesError || !countyLawsData || !devolutionLawsData || !countiesData) {
+    return <ErrorDisplay message="Failed to load county laws data." onRetry={handleRetry} />;
+  }
+
   // If specific county is selected, show its details
   if (selectedCountyName) {
       return (
@@ -281,9 +295,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                       </div>
                   </header>
                   
-                  {isCountyLoading ? (
-                       <LoadingSpinner />
-                  ) : selectedCountyLaws ? (
+                  {selectedCountyLaws ? (
                       <div className="animate-fade-in">
                           {filteredSelectedCountyLaws.acts.length === 0 && filteredSelectedCountyLaws.bills.length === 0 ? (
                               <div className="text-center py-12 bg-surface dark:bg-dark-surface rounded-2xl border border-dashed border-gray-300 dark:border-gray-700">

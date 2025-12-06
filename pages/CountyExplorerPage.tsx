@@ -5,18 +5,19 @@ import CountyDetailPage from '../components/CountyDetailPage';
 import { MapIcon } from '../components/icons';
 import type { County } from '../types/index';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
 
 const CountyExplorerPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
 
-    const { data: countiesData, isLoading: isCountiesLoading } = useLazyData<County[]>(
+    const { data: countiesData, isLoading: isCountiesLoading, error: countiesError, refetch: refetchCounties } = useLazyData<County[]>(
         'counties-data',
         () => import('../data/counties').then(m => m.countiesData)
     );
 
     // Fixed import path from '../data/counties/mapdata' to '../data/mapdata'
-    const { data: countyPaths, isLoading: isPathsLoading } = useLazyData<{ name: string; path: string }[]>(
+    const { data: countyPaths, isLoading: isPathsLoading, error: pathsError, refetch: refetchPaths } = useLazyData<{ name: string; path: string }[]>(
         'county-paths-data',
         () => import('../data/mapdata').then(m => m.countyPaths)
     );
@@ -38,9 +39,18 @@ const CountyExplorerPage: React.FC = () => {
     const handleBack = () => {
         setSelectedCounty(null);
     };
+
+    const handleRetry = () => {
+        if (countiesError) refetchCounties();
+        if (pathsError) refetchPaths();
+    };
     
-    if (isCountiesLoading || isPathsLoading || !countiesData || !countyPaths) {
+    if (isCountiesLoading || isPathsLoading) {
          return <LoadingSpinner />;
+    }
+
+    if (countiesError || pathsError || !countiesData || !countyPaths) {
+        return <ErrorDisplay message="Failed to load map data." onRetry={handleRetry} />;
     }
 
     return (

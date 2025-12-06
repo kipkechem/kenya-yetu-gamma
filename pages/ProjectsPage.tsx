@@ -1,9 +1,11 @@
+
 import React, { useState, useMemo } from 'react';
 import { PresentationChartLineIcon, HierarchyIcon, MapPinIcon, ChevronDoubleRightIcon } from '../components/icons';
 import type { County } from '../types/index';
 import CountyDetailPage from '../components/CountyDetailPage';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
 
 const CountyListItem: React.FC<{ name: string, code?: number, onClick: () => void }> = ({ name, code, onClick }) => (
@@ -30,7 +32,7 @@ const ProjectsPage: React.FC = () => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     
-    const { data: counties, isLoading } = useLazyData<County[]>(
+    const { data: counties, isLoading, error, refetch } = useLazyData<County[]>(
         'counties-data',
         () => import('../data/counties').then(m => m.countiesData.sort((a, b) => a.name.localeCompare(b.name)))
     );
@@ -57,8 +59,12 @@ const ProjectsPage: React.FC = () => {
         return <CountyDetailPage county={selectedCounty} onBack={handleBack} />;
     }
 
-    if (isLoading || !counties) {
+    if (isLoading) {
         return <LoadingSpinner />;
+    }
+
+    if (error || !counties) {
+        return <ErrorDisplay message="Failed to load county project data." onRetry={refetch} />;
     }
 
     return (

@@ -1,9 +1,10 @@
 
 import React, { useState } from 'react';
 import type { LegislatureBody } from '../data/governance/legislature';
-import { ChevronDownIcon, BuildingLibraryIcon } from '../components/icons';
+import { ChevronDownIcon, BuildingLibraryIcon, ShieldCheckIcon } from '../components/icons';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 
 const SectionHeader: React.FC<{ title: string }> = ({ title }) => (
     <div className="flex items-center gap-2 mb-3 mt-4 first:mt-0">
@@ -39,6 +40,23 @@ const DetailsCard: React.FC<{ body: LegislatureBody; level: number; onToggle: ()
                                 <li key={index} className="text-sm text-gray-800 dark:text-gray-200 flex items-start justify-center text-center">
                                     <span>{member.title}</span>
                                     {member.name && <span className="font-medium ml-1">- {member.name}</span>}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+                
+                {body.powers && body.powers.length > 0 && (
+                    <div className="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+                        <div className="flex items-center justify-center gap-2 mb-3 text-gray-600 dark:text-gray-300">
+                            <ShieldCheckIcon className="h-4 w-4" />
+                            <span className="font-bold text-xs uppercase tracking-wider">Powers & Functions</span>
+                        </div>
+                        <ul className="space-y-2">
+                            {body.powers.map((power, index) => (
+                                <li key={index} className="text-sm text-gray-700 dark:text-gray-300 flex items-start text-left">
+                                    <span className="mr-2 text-primary dark:text-dark-primary">•</span>
+                                    {power}
                                 </li>
                             ))}
                         </ul>
@@ -83,7 +101,7 @@ const DetailsCard: React.FC<{ body: LegislatureBody; level: number; onToggle: ()
 
 const HierarchyNode: React.FC<{ body: LegislatureBody; level?: number; onToggle: (name: string) => void; isExpanded: (name: string) => boolean; }> = ({ body, level = 0, onToggle, isExpanded }) => {
     const expanded = isExpanded(body.name);
-    const hasChildren = body.children && body.children.length > 0;
+    const hasChildren = !!(body.children && body.children.length > 0);
 
     return (
         <div className="flex flex-col items-center">
@@ -96,11 +114,11 @@ const HierarchyNode: React.FC<{ body: LegislatureBody; level?: number; onToggle:
                     
                     <div className="relative flex justify-center gap-8 w-full">
                         {/* Horizontal Bar connecting children */}
-                        {body.children.length > 1 && (
+                        {body.children!.length > 1 && (
                              <div className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 bg-gray-300 dark:bg-gray-600" style={{ width: `calc(100% - 20rem)` }}></div> // Approx width calculation
                         )}
 
-                        {body.children.map((child, index) => (
+                        {body.children!.map((child, index) => (
                             <div key={child.name} className="flex flex-col items-center relative">
                                 {/* Vertical connector to child */}
                                 <div className="h-8 w-0.5 bg-gray-300 dark:bg-gray-600"></div>
@@ -115,7 +133,7 @@ const HierarchyNode: React.FC<{ body: LegislatureBody; level?: number; onToggle:
 };
 
 const LegislaturePage: React.FC = () => {
-    const { data: legislatureData, isLoading } = useLazyData<LegislatureBody>(
+    const { data: legislatureData, isLoading, error, refetch } = useLazyData<LegislatureBody>(
         'legislature-data',
         () => import('../data/governance/legislature').then(m => m.legislatureData)
     );
@@ -129,8 +147,12 @@ const LegislaturePage: React.FC = () => {
         }
     }, [legislatureData]);
 
-    if (isLoading || !legislatureData) {
+    if (isLoading) {
         return <LoadingSpinner />;
+    }
+
+    if (error || !legislatureData) {
+        return <ErrorDisplay message="Failed to load Legislature data." onRetry={refetch} />;
     }
 
     const findNode = (data: LegislatureBody, name: string): LegislatureBody | null => {
@@ -182,7 +204,7 @@ const LegislaturePage: React.FC = () => {
                     </div>
                     <h1 className="text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Legislature Structure</h1>
                     <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-                        Explore the structure of the Parliament of Kenya. Click on the cards to expand the National Assembly and Senate details.
+                        Explore the structure of the Parliament of Kenya, including the powers, functions, and composition of the National Assembly and the Senate.
                     </p>
                 </header>
 

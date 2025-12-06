@@ -1,7 +1,9 @@
+
 import React, { useState, useMemo } from 'react';
 import { IdentificationIcon, UsersIcon } from '../components/icons';
 import type { Representative } from '../types/index';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
 
 const RepresentativeCard: React.FC<{ rep: Representative }> = ({ rep }) => (
@@ -18,9 +20,9 @@ const MyRepresentativesPage: React.FC = () => {
   const [selectedCounty, setSelectedCounty] = useState<string>('All');
   const [searchTerm, setSearchTerm] = useState('');
   
-  const { data: representativesData, isLoading } = useLazyData<Representative[]>(
+  const { data: representativesData, isLoading, error, refetch } = useLazyData<Representative[]>(
       'representatives-data',
-      () => import('../data/representatives').then(m => m.representativesData)
+      () => import('../data/governance/representatives').then(m => m.representativesData)
   );
 
   const countyOptions = useMemo(() => {
@@ -41,8 +43,12 @@ const MyRepresentativesPage: React.FC = () => {
     });
   }, [selectedCounty, searchTerm, representativesData]);
   
-  if (isLoading || !representativesData) {
+  if (isLoading) {
      return <LoadingSpinner />;
+  }
+
+  if (error || !representativesData) {
+     return <ErrorDisplay message="Failed to load representatives data." onRetry={refetch} />;
   }
 
   return (

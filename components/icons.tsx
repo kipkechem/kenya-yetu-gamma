@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 // This file is available for icon components.
@@ -103,8 +104,9 @@ export const HeartIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 export const PayPalIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-        <path d="M7.068 21.144c.48 0 .892-.36.98-1.044l.872-6.572c.036-.324.072-.54.108-.864.036-.216.108-.432.18-.576.072-.18.144-.324.252-.432.108-.108.216-.18.36-.252.144-.072.324-.108.468-.108.324 0 .54.072.72.18.144.108.288.288.396.54.108.216.18.54.216.9.036.36.072.756.108 1.152l-1.008 7.488c-.036.36-.108.648-.216.864-.108.18-.252.324-.468.432-.18.072-.396.108-.648.108H7.068zm5.724 0c.48 0 .892-.36.98-1.044l.872-6.572c.036-.324.072-.54.108-.864.036-.216.108-.432.18-.576.072-.18.144-.324.252-.432.108-.108.216-.18.36-.252.144-.072.324-.108.468-.108.324 0 .54.072.72.18.144.108.288.288.396.54.108.216.18.54.216.9.036.36.072.756.108 1.152l-1.008 7.488c-.036.36-.108.648-.216.864-.108.18-.252.324-.468.432-.18.072-.396.108-.648.108h-2.16zm5.724 0c.48 0 .892-.36.98-1.044l.872-6.572c.036-.324.072-.54.108-.864.036-.216.108-.432.18-.576.072-.18.144-.324.252-.432.108-.108.216-.18.36-.252.144-.072.324-.108.468-.108.324 0 .54.072.72.18.144.108.288.288.396.54.108.216.18.54.216.9.036.36.072.756.108 1.152l-1.008 7.488c-.036.36-.108.648-.216.864-.108.18-.252.324-.468.432-.18.072-.396.108-.648.108h-2.16zM12 .932C5.904.932.936 5.864.936 12s4.968 11.068 11.064 11.068S23.064 18.136 23.064 12 18.096.932 12 .932z" />
+    <svg viewBox="0 0 24 24" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6.434 3.136C6.621 1.947 7.65 1.073 8.856 1.073h5.08c4.016 0 6.688 2.053 7.031 5.309.176 1.687-.41 3.281-1.617 4.396-1.18 1.09-2.828 1.648-4.89 1.648h-1.59c-.473 0-.875.348-.946.816l-.554 3.615-.219 1.427c-.066.434-.438.75-.879.75h-3.04c-.57 0-.992-.535-.879-1.094l2.082-13.601z" fill="currentColor" fillOpacity="0.5"/>
+        <path d="M8.422 3.797L5.406 22.922h4.016c.512 0 .945-.383 1.027-.89l.02-.102.68-4.312.05-.336c.083-.531.536-.922 1.075-.922h1.32c3.02 0 5.395-1.23 6.035-4.433.446-2.227-.289-4.286-2.02-5.653-1.402-1.109-3.476-1.675-6.168-1.675H8.422z" fill="currentColor"/>
     </svg>
 );
 
@@ -115,7 +117,7 @@ export const ScaleIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 export const BuildingLibraryIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
     </svg>
 );
 
@@ -203,33 +205,8 @@ export const ComputerDesktopIcon: React.FC<{ className?: string }> = ({ classNam
 export const InboxStackIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10.5 11.25h3M12 15h.008" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 7.5h16.5M12 3.75c-1.036 0-1.875.84-1.875 1.875v1.875c0 1.036.84 1.875 1.875 1.875h.008c1.036 0 1.875-.84 1.875-1.875V5.625c0-1.036-.84-1.875-1.875-1.875h-.008z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 7.5h16.5M12 3.75" />
     </svg>
-);
-  
-export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className }) => (
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.286zm0 13.036h.008v.008h-.008v-.008z" />
-</svg>
-);
-
-export const HierarchyIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12c0-5.642-4.558-10.2-10.2-10.2S-1.2 6.358-1.2 12s4.558 10.2 10.2 10.2S19.5 17.642 19.5 12z" transform="translate(3.3 1.8)" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-  </svg>
-);
-  
-export const ExternalLinkIcon: React.FC<{ className?: string }> = ({ className }) => (
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-</svg>
-);
-
-export const DownloadIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-  </svg>
 );
 
 export const PhotoIcon: React.FC<{ className?: string }> = ({ className }) => (
@@ -238,20 +215,44 @@ export const PhotoIcon: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-export const PaperAirplaneIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
-      <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
-    </svg>
-);
-
 export const ChevronDoubleLeftIcon: React.FC<{ className?: string }> = ({ className }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
-    </svg>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
+  </svg>
 );
 
 export const ChevronDoubleRightIcon: React.FC<{ className?: string }> = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 4.5l7.5 7.5-7.5 7.5m6-15l7.5 7.5-7.5 7.5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
     </svg>
+);
+
+export const ExternalLinkIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+    </svg>
+);
+
+export const ShieldCheckIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+    </svg>
+);
+
+export const PaperAirplaneIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+    </svg>
+);
+
+export const HierarchyIcon: React.FC<{ className?: string }> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
+    </svg>
+);
+
+export const DownloadIcon: React.FC<{ className?: string }> = ({ className }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+  </svg>
 );

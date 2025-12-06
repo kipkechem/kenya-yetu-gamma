@@ -3,6 +3,7 @@ import React from 'react';
 import { FlagIcon, DownloadIcon } from '../components/icons';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import type { Anthem } from '../types/index';
 
 interface AnthemPageProps {
@@ -11,13 +12,17 @@ interface AnthemPageProps {
 }
 
 const AnthemPage: React.FC<AnthemPageProps> = ({ anthemId, language }) => {
-  const { data: anthems, isLoading } = useLazyData<Record<string, Anthem>>(
+  const { data: anthems, isLoading, error, refetch } = useLazyData<Record<string, Anthem>>(
       'anthems-data',
       () => import('../data/culture/anthems').then(m => m.anthems)
   );
 
-  if (isLoading || !anthems) {
+  if (isLoading) {
       return <LoadingSpinner />;
+  }
+
+  if (error || !anthems) {
+      return <ErrorDisplay message="Failed to load anthem data." onRetry={refetch} />;
   }
 
   const anthem = anthems[anthemId];

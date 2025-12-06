@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { FlagIcon } from '../components/icons';
-import type { AppView, Section } from '../types/index';
+import type { AppView, Section } from '../types';
 import Tile from '../components/Tile';
 
 interface AnthemsListPageProps {

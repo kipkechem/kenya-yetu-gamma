@@ -41,7 +41,7 @@ export const appStructure: AppRoute[] = [
         inHomeGrid: true
     },
     {
-        view: 'infomap',
+        view: 'projects-proposals',
         title: { en: 'Projects & Proposals', sw: 'Miradi na Mapendekezo' },
         description: { 
             en: 'KenyaYetu synthesized projects and proposals.',
@@ -218,14 +218,6 @@ export const appStructure: AppRoute[] = [
         title: { en: 'EAC Anthem', sw: 'Wimbo wa EAC' },
         icon: FlagIcon,
         backgroundImage: 'https://images.unsplash.com/photo-1532375810709-75b1da00537c?q=80&w=1920&auto=format&fit=crop',
-        inSidebar: false,
-        inHomeGrid: false
-    },
-    {
-        view: 'county-explorer',
-        title: { en: 'County Explorer', sw: 'Mchunguzi wa Kaunti' },
-        icon: MapPinIcon,
-        backgroundImage: 'https://images.unsplash.com/photo-1543796755-74b13794920d?q=80&w=1920&auto=format&fit=crop',
         inSidebar: false,
         inHomeGrid: false
     },

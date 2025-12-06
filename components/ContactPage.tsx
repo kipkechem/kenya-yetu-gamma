@@ -116,7 +116,7 @@ const ContactPage: React.FC = () => {
         
                             <div className="mt-6 border-t border-border dark:border-dark-border pt-6">
                                  <h3 className="font-semibold text-lg mb-3 text-on-surface dark:text-dark-on-surface">Donate via PayPal</h3>
-                                <a href="https://www.paypal.com/donate/?hosted_button_id=T36PG8UQP8C56" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600 dark:ring-offset-gray-800 transition-colors">
+                                <a href="https://www.paypal.com/donate/?hosted_button_id=T36PG8UQP8C56" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-[#0070BA] hover:bg-[#003087] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
                                     <PayPalIcon className="h-5 w-5 mr-2 -ml-1"/>
                                     Donate with PayPal
                                 </a>

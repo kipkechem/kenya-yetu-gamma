@@ -44,7 +44,7 @@ export interface ConstitutionData {
 }
 
 // FIX: Add 'national-policy' to the AppView type to allow navigation to this view.
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long' | 'viewcount' | 'chat';
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'projects-proposals' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long' | 'viewcount' | 'chat' | 'eib-projects';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -150,4 +150,14 @@ export interface NavigationPayload {
   actsSearchTerm?: string;
   actTitle?: string;
   countySearchTerm?: string;
+}
+
+export interface EIBProject {
+    title: string;
+    sector: string;
+    status: string;
+    amount: string;
+    description?: string;
+    url: string;
+    year: string;
 }

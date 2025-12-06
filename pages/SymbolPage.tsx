@@ -3,6 +3,7 @@ import React from 'react';
 import { DownloadIcon } from '../components/icons';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import type { SymbolData } from '../data/culture/symbols';
 
 interface SymbolPageProps {
@@ -10,19 +11,23 @@ interface SymbolPageProps {
 }
 
 const SymbolPage: React.FC<SymbolPageProps> = ({ symbolId }) => {
-  const { data: symbolsData, isLoading } = useLazyData<Record<string, SymbolData>>(
+  const { data: symbolsData, isLoading, error, refetch } = useLazyData<Record<string, SymbolData>>(
       'symbols-data',
       () => import('../data/culture/symbols').then(m => m.symbolsData)
   );
 
-  if (isLoading || !symbolsData) {
+  if (isLoading) {
       return <LoadingSpinner />;
+  }
+
+  if (error || !symbolsData) {
+      return <ErrorDisplay message="Failed to load symbol data." onRetry={refetch} />;
   }
 
   const symbol = symbolsData[symbolId];
 
   if (!symbol) {
-      return <div className="p-10 text-center text-red-500">Symbol not found.</div>;
+      return <ErrorDisplay message="Symbol not found." onRetry={refetch} />;
   }
 
   const { title, svgContent, description, fileName } = symbol;

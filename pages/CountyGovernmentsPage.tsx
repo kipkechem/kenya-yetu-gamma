@@ -3,6 +3,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import type { County } from '../types/index';
 import { ChevronDownIcon, MapPinIcon, ExternalLinkIcon } from '../components/icons';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
 
 const CountyNode: React.FC<{ county: County; isExpanded: boolean; onToggle: () => void; }> = ({ county, isExpanded, onToggle }) => {
@@ -67,7 +68,7 @@ const CountyNode: React.FC<{ county: County; isExpanded: boolean; onToggle: () =
 const CountyGovernmentsPage: React.FC = () => {
     const [expandedCounty, setExpandedCounty] = useState<string | null>(null);
     
-    const { data: counties, isLoading } = useLazyData<County[]>(
+    const { data: counties, isLoading, error, refetch } = useLazyData<County[]>(
         'counties-data',
         () => import('../data/counties').then(m => m.countiesData.sort((a, b) => a.name.localeCompare(b.name)))
     );
@@ -76,8 +77,12 @@ const CountyGovernmentsPage: React.FC = () => {
         setExpandedCounty(prev => (prev === countyName ? null : countyName));
     };
     
-    if (isLoading || !counties) {
+    if (isLoading) {
         return <LoadingSpinner />;
+    }
+
+    if (error || !counties) {
+        return <ErrorDisplay message="Failed to load county data." onRetry={refetch} />;
     }
 
     return (

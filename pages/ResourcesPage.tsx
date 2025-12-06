@@ -4,17 +4,22 @@ import { ChevronDownIcon, LinkIcon } from '../components/icons';
 import type { DataSourceCategory } from '../data/knowledge-base/resources';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 
 const ResourcesPage: React.FC = () => {
   const [openSection, setOpenSection] = useState<string | null>(null);
 
-  const { data: dataSourceCategories, isLoading } = useLazyData<DataSourceCategory[]>(
+  const { data: dataSourceCategories, isLoading, error, refetch } = useLazyData<DataSourceCategory[]>(
       'resources-data',
       () => import('../data/knowledge-base/resources').then(m => m.dataSourceCategories)
   );
 
-  if (isLoading || !dataSourceCategories) {
+  if (isLoading) {
       return <LoadingSpinner />;
+  }
+
+  if (error || !dataSourceCategories) {
+      return <ErrorDisplay message="Failed to load resources." onRetry={refetch} />;
   }
 
   // Using the data source categories directly without dynamic chat links

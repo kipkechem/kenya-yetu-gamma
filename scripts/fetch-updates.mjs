@@ -14,8 +14,8 @@ const KIPPRA_SEARCH_ENDPOINTS = [
 
 const ACTS_FILE_PATH = path.resolve('data/legislation/acts.ts');
 const POLICIES_FILE_PATH = path.resolve('data/knowledge-base/county-policies.ts');
-// Updated path to match project structure
 const COUNTY_LAWS_FILE_PATH = path.resolve('data/legislation/county-laws.ts');
+const EIB_PROJECTS_FILE_PATH = path.resolve('data/foreign-projects/eib.ts');
 
 // List of counties for KIPPRA search
 const COUNTIES = [
@@ -202,6 +202,72 @@ async function scrapeKippraPolicies() {
 }
 
 /**
+ * Scrapes EIB Projects in Kenya
+ */
+async function scrapeEIBProjects() {
+    console.log('🔍 Scraping EIB Projects...');
+    const projects = [];
+    // Note: EIB search pages often use dynamic loading. This scraper attempts to hit the basic search URL.
+    // In a real-world scenario with dynamic content, Puppeteer/Playwright might be needed, or hitting their API directly.
+    // We will attempt to scrape pages 0 to 3 (1 to 4) as requested.
+    
+    for (let page = 0; page < 4; page++) {
+        const url = `https://www.eib.org/en/projects/all/index?q=kenya&sortColumn=statusDate&sortDir=desc&pageNumber=${page}&itemPerPage=25&pageable=true&la=EN&deLa=EN&yearFrom=&orYearFrom=true&yearTo=&orYearTo=true&orStatus=true&orRegions=true&orCountries=true&orSectors=true`;
+        console.log(`  Fetching EIB page ${page + 1}...`);
+        
+        try {
+            const { data } = await axios.get(url, { 
+                headers: { 'User-Agent': 'Mozilla/5.0' },
+                timeout: 20000 
+            });
+            const $ = cheerio.load(data);
+            
+            // EIB project list structure varies, but often looks like this in their server-rendered view or fallbacks
+            // Targeting common row/item structures.
+            // Note: If EIB renders via JS only, this axios fetch might return empty shells.
+            // Assuming some SSR or basic HTML presence.
+            
+            $('.row-item, .project-row').each((_, el) => {
+                const $el = $(el);
+                const titleEl = $el.find('h3 a, .project-title a');
+                const title = titleEl.text().trim();
+                const link = titleEl.attr('href');
+                
+                if (title && link) {
+                    // Extract other details if available in the list view
+                    const sector = $el.find('.sector, .project-sector').text().trim() || 'Unknown Sector';
+                    const status = $el.find('.status, .project-status').text().trim() || 'Unknown Status';
+                    const amount = $el.find('.amount, .project-cost').text().trim() || 'N/A';
+                    const description = $el.find('.description, .project-desc').text().trim();
+                    const dateStr = $el.find('.date, .project-date').text().trim(); // e.g. signed date
+                    const year = dateStr ? dateStr.split('/').pop() : new Date().getFullYear().toString();
+
+                    const fullUrl = link.startsWith('http') ? link : `https://www.eib.org${link}`;
+
+                    projects.push({
+                        title,
+                        sector,
+                        status,
+                        amount,
+                        description,
+                        url: fullUrl,
+                        year
+                    });
+                }
+            });
+            
+             await sleep(1000);
+
+        } catch (e) {
+             console.error(`  Error scraping EIB page ${page}: ${e.message}`);
+        }
+    }
+
+    console.log(`  Found ${projects.length} EIB projects.`);
+    return projects;
+}
+
+/**
  * Writes the updated County Laws to file
  */
 async function updateCountyLawsFile(data) {
@@ -238,12 +304,31 @@ export const countyPolicyDocuments: Record<string, PolicyDocument[]> = ${JSON.st
 }
 
 /**
+ * Writes the updated EIB Projects to file
+ */
+async function updateEIBProjectsFile(data) {
+    if (data.length === 0) {
+        console.log('ℹ️ No EIB projects found to update.');
+        return;
+    }
+
+    const fileContent = `
+import type { EIBProject } from '../../types';
+
+export const eibProjects: EIBProject[] = ${JSON.stringify(data, null, 2)};
+`.trim();
+
+    // Ensure directory exists
+    await fs.mkdir(path.dirname(EIB_PROJECTS_FILE_PATH), { recursive: true });
+    await fs.writeFile(EIB_PROJECTS_FILE_PATH, fileContent);
+    console.log(`✅ Updated ${EIB_PROJECTS_FILE_PATH}`);
+}
+
+/**
  * Updates National Acts File (Simplified for this context)
  */
 async function updateNationalActsFile(newActs) {
     // Logic to merge new acts into existing acts.ts file would go here.
-    // For brevity in this combined script, we focus on the major county updates requested.
-    // In a full implementation, this would parse acts.ts, identify the 'in force' array, and prepend unique new items.
     console.log(`ℹ️  National Acts Scraper found ${newActs.length} items. (File update skipped in this demo step)`);
 }
 
@@ -258,8 +343,12 @@ async function updateNationalActsFile(newActs) {
   // 2. KIPPRA Policies
   const policies = await scrapeKippraPolicies();
   await updateCountyPoliciesFile(policies);
+  
+  // 3. EIB Projects
+  const eibProjects = await scrapeEIBProjects();
+  await updateEIBProjectsFile(eibProjects);
 
-  // 3. National Acts (Optional/Secondary)
+  // 4. National Acts (Optional/Secondary)
   const nationalActs = await scrapeNationalActs();
   await updateNationalActsFile(nationalActs);
 

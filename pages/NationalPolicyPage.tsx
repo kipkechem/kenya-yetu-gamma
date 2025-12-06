@@ -5,6 +5,7 @@ import { nationalPoliciesData } from '../data/knowledge-base/national-policies';
 import type { NationalPolicy } from '../data/knowledge-base/national-policies';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 
 const PolicyCard: React.FC<{ policy: NationalPolicy }> = ({ policy }) => (
   <a
@@ -31,7 +32,7 @@ const PolicyCard: React.FC<{ policy: NationalPolicy }> = ({ policy }) => (
 const NationalPolicyPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const { data: policies, isLoading } = useLazyData<NationalPolicy[]>(
+  const { data: policies, isLoading, error, refetch } = useLazyData<NationalPolicy[]>(
     'national-policies-data',
     () => import('../data/knowledge-base/national-policies').then(m => m.nationalPoliciesData)
   );
@@ -53,8 +54,12 @@ const NationalPolicyPage: React.FC = () => {
       return policies.filter(p => p.category === selectedCategory);
   }, [policies, selectedCategory]);
 
-  if (isLoading || !policies) {
+  if (isLoading) {
       return <LoadingSpinner />;
+  }
+
+  if (error || !policies) {
+      return <ErrorDisplay message="Failed to load national policies." onRetry={refetch} />;
   }
 
   return (

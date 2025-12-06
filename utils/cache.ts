@@ -64,14 +64,8 @@ export function setCachedData<T>(key: string, data: T): void {
     // Specific check for QuotaExceededError
     if (error instanceof DOMException && 
         (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
-      console.warn(`LocalStorage quota exceeded for key "${key}". Clearing old cache.`);
-      // Optional: Strategy to clear old cache items could go here
-      try {
-         localStorage.clear(); // Drastic measure, but keeps app running
-         localStorage.setItem(key, JSON.stringify(item));
-      } catch (e) {
-         // If it still fails, we just don't cache. The app will still work.
-      }
+      console.warn(`LocalStorage quota exceeded for key "${key}". Cache update skipped.`);
+      // We do not clear storage here to prevent losing user preferences or other critical app state.
     } else {
       console.error(`Error setting cache for key "${key}":`, error);
     }

@@ -1,8 +1,10 @@
+
 import React, { useState, useMemo } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon } from '../components/icons';
 import type { Ministry, StateCorporation, StateCorporationCategory } from '../types/index';
 import Highlight from '../components/Highlight';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
 
 const CorporationCard: React.FC<{ corporation: StateCorporation; ministryName?: string; searchTerm?: string }> = ({ corporation, ministryName, searchTerm = '' }) => (
@@ -44,14 +46,14 @@ const StateCorporationsPage: React.FC = () => {
   const [openCategory, setOpenCategory] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   
-  const { data: categorizedCorporationsData, isLoading: isCorpLoading } = useLazyData<StateCorporationCategory[]>(
+  const { data: categorizedCorporationsData, isLoading: isCorpLoading, error: corpError, refetch: refetchCorps } = useLazyData<StateCorporationCategory[]>(
       'corporations-data',
-      () => import('../data/state-corporations').then(m => m.categorizedCorporationsData)
+      () => import('../data/governance/state-corporations').then(m => m.categorizedCorporationsData)
   );
 
-  const { data: ministries, isLoading: isMinistriesLoading } = useLazyData<Ministry[]>(
+  const { data: ministries, isLoading: isMinistriesLoading, error: ministriesError, refetch: refetchMinistries } = useLazyData<Ministry[]>(
       'ministries-data',
-      () => import('../data/ministries').then(m => m.ministries)
+      () => import('../data/governance/ministries').then(m => m.ministries)
   );
 
   // Create a map of entity names to their parent ministry
@@ -151,6 +153,10 @@ const StateCorporationsPage: React.FC = () => {
     );
   }, [searchTerm, allCorporationsWithMinistry]);
 
+  const handleRetry = () => {
+      if (corpError) refetchCorps();
+      if (ministriesError) refetchMinistries();
+  };
 
   const toggleCategory = (categoryName: string) => {
     setOpenCategory(prev => (prev === categoryName ? null : categoryName));
@@ -168,8 +174,12 @@ const StateCorporationsPage: React.FC = () => {
     setSearchTerm('');
   };
   
-  if (isCorpLoading || isMinistriesLoading || !categorizedCorporationsData) {
+  if (isCorpLoading || isMinistriesLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (corpError || ministriesError || !categorizedCorporationsData) {
+      return <ErrorDisplay message="Failed to load state corporations data." onRetry={handleRetry} />;
   }
 
   return (

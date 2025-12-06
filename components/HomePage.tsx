@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { BookOpenIcon, MapIcon, PresentationChartLineIcon, LinkIcon, UsersIcon, MailIcon } from './icons';
-import type { AppView } from '../types/index';
+import type { AppView } from '../types';
 import Tile from './Tile';
 
 interface HomePageProps {
@@ -61,7 +61,7 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo, language }) => {
     {
         id: 'maps',
         icon: <MapIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        view: 'infomap',
+        view: 'projects-proposals',
         title: t.sections.maps.title,
         description: t.sections.maps.desc,
         isExternal: false

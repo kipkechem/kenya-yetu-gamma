@@ -1,17 +1,22 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+
+import React, { useState, useCallback, useMemo, useEffect, useDeferredValue } from 'react';
 import Sidebar from '../components/Sidebar';
 import ContentDisplay from '../components/ContentDisplay';
 import Breadcrumbs from '../components/Breadcrumbs';
 import type { SelectedItem, ConstitutionData } from '../types/index';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
 
 const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string }> = ({ language, searchTerm }) => {
   const [selectedItem, setSelectedItem] = useState<SelectedItem>({ type: 'preamble', id: 'preamble' });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
+  // Use deferred value to prevent blocking UI when filtering large content
+  const deferredSearchTerm = useDeferredValue(searchTerm);
 
   // Use useLazyData to load constitution data based on language
-  const { data: currentData, isLoading: isDataLoading, error: dataError } = useLazyData<ConstitutionData>(
+  const { data: currentData, isLoading: isDataLoading, error: dataError, refetch: refetchData } = useLazyData<ConstitutionData>(
       `constitution-data-${language}`,
       () => language === 'en' 
           ? import('../data/constitution').then(m => m.constitutionData)
@@ -20,7 +25,7 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
   );
 
   // Use useLazyData to load summaries based on language
-  const { data: currentSummaries, isLoading: isSummariesLoading, error: summariesError } = useLazyData<{[key: string]: string}>(
+  const { data: currentSummaries, isLoading: isSummariesLoading, error: summariesError, refetch: refetchSummaries } = useLazyData<{[key: string]: string}>(
       `constitution-summaries-${language}`,
       () => language === 'en'
           ? import('../data/summaries').then(m => m.articleSummaries)
@@ -159,28 +164,21 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
     };
   }, [articleToChapterMap, handleSelectItem, selectedItem]);
 
+  const handleRetry = () => {
+      refetchData();
+      refetchSummaries();
+  };
+
   if (isDataLoading || isSummariesLoading) {
     return <LoadingSpinner />;
   }
 
   if (dataError || summariesError || !currentData || !currentSummaries) {
     return (
-        <div className="flex flex-col items-center justify-center h-full w-full p-4">
-            <div className="bg-red-50 dark:bg-red-900/20 p-6 rounded-2xl text-center max-w-md">
-                <svg className="mx-auto h-12 w-12 text-red-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <p className="text-lg font-medium text-red-800 dark:text-red-200 mb-6">
-                    {language === 'sw' ? 'Imeshindwa kupakia data. Tafadhali angalia muunganisho wako.' : 'Failed to load content. Please check your connection.'}
-                </p>
-                <button 
-                    onClick={() => window.location.reload()}
-                    className="px-6 py-2 bg-primary hover:bg-primary-dark text-white rounded-full font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                >
-                    {language === 'sw' ? 'Jaribu Tena' : 'Retry'}
-                </button>
-            </div>
-        </div>
+        <ErrorDisplay 
+            message={language === 'sw' ? 'Imeshindwa kupakia data. Tafadhali angalia muunganisho wako.' : 'Failed to load content. Please check your connection.'}
+            onRetry={handleRetry}
+        />
     );
   }
 
@@ -212,7 +210,7 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
                 onSelectItem={handleSelectItem}
               />
               <ContentDisplay 
-                    searchTerm={searchTerm} 
+                    searchTerm={deferredSearchTerm} 
                     onSelectItem={handleSelectItem}
                     articleToChapterMap={articleToChapterMap}
                     language={language}

@@ -3,6 +3,7 @@ import React, { useMemo, useState, useDeferredValue, useEffect } from 'react';
 import { InboxStackIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon } from '../components/icons';
 import type { ActsByCategory, Act } from '../data/legislation/acts';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
 
 interface ActsPageProps {
@@ -127,7 +128,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
   // Defer the search term to keep the UI responsive during typing
   const deferredSearchTerm = useDeferredValue(searchTerm);
 
-  const { data: actsOfParliament, isLoading } = useLazyData<ActsByCategory>(
+  const { data: actsOfParliament, isLoading, error, refetch } = useLazyData<ActsByCategory>(
       'acts-data',
       () => import('../data/legislation/acts').then(m => m.actsOfParliament),
       [],
@@ -173,8 +174,12 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
     return key.replace(/(-)/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
   
-  if (isLoading || !actsOfParliament) {
+  if (isLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (error || !actsOfParliament) {
+    return <ErrorDisplay message="Failed to load Acts of Parliament." onRetry={refetch} />;
   }
 
   return (

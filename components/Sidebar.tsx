@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import type { ConstitutionData, SelectedItem, Chapter, Part } from '../types/index';
 import { ChevronDownIcon, BookOpenIcon, FileTextIcon, HomeIcon } from './icons';
 
@@ -14,6 +14,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isOpen, setIsOpen, language }) => {
   const [expandedChapters, setExpandedChapters] = useState<Set<number>>(new Set());
+  const navRef = useRef<HTMLElement>(null);
 
   // Automatically expand the chapter containing the selected item
   useEffect(() => {
@@ -24,7 +25,37 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
             return newSet;
         });
     }
-  }, [selectedItem]);
+  }, [selectedItem.type, selectedItem.id]);
+
+  // Automatically scroll the selected item into view
+  useEffect(() => {
+    if (!isOpen) return;
+
+    // Use a timeout to allow for the expansion animation to complete or layout to settle
+    const timer = setTimeout(() => {
+      let elementId = '';
+      if (selectedItem.type === 'preamble') {
+        elementId = 'sidebar-item-preamble';
+      } else if (selectedItem.type === 'chapter') {
+        if (selectedItem.article) {
+             elementId = `sidebar-item-article-${selectedItem.article}`;
+        } else {
+             elementId = `sidebar-item-chapter-${selectedItem.id}`;
+        }
+      } else if (selectedItem.type === 'schedule') {
+        elementId = `sidebar-item-schedule-${selectedItem.id}`;
+      }
+
+      if (elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }, 350); // Slightly longer than the animation duration (300ms)
+
+    return () => clearTimeout(timer);
+  }, [selectedItem, isOpen]);
 
   const toggleChapter = (id: number) => {
     setExpandedChapters(prev => {
@@ -64,6 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
         return (
           <li key={article.number}>
             <button
+              id={`sidebar-item-article-${article.number}`}
               onClick={() => onSelectItem({ type: 'chapter', id: chapterId, article: article.number })}
               className={`group flex w-full items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
                 isSelected 
@@ -105,11 +137,12 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
         </div>
 
         {/* Navigation Content */}
-        <nav className="flex-1 overflow-y-auto p-3 space-y-6 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
+        <nav ref={navRef} className="flex-1 overflow-y-auto p-3 space-y-6 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600">
             
             {/* Preamble Section */}
             <div>
                 <button
+                    id="sidebar-item-preamble"
                     onClick={() => onSelectItem({ type: 'preamble', id: 'preamble' })}
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                         selectedItem.type === 'preamble' 
@@ -142,6 +175,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                                     : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
                                 }`}>
                                     <button 
+                                        id={`sidebar-item-chapter-${chapter.id}`}
                                         className="flex-1 text-left text-sm font-medium truncate pr-2"
                                         onClick={() => onSelectItem({ type: 'chapter', id: chapter.id })}
                                     >
@@ -150,27 +184,33 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                                     </button>
                                     <button 
                                         onClick={(e) => { e.stopPropagation(); toggleChapter(chapter.id); }}
-                                        className={`p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                                        className={`p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 text-gray-400 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
                                         aria-label={isExpanded ? "Collapse chapter" : "Expand chapter"}
                                     >
                                         <ChevronDownIcon className="w-4 h-4" />
                                     </button>
                                 </div>
 
-                                {isExpanded && (
-                                    <div className="ml-3 pl-3 border-l-2 border-gray-100 dark:border-gray-700 mt-1 mb-2 transition-all duration-300 ease-in-out">
-                                        {chapter.parts.map((part, idx) => (
-                                            <div key={idx} className="mt-2 first:mt-1">
-                                                {part.title && (
-                                                    <div className="px-3 py-1.5 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                                                        {part.title}
-                                                    </div>
-                                                )}
-                                                <ArticleList part={part} chapterId={chapter.id} />
-                                            </div>
-                                        ))}
+                                <div
+                                    className={`grid transition-[grid-template-rows,opacity] duration-300 ease-in-out ${
+                                        isExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                                    }`}
+                                >
+                                    <div className="overflow-hidden">
+                                        <div className="ml-3 pl-3 border-l-2 border-gray-100 dark:border-gray-700 mt-1 mb-2">
+                                            {chapter.parts.map((part, idx) => (
+                                                <div key={idx} className="mt-2 first:mt-1">
+                                                    {part.title && (
+                                                        <div className="px-3 py-1.5 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                                                            {part.title}
+                                                        </div>
+                                                    )}
+                                                    <ArticleList part={part} chapterId={chapter.id} />
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
-                                )}
+                                </div>
                             </div>
                         );
                     })}
@@ -188,6 +228,7 @@ const Sidebar: React.FC<SidebarProps> = ({ data, onSelectItem, selectedItem, isO
                          return (
                             <button
                                 key={schedule.id}
+                                id={`sidebar-item-schedule-${schedule.id}`}
                                 onClick={() => onSelectItem({ type: 'schedule', id: schedule.id })}
                                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-left transition-colors ${
                                     isSelected
