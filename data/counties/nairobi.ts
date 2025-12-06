@@ -1,3 +1,4 @@
+
 import type { County } from '../../types';
 
 export const nairobiCounty: County = {
@@ -7,15 +8,15 @@ export const nairobiCounty: County = {
   website: 'https://nairobi.go.ke/',
   departments: [
     'Finance and Economic Planning',
-    'Health, Wellness and Nutrition',
+    'Innovation and Digital Economy',
     'Talent, Skills Development and Care',
-    'Built Environment and Urban Planning',
     'Mobility and Works',
+    'Built Environment and Urban Planning',
     'Boroughs Administration and Personnel',
     'Business and Hustler Opportunities',
     'Green Nairobi (Environment, Water, Food and Agriculture)',
-    'Digital Economy and Startups',
-    'Innovation and Inclusivity'
+    'Health, Wellness and Nutrition',
+    'Inclusivity, Public Participation and Customer Service'
   ],
   constituencies: [
     'Westlands', 'Dagoretti North', 'Dagoretti South', 'Lang\'ata', 'Kibra',
@@ -23,7 +24,6 @@ export const nairobiCounty: County = {
     'Embakasi Central', 'Embakasi East', 'Embakasi West', 'Makadara', 'Kamukunji',
     'Starehe', 'Mathare'
   ],
-  // Fix: Add missing properties to satisfy the County type.
   population: '4,397,073 (2019 Census)',
   area: '696 km²',
   funFacts: [

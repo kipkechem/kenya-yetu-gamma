@@ -10,13 +10,10 @@ interface ErrorBoundaryState {
 }
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = {
-      hasError: false,
-      error: null,
-    };
-  }
+  public state: ErrorBoundaryState = {
+    hasError: false,
+    error: null,
+  };
 
   public static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error };
@@ -37,8 +34,8 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                     </svg>
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Something went wrong</h2>
-                <p className="text-gray-500 dark:text-gray-400 mb-6">
-                    We encountered an unexpected error. Please try refreshing the page.
+                <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm">
+                    {this.state.error?.message || "We encountered an unexpected error. Please try refreshing the page."}
                 </p>
                 <button
                     onClick={() => window.location.reload()}

@@ -1,7 +1,7 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import type { County } from '../types';
-import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon } from './icons';
+import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon, ChevronDoubleLeftIcon, InboxStackIcon } from './icons';
 import { dispatchNavigate } from '../utils/navigation';
 import { useLazyData } from '../hooks/useLazyData';
 import type { PolicyDocument } from '../data/knowledge-base/county-policies';
@@ -10,6 +10,8 @@ interface CountyDetailPageProps {
   county: County;
   onBack: () => void;
 }
+
+const INITIAL_DOCS_COUNT = 6;
 
 const StatCard: React.FC<{ icon: React.ReactNode, label: string, value: string }> = ({ icon, label, value }) => (
     <div className="bg-background dark:bg-dark-surface/50 p-4 rounded-2xl flex items-center">
@@ -26,7 +28,7 @@ const DocumentCard: React.FC<{ title: string; url: string }> = ({ title, url }) 
         href={url} 
         target="_blank" 
         rel="noopener noreferrer" 
-        className="group flex flex-col bg-background dark:bg-dark-surface/30 border border-border dark:border-dark-border hover:border-primary dark:hover:border-dark-primary rounded-xl p-4 transition-all duration-200 hover:shadow-md"
+        className="group flex flex-col bg-background dark:bg-dark-surface/30 border border-border dark:border-dark-border hover:border-primary dark:hover:border-dark-primary rounded-xl p-4 transition-all duration-200 hover:shadow-md h-full"
     >
         <div className="flex items-start justify-between mb-3">
              <div className="p-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-600 dark:text-blue-400">
@@ -34,12 +36,15 @@ const DocumentCard: React.FC<{ title: string; url: string }> = ({ title, url }) 
             </div>
             <ExternalLinkIcon className="h-4 w-4 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
         </div>
-        <h3 className="font-semibold text-sm text-on-surface dark:text-dark-on-surface line-clamp-2 mb-2">{title}</h3>
+        <h3 className="font-semibold text-sm text-on-surface dark:text-dark-on-surface line-clamp-3 mb-2">{title}</h3>
         <span className="text-xs font-medium text-primary dark:text-dark-primary mt-auto">View Document &rarr;</span>
     </a>
 );
 
 const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) => {
+  const [showAllDocs, setShowAllDocs] = useState(false);
+  const [docSearchTerm, setDocSearchTerm] = useState('');
+
   // Lazy load county policies
   const { data: countyPolicies, isLoading } = useLazyData<Record<string, PolicyDocument[]>>(
     'county-policies-data',
@@ -58,6 +63,11 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
     return normalizedName ? countyPolicies[normalizedName] : [];
   }, [countyPolicies, county.name]);
 
+  const filteredAllDocs = useMemo(() => {
+      if (!docSearchTerm) return policyDocuments;
+      return policyDocuments.filter(doc => doc.title.toLowerCase().includes(docSearchTerm.toLowerCase()));
+  }, [policyDocuments, docSearchTerm]);
+
 
   const handleViewLaws = () => {
     dispatchNavigate({
@@ -66,6 +76,51 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
     });
   };
 
+  // View: All Documents List
+  if (showAllDocs) {
+      return (
+          <div className="p-4 md:p-6 animate-fade-in max-w-7xl mx-auto min-h-full flex flex-col">
+              <div className="flex items-center gap-4 mb-8">
+                  <button 
+                      onClick={() => { setShowAllDocs(false); setDocSearchTerm(''); }}
+                      className="p-2 rounded-full bg-surface dark:bg-dark-surface hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors shadow-sm border border-border dark:border-dark-border"
+                  >
+                      <ChevronDoubleLeftIcon className="h-5 w-5" />
+                  </button>
+                  <div>
+                      <h1 className="text-2xl font-bold text-on-surface dark:text-dark-on-surface">Documents & Policies</h1>
+                      <p className="text-gray-500 dark:text-gray-400 text-sm">{county.name} County</p>
+                  </div>
+              </div>
+
+              <div className="mb-6 relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg>
+                  </div>
+                  <input
+                      type="text"
+                      placeholder="Search documents..."
+                      value={docSearchTerm}
+                      onChange={(e) => setDocSearchTerm(e.target.value)}
+                      className="block w-full pl-10 pr-4 py-3 bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none shadow-sm"
+                  />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pb-10">
+                  {filteredAllDocs.map((doc, index) => (
+                      <DocumentCard key={`${doc.title}-${index}-all`} title={doc.title} url={doc.url} />
+                  ))}
+                  {filteredAllDocs.length === 0 && (
+                      <div className="col-span-full text-center py-12 text-gray-500 dark:text-gray-400">
+                          No documents found matching "{docSearchTerm}".
+                      </div>
+                  )}
+              </div>
+          </div>
+      );
+  }
+
+  // View: Main County Detail
   return (
     <div className="p-4 md:p-6 animate-fade-in max-w-7xl mx-auto">
         <button 
@@ -127,13 +182,25 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
 
         {/* Development & Strategy Documents */}
         <div className="mb-8 bg-surface dark:bg-dark-surface p-6 rounded-2xl custom-shadow-lg border-l-4 border-primary dark:border-dark-primary">
-            <h2 className="text-xl font-bold mb-4 text-on-surface dark:text-dark-on-surface flex items-center">
-                <FileTextIcon className="h-5 w-5 mr-2 text-gray-500" />
-                Development & Strategy Documents
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm">
-                Key strategic planning documents including County Integrated Development Plans (CIDP), Annual Development Plans (ADP), and Budget Outlook Papers.
-            </p>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div>
+                    <h2 className="text-xl font-bold mb-1 text-on-surface dark:text-dark-on-surface flex items-center">
+                        <FileTextIcon className="h-5 w-5 mr-2 text-gray-500" />
+                        Development & Strategy Documents
+                    </h2>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">
+                        Key strategic planning documents (CIDP, ADP, CFSP).
+                    </p>
+                </div>
+                 {policyDocuments.length > INITIAL_DOCS_COUNT && (
+                    <button 
+                        onClick={() => setShowAllDocs(true)}
+                        className="text-sm font-semibold text-primary dark:text-dark-primary hover:underline whitespace-nowrap"
+                    >
+                        See all ({policyDocuments.length}) &rarr;
+                    </button>
+                )}
+            </div>
             
             {isLoading ? (
                  <div className="p-8 text-center">
@@ -141,10 +208,23 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
                     <p className="mt-2 text-gray-500 dark:text-gray-400 text-sm">Loading documents...</p>
                  </div>
             ) : policyDocuments.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {policyDocuments.map((doc, index) => (
-                        <DocumentCard key={`${doc.title}-${index}`} title={doc.title} url={doc.url} />
-                    ))}
+                <div className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {policyDocuments.slice(0, INITIAL_DOCS_COUNT).map((doc, index) => (
+                            <DocumentCard key={`${doc.title}-${index}`} title={doc.title} url={doc.url} />
+                        ))}
+                    </div>
+                     {policyDocuments.length > INITIAL_DOCS_COUNT && (
+                        <div className="text-center pt-2">
+                             <button 
+                                onClick={() => setShowAllDocs(true)}
+                                className="inline-flex items-center px-6 py-2.5 bg-primary/10 hover:bg-primary/20 text-primary dark:text-dark-primary rounded-full text-sm font-medium transition-colors"
+                            >
+                                <InboxStackIcon className="h-4 w-4 mr-2" />
+                                See more ({policyDocuments.length - INITIAL_DOCS_COUNT} others)
+                            </button>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="p-8 text-center bg-background dark:bg-dark-background/50 rounded-xl border border-dashed border-gray-300 dark:border-gray-700">

@@ -37,6 +37,13 @@ const proposalSections: {
         view: 'eib-projects'
     },
     {
+        title: 'Leadership',
+        description: "Find leaders by location (Governor, Senator, MP, MCA, etc.).",
+        icon: <UserGroupIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        isActionable: true,
+        view: 'leadership'
+    },
+    {
         title: 'Water Bodies',
         description: "Map of Kenya's major rivers, lakes, and ocean coastline.",
         icon: <GlobeAmericasIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
@@ -111,14 +118,14 @@ const ProjectsProposalsPage: React.FC<ProjectsProposalsPageProps> = ({ navigateT
         </p>
       </div>
       
-      <div className="flex flex-row flex-wrap justify-center gap-6 px-4 pb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 pb-10">
         {proposalSections.map((section) => {
             const CardWrapper = section.isActionable ? 'button' : 'div';
             return (
                 <CardWrapper
                     key={section.title}
                     onClick={section.isActionable && section.view ? () => navigateTo(section.view!) : undefined}
-                    className="bg-surface dark:bg-dark-surface p-6 rounded-3xl custom-shadow-lg flex flex-col text-left w-[240px] aspect-square relative hover:custom-shadow-xl hover:-translate-y-2 transform-gpu transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                    className="bg-surface dark:bg-dark-surface p-6 rounded-3xl custom-shadow-lg flex flex-col text-left w-full h-full min-h-[200px] relative hover:custom-shadow-xl hover:-translate-y-2 transform-gpu transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
                 >
                     {!section.isActionable && (
                         <div className="absolute top-4 right-4 bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300">
@@ -132,7 +139,7 @@ const ProjectsProposalsPage: React.FC<ProjectsProposalsPageProps> = ({ navigateT
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 flex-grow">{section.description}</p>
                     {section.isActionable && (
                          <div className="mt-4 text-sm font-semibold text-primary dark:text-dark-primary">
-                            Explore Map &rarr;
+                            Explore &rarr;
                         </div>
                     )}
                 </CardWrapper>

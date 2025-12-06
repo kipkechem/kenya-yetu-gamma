@@ -1,3 +1,4 @@
+
 import type { County } from '../../types';
 
 export const machakosCounty: County = {
@@ -7,20 +8,19 @@ export const machakosCounty: County = {
   website: 'http://www.machakosgovernment.com/',
   departments: [
     'Finance and Economic Planning',
-    'Health and Emergency Services',
-    'Agriculture, Food Security and Cooperatives',
-    'Education, Youth, Sports and Social Welfare',
+    'Gender, Youth, Sports and Social Welfare',
     'Lands, Urban Development, Housing and Energy',
-    'Trade, Industrialization and Innovation',
+    'Health',
+    'Environment, Natural Resources, Water and Sanitation',
+    'Agriculture, Food Security and Cooperatives',
+    'Education',
     'Roads, Transport and Public Works',
-    'Water, Irrigation, Environment and Climate Change',
-    'Devolution, Public Service and Administration',
-    'Tourism, Culture and Creative Arts'
+    'Trade, Culture, Tourism and Industrialization',
+    'Public Service, Quality Management and Devolved Units'
   ],
   constituencies: [
     'Machakos Town', 'Mavoko', 'Masinga', 'Yatta', 'Kangundo', 'Kathiani', 'Matungulu', 'Mwala'
   ],
-  // Fix: Add missing properties to satisfy the County type.
   population: '1,421,932 (2019 Census)',
   area: '6,208 km²',
   funFacts: [

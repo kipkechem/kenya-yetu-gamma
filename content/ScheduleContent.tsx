@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import ContentRenderer from '../components/ContentRenderer';
 import type { Schedule, SelectedItem } from '../types/index';
-import { ChatBubbleOvalLeftEllipsisIcon, FlagIcon } from '../components/icons';
+import { ChatBubbleOvalLeftEllipsisIcon, BookmarkIcon } from '../components/icons';
 
 interface ScheduleContentProps {
     schedule: Schedule;
@@ -14,13 +15,12 @@ interface ScheduleContentProps {
 
 const ScheduleContent: React.FC<ScheduleContentProps> = ({ schedule, searchTerm, onSelectItem, articleToChapterMap, language, summaries }) => {
     const [isTooltipVisible, setTooltipVisible] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(false);
     const summary = summaries[schedule.id];
 
-    const handleFeedback = (e: React.MouseEvent) => {
+    const toggleBookmark = (e: React.MouseEvent) => {
         e.preventDefault();
-        const subject = `Feedback on Constitution Content: ${schedule.title}`;
-        const body = `Hello,\n\nI have some feedback regarding the ${schedule.title}.\n\nSection: ${schedule.title}\nURL: ${window.location.origin}${window.location.pathname}#schedule-${schedule.id}\n\nMy feedback is:\n[Please type your feedback here]\n\nThank you.`;
-        window.location.href = `mailto:info@kenyayetu.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        setIsBookmarked(!isBookmarked);
     };
 
     if (!schedule) {
@@ -56,14 +56,17 @@ const ScheduleContent: React.FC<ScheduleContentProps> = ({ schedule, searchTerm,
                                 )}
                             </div>
                         )}
-                        <a 
-                            href="#" 
-                            onClick={handleFeedback} 
-                            title="Report an error or suggest an improvement"
-                            aria-label={`Report an error or suggest an improvement for ${schedule.title}`}
+                        <button
+                            onClick={toggleBookmark}
+                            title={isBookmarked ? "Remove bookmark" : "Bookmark Schedule"}
+                            className="focus:outline-none"
+                            aria-label={isBookmarked ? `Remove bookmark for ${schedule.title}` : `Bookmark ${schedule.title}`}
                         >
-                            <FlagIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer transition-colors" />
-                        </a>
+                            <BookmarkIcon 
+                                className={`h-5 w-5 transition-colors ${isBookmarked ? 'text-primary dark:text-dark-primary' : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300'}`} 
+                                solid={isBookmarked}
+                            />
+                        </button>
                     </div>
                 </div>
             </header>

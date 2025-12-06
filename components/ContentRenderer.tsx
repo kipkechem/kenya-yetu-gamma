@@ -1,10 +1,8 @@
 
-import React, { useState, memo, useMemo } from 'react';
+import React, { useState, memo } from 'react';
 import Highlight from './Highlight';
 import type { SelectedItem } from '../types/index';
 import { CopyIcon, CheckIcon } from './icons';
-import { dispatchNavigate } from '../utils/navigation';
-import { actsOfParliament } from '../data/legislation/acts';
 
 interface ContentRendererProps {
   text: string;
@@ -45,31 +43,12 @@ const swahiliScheduleNameToId: { [key: string]: string } = {
 const enLinkRegex = /((?:Article(?:s)?)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|((?:Part\s+([a-zA-Z0-9]+)\s+of\s+)?Chapter\s+([a-zA-Z0-9]+))|((First|Second|Third|Fourth|Fifth|Sixth)\s+Schedule)/gi;
 const swLinkRegex = /((?:Kifungu|Vifungu)\s+(\d+)(?:(?:\s*\([a-zA-Z0-9]+\))*))|((?:Sehemu\s+ya\s+([a-zA-Z0-9\s]+)\s+ya\s+)?Sura\s+ya\s+([a-zA-Z0-9\s]+))|((Jedwali\s+la\s+(Kwanza|Pili|Tatu|Nne|Tano|Sita)))/gi;
 
-// Optimization: Lazy initialization for Act Regex
-let cachedActRegex: RegExp | null = null;
-
-const getActRegex = () => {
-  if (cachedActRegex) return cachedActRegex;
-  
-  const actsList = Object.values(actsOfParliament).flat();
-  const actTitlesPattern = actsList
-    .filter(title => title && title.length > 3) // Basic filter to avoid very short matches
-    .map(title => title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape special characters
-    .sort((a, b) => b.length - a.length) // Match longer titles first
-    .join('|');
-
-  cachedActRegex = new RegExp(`\\b(${actTitlesPattern})\\b`, 'gi');
-  return cachedActRegex;
-};
-
 const ContentRenderer: React.FC<ContentRendererProps> = memo(({ text, highlight, onSelectItem, articleToChapterMap, language }) => {
   const [copiedArticle, setCopiedArticle] = useState<string | null>(null);
   
   if (!text) {
     return null;
   }
-
-  const actRegex = useMemo(() => getActRegex(), []);
   
   const handleCopyLink = (e: React.MouseEvent, articleNum: string) => {
     e.stopPropagation();
@@ -85,58 +64,18 @@ const ContentRenderer: React.FC<ContentRendererProps> = memo(({ text, highlight,
     });
   };
 
-  const handleActClick = (e: React.MouseEvent, actTitle: string) => {
-    e.preventDefault();
-    dispatchNavigate({
-      view: 'acts',
-      actsSearchTerm: actTitle,
-    });
-  };
-
-  const processTextForActs = (text: string): React.ReactNode[] => {
-    if (language !== 'en') {
-        return [<Highlight key={`text-non-en`} text={text} highlight={highlight} />];
-    }
-
-    const actElements: React.ReactNode[] = [];
-    let lastIndex = 0;
-    let actMatch;
-  
-    actRegex.lastIndex = 0; // Reset regex state
-    while ((actMatch = actRegex.exec(text)) !== null) {
-      if (actMatch.index > lastIndex) {
-        actElements.push(<Highlight key={`act-text-${lastIndex}`} text={text.substring(lastIndex, actMatch.index)} highlight={highlight} />);
-      }
-      
-      const matchedActText = actMatch[0];
-      actElements.push(
-        <a
-          key={`act-link-${actMatch.index}`}
-          href="#"
-          onClick={(e) => handleActClick(e, matchedActText)}
-          className="text-primary dark:text-dark-primary hover:underline font-semibold transition-colors"
-        >
-          <Highlight text={matchedActText} highlight={highlight} />
-        </a>
-      );
-      lastIndex = actRegex.lastIndex;
-    }
-  
-    if (lastIndex < text.length) {
-      actElements.push(<Highlight key={`act-text-${lastIndex}`} text={text.substring(lastIndex)} highlight={highlight} />);
-    }
-    return actElements;
-  };
-
-
   const renderArticleLink = (articleNum: string, linkText: string) => {
     const chapterId = articleToChapterMap.get(articleNum);
+    
+    // If we can't find the chapter, just highlight the text
     if (!chapterId) {
-      return processTextForActs(linkText);
+      return <Highlight text={linkText} highlight={highlight} />;
     }
+
     const titleText = language === 'sw' ? `Nakili kiungo cha Kifungu ${articleNum}` : `Copy link to Article ${articleNum}`;
+    
     return (
-      <span className="inline-flex items-center">
+      <span className="inline-flex items-center align-baseline">
         <a
           href={`#article-${articleNum}`}
           onClick={(e) => {
@@ -149,20 +88,19 @@ const ContentRenderer: React.FC<ContentRendererProps> = memo(({ text, highlight,
         </a>
         <button
           onClick={(e) => handleCopyLink(e, articleNum)}
-          className="ml-1 p-0.5 rounded text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-primary transition-colors"
+          className="ml-1 p-0.5 rounded text-gray-400 dark:text-gray-500 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-primary transition-colors opacity-50 hover:opacity-100"
           title={titleText}
           aria-label={titleText}
         >
           {copiedArticle === articleNum ? (
-            <CheckIcon className="h-4 w-4 text-primary dark:text-dark-primary" />
+            <CheckIcon className="h-3 w-3 text-primary dark:text-dark-primary" />
           ) : (
-            <CopyIcon className="h-4 w-4" />
+            <CopyIcon className="h-3 w-3" />
           )}
         </button>
       </span>
     );
   };
-
 
   const linkRegex = language === 'sw' ? swLinkRegex : enLinkRegex;
   const nextArticleRegex = language === 'sw'
@@ -177,8 +115,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = memo(({ text, highlight,
 
   while ((match = linkRegex.exec(text)) !== null) {
     if (match.index > lastIndex) {
-        const nonMatchText = text.substring(lastIndex, match.index);
-        elements.push(...processTextForActs(nonMatchText));
+        elements.push(<Highlight key={`text-${lastIndex}`} text={text.substring(lastIndex, match.index)} highlight={highlight} />);
     }
 
     const matchedText = match[0];
@@ -206,7 +143,7 @@ const ContentRenderer: React.FC<ContentRendererProps> = memo(({ text, highlight,
             const nextArticleNum = nextNumMatch[1];
             const fullNextMatchText = nextNumMatch[0].trim().replace(/^,/, '').replace(/^and/, '').replace(/^or/, '').replace(/^to/, '').replace(/^na/, '').replace(/^au/, '').replace(/^hadi/, '').trim();
             
-            elements.push(...processTextForActs(separatorWithWhitespace));
+            elements.push(<Highlight key={`sep-${localIndex}`} text={separatorWithWhitespace} highlight={highlight} />);
             elements.push(<React.Fragment key={`submatch-${localIndex}`}>{renderArticleLink(nextArticleNum, fullNextMatchText)}</React.Fragment>);
             
             localIndex += nextNumMatch[0].length;
@@ -277,14 +214,15 @@ const ContentRenderer: React.FC<ContentRendererProps> = memo(({ text, highlight,
     if (link) {
       elements.push(<React.Fragment key={`match-${match.index}`}>{link}</React.Fragment>);
     } else if (!articleBlock) { 
-      elements.push(...processTextForActs(matchedText));
+      // If we matched something but didn't create a link (e.g. invalid chapter number), render as text
+      elements.push(<Highlight key={`text-match-${match.index}`} text={matchedText} highlight={highlight} />);
     }
 
     lastIndex = linkRegex.lastIndex;
   }
 
   if (lastIndex < text.length) {
-    elements.push(...processTextForActs(text.substring(lastIndex)));
+     elements.push(<Highlight key={`text-end`} text={text.substring(lastIndex)} highlight={highlight} />);
   }
 
   return <>{elements}</>;

@@ -1,3 +1,4 @@
+
 import type { County } from '../../types';
 
 export const nakuruCounty: County = {
@@ -6,20 +7,20 @@ export const nakuruCounty: County = {
   capital: 'Nakuru',
   website: 'http://www.nakuru.go.ke/',
   departments: [
-    'Finance and Economic Planning',
-    'Health',
+    'Public Service Management',
+    'Health Services',
+    'Trade, Tourism and Cooperatives',
     'Agriculture, Livestock and Fisheries',
-    'Education, Youth, Gender, Sports and Culture',
-    'Lands, Housing and Physical Planning',
-    'Trade, Industrialization, Tourism and Co-operatives',
     'Infrastructure',
-    'Water, Environment, Energy and Natural Resources',
-    'Public Service, Training and Devolution'
+    'Education, ICT and e-Government',
+    'Lands, Physical Planning, Housing and Urban Development',
+    'Water and Environment',
+    'Youth, Gender, Culture, Sports and Social Services',
+    'Finance and Economic Planning'
   ],
   constituencies: [
     'Molo', 'Njoro', 'Naivasha', 'Gilgil', 'Kuresoi South', 'Kuresoi North', 'Subukia', 'Rongai', 'Bahati', 'Nakuru Town West', 'Nakuru Town East'
   ],
-  // Fix: Add missing properties to satisfy the County type.
   population: '2,162,202 (2019 Census)',
   area: '7,496.5 km²',
   funFacts: [

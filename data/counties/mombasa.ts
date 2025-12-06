@@ -1,3 +1,4 @@
+
 import type { County } from '../../types';
 
 export const mombasaCounty: County = {
@@ -7,20 +8,19 @@ export const mombasaCounty: County = {
   website: 'http://www.mombasa.go.ke/',
   departments: [
     'Finance and Economic Planning',
-    'Health and Sanitation Services',
-    'Education and Digital Transformation',
-    'Lands, Housing and Urban Planning',
-    'Public Service Administration, Youth, Gender, Social Services and Sports',
-    'Transport and Infrastructure',
+    'Health Services',
+    'Environment, Solid Waste Management and Energy',
     'Water, Natural Resources and Climate Change Resilience',
-    'Tourism, Culture and Trade',
-    'Agriculture, Livestock Development and Fisheries',
-    'Blue Economy'
+    'Transport and Infrastructure',
+    'Education and Digital Transformation',
+    'Lands, Urban Renewal and Housing',
+    'Trade, Tourism and Culture',
+    'Agriculture, Livestock, Blue Economy and Fisheries',
+    'Public Service Administration, Youth, Gender, Social Services and Sports'
   ],
   constituencies: [
     'Changamwe', 'Jomvu', 'Kisauni', 'Nyali', 'Likoni', 'Mvita'
   ],
-  // Fix: Add missing properties to satisfy the County type.
   population: '1,208,333 (2019 Census)',
   area: '219 km²',
   funFacts: [

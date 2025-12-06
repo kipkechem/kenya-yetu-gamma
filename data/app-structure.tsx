@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
     BookOpenIcon, HomeIcon, LinkIcon, UsersIcon, MailIcon, MapIcon, 
@@ -30,13 +29,25 @@ export const appStructure: AppRoute[] = [
     },
     {
         view: 'kenya-laws',
-        title: { en: 'Laws & Governance', sw: 'Sheria na Utawala' },
+        title: { en: 'Laws', sw: 'Sheria' },
         description: { 
             en: 'Explore the Constitution of Kenya and various Acts of Parliament.',
             sw: 'Chunguza Katiba ya Kenya na Sheria mbalimbali za Bunge.'
         },
         icon: BookOpenIcon,
         backgroundImage: 'https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1920&auto=format&fit=crop',
+        inSidebar: true,
+        inHomeGrid: true
+    },
+    {
+        view: 'governance',
+        title: { en: 'Governance', sw: 'Utawala' },
+        description: { 
+            en: 'Explore the Legislature, Executive, Judiciary, and other governance structures.',
+            sw: 'Chunguza Bunge, Serikali Kuu, Mahakama, na miundo mingine ya utawala.'
+        },
+        icon: BuildingLibraryIcon,
+        backgroundImage: 'https://images.unsplash.com/photo-1596422846543-75c6a1966c22?q=80&w=1920&auto=format&fit=crop',
         inSidebar: true,
         inHomeGrid: true
     },

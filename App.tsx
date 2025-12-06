@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import React, { useState, useEffect, useCallback, Suspense, useRef, useLayoutEffect } from 'react';
 import type { AppView, Theme, NavigationPayload } from './types';
 import MainSidebar from './components/MainSidebar';
 import UniversalHeader from './components/UniversalHeader';
@@ -24,7 +24,7 @@ const getViewFromHash = (hash: string): AppView => {
     }
 
     // Check if hash matches a known route
-    if (routes[cleanHash]) {
+    if (cleanHash in routes) {
         return cleanHash as AppView;
     }
 
@@ -56,6 +56,9 @@ const App: React.FC = () => {
     });
     const [isTransitioning, setIsTransitioning] = useState(false);
 
+    // Scroll container ref for resetting scroll position
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         localStorage.setItem('sidebarCollapsed', String(isMainSidebarCollapsed));
     }, [isMainSidebarCollapsed]);
@@ -86,6 +89,13 @@ const App: React.FC = () => {
 
         window.addEventListener('hashchange', handleHashChange);
         return () => window.removeEventListener('hashchange', handleHashChange);
+    }, [activeView]);
+
+    // Scroll Reset on View Change
+    useLayoutEffect(() => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollTop = 0;
+        }
     }, [activeView]);
 
     // Handle Command Palette shortcut (Ctrl+K or Cmd+K)
@@ -182,7 +192,7 @@ const App: React.FC = () => {
         const specificProps: Record<string, any> = {
             'constitution': { searchTerm },
             'acts': { searchTerm: actsSearchTerm, onSearchChange: setActsSearchTerm },
-            'act-detail': { actTitle: selectedActTitle },
+            'act-detail': { actTitle: selectedActTitle, articleToChapterMap: new Map() }, // Passing empty map initially, logic handled inside page if needed or lazy loaded
             'county-laws': { initialSearchTerm: countyLawsSearchTerm },
         };
 
@@ -251,7 +261,7 @@ const App: React.FC = () => {
                         />
                     )}
                     
-                    <div className="flex-1 overflow-y-auto scroll-smooth">
+                    <div ref={scrollContainerRef} className="flex-1 overflow-y-auto scroll-smooth">
                         <div className="min-h-full">
                             <div key={activeView} className="page-enter h-full">
                                 <Suspense fallback={<LoadingSpinner />}>

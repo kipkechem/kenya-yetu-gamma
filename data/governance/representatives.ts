@@ -3,51 +3,543 @@
 import type { Representative } from '../../types';
 
 export const representativesData: Representative[] = [
+  // --- National Executive ---
   {
     name: 'William Samoei Ruto',
     position: 'President',
-    party: 'United Democratic Alliance (UDA)',
+    party: 'UDA',
     imageUrl: 'https://placehold.co/400x400/EBF5FB/1F618D?text=WR'
   },
   {
     name: 'Rigathi Gachagua',
     position: 'Deputy President',
-    party: 'United Democratic Alliance (UDA)',
+    party: 'UDA',
     imageUrl: 'https://placehold.co/400x400/EBF5FB/1F618D?text=RG'
   },
-  {
-    name: 'Johnson Sakaja',
-    position: 'Governor',
-    county: 'Nairobi City',
-    party: 'United Democratic Alliance (UDA)',
-    imageUrl: 'https://placehold.co/400x400/EBF5FB/1F618D?text=JS'
-  },
-  {
-    name: 'Edwin Sifuna',
-    position: 'Senator',
-    county: 'Nairobi City',
-    party: 'Orange Democratic Movement (ODM)',
-    imageUrl: 'https://placehold.co/400x400/FADBD8/B03A2E?text=ES'
-  },
-  {
-    name: 'Esther Passaris',
-    position: 'Woman Representative',
-    county: 'Nairobi City',
-    party: 'Orange Democratic Movement (ODM)',
-    imageUrl: 'https://placehold.co/400x400/FADBD8/B03A2E?text=EP'
-  },
-  {
-    name: 'Abdulswamad Shariff Nassir',
-    position: 'Governor',
-    county: 'Mombasa',
-    party: 'Orange Democratic Movement (ODM)',
-    imageUrl: 'https://placehold.co/400x400/FADBD8/B03A2E?text=ASN'
-  },
-    {
-    name: 'Anyang\' Nyong\'o',
-    position: 'Governor',
-    county: 'Kisumu',
-    party: 'Orange Democratic Movement (ODM)',
-    imageUrl: 'https://placehold.co/400x400/FADBD8/B03A2E?text=AN'
-  },
+
+  // --- 001 MOMBASA ---
+  { county: 'Mombasa', position: 'Governor', name: 'Abdulswamad Shariff Nassir', party: 'ODM', imageUrl: 'https://placehold.co/400x400/FADBD8/B03A2E?text=ASN' },
+  { county: 'Mombasa', position: 'Senator', name: 'Mohamed Faki Mwinyihaji', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MF' },
+  { county: 'Mombasa', position: 'Woman Representative', name: 'Zamzam Mohamed', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=ZM' },
+  { county: 'Mombasa', position: 'Member of Parliament', constituency: 'Changamwe', name: 'Omar Mwinyi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OM' },
+  { county: 'Mombasa', position: 'Member of Parliament', constituency: 'Jomvu', name: 'Bady Twalib', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BT' },
+  { county: 'Mombasa', position: 'Member of Parliament', constituency: 'Kisauni', name: 'Rashid Bedzimba', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RB' },
+  { county: 'Mombasa', position: 'Member of Parliament', constituency: 'Nyali', name: 'Mohamed Ali', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MA' },
+  { county: 'Mombasa', position: 'Member of Parliament', constituency: 'Likoni', name: 'Mishi Mboko', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MM' },
+  { county: 'Mombasa', position: 'Member of Parliament', constituency: 'Mvita', name: 'Mohamed Soud Machele', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MSM' },
+
+  // --- 002 KWALE ---
+  { county: 'Kwale', position: 'Governor', name: 'Fatuma Achani', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FA' },
+  { county: 'Kwale', position: 'Senator', name: 'Issa Juma Boy', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=IJB' },
+  { county: 'Kwale', position: 'Woman Representative', name: 'Fatuma Masito', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FM' },
+  { county: 'Kwale', position: 'Member of Parliament', constituency: 'Msambweni', name: 'Feisal Bader', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FB' },
+  { county: 'Kwale', position: 'Member of Parliament', constituency: 'Lungalunga', name: 'Mangale Munga Chiforomodo', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MMC' },
+  { county: 'Kwale', position: 'Member of Parliament', constituency: 'Matuga', name: 'Kassim Sawa Tandaza', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KST' },
+  { county: 'Kwale', position: 'Member of Parliament', constituency: 'Kinango', name: 'Gonzi Rai', party: 'PAA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GR' },
+
+  // --- 003 KILIFI ---
+  { county: 'Kilifi', position: 'Governor', name: 'Gideon Mung\'aro', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GM' },
+  { county: 'Kilifi', position: 'Senator', name: 'Stewart Madzayo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SM' },
+  { county: 'Kilifi', position: 'Woman Representative', name: 'Gertrude Mbeyu', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GM' },
+  { county: 'Kilifi', position: 'Member of Parliament', constituency: 'Kilifi North', name: 'Owen Baya', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OB' },
+  { county: 'Kilifi', position: 'Member of Parliament', constituency: 'Kilifi South', name: 'Ken Chonga', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KC' },
+  { county: 'Kilifi', position: 'Member of Parliament', constituency: 'Kaloleni', name: 'Paul Katana', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PK' },
+  { county: 'Kilifi', position: 'Member of Parliament', constituency: 'Rabai', name: 'Anthony Kenga Mupe', party: 'PAA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AKM' },
+  { county: 'Kilifi', position: 'Member of Parliament', constituency: 'Ganze', name: 'Kenneth Kazungu Tungule', party: 'PAA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KKT' },
+  { county: 'Kilifi', position: 'Member of Parliament', constituency: 'Malindi', name: 'Amina Mnyazi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AM' },
+  { county: 'Kilifi', position: 'Member of Parliament', constituency: 'Magarini', name: 'Harrison Kombe', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=HK' },
+
+  // --- 004 TANA RIVER ---
+  { county: 'Tana River', position: 'Governor', name: 'Dhadho Godhana', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DG' },
+  { county: 'Tana River', position: 'Senator', name: 'Danson Mungatana', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DM' },
+  { county: 'Tana River', position: 'Woman Representative', name: 'Amina Dika', party: 'KANU', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AD' },
+  { county: 'Tana River', position: 'Member of Parliament', constituency: 'Garsen', name: 'Ali Wario Guyo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AWG' },
+  { county: 'Tana River', position: 'Member of Parliament', constituency: 'Galole', name: 'Said Hiribae', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SH' },
+  { county: 'Tana River', position: 'Member of Parliament', constituency: 'Bura', name: 'Yakub Adow Kuno', party: 'UPIA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=YAK' },
+
+  // --- 005 LAMU ---
+  { county: 'Lamu', position: 'Governor', name: 'Issa Timamy', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=IT' },
+  { county: 'Lamu', position: 'Senator', name: 'Joseph Githuku', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JG' },
+  { county: 'Lamu', position: 'Woman Representative', name: 'Muthoni Marubu', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MM' },
+  { county: 'Lamu', position: 'Member of Parliament', constituency: 'Lamu East', name: 'Ruweida Obo', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RO' },
+  { county: 'Lamu', position: 'Member of Parliament', constituency: 'Lamu West', name: 'Stanley Muthama', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SM' },
+
+  // --- 006 TAITA TAVETA ---
+  { county: 'Taita/Taveta', position: 'Governor', name: 'Andrew Mwadime', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AM' },
+  { county: 'Taita/Taveta', position: 'Senator', name: 'Jones Mwaruma', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Taita/Taveta', position: 'Woman Representative', name: 'Lydia Haika', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=LH' },
+  { county: 'Taita/Taveta', position: 'Member of Parliament', constituency: 'Taveta', name: 'John Bwire', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JB' },
+  { county: 'Taita/Taveta', position: 'Member of Parliament', constituency: 'Wundanyi', name: 'Danson Mwashako', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DM' },
+  { county: 'Taita/Taveta', position: 'Member of Parliament', constituency: 'Mwatate', name: 'Peter Shake', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PS' },
+  { county: 'Taita/Taveta', position: 'Member of Parliament', constituency: 'Voi', name: 'Khamis Chome', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KC' },
+
+  // --- 007 GARISSA ---
+  { county: 'Garissa', position: 'Governor', name: 'Nathif Jama', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NJ' },
+  { county: 'Garissa', position: 'Senator', name: 'Abdul Haji', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AH' },
+  { county: 'Garissa', position: 'Woman Representative', name: 'Udgoon Siyad', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=US' },
+  { county: 'Garissa', position: 'Member of Parliament', constituency: 'Garissa Township', name: 'Dekow Mohamed', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DM' },
+  { county: 'Garissa', position: 'Member of Parliament', constituency: 'Balambala', name: 'Abdi Shurie', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AS' },
+  { county: 'Garissa', position: 'Member of Parliament', constituency: 'Lagdera', name: 'Abdikadir Hussein Mohamed', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AHM' },
+  { county: 'Garissa', position: 'Member of Parliament', constituency: 'Dadaab', name: 'Farah Maalim', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FM' },
+  { county: 'Garissa', position: 'Member of Parliament', constituency: 'Fafi', name: 'Salah Yakub', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SY' },
+  { county: 'Garissa', position: 'Member of Parliament', constituency: 'Ijara', name: 'Abdi Ali Abdi', party: 'NAP-K', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AAA' },
+
+  // --- 008 WAJIR ---
+  { county: 'Wajir', position: 'Governor', name: 'Ahmed Abdullahi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AA' },
+  { county: 'Wajir', position: 'Senator', name: 'Abass Sheikh Mohamed', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=ASM' },
+  { county: 'Wajir', position: 'Woman Representative', name: 'Fatuma Jehow', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FJ' },
+  { county: 'Wajir', position: 'Member of Parliament', constituency: 'Wajir North', name: 'Ibrahim Abdi Saney', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=IAS' },
+  { county: 'Wajir', position: 'Member of Parliament', constituency: 'Wajir East', name: 'Adan Daud', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AD' },
+  { county: 'Wajir', position: 'Member of Parliament', constituency: 'Tarbaj', name: 'Hussein Abdi Barre', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=HAB' },
+  { county: 'Wajir', position: 'Member of Parliament', constituency: 'Wajir West', name: 'Yusuf Farah', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=YF' },
+  { county: 'Wajir', position: 'Member of Parliament', constituency: 'Eldas', name: 'Adan Keynan', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AK' },
+  { county: 'Wajir', position: 'Member of Parliament', constituency: 'Wajir South', name: 'Mohamed Adow', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MA' },
+
+  // --- 009 MANDERA ---
+  { county: 'Mandera', position: 'Governor', name: 'Mohamed Adan Khalif', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MAK' },
+  { county: 'Mandera', position: 'Senator', name: 'Ali Roba', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AR' },
+  { county: 'Mandera', position: 'Woman Representative', name: 'Umulkheir Kassim', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=UK' },
+  { county: 'Mandera', position: 'Member of Parliament', constituency: 'Mandera West', name: 'Yussuf Adan Haji', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=YAH' },
+  { county: 'Mandera', position: 'Member of Parliament', constituency: 'Banissa', name: 'Kullow Maalim Hassan', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KMH' },
+  { county: 'Mandera', position: 'Member of Parliament', constituency: 'Mandera North', name: 'Bashir Abdullahi', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BA' },
+  { county: 'Mandera', position: 'Member of Parliament', constituency: 'Mandera South', name: 'Abdul Ebrahim Haro', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AEH' },
+  { county: 'Mandera', position: 'Member of Parliament', constituency: 'Mandera East', name: 'Abdirahman Husseinweytan', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AH' },
+  { county: 'Mandera', position: 'Member of Parliament', constituency: 'Lafey', name: 'Mohamed Abdi Abdirahman', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MAA' },
+
+  // --- 010 MARSABIT ---
+  { county: 'Marsabit', position: 'Governor', name: 'Mohamud Ali', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MA' },
+  { county: 'Marsabit', position: 'Senator', name: 'Mohamed Chute', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MC' },
+  { county: 'Marsabit', position: 'Woman Representative', name: 'Naomi Waqo', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NW' },
+  { county: 'Marsabit', position: 'Member of Parliament', constituency: 'Moyale', name: 'Guyo Jaldesa', party: 'UPIA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GJ' },
+  { county: 'Marsabit', position: 'Member of Parliament', constituency: 'North Horr', name: 'Wario Guyo Adhe', party: 'KANU', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WGA' },
+  { county: 'Marsabit', position: 'Member of Parliament', constituency: 'Saku', name: 'Dido Ali Raso', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DAR' },
+  { county: 'Marsabit', position: 'Member of Parliament', constituency: 'Laisamis', name: 'Joseph Lekuton', party: 'UDM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JL' },
+
+  // --- 011 ISIOLO ---
+  { county: 'Isiolo', position: 'Governor', name: 'Abdi Guyo', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AG' },
+  { county: 'Isiolo', position: 'Senator', name: 'Fatuma Dullo', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FD' },
+  { county: 'Isiolo', position: 'Woman Representative', name: 'Mumina Bonaya', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MB' },
+  { county: 'Isiolo', position: 'Member of Parliament', constituency: 'Isiolo North', name: 'Samal Lomwa', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SL' },
+  { county: 'Isiolo', position: 'Member of Parliament', constituency: 'Isiolo South', name: 'Mohamed Tubi', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MT' },
+
+  // --- 012 MERU ---
+  { county: 'Meru', position: 'Governor', name: 'Kawira Mwangaza', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KM' },
+  { county: 'Meru', position: 'Senator', name: 'Kathuri Murungi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KM' },
+  { county: 'Meru', position: 'Woman Representative', name: 'Elizabeth Kailemia', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EK' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'Igembe South', name: 'John Paul Mwirigi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JPM' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'Igembe Central', name: 'Dan Kiili', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DK' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'Igembe North', name: 'Julius Taitumu', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JT' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'Tigania West', name: 'John Mutunga', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'Tigania East', name: 'Mpuru Aburi', party: 'NOPEU', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MA' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'North Imenti', name: 'Rahim Dawood', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RD' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'Buuri', name: 'Mugambi Rindikiri', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MR' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'Central Imenti', name: 'Moses Kirima', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
+  { county: 'Meru', position: 'Member of Parliament', constituency: 'South Imenti', name: 'Shadrack Mwiti', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SM' },
+
+  // --- 013 THARAKA NITHI ---
+  { county: 'Tharaka-Nithi', position: 'Governor', name: 'Muthomi Njuki', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MN' },
+  { county: 'Tharaka-Nithi', position: 'Senator', name: 'Mwenda Gataya', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MG' },
+  { county: 'Tharaka-Nithi', position: 'Woman Representative', name: 'Susan Ngugi', party: 'TSP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SN' },
+  { county: 'Tharaka-Nithi', position: 'Member of Parliament', constituency: 'Maara', name: 'Kareke Mbiuki', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KM' },
+  { county: 'Tharaka-Nithi', position: 'Member of Parliament', constituency: 'Chuka/Igambang\'ombe', name: 'Patrick Munene', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PM' },
+  { county: 'Tharaka-Nithi', position: 'Member of Parliament', constituency: 'Tharaka', name: 'George Murugara', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GM' },
+
+  // --- 014 EMBU ---
+  { county: 'Embu', position: 'Governor', name: 'Cecily Mbarire', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CM' },
+  { county: 'Embu', position: 'Senator', name: 'Alexander Mundigi', party: 'DP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AM' },
+  { county: 'Embu', position: 'Woman Representative', name: 'Pamela Njoki', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PN' },
+  { county: 'Embu', position: 'Member of Parliament', constituency: 'Manyatta', name: 'Gitonga Mukunji', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GM' },
+  { county: 'Embu', position: 'Member of Parliament', constituency: 'Runyenjes', name: 'Eric Muchangi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EM' },
+  { county: 'Embu', position: 'Member of Parliament', constituency: 'Mbeere South', name: 'Bernhard Muriuki', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BM' },
+  { county: 'Embu', position: 'Member of Parliament', constituency: 'Mbeere North', name: 'Geoffrey Ruku', party: 'DP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GR' },
+
+  // --- 015 KITUI ---
+  { county: 'Kitui', position: 'Governor', name: 'Julius Malombe', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Kitui', position: 'Senator', name: 'Enoch Wambua', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EW' },
+  { county: 'Kitui', position: 'Woman Representative', name: 'Irene Kasalu', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=IK' },
+  { county: 'Kitui', position: 'Member of Parliament', constituency: 'Mwingi North', name: 'Paul Nzengu', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PN' },
+  { county: 'Kitui', position: 'Member of Parliament', constituency: 'Mwingi West', name: 'Charles Nguna', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CN' },
+  { county: 'Kitui', position: 'Member of Parliament', constituency: 'Mwingi Central', name: 'Gideon Mulyungi', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GM' },
+  { county: 'Kitui', position: 'Member of Parliament', constituency: 'Kitui West', name: 'Edith Nyenze', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EN' },
+  { county: 'Kitui', position: 'Member of Parliament', constituency: 'Kitui Rural', name: 'David Mwalika', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DM' },
+  { county: 'Kitui', position: 'Member of Parliament', constituency: 'Kitui Central', name: 'Makali Mulu', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MM' },
+  { county: 'Kitui', position: 'Member of Parliament', constituency: 'Kitui East', name: 'Nimrod Mbai', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NM' },
+  { county: 'Kitui', position: 'Member of Parliament', constituency: 'Kitui South', name: 'Rachael Nyamai', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RN' },
+
+  // --- 016 MACHAKOS ---
+  { county: 'Machakos', position: 'Governor', name: 'Wavinya Ndeti', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WN' },
+  { county: 'Machakos', position: 'Senator', name: 'Agnes Kavindu', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AK' },
+  { county: 'Machakos', position: 'Woman Representative', name: 'Joyce Kamene', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Machakos', position: 'Member of Parliament', constituency: 'Masinga', name: 'Joshua Mwalyo', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Machakos', position: 'Member of Parliament', constituency: 'Yatta', name: 'Robert Basil', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RB' },
+  { county: 'Machakos', position: 'Member of Parliament', constituency: 'Kangundo', name: 'Fabian Muli', party: 'GDDP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FM' },
+  { county: 'Machakos', position: 'Member of Parliament', constituency: 'Matungulu', name: 'Stephen Mule', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SM' },
+  { county: 'Machakos', position: 'Member of Parliament', constituency: 'Kathiani', name: 'Robert Mbui', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RM' },
+  { county: 'Machakos', position: 'Member of Parliament', constituency: 'Mavoko', name: 'Patrick Makau', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PM' },
+  { county: 'Machakos', position: 'Member of Parliament', constituency: 'Machakos Town', name: 'Caleb Mule', party: 'Maendeleo Chap Chap', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CM' },
+  { county: 'Machakos', position: 'Member of Parliament', constituency: 'Mwala', name: 'Vincent Musyoka', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=VM' },
+
+  // --- 017 MAKUENI ---
+  { county: 'Makueni', position: 'Governor', name: 'Mutula Kilonzo Jr.', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MKJ' },
+  { county: 'Makueni', position: 'Senator', name: 'Daniel Maanzo', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DM' },
+  { county: 'Makueni', position: 'Woman Representative', name: 'Rose Museo', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RM' },
+  { county: 'Makueni', position: 'Member of Parliament', constituency: 'Mbooni', name: 'Erastus Kivasu', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EK' },
+  { county: 'Makueni', position: 'Member of Parliament', constituency: 'Kilome', name: 'Thuddeus Nzambia', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TN' },
+  { county: 'Makueni', position: 'Member of Parliament', constituency: 'Kaiti', name: 'Joshua Kimilu', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Makueni', position: 'Member of Parliament', constituency: 'Makueni', name: 'Suzanne Kiamba', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SK' },
+  { county: 'Makueni', position: 'Member of Parliament', constituency: 'Kibwezi West', name: 'Mwengi Mutuse', party: 'Maendeleo Chap Chap', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MM' },
+  { county: 'Makueni', position: 'Member of Parliament', constituency: 'Kibwezi East', name: 'Jessica Mbalu', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+
+  // --- 018 NYANDARUA ---
+  { county: 'Nyandarua', position: 'Governor', name: 'Kiarie Badilisha', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KB' },
+  { county: 'Nyandarua', position: 'Senator', name: 'John Methu', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Nyandarua', position: 'Woman Representative', name: 'Faith Gitau', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FG' },
+  { county: 'Nyandarua', position: 'Member of Parliament', constituency: 'Kinangop', name: 'Kwenya Thuku', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KT' },
+  { county: 'Nyandarua', position: 'Member of Parliament', constituency: 'Kipipiri', name: 'Wanjiku Muhia', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WM' },
+  { county: 'Nyandarua', position: 'Member of Parliament', constituency: 'Ol Kalou', name: 'David Kiaraho', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DK' },
+  { county: 'Nyandarua', position: 'Member of Parliament', constituency: 'Ol Jorok', name: 'Michael Muchira', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MM' },
+  { county: 'Nyandarua', position: 'Member of Parliament', constituency: 'Ndaragwa', name: 'George Gachagua', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GG' },
+
+  // --- 019 NYERI ---
+  { county: 'Nyeri', position: 'Governor', name: 'Mutahi Kahiga', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
+  { county: 'Nyeri', position: 'Senator', name: 'Wahome Wamatinga', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WW' },
+  { county: 'Nyeri', position: 'Woman Representative', name: 'Rahab Mukami', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RM' },
+  { county: 'Nyeri', position: 'Member of Parliament', constituency: 'Tetu', name: 'Geoffrey Wandeto', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GW' },
+  { county: 'Nyeri', position: 'Member of Parliament', constituency: 'Kieni', name: 'Njoroge Wainaina', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NW' },
+  { county: 'Nyeri', position: 'Member of Parliament', constituency: 'Mathira', name: 'Eric Wamumbi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EW' },
+  { county: 'Nyeri', position: 'Member of Parliament', constituency: 'Othaya', name: 'Wambugu Wainaina', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WW' },
+  { county: 'Nyeri', position: 'Member of Parliament', constituency: 'Mukurweini', name: 'John Kaguchia', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Nyeri', position: 'Member of Parliament', constituency: 'Nyeri Town', name: 'Duncan Maina Mathenge', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DMM' },
+
+  // --- 020 KIRINYAGA ---
+  { county: 'Kirinyaga', position: 'Governor', name: 'Anne Waiguru', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AW' },
+  { county: 'Kirinyaga', position: 'Senator', name: 'Kamau Murango', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KM' },
+  { county: 'Kirinyaga', position: 'Woman Representative', name: 'Njeri Maina', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NM' },
+  { county: 'Kirinyaga', position: 'Member of Parliament', constituency: 'Mwea', name: 'Mary Maingi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MM' },
+  { county: 'Kirinyaga', position: 'Member of Parliament', constituency: 'Gichugu', name: 'Robert Gichimu', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RG' },
+  { county: 'Kirinyaga', position: 'Member of Parliament', constituency: 'Ndia', name: 'George Kariuki', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GK' },
+  { county: 'Kirinyaga', position: 'Member of Parliament', constituency: 'Kirinyaga Central', name: 'Joseph Gachoki', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JG' },
+
+  // --- 021 MURANG'A ---
+  { county: "Murang'a", position: 'Governor', name: 'Irungu Kang\'ata', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=IK' },
+  { county: "Murang'a", position: 'Senator', name: 'Joe Nyutu', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JN' },
+  { county: "Murang'a", position: 'Woman Representative', name: 'Betty Maina', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BM' },
+  { county: "Murang'a", position: 'Member of Parliament', constituency: 'Kangema', name: 'Peter Kihungi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PK' },
+  { county: "Murang'a", position: 'Member of Parliament', constituency: 'Mathioya', name: 'Edwin Mugo', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EM' },
+  { county: "Murang'a", position: 'Member of Parliament', constituency: 'Kiharu', name: 'Ndindi Nyoro', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NN' },
+  { county: "Murang'a", position: 'Member of Parliament', constituency: 'Kigumo', name: 'Joseph Munyoro', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: "Murang'a", position: 'Member of Parliament', constituency: 'Maragwa', name: 'Mary Waithira', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MW' },
+  { county: "Murang'a", position: 'Member of Parliament', constituency: 'Kandara', name: 'Chege Njuguna', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CN' },
+  { county: "Murang'a", position: 'Member of Parliament', constituency: 'Gatanga', name: 'Edward Muriu', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EM' },
+
+  // --- 022 KIAMBU ---
+  { county: 'Kiambu', position: 'Governor', name: 'Kimani Wamatangi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KW' },
+  { county: 'Kiambu', position: 'Senator', name: 'Karungo Thang\'wa', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KT' },
+  { county: 'Kiambu', position: 'Woman Representative', name: 'Anne Wamuratha', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AW' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Gatundu South', name: 'Gabriel Kagombe', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GK' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Gatundu North', name: 'Elijah Njoroge', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EN' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Juja', name: 'George Koimburi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GK' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Thika Town', name: 'Alice Ng\'ang\'a', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AN' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Ruiru', name: 'Simon King\'ara', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SK' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Githunguri', name: 'Gathoni Wamuchomba', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GW' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Kiambu', name: 'John Machua', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Kiambaa', name: 'Njuguna Wanjiku', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NW' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Kabete', name: 'Githua Wamacukuru', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GW' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Kikuyu', name: 'Kimani Ichung\'wah', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KI' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Limuru', name: 'John Kiragu', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Kiambu', position: 'Member of Parliament', constituency: 'Lari', name: 'Mburu Kahangara', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
+
+  // --- 023 TURKANA ---
+  { county: 'Turkana', position: 'Governor', name: 'Jeremiah Lomorukai', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JL' },
+  { county: 'Turkana', position: 'Senator', name: 'James Lomenen', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JL' },
+  { county: 'Turkana', position: 'Woman Representative', name: 'Cecilia Ngitit', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CN' },
+  { county: 'Turkana', position: 'Member of Parliament', constituency: 'Turkana North', name: 'Paul Ekuom', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PE' },
+  { county: 'Turkana', position: 'Member of Parliament', constituency: 'Turkana West', name: 'Daniel Epuyo', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DE' },
+  { county: 'Turkana', position: 'Member of Parliament', constituency: 'Turkana Central', name: 'Joseph Emathe', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JE' },
+  { county: 'Turkana', position: 'Member of Parliament', constituency: 'Loima', name: 'Protus Akuja', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PA' },
+  { county: 'Turkana', position: 'Member of Parliament', constituency: 'Turkana South', name: 'John Ariko', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JA' },
+  { county: 'Turkana', position: 'Member of Parliament', constituency: 'Turkana East', name: 'Nicholas Ngikor', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NN' },
+
+  // --- 024 WEST POKOT ---
+  { county: 'West Pokot', position: 'Governor', name: 'Simon Kachapin', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SK' },
+  { county: 'West Pokot', position: 'Senator', name: 'Julius Murgor', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'West Pokot', position: 'Woman Representative', name: 'Rael Kasiwai', party: 'KUP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RK' },
+  { county: 'West Pokot', position: 'Member of Parliament', constituency: 'Kapenguria', name: 'Samuel Moroto', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SM' },
+  { county: 'West Pokot', position: 'Member of Parliament', constituency: 'Sigor', name: 'Peter Lochakapong', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PL' },
+  { county: 'West Pokot', position: 'Member of Parliament', constituency: 'Kacheliba', name: 'Titus Lotee', party: 'KUP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TL' },
+  { county: 'West Pokot', position: 'Member of Parliament', constituency: 'Pokot South', name: 'David Pkosing', party: 'KUP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DP' },
+
+  // --- 025 SAMBURU ---
+  { county: 'Samburu', position: 'Governor', name: 'Lati Lelelit', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=LL' },
+  { county: 'Samburu', position: 'Senator', name: 'Steve Lelegwe', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SL' },
+  { county: 'Samburu', position: 'Woman Representative', name: 'Pauline Lenguris', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PL' },
+  { county: 'Samburu', position: 'Member of Parliament', constituency: 'Samburu West', name: 'Naisula Lesuuda', party: 'KANU', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NL' },
+  { county: 'Samburu', position: 'Member of Parliament', constituency: 'Samburu North', name: 'Eli Letipila', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EL' },
+  { county: 'Samburu', position: 'Member of Parliament', constituency: 'Samburu East', name: 'Jackson Lekumontare', party: 'KANU', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JL' },
+
+  // --- 026 TRANS NZOIA ---
+  { county: 'Trans Nzoia', position: 'Governor', name: 'George Natembeya', party: 'DAP-K', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GN' },
+  { county: 'Trans Nzoia', position: 'Senator', name: 'Allan Chesang', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AC' },
+  { county: 'Trans Nzoia', position: 'Woman Representative', name: 'Lilian Siyoi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=LS' },
+  { county: 'Trans Nzoia', position: 'Member of Parliament', constituency: 'Kwanza', name: 'Ferdinand Wanyonyi', party: 'Ford Kenya', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FW' },
+  { county: 'Trans Nzoia', position: 'Member of Parliament', constituency: 'Endebess', name: 'Robert Pukose', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RP' },
+  { county: 'Trans Nzoia', position: 'Member of Parliament', constituency: 'Saboti', name: 'Caleb Amisi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CA' },
+  { county: 'Trans Nzoia', position: 'Member of Parliament', constituency: 'Kiminini', name: 'Kakai Bisau', party: 'DAP-K', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KB' },
+  { county: 'Trans Nzoia', position: 'Member of Parliament', constituency: 'Cherangany', name: 'Patrick Simiyu', party: 'DAP-K', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PS' },
+
+  // --- 027 UASIN GISHU ---
+  { county: 'Uasin Gishu', position: 'Governor', name: 'Jonathan Bii', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JB' },
+  { county: 'Uasin Gishu', position: 'Senator', name: 'Jackson Mandago', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Uasin Gishu', position: 'Woman Representative', name: 'Gladys Shollei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GS' },
+  { county: 'Uasin Gishu', position: 'Member of Parliament', constituency: 'Soy', name: 'David Kiplagat', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DK' },
+  { county: 'Uasin Gishu', position: 'Member of Parliament', constituency: 'Turbo', name: 'Janet Sitienei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JS' },
+  { county: 'Uasin Gishu', position: 'Member of Parliament', constituency: 'Moiben', name: 'Phyllis Bartoo', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PB' },
+  { county: 'Uasin Gishu', position: 'Member of Parliament', constituency: 'Ainabkoi', name: 'Samuel Chepkonga', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SC' },
+  { county: 'Uasin Gishu', position: 'Member of Parliament', constituency: 'Kapseret', name: 'Oscar Sudi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OS' },
+  { county: 'Uasin Gishu', position: 'Member of Parliament', constituency: 'Kesses', name: 'Julius Rutto', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JR' },
+
+  // --- 028 ELGEYO MARAKWET ---
+  { county: 'Elgeyo/Marakwet', position: 'Governor', name: 'Wisley Rotich', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WR' },
+  { county: 'Elgeyo/Marakwet', position: 'Senator', name: 'William Kisang', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WK' },
+  { county: 'Elgeyo/Marakwet', position: 'Woman Representative', name: 'Caroline Ngelechei', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CN' },
+  { county: 'Elgeyo/Marakwet', position: 'Member of Parliament', constituency: 'Marakwet East', name: 'Kangogo Bowen', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KB' },
+  { county: 'Elgeyo/Marakwet', position: 'Member of Parliament', constituency: 'Marakwet West', name: 'Timothy Kipchumba', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TK' },
+  { county: 'Elgeyo/Marakwet', position: 'Member of Parliament', constituency: 'Keiyo North', name: 'Adams Kipsanai', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AK' },
+  { county: 'Elgeyo/Marakwet', position: 'Member of Parliament', constituency: 'Keiyo South', name: 'Gideon Kimaiyo', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GK' },
+
+  // --- 029 NANDI ---
+  { county: 'Nandi', position: 'Governor', name: 'Stephen Sang', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SS' },
+  { county: 'Nandi', position: 'Senator', name: 'Samson Cherargei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SC' },
+  { county: 'Nandi', position: 'Woman Representative', name: 'Cynthia Muge', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CM' },
+  { county: 'Nandi', position: 'Member of Parliament', constituency: 'Tinderet', name: 'Julius Melly', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Nandi', position: 'Member of Parliament', constituency: 'Aldai', name: 'Marianne Kitany', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
+  { county: 'Nandi', position: 'Member of Parliament', constituency: 'Nandi Hills', name: 'Bernard Kitur', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BK' },
+  { county: 'Nandi', position: 'Member of Parliament', constituency: 'Chesumei', name: 'Paul Biego', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PB' },
+  { county: 'Nandi', position: 'Member of Parliament', constituency: 'Emgwen', name: 'Josses Lelmengit', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JL' },
+  { county: 'Nandi', position: 'Member of Parliament', constituency: 'Mosop', name: 'Abraham Kirwa', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AK' },
+
+  // --- 030 BARINGO ---
+  { county: 'Baringo', position: 'Governor', name: 'Benjamin Cheboi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BC' },
+  { county: 'Baringo', position: 'Senator', name: 'William Cheptumo', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WC' },
+  { county: 'Baringo', position: 'Woman Representative', name: 'Florence Jematia', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FJ' },
+  { county: 'Baringo', position: 'Member of Parliament', constituency: 'Baringo Central', name: 'Joshua Kandie', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Baringo', position: 'Member of Parliament', constituency: 'Baringo North', name: 'Joseph Makilap', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Baringo', position: 'Member of Parliament', constituency: 'Baringo South', name: 'Charles Kamuren', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CK' },
+  { county: 'Baringo', position: 'Member of Parliament', constituency: 'Eldama Ravine', name: 'Musa Sirma', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MS' },
+  { county: 'Baringo', position: 'Member of Parliament', constituency: 'Mogotio', name: 'Reuben Kiborek', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RK' },
+  { county: 'Baringo', position: 'Member of Parliament', constituency: 'Tiaty', name: 'William Kamket', party: 'KANU', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WK' },
+
+  // --- 031 LAIKIPIA ---
+  { county: 'Laikipia', position: 'Governor', name: 'Joshua Irungu', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JI' },
+  { county: 'Laikipia', position: 'Senator', name: 'John Kinyua', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Laikipia', position: 'Woman Representative', name: 'Jane Kagiri', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Laikipia', position: 'Member of Parliament', constituency: 'Laikipia East', name: 'Mwangi Kiunjuri', party: 'TSP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
+  { county: 'Laikipia', position: 'Member of Parliament', constituency: 'Laikipia North', name: 'Sarah Korere', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SK' },
+  { county: 'Laikipia', position: 'Member of Parliament', constituency: 'Laikipia West', name: 'Stephen Karani', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SK' },
+
+  // --- 032 NAKURU ---
+  { county: 'Nakuru', position: 'Governor', name: 'Susan Kihika', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SK' },
+  { county: 'Nakuru', position: 'Senator', name: 'Tabitha Karanja', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TK' },
+  { county: 'Nakuru', position: 'Woman Representative', name: 'Liza Chelule', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=LC' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Molo', name: 'Kuria Kimani', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KK' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Njoro', name: 'Charity Kathambi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CK' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Naivasha', name: 'Jayne Kihara', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Gilgil', name: 'Martha Wangari', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MW' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Kuresoi South', name: 'Joseph Tonui', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JT' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Kuresoi North', name: 'Alfred Mutai', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AM' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Subukia', name: 'Samuel Gachobe', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SG' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Rongai', name: 'Paul Chebor', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PC' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Bahati', name: 'Irene Njoki', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=IN' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Nakuru Town West', name: 'Samuel Arama', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SA' },
+  { county: 'Nakuru', position: 'Member of Parliament', constituency: 'Nakuru Town East', name: 'David Gikaria', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DG' },
+
+  // --- 033 NAROK ---
+  { county: 'Narok', position: 'Governor', name: 'Patrick Ole Ntutu', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PON' },
+  { county: 'Narok', position: 'Senator', name: 'Ledama Olekina', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=LO' },
+  { county: 'Narok', position: 'Woman Representative', name: 'Rebecca Tonkei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RT' },
+  { county: 'Narok', position: 'Member of Parliament', constituency: 'Kilgoris', name: 'Julius Sunkuli', party: 'KANU', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JS' },
+  { county: 'Narok', position: 'Member of Parliament', constituency: 'Emurua Dikirr', name: 'Johana Ngeno', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JN' },
+  { county: 'Narok', position: 'Member of Parliament', constituency: 'Narok North', name: 'Agnes Pareyio', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AP' },
+  { county: 'Narok', position: 'Member of Parliament', constituency: 'Narok East', name: 'Ken Aramat', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KA' },
+  { county: 'Narok', position: 'Member of Parliament', constituency: 'Narok South', name: 'Kitilai ole Ntutu', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KN' },
+  { county: 'Narok', position: 'Member of Parliament', constituency: 'Narok West', name: 'Gabriel Tongoyo', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GT' },
+
+  // --- 034 KAJIADO ---
+  { county: 'Kajiado', position: 'Governor', name: 'Joseph Ole Lenku', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JOL' },
+  { county: 'Kajiado', position: 'Senator', name: 'Samuel Seki', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SS' },
+  { county: 'Kajiado', position: 'Woman Representative', name: 'Leah Sankaire', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=LS' },
+  { county: 'Kajiado', position: 'Member of Parliament', constituency: 'Kajiado Central', name: 'Elijah Memusi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EM' },
+  { county: 'Kajiado', position: 'Member of Parliament', constituency: 'Kajiado East', name: 'Kakuta Maimai', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KM' },
+  { county: 'Kajiado', position: 'Member of Parliament', constituency: 'Kajiado North', name: 'Onesmus Ngogoyo', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=ON' },
+  { county: 'Kajiado', position: 'Member of Parliament', constituency: 'Kajiado South', name: 'Samuel Parashina', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SP' },
+  { county: 'Kajiado', position: 'Member of Parliament', constituency: 'Kajiado West', name: 'George Sunkuyia', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GS' },
+
+  // --- 035 KERICHO ---
+  { county: 'Kericho', position: 'Governor', name: 'Erick Mutai', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EM' },
+  { county: 'Kericho', position: 'Senator', name: 'Aaron Cheruiyot', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AC' },
+  { county: 'Kericho', position: 'Woman Representative', name: 'Beatrice Kemei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BK' },
+  { county: 'Kericho', position: 'Member of Parliament', constituency: 'Ainamoi', name: 'Benjamin Langat', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BL' },
+  { county: 'Kericho', position: 'Member of Parliament', constituency: 'Belgut', name: 'Nelson Koech', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NK' },
+  { county: 'Kericho', position: 'Member of Parliament', constituency: 'Bureti', name: 'Kibetary Mutai', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KM' },
+  { county: 'Kericho', position: 'Member of Parliament', constituency: 'Kipkelion East', name: 'Joseph Cherorot', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JC' },
+  { county: 'Kericho', position: 'Member of Parliament', constituency: 'Kipkelion West', name: 'Hilary Kosgei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=HK' },
+  { county: 'Kericho', position: 'Member of Parliament', constituency: 'Soin/Sigowet', name: 'Justice Kemei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+
+  // --- 036 BOMET ---
+  { county: 'Bomet', position: 'Governor', name: 'Hillary Barchok', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=HB' },
+  { county: 'Bomet', position: 'Senator', name: 'Hillary Sigei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=HS' },
+  { county: 'Bomet', position: 'Woman Representative', name: 'Linet Chepkorir', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=LC' },
+  { county: 'Bomet', position: 'Member of Parliament', constituency: 'Bomet Central', name: 'Richard Kilel', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RK' },
+  { county: 'Bomet', position: 'Member of Parliament', constituency: 'Bomet East', name: 'Richard Yegon', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RY' },
+  { county: 'Bomet', position: 'Member of Parliament', constituency: 'Chepalungu', name: 'Victor Koech', party: 'CCM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=VK' },
+  { county: 'Bomet', position: 'Member of Parliament', constituency: 'Konoin', name: 'Brighton Yegon', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BY' },
+  { county: 'Bomet', position: 'Member of Parliament', constituency: 'Sotik', name: 'Francis Sigei', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FS' },
+
+  // --- 037 KAKAMEGA ---
+  { county: 'Kakamega', position: 'Governor', name: 'Fernandes Barasa', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FB' },
+  { county: 'Kakamega', position: 'Senator', name: 'Boni Khalwale', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BK' },
+  { county: 'Kakamega', position: 'Woman Representative', name: 'Elsie Muhanda', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EM' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Butere', name: 'Tindi Mwale', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TM' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Khwisero', name: 'Christopher Aseka', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CA' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Likuyani', name: 'Innocent Mugabe', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=IM' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Lugari', name: 'Nabii Nabwera', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=NN' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Lurambi', name: 'Titus Khamala', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TK' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Malava', name: 'Malulu Injendi', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MI' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Matungu', name: 'Oscar Nabulindo', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=ON' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Mumias East', name: 'Peter Salasya', party: 'DAP-K', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PS' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Mumias West', name: 'Johnson Naicca', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JN' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Navakholo', name: 'Emmanuel Wangwe', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EW' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Shinyalu', name: 'Fred Ikana', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FI' },
+  { county: 'Kakamega', position: 'Member of Parliament', constituency: 'Ikolomani', name: 'Benard Shinali', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BS' },
+
+  // --- 038 VIHIGA ---
+  { county: 'Vihiga', position: 'Governor', name: 'Wilber Ottichilo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WO' },
+  { county: 'Vihiga', position: 'Senator', name: 'Godfrey Osotsi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GO' },
+  { county: 'Vihiga', position: 'Woman Representative', name: 'Beatrice Adagala', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BA' },
+  { county: 'Vihiga', position: 'Member of Parliament', constituency: 'Vihiga', name: 'Ernest Kagesi', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EK' },
+  { county: 'Vihiga', position: 'Member of Parliament', constituency: 'Sabatia', name: 'Clement Sloya', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CS' },
+  { county: 'Vihiga', position: 'Member of Parliament', constituency: 'Hamisi', name: 'Charles Gimose', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CG' },
+  { county: 'Vihiga', position: 'Member of Parliament', constituency: 'Luanda', name: 'Dick Maungu', party: 'DAP-K', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DM' },
+  { county: 'Vihiga', position: 'Member of Parliament', constituency: 'Emuhaya', name: 'Omboko Milemba', party: 'ANC', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OM' },
+
+  // --- 039 BUNGOMA ---
+  { county: 'Bungoma', position: 'Governor', name: 'Kenneth Lusaka', party: 'Ford Kenya', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=KL' },
+  { county: 'Bungoma', position: 'Senator', name: 'David Wakoli', party: 'Ford Kenya', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DW' },
+  { county: 'Bungoma', position: 'Woman Representative', name: 'Catherine Wambilianga', party: 'Ford Kenya', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CW' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Bumula', name: 'Jack Wamboka', party: 'DAP-K', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JW' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Kabuchai', name: 'Majimbo Kalasinga', party: 'Ford Kenya', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Kanduyi', name: 'John Makali', party: 'Ford Kenya', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Kimilili', name: 'Didmus Barasa', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DB' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Mt. Elgon', name: 'Fred Kapondi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FK' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Sirisia', name: 'John Waluke', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JW' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Tongaren', name: 'John Chikati', party: 'Ford Kenya', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JC' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Webuye East', name: 'Martin Wanyonyi', party: 'Ford Kenya', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MW' },
+  { county: 'Bungoma', position: 'Member of Parliament', constituency: 'Webuye West', name: 'Dan Wanyama', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DW' },
+
+  // --- 040 BUSIA ---
+  { county: 'Busia', position: 'Governor', name: 'Paul Otuoma', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PO' },
+  { county: 'Busia', position: 'Senator', name: 'Okiya Omtatah', party: 'NRA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OO' },
+  { county: 'Busia', position: 'Woman Representative', name: 'Catherine Omanyo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CO' },
+  { county: 'Busia', position: 'Member of Parliament', constituency: 'Budalang\'i', name: 'Raphael Wanjala', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RW' },
+  { county: 'Busia', position: 'Member of Parliament', constituency: 'Butula', name: 'Joseph Oyula', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JO' },
+  { county: 'Busia', position: 'Member of Parliament', constituency: 'Funyula', name: 'Wilberforce Oundo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WO' },
+  { county: 'Busia', position: 'Member of Parliament', constituency: 'Nambale', name: 'Geoffrey Mulanya', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GM' },
+  { county: 'Busia', position: 'Member of Parliament', constituency: 'Teso North', name: 'Oku Kaunya', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OK' },
+  { county: 'Busia', position: 'Member of Parliament', constituency: 'Teso South', name: 'Mary Emaase', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=ME' },
+  { county: 'Busia', position: 'Member of Parliament', constituency: 'Matayos', name: 'Geoffrey Odanga', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GO' },
+
+  // --- 041 SIAYA ---
+  { county: 'Siaya', position: 'Governor', name: 'James Orengo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JO' },
+  { county: 'Siaya', position: 'Senator', name: 'Oburu Oginga', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OO' },
+  { county: 'Siaya', position: 'Woman Representative', name: 'Christine Ombaka', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CO' },
+  { county: 'Siaya', position: 'Member of Parliament', constituency: 'Ugenya', name: 'David Ochieng', party: 'MDG', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DO' },
+  { county: 'Siaya', position: 'Member of Parliament', constituency: 'Ugunja', name: 'Opiyo Wandayi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OW' },
+  { county: 'Siaya', position: 'Member of Parliament', constituency: 'Alego Usonga', name: 'Samuel Atandi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SA' },
+  { county: 'Siaya', position: 'Member of Parliament', constituency: 'Gem', name: 'Elisha Odhiambo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EO' },
+  { county: 'Siaya', position: 'Member of Parliament', constituency: 'Bondo', name: 'Gideon Ochanda', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GO' },
+  { county: 'Siaya', position: 'Member of Parliament', constituency: 'Rarieda', name: 'Otiende Amollo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OA' },
+
+  // --- 042 KISUMU ---
+  { county: 'Kisumu', position: 'Governor', name: 'Anyang\' Nyong\'o', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AN' },
+  { county: 'Kisumu', position: 'Senator', name: 'Tom Ojienda', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TO' },
+  { county: 'Kisumu', position: 'Woman Representative', name: 'Ruth Odinga', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RO' },
+  { county: 'Kisumu', position: 'Member of Parliament', constituency: 'Kisumu East', name: 'Shakeel Shabbir', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SS' },
+  { county: 'Kisumu', position: 'Member of Parliament', constituency: 'Kisumu West', name: 'Rosa Buyu', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RB' },
+  { county: 'Kisumu', position: 'Member of Parliament', constituency: 'Kisumu Central', name: 'Joshua Oron', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JO' },
+  { county: 'Kisumu', position: 'Member of Parliament', constituency: 'Seme', name: 'James Nyikal', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JN' },
+  { county: 'Kisumu', position: 'Member of Parliament', constituency: 'Nyando', name: 'Jared Okello', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JO' },
+  { county: 'Kisumu', position: 'Member of Parliament', constituency: 'Muhoroni', name: 'James Onyango K\'oyoo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JOK' },
+  { county: 'Kisumu', position: 'Member of Parliament', constituency: 'Nyakach', name: 'Aduma Owuor', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AO' },
+
+  // --- 043 HOMA BAY ---
+  { county: 'Homa Bay', position: 'Governor', name: 'Gladys Wanga', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GW' },
+  { county: 'Homa Bay', position: 'Senator', name: 'Moses Kajwang', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
+  { county: 'Homa Bay', position: 'Woman Representative', name: 'Joyce Osogo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JO' },
+  { county: 'Homa Bay', position: 'Member of Parliament', constituency: 'Homa Bay Town', name: 'Peter Kaluma', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PK' },
+  { county: 'Homa Bay', position: 'Member of Parliament', constituency: 'Kabondo Kasipul', name: 'Eve Obara', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EO' },
+  { county: 'Homa Bay', position: 'Member of Parliament', constituency: 'Karachuonyo', name: 'Adipo Okuome', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AO' },
+  { county: 'Homa Bay', position: 'Member of Parliament', constituency: 'Kasipul', name: 'Ong\'ondo Were', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OW' },
+  { county: 'Homa Bay', position: 'Member of Parliament', constituency: 'Ndhiwa', name: 'Martin Owino', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MO' },
+  { county: 'Homa Bay', position: 'Member of Parliament', constituency: 'Rangwe', name: 'Lilian Gogo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=LG' },
+  { county: 'Homa Bay', position: 'Member of Parliament', constituency: 'Suba North', name: 'Millie Odhiambo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MO' },
+  { county: 'Homa Bay', position: 'Member of Parliament', constituency: 'Suba South', name: 'Caroli Omondi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CO' },
+
+  // --- 044 MIGORI ---
+  { county: 'Migori', position: 'Governor', name: 'Ochillo Ayacko', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OA' },
+  { county: 'Migori', position: 'Senator', name: 'Eddy Oketch', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EO' },
+  { county: 'Migori', position: 'Woman Representative', name: 'Fatuma Mohamed', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=FM' },
+  { county: 'Migori', position: 'Member of Parliament', constituency: 'Rongo', name: 'Paul Abuor', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PA' },
+  { county: 'Migori', position: 'Member of Parliament', constituency: 'Awendo', name: 'Walter Owino', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=WO' },
+  { county: 'Migori', position: 'Member of Parliament', constituency: 'Suna East', name: 'Junet Mohamed', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Migori', position: 'Member of Parliament', constituency: 'Suna West', name: 'Peter Masara', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PM' },
+  { county: 'Migori', position: 'Member of Parliament', constituency: 'Uriri', name: 'Mark Nyamita', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MN' },
+  { county: 'Migori', position: 'Member of Parliament', constituency: 'Nyatike', name: 'Tom Odege', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TO' },
+  { county: 'Migori', position: 'Member of Parliament', constituency: 'Kuria West', name: 'Mathias Robi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MR' },
+  { county: 'Migori', position: 'Member of Parliament', constituency: 'Kuria East', name: 'Marwa Kitayama', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
+
+  // --- 045 KISII ---
+  { county: 'Kisii', position: 'Governor', name: 'Simba Arati', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SA' },
+  { county: 'Kisii', position: 'Senator', name: 'Richard Onyonka', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RO' },
+  { county: 'Kisii', position: 'Woman Representative', name: 'Dorice Donya', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DD' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'Bobasi', name: 'Innocent Obiri', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=IO' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'Bomachoge Borabu', name: 'Obadiah Barongo', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OB' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'Bomachoge Chache', name: 'Alfa Miruka', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AM' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'Bonchari', name: 'Charles Onchoke', party: 'UPA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CO' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'Kitutu Chache North', name: 'Japheth Nyakundi', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JN' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'Kitutu Chache South', name: 'Anthony Kibagendi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AK' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'Nyaribari Chache', name: 'Zaheer Jhanda', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=ZJ' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'Nyaribari Masaba', name: 'Daniel Manduku', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=DM' },
+  { county: 'Kisii', position: 'Member of Parliament', constituency: 'South Mugirango', name: 'Sylvanus Osoro', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SO' },
+
+  // --- 046 NYAMIRA ---
+  { county: 'Nyamira', position: 'Governor', name: 'Amos Nyaribo', party: 'UPA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AN' },
+  { county: 'Nyamira', position: 'Senator', name: 'Okong\'o Omogeni', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=OO' },
+  { county: 'Nyamira', position: 'Woman Representative', name: 'Jerusha Momanyi', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Nyamira', position: 'Member of Parliament', constituency: 'Kitutu Masaba', name: 'Clive Ombane', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=CO' },
+  { county: 'Nyamira', position: 'Member of Parliament', constituency: 'North Mugirango', name: 'Joash Nyamoko', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JN' },
+  { county: 'Nyamira', position: 'Member of Parliament', constituency: 'West Mugirango', name: 'Stephen Mogaka', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SM' },
+  { county: 'Nyamira', position: 'Member of Parliament', constituency: 'Borabu', name: 'Patrick Osero', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PO' },
+
+  // --- 047 NAIROBI CITY ---
+  { county: 'Nairobi City', position: 'Governor', name: 'Johnson Sakaja', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JS' },
+  { county: 'Nairobi City', position: 'Senator', name: 'Edwin Sifuna', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=ES' },
+  { county: 'Nairobi City', position: 'Woman Representative', name: 'Esther Passaris', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=EP' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Westlands', name: 'Tim Wanyonyi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TW' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Dagoretti North', name: 'Beatrice Elachi', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BE' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Dagoretti South', name: 'John Kiarie', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JK' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Lang\'ata', name: 'Phelix Odiwuor (Jalang\'o)', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PO' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Kibra', name: 'Peter Orero', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=PO' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Roysambu', name: 'Augustine Kamande', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AK' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Kasarani', name: 'Ronald Karauri', party: 'Independent', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=RK' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Ruaraka', name: 'Tom Kajwang', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=TK' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Embakasi South', name: 'Julius Mawathe', party: 'Wiper', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JM' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Embakasi North', name: 'James Gakuya', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=JG' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Embakasi Central', name: 'Benjamin Gathiru', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BG' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Embakasi East', name: 'Babu Owino', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=BO' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Embakasi West', name: 'Mark Mwenje', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MM' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Makadara', name: 'George Aladwa', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=GA' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Kamukunji', name: 'Yusuf Hassan', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=YH' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Starehe', name: 'Amos Mwago', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AM' },
+  { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Mathare', name: 'Anthony Oluoch', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AO' }
 ];
+

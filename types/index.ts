@@ -43,8 +43,8 @@ export interface ConstitutionData {
   schedules: Schedule[];
 }
 
-// FIX: Add 'national-policy' to the AppView type to allow navigation to this view.
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'projects-proposals' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long' | 'viewcount' | 'chat' | 'eib-projects';
+// FIX: Add 'national-policy' and 'governance' to the AppView type to allow navigation to these views.
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'chat' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long' | 'viewcount' | 'eib-projects' | 'projects-proposals' | 'leadership' | 'governance';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -87,6 +87,7 @@ export interface Representative {
   party: string;
   imageUrl: string;
   county?: string;
+  constituency?: string;
 }
 
 export interface PrincipalSecretary {

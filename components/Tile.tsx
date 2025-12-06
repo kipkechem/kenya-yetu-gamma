@@ -28,7 +28,7 @@ const Tile: React.FC<TileProps> = ({ section, navigateTo, className = "" }) => {
             <h2 className="mt-4 md:mt-6 text-base md:text-xl font-bold text-on-surface dark:text-dark-on-surface line-clamp-2 group-hover:text-primary dark:group-hover:text-dark-primary transition-colors">
                 {section.title}
             </h2>
-            <p className="mt-2 text-xs md:text-sm text-gray-500 dark:text-gray-400 flex-grow line-clamp-3 hidden md:block leading-relaxed">
+            <p className="mt-2 text-xs md:text-sm text-gray-500 dark:text-gray-400 flex-grow line-clamp-3 block leading-relaxed">
                 {section.description}
             </p>
             <div className="mt-auto pt-4 flex items-center text-sm font-semibold text-gray-400 group-hover:text-primary dark:group-hover:text-dark-primary transition-colors duration-300">

@@ -1,3 +1,4 @@
+
 import type { County } from '../../types';
 
 export const nyeriCounty: County = {
@@ -9,17 +10,17 @@ export const nyeriCounty: County = {
     'Finance and Economic Planning',
     'Health Services',
     'Agriculture, Livestock and Fisheries',
-    'Education and Sports',
+    'Education, Sports, Science and Technology',
     'Lands, Physical Planning, Housing and Urbanization',
-    'Trade, Tourism, Culture and Cooperatives',
+    'Trade, Tourism, Culture and Cooperative Development',
     'Transport, Public Works, Infrastructure and Energy',
     'Water, Irrigation, Environment and Climate Change',
-    'County Public Service, Administration and Communication'
+    'County Public Service, Administration and Youth Affairs',
+    'Gender, Youth and Social Services'
   ],
   constituencies: [
     'Tetu', 'Kieni', 'Mathira', 'Othaya', 'Mukurwe-ini', 'Nyeri Town'
   ],
-  // Fix: Add missing properties to satisfy the County type.
   population: '759,164 (2019 Census)',
   area: '3,337.1 km²',
   funFacts: [

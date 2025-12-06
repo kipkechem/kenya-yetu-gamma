@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo } from 'react';
-import { PresentationChartLineIcon, HierarchyIcon, MapPinIcon, ChevronDoubleRightIcon } from '../components/icons';
+import { PresentationChartLineIcon, HierarchyIcon, ChevronDoubleRightIcon } from '../components/icons';
 import type { County } from '../types/index';
 import CountyDetailPage from '../components/CountyDetailPage';
 import { dispatchNavigate } from '../utils/navigation';
@@ -100,23 +100,25 @@ const ProjectsPage: React.FC = () => {
 
                 <main className="space-y-3 pb-12">
                     {!searchTerm && (
-                        <button 
-                            onClick={handleNationalClick}
-                            className="w-full bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border-2 border-primary/20 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-all duration-200 flex items-center justify-between group mb-6"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center">
-                                        <HierarchyIcon className="h-6 w-6" />
+                        <div className="mb-6">
+                            <button 
+                                onClick={handleNationalClick}
+                                className="w-full bg-primary/5 dark:bg-primary/10 p-4 rounded-xl border-2 border-primary/20 hover:border-primary hover:bg-primary/10 dark:hover:bg-primary/20 transition-all duration-200 flex items-center justify-between group"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center">
+                                            <HierarchyIcon className="h-6 w-6" />
+                                    </div>
+                                    <div className="text-left">
+                                        <h3 className="text-base font-bold text-on-surface dark:text-dark-on-surface">National Policies</h3>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">Vision 2030, MTP IV & BETA</p>
+                                    </div>
                                 </div>
-                                <div className="text-left">
-                                    <h3 className="text-base font-bold text-on-surface dark:text-dark-on-surface">National Policies</h3>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">Vision 2030, MTP IV & BETA</p>
+                                <div className="text-primary dark:text-dark-primary">
+                                    <ChevronDoubleRightIcon className="h-5 w-5" />
                                 </div>
-                            </div>
-                            <div className="text-primary dark:text-dark-primary">
-                                <ChevronDoubleRightIcon className="h-5 w-5" />
-                            </div>
-                        </button>
+                            </button>
+                        </div>
                     )}
 
                     <h2 className="text-lg font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3 pl-2">

@@ -43,7 +43,7 @@ export interface ConstitutionData {
   schedules: Schedule[];
 }
 
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'chat' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long' | 'viewcount' | 'eib-projects' | 'projects-proposals';
+export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'chat' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long' | 'viewcount' | 'eib-projects' | 'projects-proposals' | 'leadership' | 'governance';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -86,6 +86,7 @@ export interface Representative {
   party: string;
   imageUrl: string;
   county?: string;
+  constituency?: string;
 }
 
 export interface PrincipalSecretary {

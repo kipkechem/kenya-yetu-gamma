@@ -5,6 +5,7 @@ import type { AppView } from '../types';
 // Lazy load components
 const HomePage = lazy(() => import('../pages/HomePage'));
 const KenyaLawsPage = lazy(() => import('../pages/KenyaLawsPage'));
+const GovernancePage = lazy(() => import('../pages/GovernancePage'));
 const ConstitutionExplorer = lazy(() => import('../pages/ConstitutionExplorer'));
 const ProjectsProposalsPage = lazy(() => import('../pages/ProjectsProposalsPage'));
 const ProjectsPage = lazy(() => import('../pages/ProjectsPage'));
@@ -29,7 +30,7 @@ const ViewCountPage = lazy(() => import('../pages/ViewCountPage'));
 const ChatPage = lazy(() => import('../pages/ChatPage'));
 const EIBProjectsPage = lazy(() => import('../pages/EIBProjectsPage'));
 const CountyExplorerPage = lazy(() => import('../pages/CountyExplorerPage'));
-// const InfoMapPage = lazy(() => import('../pages/InfoMapPage')); // Keeping if needed, but mapping to projects-proposals mostly
+const LeadershipPage = lazy(() => import('../pages/LeadershipPage'));
 
 interface RouteConfig {
   component: React.LazyExoticComponent<React.ComponentType<any>>;
@@ -37,23 +38,25 @@ interface RouteConfig {
   props?: Record<string, any>;
 }
 
-export const routes: Record<string, RouteConfig> = {
+export const routes: Partial<Record<AppView, RouteConfig>> = {
   'home': { component: HomePage },
   'kenya-laws': { component: KenyaLawsPage },
+  'governance': { component: GovernancePage },
   'constitution': { component: ConstitutionExplorer, parent: 'kenya-laws' },
   'acts': { component: ActsPage, parent: 'kenya-laws' },
   'act-detail': { component: ActDetailPage, parent: 'acts' },
   'county-laws': { component: CountyLawsPage, parent: 'kenya-laws' },
   'historical-documents': { component: HistoricalDocumentsPage, parent: 'kenya-laws' },
-  'legislature': { component: LegislaturePage, parent: 'kenya-laws' },
-  'judiciary': { component: JudiciaryPage, parent: 'kenya-laws' },
-  'cabinet': { component: CabinetPage, parent: 'kenya-laws' },
-  'state-corporations': { component: StateCorporationsPage, parent: 'kenya-laws' },
+  'legislature': { component: LegislaturePage, parent: 'governance' },
+  'judiciary': { component: JudiciaryPage, parent: 'governance' },
+  'cabinet': { component: CabinetPage, parent: 'governance' },
+  'state-corporations': { component: StateCorporationsPage, parent: 'governance' },
   'projects-proposals': { component: ProjectsProposalsPage },
-  'county-governments': { component: CountyGovernmentsPage, parent: 'kenya-laws' },
+  'county-governments': { component: CountyGovernmentsPage, parent: 'governance' },
   'national-policy': { component: NationalPolicyPage, parent: 'projects' },
   'eib-projects': { component: EIBProjectsPage, parent: 'projects-proposals' },
   'projects': { component: ProjectsPage },
+  'leadership': { component: LeadershipPage, parent: 'projects-proposals' },
   'resources': { component: ResourcesPage },
   'about': { component: AboutUsPage },
   'contact': { component: ContactPage },
@@ -66,7 +69,9 @@ export const routes: Record<string, RouteConfig> = {
   'viewcount': { component: ViewCountPage },
   'chat': { component: ChatPage, parent: 'home' },
   'county-explorer': { component: CountyExplorerPage, parent: 'projects-proposals' },
-  'infomap': { component: ProjectsProposalsPage } // Mapping legacy/duplicate to correct page
+  'infomap': { component: ProjectsProposalsPage } // Legacy mapping
 };
 
-export const getRoute = (view: string) => routes[view] || routes['home'];
+export const getRoute = (view: AppView): RouteConfig => {
+    return routes[view] || routes['home']!;
+};

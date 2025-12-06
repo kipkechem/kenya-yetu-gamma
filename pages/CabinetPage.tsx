@@ -241,7 +241,7 @@ const CabinetPage: React.FC = () => {
     const entityUrlMap = useMemo(() => {
         if (!categorizedCorporationsData) return new Map<string, string>();
         const allCorporations = categorizedCorporationsData.flatMap(category => category.corporations);
-        return new Map(allCorporations.map(corp => [corp.name, corp.url]));
+        return new Map<string, string>(allCorporations.map(corp => [corp.name, corp.url]));
     }, [categorizedCorporationsData]);
 
     const handleToggle = (ministryName: string) => {
@@ -272,7 +272,7 @@ const CabinetPage: React.FC = () => {
                     <div className="inline-block p-4 bg-primary-light dark:bg-dark-primary-light rounded-3xl mb-4 shadow-sm">
                         <HierarchyIcon className="h-10 w-10 text-primary dark:text-dark-primary" />
                     </div>
-                    <h1 className="text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">The Cabinet</h1>
+                    <h1 className="text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">The National Executive</h1>
                     <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
                         Explore the organizational structure of the National Executive, including the Presidency, Ministries, State Departments, and their mandate.
                     </p>

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BookOpenIcon, MapIcon, PresentationChartLineIcon, LinkIcon, UsersIcon, MailIcon } from '../components/icons';
+import { BookOpenIcon, MapIcon, PresentationChartLineIcon, LinkIcon, UsersIcon, BuildingLibraryIcon } from '../components/icons';
 import type { AppView } from '../types';
 import Tile from '../components/Tile';
 
@@ -17,11 +17,11 @@ const translations = {
     explore: 'Explore Section',
     sections: {
       projects: { title: 'Development Strategy', desc: 'Track policy development, projects, performance, and delivery management.' },
-      laws: { title: 'Laws & Governance', desc: 'Explore the Constitution of Kenya and various Acts of Parliament.' },
+      laws: { title: 'Laws', desc: 'Explore the Constitution of Kenya and various Acts of Parliament.' },
+      governance: { title: 'Governance', desc: 'Explore the Legislature, Executive, Judiciary, and other governance structures.' },
       maps: { title: 'Projects & Proposals', desc: 'KenyaYetu synthesized projects and proposals.' },
       resources: { title: 'Data Sources/Links', desc: 'Access helpful data sources, external links, and other materials on Kenyan governance.' },
-      about: { title: 'About Us', desc: 'Learn about our mission to promote civic education and engagement in Kenya.' },
-      contact: { title: 'Contact', desc: 'Get in touch with us for inquiries, feedback, or suggestions about the platform.' }
+      about: { title: 'About Us', desc: 'Learn about our mission to promote civic education and engagement in Kenya.' }
     }
   },
   sw: {
@@ -31,11 +31,11 @@ const translations = {
     explore: 'Chunguza Sehemu',
     sections: {
       projects: { title: 'Mkakati wa Maendeleo', desc: 'Fuatilia maendeleo ya sera, miradi, utendaji, na usimamizi wa utoaji huduma.' },
-      laws: { title: 'Sheria na Utawala', desc: 'Chunguza Katiba ya Kenya na Sheria mbalimbali za Bunge.' },
+      laws: { title: 'Sheria', desc: 'Chunguza Katiba ya Kenya na Sheria mbalimbali za Bunge.' },
+      governance: { title: 'Utawala', desc: 'Chunguza Bunge, Serikali Kuu, Mahakama, na miundo mingine ya utawala.' },
       maps: { title: 'Miradi na Mapendekezo', desc: 'Miradi na mapendekezo yaliyoundwa na KenyaYetu.' },
       resources: { title: 'Vyanzo vya Data', desc: 'Pata vyanzo muhimu vya data, viungo vya nje, na nyenzo nyingine kuhusu utawala wa Kenya.' },
-      about: { title: 'Kutuhusu', desc: 'Jifunze kuhusu dhamira yetu ya kukuza elimu ya uraia na ushiriki nchini Kenya.' },
-      contact: { title: 'Wasiliana Nasi', desc: 'Wasiliana nasi kwa maswali, maoni, au mapendekezo kuhusu jukwaa hili.' }
+      about: { title: 'Kutuhusu', desc: 'Jifunze kuhusu dhamira yetu ya kukuza elimu ya uraia na ushiriki nchini Kenya.' }
     }
   }
 };
@@ -61,6 +61,14 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo, language }) => {
         isExternal: false
     },
     {
+        id: 'governance',
+        icon: <BuildingLibraryIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        view: 'governance' as AppView,
+        title: t.sections.governance.title,
+        description: t.sections.governance.desc,
+        isExternal: false
+    },
+    {
         id: 'projects-proposals',
         icon: <MapIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
         view: 'projects-proposals' as AppView,
@@ -82,14 +90,6 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo, language }) => {
         view: 'about' as AppView,
         title: t.sections.about.title,
         description: t.sections.about.desc,
-        isExternal: false
-    },
-    {
-        id: 'contact',
-        icon: <MailIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        view: 'contact' as AppView,
-        title: t.sections.contact.title,
-        description: t.sections.contact.desc,
         isExternal: false
     }
   ];
@@ -124,24 +124,13 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo, language }) => {
                 <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700 ml-4"></div>
              </div>
 
-             {/* Desktop Grid */}
-            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+             {/* Unified Grid for both Mobile and Desktop */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 {homeSections.map((section, index) => (
                     <div key={section.view} className={`animate-fade-in-up stagger-${index + 1} h-full`}>
                         <Tile section={section} navigateTo={navigateTo} />
                     </div>
                 ))}
-            </div>
-
-            {/* Mobile Horizontal Scroll - Contained within padding */}
-            <div className="md:hidden overflow-x-auto pb-4 horizontal-scrollbar">
-                <div className="flex gap-4 min-w-min">
-                    {homeSections.map((section, index) => (
-                         <div key={section.view} className="w-[260px] flex-shrink-0 h-full">
-                             <Tile section={section} navigateTo={navigateTo} />
-                         </div>
-                    ))}
-                </div>
             </div>
         </div>
     </div>

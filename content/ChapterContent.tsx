@@ -1,7 +1,8 @@
+
 import React, { useState } from 'react';
 import ContentRenderer from '../components/ContentRenderer';
 import type { Chapter, SelectedItem } from '../types/index';
-import { ChatBubbleOvalLeftEllipsisIcon, FlagIcon } from '../components/icons';
+import { ChatBubbleOvalLeftEllipsisIcon, BookmarkIcon } from '../components/icons';
 
 interface ChapterContentProps {
     chapter: Chapter;
@@ -14,16 +15,23 @@ interface ChapterContentProps {
 
 const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, searchTerm, onSelectItem, articleToChapterMap, language, summaries }) => {
     const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+    const [bookmarkedArticles, setBookmarkedArticles] = useState<Set<string>>(new Set());
 
     const t = language === 'sw' 
         ? { chapter: 'Sura', article: 'Kifungu' }
         : { chapter: 'Chapter', article: 'Article' };
 
-    const handleFeedback = (e: React.MouseEvent, articleNumber: string, articleTitle: string) => {
+    const toggleBookmark = (e: React.MouseEvent, articleNumber: string) => {
         e.preventDefault();
-        const subject = `Feedback on Constitution Content: ${t.article} ${articleNumber}`;
-        const body = `Hello,\n\nI have some feedback regarding ${t.article} ${articleNumber}.\n\nSection: ${t.article} ${articleNumber} - ${articleTitle}\nURL: ${window.location.origin}${window.location.pathname}#article-${articleNumber}\n\nMy feedback is:\n[Please type your feedback here]\n\nThank you.`;
-        window.location.href = `mailto:info@kenyayetu.co.ke?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        setBookmarkedArticles(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(articleNumber)) {
+                newSet.delete(articleNumber);
+            } else {
+                newSet.add(articleNumber);
+            }
+            return newSet;
+        });
     };
 
     if (!chapter) {
@@ -42,6 +50,8 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, searchTerm, on
                     {part.title && <h3 className="text-2xl font-bold mt-8 mb-4">{part.title}</h3>}
                     {part.articles.map(article => {
                         const summary = summaries[article.number];
+                        const isBookmarked = bookmarkedArticles.has(article.number);
+
                         return (
                             <div key={article.number} id={`article-${article.number}`} className="mt-6 py-6 border-t border-border dark:border-dark-border/50 scroll-mt-20 first:mt-0 first:pt-0 first:border-t-0">
                                 <div className="flex justify-between items-start">
@@ -66,14 +76,17 @@ const ChapterContent: React.FC<ChapterContentProps> = ({ chapter, searchTerm, on
                                                 )}
                                             </div>
                                         )}
-                                        <a 
-                                            href="#" 
-                                            onClick={(e) => handleFeedback(e, article.number, article.title)} 
-                                            title="Report an error or suggest an improvement"
-                                            aria-label={`Report an error or suggest an improvement for Article ${article.number}`}
+                                        <button
+                                            onClick={(e) => toggleBookmark(e, article.number)}
+                                            title={isBookmarked ? "Remove bookmark" : "Bookmark Article"}
+                                            className="focus:outline-none"
+                                            aria-label={isBookmarked ? `Remove bookmark for Article ${article.number}` : `Bookmark Article ${article.number}`}
                                         >
-                                            <FlagIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 cursor-pointer transition-colors" />
-                                        </a>
+                                            <BookmarkIcon 
+                                                className={`h-5 w-5 transition-colors ${isBookmarked ? 'text-primary dark:text-dark-primary' : 'text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300'}`}
+                                                solid={isBookmarked}
+                                            />
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="mt-3 space-y-4 leading-relaxed">
