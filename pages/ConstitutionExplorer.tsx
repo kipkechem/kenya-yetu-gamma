@@ -224,7 +224,7 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
           setIsCollapsed={setIsDesktopCollapsed}
           language={language}
         />
-        <div className="flex-1 overflow-y-auto bg-background dark:bg-dark-background scroll-smooth w-full">
+        <div className="flex-1 overflow-y-auto bg-background dark:bg-dark-background scroll-smooth w-full relative">
              <style>{`
                 @keyframes highlight-fade {
                     0% { background-color: rgba(34, 197, 94, 0.2); }
@@ -236,15 +236,15 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
             `}</style>
             <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 pb-24">
               
-              {/* Mobile Sidebar Trigger & Back Button */}
+              {/* Mobile Sidebar Trigger & Back Button (Inline) */}
               <div className="flex items-center gap-2 mb-4">
-                  {/* Sidebar Toggle for Mobile */}
+                  {/* Sidebar Toggle for Mobile - kept for context at top */}
                   <button 
                       onClick={() => setIsSidebarOpen(true)}
                       className="md:hidden inline-flex items-center px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 shadow-sm"
                   >
                       <BookOpenIcon className="h-4 w-4 mr-2 text-primary" />
-                      Table of Contents
+                      Contents
                   </button>
 
                   {/* History Back Button */}
@@ -274,6 +274,16 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
                     summaries={currentSummaries}
                 />
             </div>
+
+            {/* Mobile Floating Action Button (FAB) for Table of Contents */}
+            <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="md:hidden fixed bottom-6 right-6 z-30 p-4 bg-primary text-white rounded-full shadow-xl hover:bg-primary-dark transition-transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:ring-offset-gray-900"
+                aria-label="Open Table of Contents"
+                title="Table of Contents"
+            >
+                <BookOpenIcon className="h-6 w-6" />
+            </button>
         </div>
       </div>
   );
