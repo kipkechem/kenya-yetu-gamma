@@ -20,18 +20,22 @@ const Tile: React.FC<TileProps> = ({ section, navigateTo, className = "" }) => {
     return (
         <button
             onClick={handleClick}
-            className={`group relative overflow-hidden bg-surface dark:bg-dark-surface p-5 md:p-7 rounded-3xl custom-shadow-lg hover:custom-shadow-xl hover:scale-[1.02] hover:-translate-y-1 transform-gpu transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col text-left w-full h-full aspect-square md:aspect-auto md:min-h-[240px] border-2 border-transparent hover:border-primary/10 dark:hover:border-dark-primary/10 ${className}`}
+            className={`group relative overflow-hidden bg-surface dark:bg-dark-surface p-5 md:p-7 rounded-3xl custom-shadow-lg hover:custom-shadow-xl hover:scale-[1.02] hover:-translate-y-1 transform-gpu transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] flex flex-col text-left w-full h-full aspect-auto md:aspect-auto md:min-h-[240px] border-2 border-transparent hover:border-primary/10 dark:hover:border-dark-primary/10 ${className}`}
         >
-            <div className="flex-shrink-0 p-3.5 bg-primary-light dark:bg-dark-primary-light rounded-2xl inline-block self-start transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
-                {section.icon}
+            <div className="flex-shrink-0 p-2.5 md:p-3.5 bg-primary-light dark:bg-dark-primary-light rounded-2xl inline-block self-start transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                {/* Clone the icon element to modify its props if it's a valid react element */}
+                {React.isValidElement(section.icon) 
+                    ? React.cloneElement(section.icon as React.ReactElement, { className: "h-5 w-5 md:h-6 md:w-6 text-primary dark:text-dark-primary" })
+                    : section.icon
+                }
             </div>
-            <h2 className="mt-4 md:mt-6 text-base md:text-xl font-bold text-on-surface dark:text-dark-on-surface line-clamp-2 group-hover:text-primary dark:group-hover:text-dark-primary transition-colors">
+            <h2 className="mt-3 md:mt-6 text-base md:text-xl font-bold text-on-surface dark:text-dark-on-surface line-clamp-2 group-hover:text-primary dark:group-hover:text-dark-primary transition-colors">
                 {section.title}
             </h2>
-            <p className="mt-2 text-xs md:text-sm text-gray-500 dark:text-gray-400 flex-grow line-clamp-3 block leading-relaxed">
+            <p className="mt-2 text-sm text-gray-500 dark:text-gray-400 flex-grow line-clamp-3 block leading-relaxed">
                 {section.description}
             </p>
-            <div className="mt-auto pt-4 flex items-center text-sm font-semibold text-gray-400 group-hover:text-primary dark:group-hover:text-dark-primary transition-colors duration-300">
+            <div className="mt-auto pt-3 md:pt-4 flex items-center text-sm font-semibold text-gray-400 group-hover:text-primary dark:group-hover:text-dark-primary transition-colors duration-300">
                 Explore <span className="ml-1 transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
             </div>
         </button>
