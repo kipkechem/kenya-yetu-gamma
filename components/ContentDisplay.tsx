@@ -1,5 +1,5 @@
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import PreambleContent from '../content/PreambleContent';
 import ChapterContent from '../content/ChapterContent';
 import ScheduleContent from '../content/ScheduleContent';
@@ -19,8 +19,16 @@ type RenderItem =
   | { type: 'chapter', data: Chapter }
   | { type: 'schedule', data: Schedule };
 
+const ITEMS_LIMIT = 5; // Initial number of heavy items to render in search mode
+
 const ContentDisplay: React.FC<ContentDisplayProps> = ({ searchTerm, onSelectItem, articleToChapterMap, language, data, summaries }) => {
-  
+  const [visibleCount, setVisibleCount] = useState(ITEMS_LIMIT);
+
+  // Reset limit when search term changes
+  React.useEffect(() => {
+    setVisibleCount(ITEMS_LIMIT);
+  }, [searchTerm]);
+
   const noResultsText = language === 'sw' 
     ? { title: 'Hakuna matokeo', message: `Utafutaji wako wa "${searchTerm}" haujalingana na maudhui yoyote.` }
     : { title: 'No results found', message: `Your search for "${searchTerm}" did not match any content.` };
@@ -112,6 +120,11 @@ const ContentDisplay: React.FC<ContentDisplayProps> = ({ searchTerm, onSelectIte
     );
   }
 
+  // 4. Determine visible items based on search mode
+  // In non-search mode, we render everything (browser handles vertical scroll relatively well for static text)
+  // In search mode, highlighting is expensive, so we paginate.
+  const visibleItems = isSearching ? contentList.slice(0, visibleCount) : contentList;
+
   return (
     <div className="space-y-12 animate-fade-in">
       {/* Search Summary */}
@@ -125,7 +138,7 @@ const ContentDisplay: React.FC<ContentDisplayProps> = ({ searchTerm, onSelectIte
       )}
 
       {/* Content Stream */}
-      {contentList.map((item) => {
+      {visibleItems.map((item) => {
         // Use a stable key based on type and ID (or preamble) to prevent re-mounting issues
         const key = item.type === 'preamble' ? 'preamble' : 
                    item.type === 'chapter' ? `chapter-${item.data.id}` : 
@@ -169,6 +182,17 @@ const ContentDisplay: React.FC<ContentDisplayProps> = ({ searchTerm, onSelectIte
             );
         }
       })}
+
+      {isSearching && contentList.length > visibleCount && (
+          <div className="flex justify-center pt-8">
+              <button
+                  onClick={() => setVisibleCount(prev => prev + ITEMS_LIMIT)}
+                  className="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-full font-medium transition-colors shadow-md"
+              >
+                  Load More Results ({contentList.length - visibleCount} remaining)
+              </button>
+          </div>
+      )}
     </div>
   );
 };

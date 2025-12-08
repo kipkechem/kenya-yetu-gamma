@@ -19,7 +19,7 @@ const translations = {
       projects: { title: 'Development Strategy', desc: 'Track policy development, projects, performance, and delivery management.' },
       laws: { title: 'Laws', desc: 'Explore the Constitution of Kenya and various Acts of Parliament.' },
       governance: { title: 'Governance', desc: 'Explore the Legislature, Executive, Judiciary, and other governance structures.' },
-      maps: { title: 'Projects & Proposals', desc: 'KenyaYetu synthesized projects and proposals.' },
+      maps: { title: 'Projects & Tools', desc: 'KenyaYetu synthesized projects and interactive tools.' },
       resources: { title: 'Data Sources/Links', desc: 'Access helpful data sources, external links, and other materials on Kenyan governance.' },
       about: { title: 'About Us', desc: 'Learn about our mission to promote civic education and engagement in Kenya.' }
     }
@@ -33,7 +33,7 @@ const translations = {
       projects: { title: 'Mkakati wa Maendeleo', desc: 'Fuatilia maendeleo ya sera, miradi, utendaji, na usimamizi wa utoaji huduma.' },
       laws: { title: 'Sheria', desc: 'Chunguza Katiba ya Kenya na Sheria mbalimbali za Bunge.' },
       governance: { title: 'Utawala', desc: 'Chunguza Bunge, Serikali Kuu, Mahakama, na miundo mingine ya utawala.' },
-      maps: { title: 'Miradi na Mapendekezo', desc: 'Miradi na mapendekezo yaliyoundwa na KenyaYetu.' },
+      maps: { title: 'Miradi na Zana', desc: 'Miradi na zana shirikishi zilizoundwa na KenyaYetu.' },
       resources: { title: 'Vyanzo vya Data', desc: 'Pata vyanzo muhimu vya data, viungo vya nje, na nyenzo nyingine kuhusu utawala wa Kenya.' },
       about: { title: 'Kutuhusu', desc: 'Jifunze kuhusu dhamira yetu ya kukuza elimu ya uraia na ushiriki nchini Kenya.' }
     }
@@ -69,9 +69,9 @@ const HomePage: React.FC<HomePageProps> = ({ navigateTo, language }) => {
         isExternal: false
     },
     {
-        id: 'projects-proposals',
+        id: 'projects-tools',
         icon: <MapIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
-        view: 'projects-proposals' as AppView,
+        view: 'projects-tools' as AppView,
         title: t.sections.maps.title,
         description: t.sections.maps.desc,
         isExternal: false

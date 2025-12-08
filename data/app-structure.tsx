@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { 
     BookOpenIcon, HomeIcon, LinkIcon, UsersIcon, MailIcon, MapIcon, 
@@ -52,11 +53,11 @@ export const appStructure: AppRoute[] = [
         inHomeGrid: true
     },
     {
-        view: 'projects-proposals',
-        title: { en: 'Projects & Proposals', sw: 'Miradi na Mapendekezo' },
+        view: 'projects-tools',
+        title: { en: 'Projects & Tools', sw: 'Miradi na Zana' },
         description: { 
-            en: 'KenyaYetu synthesized projects and proposals.',
-            sw: 'Miradi na mapendekezo yaliyoundwa na KenyaYetu.'
+            en: 'KenyaYetu synthesized projects and interactive tools.',
+            sw: 'Miradi na zana shirikishi zilizoundwa na KenyaYetu.'
         },
         icon: MapIcon,
         backgroundImage: 'https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=1920&auto=format&fit=crop',

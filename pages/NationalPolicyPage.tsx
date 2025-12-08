@@ -40,10 +40,32 @@ const NationalPolicyPage: React.FC = () => {
   const categories = useMemo(() => {
     if (!policies) return [];
     const cats = Array.from(new Set(policies.map(p => p.category)));
-    // Ensure 'Key Blueprints & Agendas' comes first if it exists
+    
+    // Custom sort order for better user experience
+    const sortOrder = [
+        'Key Blueprints & Agendas',
+        'Economy, Trade & Finance',
+        'Agriculture & Food Security',
+        'Governance & Security',
+        'Social Services & Human Capital',
+        'Land, Housing & Infrastructure',
+        'Environment, Water & Climate Change',
+        'Presidential Speeches',
+        'Historical Documents'
+    ];
+
     return cats.sort((a: string, b: string) => {
-        if (a === 'Key Blueprints & Agendas') return -1;
-        if (b === 'Key Blueprints & Agendas') return 1;
+        const indexA = sortOrder.indexOf(a);
+        const indexB = sortOrder.indexOf(b);
+        
+        // If both are in the sort order list, sort by index
+        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+        // If only A is in list, it comes first
+        if (indexA !== -1) return -1;
+        // If only B is in list, it comes first
+        if (indexB !== -1) return 1;
+        
+        // Otherwise alphabetical
         return a.localeCompare(b);
     });
   }, [policies]);

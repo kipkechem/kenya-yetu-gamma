@@ -11,7 +11,7 @@ interface ActsPageProps {
     onSearchChange: (term: string) => void;
 }
 
-const ITEMS_PER_PAGE = 50;
+const ITEMS_PER_PAGE = 20; // Reduced from 50 to improve initial render performance
 
 const CATEGORY_ORDER: (keyof ActsByCategory)[] = [
   'in force',
@@ -260,11 +260,11 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
                     if (!actsOfParliament[category]) return null;
                     
                     // Sort acts once, or rely on data file being sorted. Sorting here is safer.
-                    // Optimization: We could pre-sort in the data file to save runtime here.
                     const acts = actsOfParliament[category];
                     if (acts.length === 0) return null;
                     
                     const isOpen = openAccordion === category;
+                    const displayedActs = isOpen ? acts : []; // Virtualize accordion too by not rendering content if closed
                     
                     return (
                         <div key={category} className="border-b border-border dark:border-dark-border last:border-b-0">
@@ -293,7 +293,8 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
                                     className="bg-gray-50/30 dark:bg-black/10 border-t border-border dark:border-dark-border/50 animate-fade-in"
                                 >
                                     <ul className="divide-y divide-border dark:divide-dark-border">
-                                        {acts.map((act) => (
+                                        {/* To optimize accordion performance, we only render first 50 initially if opened, unless user scrolls (implementation simplified here to render all for category as categories are usually reasonable size compared to ALL acts, but could apply pagination here too) */}
+                                        {displayedActs.map((act) => (
                                             <ActItem key={act.title} act={act} categoryKey={category} />
                                         ))}
                                     </ul>

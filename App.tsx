@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback, Suspense, useRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useCallback, Suspense, useRef, useLayoutEffect, useMemo } from 'react';
 import type { AppView, Theme, NavigationPayload } from './types';
 import MainSidebar from './components/MainSidebar';
 import UniversalHeader from './components/UniversalHeader';
@@ -78,6 +78,9 @@ const App: React.FC = () => {
                 setActsSearchTerm('');
             }
             if (activeView === 'county-laws' && newView !== 'county-laws') {
+                setCountyLawsSearchTerm('');
+            }
+            if (activeView === 'projects' && newView !== 'projects') {
                 setCountyLawsSearchTerm('');
             }
             if (activeView === 'constitution' && newView !== 'constitution') {
@@ -178,32 +181,37 @@ const App: React.FC = () => {
         localStorage.setItem('theme', theme);
     }, [theme]);
 
-    const renderActiveView = () => {
-        const route = getRoute(activeView);
-        const Component = route.component;
-        
-        // Define common props that might be used by components
+    // Optimize: Memoize props passed to active view to prevent re-renders when parent state (like sidebar toggle) changes
+    // but the data for the view hasn't.
+    const viewProps = useMemo(() => {
         const commonProps = {
             navigateTo,
             language
         };
 
         // Define specific props for certain views
+        // We use stable references or primitives where possible
         const specificProps: Record<string, any> = {
             'constitution': { searchTerm },
             'acts': { searchTerm: actsSearchTerm, onSearchChange: setActsSearchTerm },
-            'act-detail': { actTitle: selectedActTitle, articleToChapterMap: new Map() }, // Passing empty map initially, logic handled inside page if needed or lazy loaded
+            'act-detail': { actTitle: selectedActTitle, articleToChapterMap: new Map() }, // Empty map is fine, logic handles it
             'county-laws': { initialSearchTerm: countyLawsSearchTerm },
+            'projects': { initialSearchTerm: countyLawsSearchTerm },
         };
+        
+        const route = getRoute(activeView);
 
-        // Merge props: Route specific static props overrides specific dynamic props overrides common props
-        const props = { 
+        return { 
             ...commonProps, 
             ...(specificProps[activeView] || {}),
             ...(route.props || {}) 
         };
+    }, [activeView, navigateTo, language, searchTerm, actsSearchTerm, countyLawsSearchTerm, selectedActTitle]);
 
-        return <Component {...props} />;
+    const renderActiveView = () => {
+        const route = getRoute(activeView);
+        const Component = route.component;
+        return <Component {...viewProps} />;
     };
 
     return (

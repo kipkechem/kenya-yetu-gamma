@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { PresentationChartLineIcon, HierarchyIcon, ChevronDoubleRightIcon } from '../components/icons';
 import type { County } from '../types/index';
 import CountyDetailPage from '../components/CountyDetailPage';
@@ -27,8 +27,11 @@ const CountyListItem: React.FC<{ name: string, code?: number, onClick: () => voi
     </button>
 );
 
+interface ProjectsPageProps {
+    initialSearchTerm?: string;
+}
 
-const ProjectsPage: React.FC = () => {
+const ProjectsPage: React.FC<ProjectsPageProps> = ({ initialSearchTerm }) => {
     const [selectedCounty, setSelectedCounty] = useState<County | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     
@@ -36,6 +39,17 @@ const ProjectsPage: React.FC = () => {
         'counties-data',
         () => import('../data/counties').then(m => m.countiesData.sort((a, b) => a.name.localeCompare(b.name)))
     );
+
+    useEffect(() => {
+        if (initialSearchTerm && counties) {
+             const found = counties.find(c => c.name.toLowerCase() === initialSearchTerm.toLowerCase());
+             if (found) {
+                 setSelectedCounty(found);
+             } else {
+                 setSearchTerm(initialSearchTerm);
+             }
+        }
+    }, [initialSearchTerm, counties]);
 
     const handleCountyClick = (county: County) => {
         setSelectedCounty(county);

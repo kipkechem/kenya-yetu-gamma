@@ -4,6 +4,7 @@ import type { County } from '../types';
 import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon, ChevronDoubleLeftIcon, InboxStackIcon } from './icons';
 import { dispatchNavigate } from '../utils/navigation';
 import { useLazyData } from '../hooks/useLazyData';
+import { getCountyPolicies } from '../data/knowledge-base/county-policies';
 
 export interface PolicyDocument {
   title: string;
@@ -49,15 +50,11 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
   const [showAllDocs, setShowAllDocs] = useState(false);
   const [docSearchTerm, setDocSearchTerm] = useState('');
 
-  // Optimized lazy load: Fetch all policies but select ONLY the current county's array.
-  // This prevents storing the entire huge object in this component's state.
-  const { data: policyDocuments, isLoading } = useLazyData<Record<string, PolicyDocument[]>, PolicyDocument[]>(
-    'county-policies-data',
-    () => import('../data/knowledge-base/county-policies').then(m => m.countyPolicyDocuments),
-    [county.name],
-    {
-      select: (allPolicies) => allPolicies[county.name] || []
-    }
+  // Optimized lazy load: Fetch only this county's policies using the new dynamic loader
+  const { data: policyDocuments, isLoading } = useLazyData<PolicyDocument[]>(
+    `county-policies-${county.name}`,
+    () => getCountyPolicies(county.name),
+    [county.name]
   );
 
   const filteredAllDocs = useMemo(() => {

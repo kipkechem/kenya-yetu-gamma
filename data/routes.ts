@@ -7,7 +7,7 @@ const HomePage = lazy(() => import('../pages/HomePage'));
 const KenyaLawsPage = lazy(() => import('../pages/KenyaLawsPage'));
 const GovernancePage = lazy(() => import('../pages/GovernancePage'));
 const ConstitutionExplorer = lazy(() => import('../pages/ConstitutionExplorer'));
-const ProjectsProposalsPage = lazy(() => import('../pages/ProjectsProposalsPage'));
+const ProjectsToolsPage = lazy(() => import('../pages/ProjectsToolsPage'));
 const ProjectsPage = lazy(() => import('../pages/ProjectsPage'));
 const ResourcesPage = lazy(() => import('../pages/ResourcesPage'));
 const AboutUsPage = lazy(() => import('../pages/AboutUsPage'));
@@ -31,6 +31,8 @@ const ChatPage = lazy(() => import('../pages/ChatPage'));
 const EIBProjectsPage = lazy(() => import('../pages/EIBProjectsPage'));
 const CountyExplorerPage = lazy(() => import('../pages/CountyExplorerPage'));
 const LeadershipPage = lazy(() => import('../pages/LeadershipPage'));
+const CountyRankingsPage = lazy(() => import('../pages/CountyRankingsPage'));
+const ElectedLeadersPage = lazy(() => import('../pages/ElectedLeadersPage'));
 
 interface RouteConfig {
   component: React.LazyExoticComponent<React.ComponentType<any>>;
@@ -51,12 +53,14 @@ export const routes: Partial<Record<AppView, RouteConfig>> = {
   'judiciary': { component: JudiciaryPage, parent: 'governance' },
   'cabinet': { component: CabinetPage, parent: 'governance' },
   'state-corporations': { component: StateCorporationsPage, parent: 'governance' },
-  'projects-proposals': { component: ProjectsProposalsPage },
+  'projects-tools': { component: ProjectsToolsPage },
   'county-governments': { component: CountyGovernmentsPage, parent: 'governance' },
   'national-policy': { component: NationalPolicyPage, parent: 'projects' },
-  'eib-projects': { component: EIBProjectsPage, parent: 'projects-proposals' },
+  'eib-projects': { component: EIBProjectsPage, parent: 'projects-tools' },
   'projects': { component: ProjectsPage },
-  'leadership': { component: LeadershipPage, parent: 'projects-proposals' },
+  'leadership': { component: LeadershipPage, parent: 'projects-tools' },
+  'county-rankings': { component: CountyRankingsPage, parent: 'projects-tools' },
+  'elected-leaders': { component: ElectedLeadersPage, parent: 'projects-tools' },
   'resources': { component: ResourcesPage },
   'about': { component: AboutUsPage },
   'contact': { component: ContactPage },
@@ -68,8 +72,9 @@ export const routes: Partial<Record<AppView, RouteConfig>> = {
   'same-lat-long': { component: SameLatLongPage },
   'viewcount': { component: ViewCountPage },
   'chat': { component: ChatPage, parent: 'home' },
-  'county-explorer': { component: CountyExplorerPage, parent: 'projects-proposals' },
-  'infomap': { component: ProjectsProposalsPage } // Legacy mapping
+  'county-explorer': { component: CountyExplorerPage, parent: 'projects-tools' },
+  'infomap': { component: ProjectsToolsPage }, // Legacy mapping pointing to new page
+  'projects-proposals': { component: ProjectsToolsPage } // Legacy mapping
 };
 
 export const getRoute = (view: AppView): RouteConfig => {

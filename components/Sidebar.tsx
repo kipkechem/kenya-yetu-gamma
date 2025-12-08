@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect, useRef } from 'react';
-import type { ConstitutionData, SelectedItem, Chapter, Part } from '../types/index';
+import React, { useState, useEffect, useRef, memo } from 'react';
+import type { ConstitutionData, SelectedItem, Part } from '../types/index';
 import { ChevronDownIcon, BookOpenIcon, FileTextIcon, ChevronDoubleLeftIcon } from './icons';
 
 interface SidebarProps {
@@ -13,6 +13,79 @@ interface SidebarProps {
   setIsCollapsed: (collapsed: boolean) => void; // Desktop toggle
   language: 'en' | 'sw';
 }
+
+// Memoize ArticleList to prevent re-rendering all articles when parent chapter updates
+const ArticleList = memo(({ part, chapterId, selectedItem, onSelectItem, t }: { part: Part, chapterId: number, selectedItem: SelectedItem, onSelectItem: (item: SelectedItem) => void, t: any }) => (
+    <ul className="space-y-0.5 mt-1">
+      {part.articles.map(article => {
+        const isSelected = selectedItem.type === 'chapter' && selectedItem.id === chapterId && selectedItem.article === article.number;
+        return (
+          <li key={article.number}>
+            <button
+              id={`sidebar-item-article-${article.number}`}
+              onClick={() => onSelectItem({ type: 'chapter', id: chapterId, article: article.number })}
+              className={`group flex w-full items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
+                isSelected 
+                  ? 'bg-primary text-white shadow-sm' 
+                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100'
+              }`}
+            >
+               <span className={`text-xs mr-2 font-mono ${isSelected ? 'text-white/80' : 'text-gray-400 group-hover:text-gray-500'}`}>{t.article} {article.number}</span>
+               <span className="truncate text-left">{article.title}</span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+));
+
+// Memoize individual Chapter Items
+const ChapterItem = memo(({ chapter, isExpanded, selectedItem, language, onSelectItem, toggleChapter, t }: any) => {
+    const isActive = selectedItem.type === 'chapter' && selectedItem.id === chapter.id;
+    const isOverviewSelected = isActive && !selectedItem.article;
+
+    return (
+        <div className="rounded-lg">
+            <div className={`flex items-center justify-between px-3 py-2 rounded-lg transition-colors cursor-pointer ${
+                isOverviewSelected 
+                ? 'bg-primary/10 text-primary dark:text-dark-primary' 
+                : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
+            }`}>
+                <button 
+                    id={`sidebar-item-chapter-${chapter.id}`}
+                    className="flex-1 text-left text-sm font-medium truncate pr-2"
+                    onClick={() => onSelectItem({ type: 'chapter', id: chapter.id })}
+                >
+                    <span className="mr-1.5 font-bold text-xs opacity-70 uppercase">{language === 'sw' ? 'Sura' : 'Ch.'} {chapter.id}</span>
+                    <span className="truncate font-semibold">{chapter.title}</span>
+                </button>
+                <button 
+                    onClick={(e) => { e.stopPropagation(); toggleChapter(chapter.id); }}
+                    className={`p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                    aria-label={isExpanded ? "Collapse chapter" : "Expand chapter"}
+                >
+                    <ChevronDownIcon className="w-4 h-4" />
+                </button>
+            </div>
+
+            {isExpanded && (
+                <div className="ml-3 pl-3 border-l-2 border-gray-100 dark:border-gray-700 mt-1 mb-2 animate-fade-in">
+                    {chapter.parts.map((part: Part, idx: number) => (
+                        <div key={idx} className="mt-2 first:mt-1">
+                            {part.title && (
+                                <div className="px-3 py-1.5 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
+                                    {part.title}
+                                </div>
+                            )}
+                            <ArticleList part={part} chapterId={chapter.id} selectedItem={selectedItem} onSelectItem={onSelectItem} t={t} />
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+});
+
 
 const Sidebar: React.FC<SidebarProps> = ({ 
   data, 
@@ -98,30 +171,6 @@ const Sidebar: React.FC<SidebarProps> = ({
         part: 'Part'
       };
 
-  const ArticleList = ({ part, chapterId }: { part: Part, chapterId: number }) => (
-    <ul className="space-y-0.5 mt-1">
-      {part.articles.map(article => {
-        const isSelected = selectedItem.type === 'chapter' && selectedItem.id === chapterId && selectedItem.article === article.number;
-        return (
-          <li key={article.number}>
-            <button
-              id={`sidebar-item-article-${article.number}`}
-              onClick={() => onSelectItem({ type: 'chapter', id: chapterId, article: article.number })}
-              className={`group flex w-full items-center px-3 py-2 text-sm font-medium rounded-md transition-colors duration-150 ${
-                isSelected 
-                  ? 'bg-primary text-white shadow-sm' 
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100'
-              }`}
-            >
-               <span className={`text-xs mr-2 font-mono ${isSelected ? 'text-white/80' : 'text-gray-400 group-hover:text-gray-500'}`}>{t.article} {article.number}</span>
-               <span className="truncate text-left">{article.title}</span>
-            </button>
-          </li>
-        );
-      })}
-    </ul>
-  );
-
   return (
     <>
       {/* Mobile overlay */}
@@ -202,7 +251,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                             : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                         }`}
                     >
-                        {/* No HomeIcon as requested */}
                         {t.preamble}
                     </button>
                 </div>
@@ -213,52 +261,18 @@ const Sidebar: React.FC<SidebarProps> = ({
                         {t.chapters}
                     </div>
                     <div className="space-y-1">
-                        {data.chapters.map((chapter) => {
-                            const isExpanded = expandedChapters.has(chapter.id);
-                            const isActive = selectedItem.type === 'chapter' && selectedItem.id === chapter.id;
-                            const isOverviewSelected = isActive && !selectedItem.article;
-
-                            return (
-                                <div key={chapter.id} className="rounded-lg">
-                                    <div className={`flex items-center justify-between px-3 py-2 rounded-lg transition-colors cursor-pointer ${
-                                        isOverviewSelected 
-                                        ? 'bg-primary/10 text-primary dark:text-dark-primary' 
-                                        : 'hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300'
-                                    }`}>
-                                        <button 
-                                            id={`sidebar-item-chapter-${chapter.id}`}
-                                            className="flex-1 text-left text-sm font-medium truncate pr-2"
-                                            onClick={() => onSelectItem({ type: 'chapter', id: chapter.id })}
-                                        >
-                                            <span className="mr-1.5 font-bold text-xs opacity-70 uppercase">{language === 'sw' ? 'Sura' : 'Ch.'} {chapter.id}</span>
-                                            <span className="truncate font-semibold">{chapter.title}</span>
-                                        </button>
-                                        <button 
-                                            onClick={(e) => { e.stopPropagation(); toggleChapter(chapter.id); }}
-                                            className={`p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                                            aria-label={isExpanded ? "Collapse chapter" : "Expand chapter"}
-                                        >
-                                            <ChevronDownIcon className="w-4 h-4" />
-                                        </button>
-                                    </div>
-
-                                    {isExpanded && (
-                                        <div className="ml-3 pl-3 border-l-2 border-gray-100 dark:border-gray-700 mt-1 mb-2 animate-fade-in">
-                                            {chapter.parts.map((part, idx) => (
-                                                <div key={idx} className="mt-2 first:mt-1">
-                                                    {part.title && (
-                                                        <div className="px-3 py-1.5 text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                                                            {part.title}
-                                                        </div>
-                                                    )}
-                                                    <ArticleList part={part} chapterId={chapter.id} />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
+                        {data.chapters.map((chapter) => (
+                             <ChapterItem 
+                                key={chapter.id} 
+                                chapter={chapter} 
+                                isExpanded={expandedChapters.has(chapter.id)} 
+                                selectedItem={selectedItem}
+                                language={language}
+                                onSelectItem={onSelectItem}
+                                toggleChapter={toggleChapter}
+                                t={t}
+                             />
+                        ))}
                     </div>
                 </div>
 
@@ -295,4 +309,4 @@ const Sidebar: React.FC<SidebarProps> = ({
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);
