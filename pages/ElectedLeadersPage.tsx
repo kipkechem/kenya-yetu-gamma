@@ -131,7 +131,7 @@ const ElectedLeadersPage: React.FC = () => {
         });
 
         // Map MCAs
-        wardRepresentatives.forEach(rep => {
+        wardRepresentatives.forEach((rep: WardRepresentative) => {
              const countyKey = rep.county;
              let targetKey = countyKey;
              if(!map[targetKey] && countyKey === 'Nairobi') targetKey = 'Nairobi City';
@@ -151,19 +151,13 @@ const ElectedLeadersPage: React.FC = () => {
         let totalMPs = 0;
         let totalMCAs = 0;
 
-        Object.values(leadersMap).forEach(leaders => {
+        Object.values(leadersMap).forEach((leaders: CountyLeaders) => {
             if (leaders.governor) totalGovernors++;
             if (leaders.senator) totalSenators++;
             if (leaders.womanRep) totalWomanReps++;
             totalMPs += leaders.mps.length;
             totalMCAs += leaders.mcas.length;
         });
-        
-        // Add 12 Nominated MPs to total count (approximation based on constitution, actual data might vary)
-        // Add nominated Senators (16 women + 2 youth + 2 PWD = 20)
-        // We will just display the count found in the data files for accuracy relative to the dataset.
-        // However, representativesData only contains elected ones mostly.
-        // Let's rely on the counts we derived.
         
         return { totalGovernors, totalSenators, totalWomanReps, totalMPs, totalMCAs };
     }, [leadersMap]);

@@ -58,6 +58,13 @@ const toolSections: {
         view: 'county-rankings'
     },
     {
+        title: 'County Explorer',
+        description: "Interactive map to explore county details, boundaries, and specific data.",
+        icon: <MapIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
+        isActionable: true,
+        view: 'county-explorer'
+    },
+    {
         title: 'Water Bodies',
         description: "Map of Kenya's major rivers, lakes, and ocean coastline.",
         icon: <GlobeAmericasIcon className="h-6 w-6 text-primary dark:text-dark-primary" />,
