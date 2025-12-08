@@ -1,10 +1,21 @@
 
-const CACHE_VERSION = '1.2'; // Increment version to invalidate old caches.
+const CACHE_VERSION = '1.3'; // Increment version to invalidate old caches.
 
 interface CacheItem<T> {
   version: string;
   timestamp: number;
   data: T;
+}
+
+// In-memory cache store to prevent redundant parsing/loading within the same session
+const memoryCache = new Map<string, any>();
+
+export function getMemoryCache<T>(key: string): T | undefined {
+    return memoryCache.get(key);
+}
+
+export function setMemoryCache<T>(key: string, data: T): void {
+    memoryCache.set(key, data);
 }
 
 /**
@@ -15,6 +26,11 @@ interface CacheItem<T> {
  */
 export function getCachedData<T>(key: string, ttl: number = 0): T | null {
   try {
+    // 1. Check Memory Cache first (Fastest)
+    const memData = memoryCache.get(key);
+    if (memData) return memData;
+
+    // 2. Check Local Storage (Persistence)
     const itemStr = localStorage.getItem(key);
     if (!itemStr) {
       return null;
@@ -37,6 +53,9 @@ export function getCachedData<T>(key: string, ttl: number = 0): T | null {
       }
     }
 
+    // Populate memory cache for next time
+    memoryCache.set(key, item.data);
+    
     return item.data;
   } catch (error) {
     // Silently fail on cache read errors
@@ -51,7 +70,9 @@ export function getCachedData<T>(key: string, ttl: number = 0): T | null {
  * @param data The data to store.
  */
 export function setCachedData<T>(key: string, data: T): void {
-  // Define item outside try block so it is available in catch block
+  // Update memory cache immediately
+  memoryCache.set(key, data);
+
   const item: CacheItem<T> = {
     version: CACHE_VERSION,
     timestamp: Date.now(),
@@ -77,7 +98,7 @@ export interface DiscoveredLink {
   url: string;
 }
 
-const DISCOVERED_LINKS_KEY = 'discoveredLinks_v1.2';
+const DISCOVERED_LINKS_KEY = 'discoveredLinks_v1.3';
 
 export const getDiscoveredLinks = (): DiscoveredLink[] => {
   const cached = getCachedData<DiscoveredLink[]>(DISCOVERED_LINKS_KEY);

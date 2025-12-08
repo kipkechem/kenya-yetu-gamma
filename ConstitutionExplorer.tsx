@@ -1,6 +1,4 @@
 
-
-
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import ContentDisplay from './components/ContentDisplay';
@@ -28,6 +26,7 @@ const loadConstitutionData = (language: 'en' | 'sw'): ConstitutionData => {
 const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string, articleToChapterMap: Map<string, number> }> = ({ language, searchTerm, articleToChapterMap }) => {
   const [selectedItem, setSelectedItem] = useState<SelectedItem>({ type: 'preamble', id: 'preamble' });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const currentData = useMemo(() => loadConstitutionData(language), [language]);
   const currentSummaries = language === 'en' ? englishSummaries : swahiliSummaries;
@@ -156,6 +155,8 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
           selectedItem={selectedItem}
           isOpen={isSidebarOpen}
           setIsOpen={setIsSidebarOpen}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
           language={language}
         />
         <div className="flex-1 overflow-y-auto bg-background dark:bg-dark-background">

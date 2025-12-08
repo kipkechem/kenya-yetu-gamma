@@ -25,7 +25,7 @@ const Tile: React.FC<TileProps> = ({ section, navigateTo, className = "" }) => {
             <div className="flex-shrink-0 p-2.5 md:p-3.5 bg-primary-light dark:bg-dark-primary-light rounded-2xl inline-block self-start transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                 {/* Clone the icon element to modify its props if it's a valid react element */}
                 {React.isValidElement(section.icon) 
-                    ? React.cloneElement(section.icon as React.ReactElement, { className: "h-5 w-5 md:h-6 md:w-6 text-primary dark:text-dark-primary" })
+                    ? React.cloneElement(section.icon as React.ReactElement<{ className?: string }>, { className: "h-5 w-5 md:h-6 md:w-6 text-primary dark:text-dark-primary" })
                     : section.icon
                 }
             </div>

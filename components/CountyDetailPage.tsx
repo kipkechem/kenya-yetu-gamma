@@ -4,7 +4,11 @@ import type { County } from '../types';
 import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon, ChevronDoubleLeftIcon, InboxStackIcon } from './icons';
 import { dispatchNavigate } from '../utils/navigation';
 import { useLazyData } from '../hooks/useLazyData';
-import type { PolicyDocument } from '../data/knowledge-base/county-policies';
+
+export interface PolicyDocument {
+  title: string;
+  url: string;
+}
 
 interface CountyDetailPageProps {
   county: County;
@@ -45,26 +49,19 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
   const [showAllDocs, setShowAllDocs] = useState(false);
   const [docSearchTerm, setDocSearchTerm] = useState('');
 
-  // Lazy load county policies
-  const { data: countyPolicies, isLoading } = useLazyData<Record<string, PolicyDocument[]>>(
+  // Optimized lazy load: Fetch all policies but select ONLY the current county's array.
+  // This prevents storing the entire huge object in this component's state.
+  const { data: policyDocuments, isLoading } = useLazyData<Record<string, PolicyDocument[]>, PolicyDocument[]>(
     'county-policies-data',
-    () => import('../data/knowledge-base/county-policies').then(m => m.countyPolicyDocuments)
+    () => import('../data/knowledge-base/county-policies').then(m => m.countyPolicyDocuments),
+    [county.name],
+    {
+      select: (allPolicies) => allPolicies[county.name] || []
+    }
   );
 
-  const policyDocuments = useMemo(() => {
-    if (!countyPolicies) return [];
-    // Try direct match first, then try matching logic for names like "Nairobi City" vs "Nairobi"
-    if (countyPolicies[county.name]) return countyPolicies[county.name];
-    
-    const normalizedName = Object.keys(countyPolicies).find(
-        key => key.toLowerCase().includes(county.name.toLowerCase()) || county.name.toLowerCase().includes(key.toLowerCase())
-    );
-    
-    return normalizedName ? countyPolicies[normalizedName] : [];
-  }, [countyPolicies, county.name]);
-
   const filteredAllDocs = useMemo(() => {
-      if (!docSearchTerm) return policyDocuments;
+      if (!docSearchTerm || !policyDocuments) return policyDocuments || [];
       return policyDocuments.filter(doc => doc.title.toLowerCase().includes(docSearchTerm.toLowerCase()));
   }, [policyDocuments, docSearchTerm]);
 
@@ -192,7 +189,7 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
                         Key strategic planning documents (CIDP, ADP, CFSP).
                     </p>
                 </div>
-                 {policyDocuments.length > INITIAL_DOCS_COUNT && (
+                 {policyDocuments && policyDocuments.length > INITIAL_DOCS_COUNT && (
                     <button 
                         onClick={() => setShowAllDocs(true)}
                         className="text-sm font-semibold text-primary dark:text-dark-primary hover:underline whitespace-nowrap"
@@ -207,7 +204,7 @@ const CountyDetailPage: React.FC<CountyDetailPageProps> = ({ county, onBack }) =
                     <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                     <p className="mt-2 text-gray-500 dark:text-gray-400 text-sm">Loading documents...</p>
                  </div>
-            ) : policyDocuments.length > 0 ? (
+            ) : policyDocuments && policyDocuments.length > 0 ? (
                 <div className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {policyDocuments.slice(0, INITIAL_DOCS_COUNT).map((doc, index) => (

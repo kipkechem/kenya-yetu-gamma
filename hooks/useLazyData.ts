@@ -1,36 +1,46 @@
 
-import { useState, useEffect, useCallback } from 'react';
-import { getCachedData, setCachedData } from '../utils/cache';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { getCachedData, setCachedData, getMemoryCache, setMemoryCache } from '../utils/cache';
 
-interface LazyDataOptions {
-  ttl?: number; // Time to live in milliseconds. 0 means no expiration based on time.
-  skipCache?: boolean; // If true, bypasses localStorage entirely (useful for large static datasets)
-  enabled?: boolean; // If false, data loading is deferred until this becomes true. Default: true.
+interface LazyDataOptions<T, R> {
+  ttl?: number; // Time to live in milliseconds.
+  skipCache?: boolean; // If true, bypasses localStorage (but uses memory cache)
+  enabled?: boolean; // If false, data loading is deferred.
+  select?: (data: T) => R; // Transform/Select subset of data immediately after load
 }
 
 /**
- * A hook to lazily load data from a dynamic import, with caching and manual refetch support.
- * 
- * @param cacheKey The key used to store/retrieve data from localStorage/cache.
- * @param importFn The function that imports the data (e.g., () => import('../data/file').then(m => m.data)).
- * @param dependencies Optional array of dependencies that should trigger a re-load if changed.
- * @param options Configuration options for caching (e.g., TTL).
- * @returns An object containing the data, loading state, error state, and a refetch function.
+ * A hook to lazily load data from a dynamic import with Memory -> LocalStorage caching strategy.
  */
-export function useLazyData<T>(
+export function useLazyData<T, R = T>(
   cacheKey: string,
   importFn: () => Promise<T>,
   dependencies: any[] = [],
-  options: LazyDataOptions = {}
+  options: LazyDataOptions<T, R> = {}
 ) {
-  const [data, setData] = useState<T | null>(null);
+  const [data, setData] = useState<R | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   
-  const { enabled = true } = options;
+  const isMounted = useRef(true);
+  const { enabled = true, select } = options;
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => { isMounted.current = false; };
+  }, []);
+
+  const processData = useCallback((rawData: T): R => {
+      return select ? select(rawData) : (rawData as unknown as R);
+  }, [select]);
 
   const loadData = useCallback(async (forceRefresh = false) => {
-    if (!enabled) {
+    if (!enabled) return;
+
+    // 1. Check Memory Cache (Fastest)
+    const memData = getMemoryCache<T>(cacheKey);
+    if (!forceRefresh && memData) {
+        setData(processData(memData));
         return;
     }
 
@@ -38,34 +48,43 @@ export function useLazyData<T>(
     setError(null);
 
     try {
-      // 1. Try to get from cache first (if not forcing refresh and cache is enabled)
+      // 2. Check LocalStorage (Persistence)
       if (!forceRefresh && !options.skipCache) {
         const cached = getCachedData<T>(cacheKey, options.ttl || 0);
         if (cached) {
-          setData(cached);
-          setIsLoading(false);
+          if (isMounted.current) {
+            setMemoryCache(cacheKey, cached); // Sync to memory
+            setData(processData(cached));
+            setIsLoading(false);
+          }
           return;
         }
       }
 
-      // 2. If not in cache or expired/forced, perform dynamic import
+      // 3. Perform Dynamic Import (Network/Bundle)
       const result = await importFn();
 
-      setData(result);
-      
-      // Only cache if skipCache is false
-      if (!options.skipCache) {
-        setCachedData(cacheKey, result);
+      if (isMounted.current) {
+        // Update Caches with raw data
+        setMemoryCache(cacheKey, result);
+        
+        if (!options.skipCache) {
+          setCachedData(cacheKey, result);
+        }
+
+        // Set state with processed data
+        setData(processData(result));
+        setIsLoading(false);
       }
-      
-      setIsLoading(false);
       
     } catch (err) {
       console.error(`Failed to load data for key: ${cacheKey}`, err);
-      setError(err instanceof Error ? err : new Error('Unknown error occurred'));
-      setIsLoading(false);
+      if (isMounted.current) {
+        setError(err instanceof Error ? err : new Error('Unknown error occurred'));
+        setIsLoading(false);
+      }
     }
-  }, [cacheKey, options.skipCache, options.ttl, enabled, ...dependencies]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [cacheKey, options.skipCache, options.ttl, enabled, processData, ...dependencies]);
 
   useEffect(() => {
     loadData();
