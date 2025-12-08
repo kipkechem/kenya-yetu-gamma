@@ -1,3 +1,4 @@
+
 import React, { useMemo, useState } from 'react';
 import { UserGroupIcon, IdentificationIcon } from '../components/icons';
 import { countiesData } from '../data/counties';
@@ -104,7 +105,7 @@ const ElectedLeadersPage: React.FC = () => {
     );
 
     // Create a map of leaders per county
-    const leadersMap = useMemo(() => {
+    const leadersMap = useMemo<Record<string, CountyLeaders>>(() => {
         const map: Record<string, CountyLeaders> = {};
         
         // Initialize map for known counties
@@ -150,13 +151,19 @@ const ElectedLeadersPage: React.FC = () => {
         let totalMPs = 0;
         let totalMCAs = 0;
 
-        Object.values(leadersMap).forEach((leaders: CountyLeaders) => {
+        Object.values(leadersMap).forEach(leaders => {
             if (leaders.governor) totalGovernors++;
             if (leaders.senator) totalSenators++;
             if (leaders.womanRep) totalWomanReps++;
             totalMPs += leaders.mps.length;
             totalMCAs += leaders.mcas.length;
         });
+        
+        // Add 12 Nominated MPs to total count (approximation based on constitution, actual data might vary)
+        // Add nominated Senators (16 women + 2 youth + 2 PWD = 20)
+        // We will just display the count found in the data files for accuracy relative to the dataset.
+        // However, representativesData only contains elected ones mostly.
+        // Let's rely on the counts we derived.
         
         return { totalGovernors, totalSenators, totalWomanReps, totalMPs, totalMCAs };
     }, [leadersMap]);
@@ -249,7 +256,7 @@ const ElectedLeadersPage: React.FC = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
                                 {counties.sort((a,b) => a.code - b.code).map((county) => {
-                                    const leaders: CountyLeaders | undefined = leadersMap[county.name];
+                                    const leaders = leadersMap[county.name];
                                     if (!leaders) return null;
 
                                     return (
