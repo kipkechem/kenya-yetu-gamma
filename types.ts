@@ -161,3 +161,8 @@ export interface EIBProject {
     url: string;
     year: string;
 }
+
+export interface PolicyDocument {
+  title: string;
+  url: string;
+}

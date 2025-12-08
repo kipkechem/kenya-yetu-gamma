@@ -90,7 +90,8 @@ const HistoricalDocumentsPage: React.FC = () => {
 
         <main className="grid grid-cols-1 md:grid-cols-2 gap-6 pb-12">
           {documents.map(doc => 
-            doc.subDocuments ? 
+            // Explicitly check for subDocuments to satisfy TS
+            doc.subDocuments && doc.subDocuments.length > 0 ? 
               <CollapsibleDocumentCard key={doc.title} doc={doc} /> :
               <DocumentCard key={doc.title} doc={doc} />
           )}

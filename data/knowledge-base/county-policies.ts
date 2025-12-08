@@ -1,7 +1,5 @@
 
-import type { PolicyDocument } from '../../components/CountyDetailPage'; 
-
-// Re-export type for consumers
+import type { PolicyDocument } from '../../types';
 export type { PolicyDocument };
 
 // Helper to convert county name to filename (e.g. "Uasin Gishu" -> "uasin-gishu")

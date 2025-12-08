@@ -4,7 +4,8 @@ import { UserGroupIcon, MapPinIcon, ChevronDownIcon } from '../components/icons'
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorDisplay from '../components/ErrorDisplay';
-import type { County } from '../types/index';
+import type { County, Representative } from '../types/index';
+import type { WardRepresentative } from '../data/governance/ward-representatives';
 import { 
     getLeadershipHierarchy, 
     getLeadersForLocation, 
@@ -70,16 +71,27 @@ const LeadershipPage: React.FC = () => {
     const [ward, setWard] = useState<string>('');
     const [results, setResults] = useState<LeaderProfile[]>([]);
 
-    const { data: counties, isLoading, error, refetch } = useLazyData<County[]>(
+    // Lazy load heavy datasets
+    const { data: counties, isLoading: isCountiesLoading } = useLazyData<County[]>(
         'counties-data',
         () => import('../data/counties').then(m => m.countiesData)
     );
 
+    const { data: representatives, isLoading: isRepsLoading } = useLazyData<Representative[]>(
+        'representatives-data',
+        () => import('../data/governance/representatives').then(m => m.representativesData)
+    );
+
+    const { data: wardReps, isLoading: isWardRepsLoading } = useLazyData<WardRepresentative[]>(
+        'ward-representatives-data',
+        () => import('../data/governance/ward-representatives').then(m => m.wardRepresentatives)
+    );
+
     // Build the hierarchy tree from counties data
     const hierarchy = useMemo<GeoNode[]>(() => {
-        if (!counties) return [];
-        return getLeadershipHierarchy(counties);
-    }, [counties]);
+        if (!counties || !wardReps) return [];
+        return getLeadershipHierarchy(counties, wardReps);
+    }, [counties, wardReps]);
 
     // Derived options based on selections
     const countyOptions = useMemo(() => hierarchy.map(n => n.name).sort(), [hierarchy]);
@@ -90,9 +102,8 @@ const LeadershipPage: React.FC = () => {
         return node?.children?.map(n => n.name).sort() || [];
     }, [county, hierarchy]);
 
-    // In this model, SubCounty acts as Constituency
     const constituencyOptions = useMemo(() => {
-        // Assuming SubCounty == Constituency
+        // Assuming SubCounty == Constituency for now based on data structure
         return subCountyOptions;
     }, [subCountyOptions]);
 
@@ -103,12 +114,26 @@ const LeadershipPage: React.FC = () => {
         return sNode?.children?.map(n => n.name).sort() || [];
     }, [county, subCounty, hierarchy]);
 
+    const updateResults = (newLocation: { county?: string, subCounty?: string, constituency?: string, ward?: string }) => {
+        if (representatives && wardReps) {
+             setResults(getLeadersForLocation(
+                year, 
+                newLocation.county || county, 
+                newLocation.subCounty || subCounty, 
+                newLocation.constituency || constituency, 
+                newLocation.ward || ward,
+                representatives,
+                wardReps
+            ));
+        }
+    };
+
     // Load National leaders initially
     useEffect(() => {
-        if (!county) {
-            setResults(getLeadersForLocation(year, '', '', '', ''));
+        if (!county && representatives && wardReps) {
+            setResults(getLeadersForLocation(year, '', '', '', '', representatives, wardReps));
         }
-    }, [year, county]);
+    }, [year, county, representatives, wardReps]);
 
     // Handlers
     const handleCountyChange = (val: string) => {
@@ -116,24 +141,25 @@ const LeadershipPage: React.FC = () => {
         setSubCounty('');
         setConstituency('');
         setWard('');
-        setResults(getLeadersForLocation(year, val, '', '', ''));
+        updateResults({ county: val, subCounty: '', constituency: '', ward: '' });
     };
 
     const handleSubCountyChange = (val: string) => {
         setSubCounty(val);
-        // Since SubCounty maps to Constituency in our logic
         setConstituency(val); 
         setWard('');
-        setResults(getLeadersForLocation(year, county, val, val, ''));
+        updateResults({ subCounty: val, constituency: val, ward: '' });
     };
     
     const handleWardChange = (val: string) => {
         setWard(val);
-        setResults(getLeadersForLocation(year, county, subCounty, constituency, val));
+        updateResults({ ward: val });
     }
 
-    if (isLoading) return <LoadingSpinner />;
-    if (error) return <ErrorDisplay message="Failed to load location data." onRetry={refetch} />;
+    if (isCountiesLoading || isRepsLoading || isWardRepsLoading) return <LoadingSpinner />;
+    
+    // Add generic error if data fails to load (can be refined)
+    if (!counties && !isCountiesLoading) return <ErrorDisplay message="Failed to load location data." />;
 
     const currentLocationName = ward ? `${ward} Ward` : (constituency ? `${constituency} Constituency` : (county || 'Kenya (National)'));
 

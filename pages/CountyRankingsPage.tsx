@@ -134,7 +134,7 @@ const CountyRankingsPage: React.FC = () => {
     // Calculate ward counts per county from the ward representatives data
     const wardCounts = useMemo(() => {
         const counts: Record<string, Set<string>> = {};
-        wardRepresentatives.forEach(rep => {
+        wardRepresentatives.forEach((rep: WardRepresentative) => {
             const countyName = rep.county;
             if (!counts[countyName]) {
                 counts[countyName] = new Set();
@@ -161,7 +161,7 @@ const CountyRankingsPage: React.FC = () => {
         });
 
         // Map Executives and MPs
-        representativesData.forEach(rep => {
+        representativesData.forEach((rep: Representative) => {
             if (!rep.county) return;
             const countyKey = rep.county; 
             
@@ -179,7 +179,7 @@ const CountyRankingsPage: React.FC = () => {
         });
 
         // Map MCAs
-        wardRepresentatives.forEach(rep => {
+        wardRepresentatives.forEach((rep: WardRepresentative) => {
              const countyKey = rep.county;
              let targetKey = countyKey;
              if(!map[targetKey] && countyKey === 'Nairobi') targetKey = 'Nairobi City';

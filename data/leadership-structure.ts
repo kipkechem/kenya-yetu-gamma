@@ -1,6 +1,6 @@
 
-import { representativesData } from './governance/representatives';
-import { wardRepresentatives } from './governance/ward-representatives';
+import type { Representative } from '../types';
+import type { WardRepresentative } from './governance/ward-representatives';
 
 export interface GeoNode {
     name: string;
@@ -16,8 +16,11 @@ export interface LeaderProfile {
 }
 
 // Hierarchical data generation from real county data and wards
-export const getLeadershipHierarchy = (counties: {name: string, constituencies: string[]}[]): GeoNode[] => {
-    const safeWardReps = Array.isArray(wardRepresentatives) ? wardRepresentatives : [];
+export const getLeadershipHierarchy = (
+    counties: {name: string, constituencies: string[]}[], 
+    wardReps: WardRepresentative[]
+): GeoNode[] => {
+    const safeWardReps = Array.isArray(wardReps) ? wardReps : [];
     
     if (!Array.isArray(counties)) return [];
 
@@ -60,13 +63,15 @@ export const getLeadershipHierarchy = (counties: {name: string, constituencies: 
 export const getLeadersForLocation = (
     year: string,
     county: string,
-    subCounty: string,
+    subCounty: string, // Acts as Constituency
     constituency: string,
-    ward: string
+    ward: string,
+    allRepresentatives: Representative[],
+    allWardRepresentatives: WardRepresentative[]
 ): LeaderProfile[] => {
     const results: LeaderProfile[] = [];
-    const safeReps = Array.isArray(representativesData) ? representativesData : [];
-    const safeWardReps = Array.isArray(wardRepresentatives) ? wardRepresentatives : [];
+    const safeReps = Array.isArray(allRepresentatives) ? allRepresentatives : [];
+    const safeWardReps = Array.isArray(allWardRepresentatives) ? allWardRepresentatives : [];
 
     // 1. National Leaders
     // Show national leaders only if no county is selected (Global view)

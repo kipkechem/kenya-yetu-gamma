@@ -1,15 +1,10 @@
 
 import React, { useMemo, useState } from 'react';
-import type { County } from '../types';
+import type { County, PolicyDocument } from '../types';
 import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon, ChevronDoubleLeftIcon, InboxStackIcon } from './icons';
 import { dispatchNavigate } from '../utils/navigation';
 import { useLazyData } from '../hooks/useLazyData';
 import { getCountyPolicies } from '../data/knowledge-base/county-policies';
-
-export interface PolicyDocument {
-  title: string;
-  url: string;
-}
 
 interface CountyDetailPageProps {
   county: County;

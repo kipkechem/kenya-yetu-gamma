@@ -114,7 +114,7 @@ const ElectedLeadersPage: React.FC = () => {
         });
 
         // Map Executives and MPs
-        representativesData.forEach(rep => {
+        representativesData.forEach((rep: Representative) => {
             if (!rep.county) return;
             const countyKey = rep.county; 
             
