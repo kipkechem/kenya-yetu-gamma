@@ -1,7 +1,7 @@
 
 import React, { useMemo, useState } from 'react';
 import { UserGroupIcon, IdentificationIcon } from '../components/icons';
-import { countiesData } from '../data/counties';
+import { countiesData } from '../data/counties/index';
 import { wardRepresentatives } from '../data/governance/ward-representatives';
 import { representativesData } from '../data/governance/representatives';
 import { useLazyData } from '../hooks/useLazyData';

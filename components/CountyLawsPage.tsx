@@ -1,10 +1,11 @@
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useDeferredValue } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon, BookOpenIcon, ChevronDoubleRightIcon, ScaleIcon, MapPinIcon } from './icons';
-import type { CountyLegislation, CountyLaw } from '../types/index';
-import Highlight from './Highlight';
+import type { CountyLegislation, CountyLaw, County } from '../types/index';
+import Highlight from '../components/Highlight';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorDisplay from '../components/ErrorDisplay';
 import { useLazyData } from '../hooks/useLazyData';
 import { countiesData } from '../data/counties/index';
 
@@ -12,7 +13,9 @@ interface CountyLawsPageProps {
     initialSearchTerm?: string;
 }
 
-const CountyTile: React.FC<{ name: string, count?: number, onClick: () => void }> = ({ name, count, onClick }) => (
+const ITEMS_PER_PAGE = 10;
+
+const CountyTile: React.FC<{ name: string, count?: number, onClick: () => void }> = React.memo(({ name, count, onClick }) => (
     <button
         onClick={onClick}
         className="bg-surface dark:bg-dark-surface p-5 rounded-2xl custom-shadow-lg hover:custom-shadow-xl hover:-translate-y-1 transform-gpu transition-all duration-300 flex flex-col items-center justify-center text-center h-full min-h-[140px] border border-transparent hover:border-primary/20 group"
@@ -25,33 +28,88 @@ const CountyTile: React.FC<{ name: string, count?: number, onClick: () => void }
             {count !== undefined ? `${count} Laws` : 'View Laws'}
         </span>
     </button>
-);
+));
 
 const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' }) => {
   const [searchTerm, setSearchTerm] = useState(initialSearchTerm);
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+  
   const [selectedCountyName, setSelectedCountyName] = useState<string | null>(null);
   const [openItems, setOpenItems] = useState<Set<string>>(new Set(['devolution-laws']));
-  const [isDevolutionOpen, setIsDevolutionOpen] = useState(false);
+  
+  // Pagination state
+  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
 
-  // Load data using the lazy hook
-  const { data: countyLawsData, isLoading: isCountyLoading } = useLazyData<CountyLegislation[]>(
-      'county-laws-data',
-      () => import('../data/county-laws').then(m => m.countyLawsData)
-  );
+  // State for incrementally loaded laws
+  const [countyLawsData, setCountyLawsData] = useState<CountyLegislation[]>([]);
+  const [loadingStage, setLoadingStage] = useState(0);
 
-  const { data: devolutionLawsData, isLoading: isDevolutionLoading } = useLazyData<CountyLaw[]>(
+  // Lazy load batches sequentially
+  useEffect(() => {
+    let isMounted = true;
+    
+    const loadBatch = async (batchNum: number) => {
+        try {
+            let batch: CountyLegislation[] = [];
+            if (batchNum === 1) {
+                const m = await import('../data/legislation/county-laws-1');
+                batch = m.countyLawsBatch1;
+            } else if (batchNum === 2) {
+                const m = await import('../data/legislation/county-laws-2');
+                batch = m.countyLawsBatch2;
+            } else if (batchNum === 3) {
+                const m = await import('../data/legislation/county-laws-3');
+                batch = m.countyLawsBatch3;
+            }
+
+            if (isMounted) {
+                setCountyLawsData(prev => {
+                    const combined = [...prev, ...batch];
+                    // Remove duplicates just in case
+                    const unique = Array.from(new Map(combined.map(item => [item.countyName, item])).values());
+                    return unique.sort((a, b) => a.countyName.localeCompare(b.countyName));
+                });
+                setLoadingStage(prev => prev + 1);
+            }
+        } catch (error) {
+            console.error(`Failed to load county laws batch ${batchNum}`, error);
+        }
+    };
+
+    // Start loading sequence
+    if (loadingStage === 0) loadBatch(1);
+    if (loadingStage === 1) loadBatch(2);
+    if (loadingStage === 2) loadBatch(3);
+
+    return () => { isMounted = false; };
+  }, [loadingStage]);
+
+
+  const { data: devolutionLawsData, isLoading: isDevolutionLoading, error: devolutionError, refetch: refetchDevolutionLaws } = useLazyData<CountyLaw[]>(
       'devolution-laws-data',
-      () => import('../data/county-laws').then(m => m.devolutionLawsData)
+      () => import('../data/legislation/devolution-laws').then(m => m.devolutionLawsData)
   );
 
   useEffect(() => {
       if (initialSearchTerm) {
-          setSearchTerm(initialSearchTerm);
+          // Check if initialSearchTerm matches a county name exactly
+          const countyExists = countiesData.some(c => c.name.toLowerCase() === initialSearchTerm.toLowerCase());
+          if (countyExists) {
+              setSelectedCountyName(initialSearchTerm);
+              setSearchTerm(''); // Clear search term so we see the full list for that county
+          } else {
+              setSearchTerm(initialSearchTerm);
+          }
       }
   }, [initialSearchTerm]);
 
-  const isSearching = searchTerm.trim().length > 0;
-  const lowercasedTerm = searchTerm.toLowerCase();
+  // Reset pagination when search changes
+  useEffect(() => {
+      setVisibleCount(ITEMS_PER_PAGE);
+  }, [deferredSearchTerm]);
+
+  const isSearching = deferredSearchTerm.trim().length > 0;
+  const lowercasedTerm = deferredSearchTerm.toLowerCase();
 
   const filteredDevolutionLaws = useMemo(() => {
     if (!devolutionLawsData) return [];
@@ -60,75 +118,112 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
   }, [lowercasedTerm, isSearching, devolutionLawsData]);
 
   const filteredCountyData = useMemo(() => {
-    if (!countyLawsData) return [];
+    if (!countyLawsData || countyLawsData.length === 0) return [];
     if (!isSearching) {
-      return countyLawsData;
+      return []; // Don't show all laws when not searching to save render performance
     }
 
-    return countyLawsData
-      .map(county => {
-        const countyNameMatches = county.countyName.toLowerCase().includes(lowercasedTerm);
-        const matchingActs = county.acts.filter(act => act.name.toLowerCase().includes(lowercasedTerm));
-        const matchingBills = county.bills.filter(bill => bill.name.toLowerCase().includes(lowercasedTerm));
+    const results: CountyLegislation[] = [];
+    
+    // Single pass filtering optimization
+    for (const county of countyLawsData) {
+        const countyNameLower = county.countyName.toLowerCase();
+        const countyNameMatches = countyNameLower.includes(lowercasedTerm);
+        
+        let matchingActs = county.acts;
+        let matchingBills = county.bills;
+        // Assume pendingBills exist on type, fallback to empty array if not defined yet on type but passed in data
+        let matchingPendingBills = (county as any).pendingBills || [];
 
-        if (countyNameMatches || matchingActs.length > 0 || matchingBills.length > 0) {
-          return {
-            ...county,
-            acts: countyNameMatches ? county.acts : matchingActs,
-            bills: countyNameMatches ? county.bills : matchingBills,
-          };
+        // If the county name doesn't match, we must filter the children. 
+        // If it does match, we show all children (acts/bills) for context.
+        if (!countyNameMatches) {
+             matchingActs = [];
+             matchingBills = [];
+             matchingPendingBills = [];
+
+             // Use simple loops instead of filter for slight performance gain in hot path
+             for (const act of county.acts) {
+                 if (act.name.toLowerCase().includes(lowercasedTerm)) {
+                     matchingActs.push(act);
+                 }
+             }
+
+             for (const bill of county.bills) {
+                 if (bill.name.toLowerCase().includes(lowercasedTerm)) {
+                     matchingBills.push(bill);
+                 }
+             }
+             
+             if ((county as any).pendingBills) {
+                 for (const pBill of (county as any).pendingBills) {
+                     if (pBill.name.toLowerCase().includes(lowercasedTerm)) {
+                         matchingPendingBills.push(pBill);
+                     }
+                 }
+             }
         }
-        return null;
-      })
-      .filter((c): c is CountyLegislation => c !== null);
+
+        if (countyNameMatches || matchingActs.length > 0 || matchingBills.length > 0 || matchingPendingBills.length > 0) {
+            // We construct a new object that includes pendingBills if they exist
+            const resultObj: any = {
+                countyName: county.countyName,
+                acts: matchingActs,
+                bills: matchingBills
+            };
+            if (matchingPendingBills.length > 0) {
+                resultObj.pendingBills = matchingPendingBills;
+            }
+            results.push(resultObj);
+        }
+    }
+    return results;
   }, [lowercasedTerm, isSearching, countyLawsData]);
 
-  // Filtered counties for the grid view (based on name match)
   const visibleCounties = useMemo(() => {
-      // Use the imported countiesData for the grid list to ensure all 47 are represented nicely
-      // even if laws data is still loading in the background
       return countiesData
         .filter(c => c.name.toLowerCase().includes(lowercasedTerm))
         .sort((a,b) => a.name.localeCompare(b.name));
   }, [lowercasedTerm]);
 
-  // Get laws data specifically for the selected county
   const selectedCountyLaws = useMemo(() => {
       if (!selectedCountyName || !countyLawsData) return null;
-      return countyLawsData.find(c => c.countyName.toLowerCase() === selectedCountyName.toLowerCase());
+      // Note: countyName case matching is important, ensuring data consistency
+      // Some datasets use "Nairobi City" vs "Nairobi". We try to be flexible.
+      return countyLawsData.find(c => 
+          c.countyName.toLowerCase() === selectedCountyName.toLowerCase() ||
+          (selectedCountyName.toLowerCase().includes(c.countyName.toLowerCase())) 
+      );
   }, [selectedCountyName, countyLawsData]);
 
-  // Filter laws within the selected county view
   const filteredSelectedCountyLaws = useMemo(() => {
-      if (!selectedCountyLaws) return { acts: [], bills: [] };
-      if (!isSearching) return selectedCountyLaws;
+      if (!selectedCountyLaws) return { acts: [], bills: [], pendingBills: [] };
+      if (!isSearching) return { 
+          acts: selectedCountyLaws.acts, 
+          bills: selectedCountyLaws.bills, 
+          pendingBills: (selectedCountyLaws as any).pendingBills || [] 
+      };
 
       return {
           acts: selectedCountyLaws.acts.filter(l => l.name.toLowerCase().includes(lowercasedTerm)),
-          bills: selectedCountyLaws.bills.filter(l => l.name.toLowerCase().includes(lowercasedTerm))
+          bills: selectedCountyLaws.bills.filter(l => l.name.toLowerCase().includes(lowercasedTerm)),
+          pendingBills: ((selectedCountyLaws as any).pendingBills || []).filter((l: CountyLaw) => l.name.toLowerCase().includes(lowercasedTerm))
       };
   }, [selectedCountyLaws, lowercasedTerm, isSearching]);
 
-  // Global search logic (when not inside a county view)
-  const globalSearchResults = useMemo(() => {
-      if (!isSearching || selectedCountyName || !countyLawsData) return null;
-      
-      const results: { county: string; matches: CountyLaw[] }[] = [];
-      
-      countyLawsData.forEach(county => {
-          const matches = [
-              ...county.acts.filter(l => l.name.toLowerCase().includes(lowercasedTerm)),
-              ...county.bills.filter(l => l.name.toLowerCase().includes(lowercasedTerm))
-          ];
-          if (matches.length > 0) {
-              results.push({ county: county.countyName, matches });
-          }
-      });
-      return results;
-  }, [isSearching, selectedCountyName, countyLawsData, lowercasedTerm]);
+  // Determine if specific law was found when searching globally (used for "Found X laws..." count)
+  const globalSearchResultsCount = useMemo(() => {
+      if (!filteredCountyData) return 0;
+      let count = 0;
+      for (const c of filteredCountyData) {
+          count += c.acts.length + c.bills.length + ((c as any).pendingBills?.length || 0);
+      }
+      return count;
+  }, [filteredCountyData]);
+
 
   const toggleItem = (itemName: string) => {
-    if (isSearching) return; // Don't allow toggling when searching
+    if (isSearching) return; 
     setOpenItems(prev => {
       const newSet = new Set(prev);
       if (newSet.has(itemName)) newSet.delete(itemName);
@@ -150,8 +245,8 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
     }
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+  const handleLoadMore = () => {
+      setVisibleCount(prev => prev + ITEMS_PER_PAGE);
   };
 
   const renderAccordionLawList = (laws: CountyLaw[], originalLaws: CountyLaw[] | undefined, lawType: string) => {
@@ -180,7 +275,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                         {law.url.startsWith('#internal:') ? 
                             <BookOpenIcon className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-gray-400 dark:text-gray-500" />
                             : <FileTextIcon className="h-4 w-4 mr-2 mt-0.5 flex-shrink-0 text-gray-400 dark:text-gray-500" />}
-                        <span><Highlight text={law.name} highlight={searchTerm} /></span>
+                        <span><Highlight text={law.name} highlight={deferredSearchTerm} /></span>
                         {!law.url.startsWith('#internal:') && (
                            <ExternalLinkIcon className="h-3.5 w-3.5 ml-1.5 mt-1 flex-shrink-0 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                         )}
@@ -212,7 +307,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                         >
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm font-medium text-gray-800 dark:text-gray-200 group-hover:text-primary dark:group-hover:text-dark-primary transition-colors line-clamp-2">
-                                    <Highlight text={law.name} highlight={searchTerm} />
+                                    <Highlight text={law.name} highlight={deferredSearchTerm} />
                                 </p>
                             </div>
                             {!law.url.startsWith('#internal:') && (
@@ -265,11 +360,11 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                       </div>
                   </header>
                   
-                  {isCountyLoading ? (
+                  {loadingStage === 0 ? (
                        <LoadingSpinner />
                   ) : selectedCountyLaws ? (
                       <div className="animate-fade-in">
-                          {filteredSelectedCountyLaws.acts.length === 0 && filteredSelectedCountyLaws.bills.length === 0 ? (
+                          {filteredSelectedCountyLaws.acts.length === 0 && filteredSelectedCountyLaws.bills.length === 0 && filteredSelectedCountyLaws.pendingBills.length === 0 ? (
                               <div className="text-center py-12 bg-surface dark:bg-dark-surface rounded-2xl border border-dashed border-gray-300 dark:border-gray-700">
                                   <p className="text-gray-500 dark:text-gray-400">No laws found matching "{searchTerm}".</p>
                               </div>
@@ -277,6 +372,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                               <>
                                 {renderDetailedLawList(filteredSelectedCountyLaws.acts, "Acts")}
                                 {renderDetailedLawList(filteredSelectedCountyLaws.bills, "Legal Notices")}
+                                {renderDetailedLawList(filteredSelectedCountyLaws.pendingBills, "Bills (Unassented)")}
                               </>
                           )}
                       </div>
@@ -290,7 +386,6 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
       );
   }
 
-  const hasSearchResults = filteredDevolutionLaws.length > 0 || filteredCountyData.length > 0;
   const devolutionLawsKey = 'devolution-laws';
   const isDevolutionOpenInAccordion = isSearching ? filteredDevolutionLaws.length > 0 : openItems.has(devolutionLawsKey);
 
@@ -320,40 +415,73 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
               onChange={(e) => setSearchTerm(e.target.value)}
               className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3.5 pl-12 pr-4 text-on-surface dark:text-dark-on-surface placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary custom-shadow-lg"
             />
+            {loadingStage < 3 && (
+                <div className="absolute right-4 top-3.5">
+                   <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                </div>
+            )}
         </div>
 
         {/* Global Search Results (Laws) */}
-        {globalSearchResults && globalSearchResults.length > 0 && (
+        {filteredCountyData.length > 0 && (
              <div className="mb-12 animate-fade-in">
                  <h2 className="text-xl font-bold text-on-surface dark:text-dark-on-surface mb-4 px-2 border-b border-gray-200 dark:border-gray-700 pb-2">
-                    Found {globalSearchResults.reduce((acc, curr) => acc + curr.matches.length, 0)} laws matching "{searchTerm}"
+                    Found {globalSearchResultsCount} laws matching "{deferredSearchTerm}"
                  </h2>
                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                     {globalSearchResults.map(result => (
-                         <div key={result.county} className="bg-surface dark:bg-dark-surface p-4 rounded-xl custom-shadow border border-primary/10 hover:border-primary/30 transition-colors">
+                     {filteredCountyData.slice(0, visibleCount).map(county => (
+                         <div key={county.countyName} className="bg-surface dark:bg-dark-surface p-4 rounded-xl custom-shadow border border-primary/10 hover:border-primary/30 transition-colors">
                              <div className="flex justify-between items-center mb-3">
-                                 <h3 className="font-bold text-primary dark:text-dark-primary">{result.county} County</h3>
+                                 <h3 className="font-bold text-primary dark:text-dark-primary">{county.countyName} County</h3>
                                  <button 
-                                     onClick={() => setSelectedCountyName(result.county)} 
+                                     onClick={() => setSelectedCountyName(county.countyName)} 
                                      className="text-xs font-medium bg-primary/10 dark:bg-dark-primary/10 px-2 py-1 rounded text-primary dark:text-dark-primary hover:bg-primary/20 transition-colors"
                                  >
                                      View All
                                  </button>
                              </div>
                              <ul className="space-y-2">
-                                 {result.matches.slice(0, 3).map((law, i) => (
-                                     <li key={i} className="text-sm truncate text-gray-700 dark:text-gray-300 flex items-center">
+                                 {county.acts.slice(0, 2).map((law, i) => (
+                                     <li key={`act-${i}`} className="text-sm truncate text-gray-700 dark:text-gray-300 flex items-center">
                                          <FileTextIcon className="h-3 w-3 mr-2 text-gray-400 flex-shrink-0" />
                                          <a href={law.url} target="_blank" rel="noreferrer" className="hover:underline hover:text-primary truncate">
-                                            <Highlight text={law.name} highlight={searchTerm} />
+                                            <Highlight text={law.name} highlight={deferredSearchTerm} />
                                          </a>
                                      </li>
                                  ))}
-                                 {result.matches.length > 3 && <li className="text-xs text-gray-500 italic pl-5">+{result.matches.length - 3} more results</li>}
+                                 {county.bills.slice(0, 2).map((law, i) => (
+                                     <li key={`bill-${i}`} className="text-sm truncate text-gray-700 dark:text-gray-300 flex items-center">
+                                         <FileTextIcon className="h-3 w-3 mr-2 text-gray-400 flex-shrink-0" />
+                                         <a href={law.url} target="_blank" rel="noreferrer" className="hover:underline hover:text-primary truncate">
+                                            <Highlight text={law.name} highlight={deferredSearchTerm} />
+                                         </a>
+                                     </li>
+                                 ))}
+                                 {((county as any).pendingBills || []).slice(0, 2).map((law: CountyLaw, i: number) => (
+                                     <li key={`pending-${i}`} className="text-sm truncate text-gray-700 dark:text-gray-300 flex items-center">
+                                         <FileTextIcon className="h-3 w-3 mr-2 text-yellow-500 flex-shrink-0" />
+                                         <a href={law.url} target="_blank" rel="noreferrer" className="hover:underline hover:text-primary truncate">
+                                            <Highlight text={law.name} highlight={deferredSearchTerm} />
+                                         </a>
+                                     </li>
+                                 ))}
+                                 {(county.acts.length + county.bills.length + ((county as any).pendingBills?.length || 0)) > 4 && 
+                                    <li className="text-xs text-gray-500 italic pl-5">+{county.acts.length + county.bills.length + ((county as any).pendingBills?.length || 0) - 4} more results</li>
+                                 }
                              </ul>
                          </div>
                      ))}
                  </div>
+                 {filteredCountyData.length > visibleCount && (
+                     <div className="text-center mt-6">
+                         <button 
+                             onClick={handleLoadMore}
+                             className="px-6 py-2 bg-primary/10 hover:bg-primary/20 text-primary dark:text-dark-primary rounded-full text-sm font-medium transition-colors"
+                         >
+                             Load More
+                         </button>
+                     </div>
+                 )}
              </div>
         )}
 
@@ -389,51 +517,6 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                 County-Specific Legislation
             </h2>
         )}
-
-        <div className="space-y-4">
-          {filteredCountyData.length > 0 ? (
-            filteredCountyData.map(county => {
-                const isCountyOpen = isSearching || openItems.has(county.countyName);
-                const originalCountyData = isSearching ? countyLawsData?.find(c => c.countyName === county.countyName) : county;
-
-                return (
-                    <div key={county.countyName} className="bg-surface dark:bg-dark-surface rounded-xl custom-shadow-lg overflow-hidden transition-all duration-300">
-                        <button
-                          onClick={() => toggleItem(county.countyName)}
-                          className="w-full flex justify-between items-center p-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                          aria-expanded={isCountyOpen}
-                          disabled={isSearching}
-                        >
-                            <h3 className="font-semibold text-lg"><Highlight text={`${county.countyName} County`} highlight={searchTerm} /></h3>
-                            <ChevronDownIcon className={`h-5 w-5 text-gray-500 transform transition-transform duration-200 ${isCountyOpen ? 'rotate-180' : ''}`} />
-                        </button>
-                        <div
-                            className={`transition-all duration-300 ease-in-out overflow-hidden`}
-                            style={{ maxHeight: isCountyOpen ? '2000px' : '0px' }}
-                        >
-                            <div className="px-4 pb-4 border-t border-border dark:border-dark-border/50">
-                                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                                    <div>
-                                        <h4 className="font-bold text-on-surface dark:text-dark-on-surface mb-2">Acts</h4>
-                                        {renderAccordionLawList(county.acts, originalCountyData?.acts, 'Acts')}
-                                    </div>
-                                    <div>
-                                        <h4 className="font-bold text-on-surface dark:text-dark-on-surface mb-2">Legal Notices</h4>
-                                        {renderAccordionLawList(county.bills, originalCountyData?.bills, 'Legal Notices')}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                );
-            })
-          ) : isSearching && !hasSearchResults && !globalSearchResults ? (
-             <div className="text-center py-16 bg-surface dark:bg-dark-surface rounded-2xl custom-shadow-lg">
-                <h3 className="text-xl font-medium text-on-surface dark:text-dark-on-surface">No Results Found</h3>
-                <p className="mt-2 text-gray-500 dark:text-gray-400">Your search for "{searchTerm}" did not match any national or county laws.</p>
-            </div>
-          ) : null}
-        </div>
 
         {/* Counties Grid for Quick Navigation */}
         {!isSearching && (

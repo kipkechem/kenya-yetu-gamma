@@ -1,8 +1,11 @@
 
-
 import type { CountyLegislation } from '../../types';
 
-export const countyLawsBatch1: CountyLegislation[] = [
+export interface ExtendedCountyLegislation extends CountyLegislation {
+    pendingBills?: { name: string; url: string }[];
+}
+
+export const countyLawsBatch1: ExtendedCountyLegislation[] = [
   {
     countyName: 'Baringo',
     acts: [
@@ -225,9 +228,9 @@ export const countyLawsBatch1: CountyLegislation[] = [
       { name: "Isiolo County Tourism Act, 2015", url: "https://new.kenyalaw.org/akn/ke-011/act/2015/12/eng@2015-12-21" },
       { name: "Isiolo County Villages Administration Act, 2019", url: "https://new.kenyalaw.org/akn/ke-011/act/2019/5/eng@2019-11-27" },
       { name: "Isiolo County Wards Development Fund Act, 2015", url: "https://new.kenyalaw.org/akn/ke-011/act/2015/11/eng@2015-12-21" },
-      { name: "Isiolo County Youth, Women and Persons with Disabilities Enterprise Development Fund Act", url: "https://new.kenyalaw.org/akn/ke-011/act/ln/2019/2/eng@2019-11-13" }
     ],
     bills: [
+      { name: "Isiolo County Youth, Women and Persons with Disabilities Enterprise Development Fund Act", url: "https://new.kenyalaw.org/akn/ke-011/act/ln/2019/2/eng@2019-11-13" },
       { name: "Public Finance Management (Isiolo County Assembly Car Loan and Mortgage Scheme Fund) Regulations, 2021", url: "https://new.kenyalaw.org/akn/ke-011/act/ln/2021/1/eng@2021-02-18" }
     ]
   },
@@ -360,7 +363,41 @@ export const countyLawsBatch1: CountyLegislation[] = [
   },
   {
     countyName: 'Kirinyaga',
-    acts: [],
-    bills: []
-  },
+    acts: [
+      { name: "👉 Access All Kirinyaga County Acts (Official Repository)", url: "https://kirinyagaassembly.go.ke/assembly-business/acts/" },
+      { name: "The Kirinyaga County Appropriation Act, 2023", url: "https://kirinyagaassembly.go.ke/wp-content/uploads/2023/07/The-Kirinyaga-County-Appropriation-Act-2023.pdf" },
+      { name: "The Kirinyaga County Finance Act, 2023", url: "https://kirinyagaassembly.go.ke/wp-content/uploads/2023/12/The-Kirinyaga-County-Finance-Act-2023.pdf" },
+      { name: "The Kirinyaga County Supplementary Appropriation Act, 2023", url: "https://kirinyagaassembly.go.ke/wp-content/uploads/2023/04/The-Kirinyaga-County-Supplementary-Appropriation-Act-2023.pdf" },
+      { name: "The Kirinyaga County Agriculture Technical & Vocational Training Act, 2023", url: "https://kirinyagaassembly.go.ke/wp-content/uploads/2023/01/The-Kirinyaga-County-Agriculture-Technical-Vocational-Training-Act-2023.pdf" },
+      { name: "Kirinyaga County Alcoholic Drinks Control Act, 2014", url: "https://new.kenyalaw.org/akn/ke-020/act/2014/3/eng@2014-06-25" },
+      { name: "Kirinyaga County Appropriation Act, 2017", url: "https://new.kenyalaw.org/akn/ke-020/act/2017/3/eng@2017-06-30" },
+      { name: "Kirinyaga County Appropriation Act, 2018", url: "https://new.kenyalaw.org/akn/ke-020/act/2018/2/eng@2018-06-29" },
+      { name: "Kirinyaga County Business Licensing Act, 2016", url: "https://new.kenyalaw.org/akn/ke-020/act/2016/5/eng@2016-04-14" },
+      { name: "Kirinyaga County Cooperative Societies Act, 2020", url: "https://new.kenyalaw.org/akn/ke-020/act/2020/4/eng@2020-09-08" },
+      { name: "Kirinyaga County Finance Act, 2018", url: "https://new.kenyalaw.org/akn/ke-020/act/2018/5/eng@2018-12-14" },
+      { name: "Kirinyaga County Flag, Emblems and Names Protection Act, 2015", url: "https://new.kenyalaw.org/akn/ke-020/act/2015/6/eng@2015-05-18" },
+      { name: "Kirinyaga County Health Services Act, 2016", url: "https://new.kenyalaw.org/akn/ke-020/act/2016/2/eng@2016-04-06" },
+      { name: "Kirinyaga County Investment and Development Authority Act, 2015", url: "https://new.kenyalaw.org/akn/ke-020/act/2015/7/eng@2015-05-18" },
+      { name: "Kirinyaga County Public Participation Act, 2015", url: "https://new.kenyalaw.org/akn/ke-020/act/2015/8/eng@2015-05-18" },
+      { name: "Kirinyaga County Rating Act, 2016", url: "https://new.kenyalaw.org/akn/ke-020/act/2016/8/eng@2016-04-14" },
+      { name: "Kirinyaga County Supplementary Appropriation Act, 2017", url: "https://new.kenyalaw.org/akn/ke-020/act/2017/2/eng@2017-04-20" },
+      { name: "Kirinyaga County Trade Licensing Act, 2016", url: "https://new.kenyalaw.org/akn/ke-020/act/2016/5/eng@2016-04-14" },
+      { name: "Kirinyaga County Transport and Parking Act, 2015", url: "https://new.kenyalaw.org/akn/ke-020/act/2015/4/eng@2015-05-04" },
+      { name: "Kirinyaga County Vocational Training Act, 2016", url: "https://new.kenyalaw.org/akn/ke-020/act/2016/3/eng@2016-04-14" }
+    ],
+    bills: [
+       { name: "👉 Access All Kirinyaga County Bills (Official Repository)", url: "https://kirinyagaassembly.go.ke/bills-tracker/" },
+       { name: "👉 Access Kirinyaga County Bills Tracker (Official Repository)", url: "https://kirinyagaassembly.go.ke/bills-tracker/" },
+       { name: "Kirinyaga County Investment and Development Authority Regulations, 2016", url: "https://new.kenyalaw.org/akn/ke-020/act/ln/2016/1/eng@2016-06-17" }
+    ],
+    pendingBills: [
+       { name: "The Kirinyaga County Emergency Fund Bill, 2023", url: "https://kirinyagaassembly.go.ke/bills-tracker/" },
+       { name: "The Kirinyaga County Climate Change Fund Bill, 2023", url: "https://kirinyagaassembly.go.ke/bills-tracker/" },
+       { name: "The Kirinyaga County Tea Bill, 2023", url: "https://kirinyagaassembly.go.ke/bills-tracker/" },
+       { name: "The Kirinyaga County Rice Bill, 2023", url: "https://kirinyagaassembly.go.ke/bills-tracker/" },
+       { name: "The Kirinyaga County Persons with Disabilities Bill, 2023", url: "https://kirinyagaassembly.go.ke/bills-tracker/" },
+       { name: "The Kirinyaga County County Transport & Parking (Amendment) Bill, 2023", url: "https://kirinyagaassembly.go.ke/bills-tracker/" },
+       { name: "The Kirinyaga County Alcoholic Drinks Control (Amendment) Bill, 2023", url: "https://kirinyagaassembly.go.ke/bills-tracker/" }
+    ]
+  }
 ];

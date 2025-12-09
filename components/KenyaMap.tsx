@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react';
 
 interface KenyaMapProps {
   onCountyClick: (countyName: string) => void;
@@ -7,20 +8,34 @@ interface KenyaMapProps {
 
 const KenyaMap: React.FC<KenyaMapProps> = ({ onCountyClick, counties }) => {
   const [hoveredCounty, setHoveredCounty] = useState<string | null>(null);
-  const [tooltip, setTooltip] = useState<{ x: number; y: number; content: string } | null>(null);
+  const [tooltipContent, setTooltipContent] = useState<string | null>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent, name: string) => {
-    // Offset the tooltip slightly from the cursor
-    setTooltip({ x: e.clientX + 15, y: e.clientY + 15, content: name });
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (tooltipRef.current && tooltipContent) {
+        // Direct DOM manipulation for performance (avoids React re-render on every pixel move)
+        const x = e.clientX + 15;
+        const y = e.clientY + 15;
+        tooltipRef.current.style.top = `${y}px`;
+        tooltipRef.current.style.left = `${x}px`;
+    }
+  };
+
+  const handleMouseEnter = (name: string) => {
+      setHoveredCounty(name);
+      setTooltipContent(name);
   };
   
   const handleMouseLeave = () => {
     setHoveredCounty(null);
-    setTooltip(null);
+    setTooltipContent(null);
   };
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
+    <div 
+        className="relative w-full h-full flex items-center justify-center"
+        onMouseMove={handleMouseMove}
+    >
       <svg
         viewBox="34 -5 8 10"
         className="w-full h-auto max-w-2xl max-h-[70vh] drop-shadow-lg"
@@ -33,9 +48,8 @@ const KenyaMap: React.FC<KenyaMapProps> = ({ onCountyClick, counties }) => {
               d={path}
               strokeWidth="0.02"
               className={`transition-all duration-200 cursor-pointer stroke-surface dark:stroke-dark-surface ${hoveredCounty === name ? 'fill-primary dark:fill-dark-primary' : 'fill-primary/60 dark:fill-dark-primary/50'}`}
-              onMouseEnter={() => setHoveredCounty(name)}
+              onMouseEnter={() => handleMouseEnter(name)}
               onMouseLeave={handleMouseLeave}
-              onMouseMove={(e) => handleMouseMove(e, name)}
               onClick={() => onCountyClick(name)}
               aria-label={name}
             >
@@ -44,14 +58,15 @@ const KenyaMap: React.FC<KenyaMapProps> = ({ onCountyClick, counties }) => {
           ))}
         </g>
       </svg>
-      {tooltip && (
-        <div
-          className="fixed p-2 text-sm bg-gray-900/80 backdrop-blur-sm text-white rounded-md pointer-events-none z-50 animate-fade-in"
-          style={{ top: tooltip.y, left: tooltip.x }}
-        >
-          {tooltip.content}
-        </div>
-      )}
+      
+      {/* Tooltip */}
+      <div
+          ref={tooltipRef}
+          className={`fixed p-2 text-sm bg-gray-900/90 backdrop-blur-sm text-white rounded-md pointer-events-none z-50 transition-opacity duration-150 ${tooltipContent ? 'opacity-100' : 'opacity-0'}`}
+          style={{ top: 0, left: 0 }}
+      >
+          {tooltipContent}
+      </div>
     </div>
   );
 };

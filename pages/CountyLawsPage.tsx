@@ -65,7 +65,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
             if (isMounted) {
                 setCountyLawsData(prev => {
                     const combined = [...prev, ...batch];
-                    // Remove duplicates based on countyName just in case
+                    // Remove duplicates just in case
                     const unique = Array.from(new Map(combined.map(item => [item.countyName, item])).values());
                     return unique.sort((a, b) => a.countyName.localeCompare(b.countyName));
                 });
@@ -110,11 +110,6 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
 
   const isSearching = deferredSearchTerm.trim().length > 0;
   const lowercasedTerm = deferredSearchTerm.toLowerCase();
-
-  const handleRetry = () => {
-      setLoadingStage(0); // Restart batch loading
-      if (devolutionError) refetchDevolutionLaws();
-  };
 
   const filteredDevolutionLaws = useMemo(() => {
     if (!devolutionLawsData) return [];

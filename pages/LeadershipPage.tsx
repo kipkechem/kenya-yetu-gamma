@@ -74,7 +74,7 @@ const LeadershipPage: React.FC = () => {
     // Lazy load heavy datasets
     const { data: counties, isLoading: isCountiesLoading } = useLazyData<County[]>(
         'counties-data',
-        () => import('../data/counties').then(m => m.countiesData)
+        () => import('../data/counties/index').then(m => m.countiesData)
     );
 
     const { data: representatives, isLoading: isRepsLoading } = useLazyData<Representative[]>(

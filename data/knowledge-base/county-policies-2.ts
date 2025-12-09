@@ -1,5 +1,5 @@
 
-import type { PolicyDocument } from './county-policies';
+import type { PolicyDocument } from '../../types';
 
 export const countyPoliciesBatch2: Record<string, PolicyDocument[]> = {
   "Kakamega": [
@@ -86,7 +86,10 @@ export const countyPoliciesBatch2: Record<string, PolicyDocument[]> = {
     { title: "Policy Brief No. 46 of 2023/2024 on Assessing Labour Productivity for Kirinyaga County", url: "https://repository.kippra.or.ke/handle/123456789/5077" },
     { title: "020. County Government of Kirinyaga", url: "https://repository.kippra.or.ke/handle/123456789/380" },
     { title: "Kirinyaga County Annual Development Plan 2024/2025", url: "https://repository.kippra.or.ke/handle/123456789/5309" },
-    { title: "Kirinyaga County Annual Development Plan 2025/2026", url: "https://repository.kippra.or.ke/handle/123456789/5604" }
+    { title: "Kirinyaga County Annual Development Plan 2025/2026", url: "https://repository.kippra.or.ke/handle/123456789/5604" },
+    { title: "Kirinyaga County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/243" },
+    { title: "Kirinyaga County Annual Development Plan 2024-2025", url: "https://repository.kippra.or.ke/handle/123456789/4830" },
+    { title: "Kirinyaga County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4549" }
   ],
   "Kisii": [
     { title: "Kisii County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4334" },
@@ -142,39 +145,9 @@ export const countyPoliciesBatch2: Record<string, PolicyDocument[]> = {
     { title: "Kisii County Climate Change Framework Policy 2019", url: "https://repository.kippra.or.ke/handle/123456789/4593" },
     { title: "Kisii County ICT Policy and Procedures 2017", url: "https://repository.kippra.or.ke/handle/123456789/3279" },
     { title: "Kisii Central District Development Plan 2002-2008", url: "https://repository.kippra.or.ke/handle/123456789/1927" },
-    { title: "045. County Government of Kisii", url: "https://repository.kippra.or.ke/handle/123456789/1293" }
-  ],
-  "Kisumu": [
-    { title: "Kisumu County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4160" },
-    { title: "Kisumu County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4768" },
-    { title: "Kisumu County Annual Development Plan 2023-2024", url: "https://repository.kippra.or.ke/handle/123456789/4312" },
-    { title: "Kisumu County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4551" },
-    { title: "Kisumu City Local Physical and Land Use Development Plans 2020", url: "https://repository.kippra.or.ke/handle/123456789/5538" },
-    { title: "Kisumu City County Annual Development Plan 2025/2026", url: "https://repository.kippra.or.ke/handle/123456789/5318" },
-    { title: "Kisumu City  County Budget Review  and Outlook  Paper 2021", url: "https://repository.kippra.or.ke/handle/123456789/4443" },
-    { title: "Kisumu City County Annual Development Plan 2024/2025", url: "https://repository.kippra.or.ke/handle/123456789/5317" },
-    { title: "042. County Government of Kisumu", url: "https://repository.kippra.or.ke/handle/123456789/1227" }
-  ],
-  "Kitui": [
-    { title: "Kitui County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4161" },
-    { title: "Kitui County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4769" },
-    { title: "Kitui County Annual Development Plan 2026/2027", url: "https://repository.kippra.or.ke/handle/123456789/5608" },
-    { title: "015. County Government of Kitui", url: "https://repository.kippra.or.ke/handle/123456789/315" }
-  ],
-  "Kwale": [
-    { title: "Kwale County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4162" },
-    { title: "Kwale County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4770" },
-    { title: "Kwale County Annual Development Plan 2025/2026", url: "https://repository.kippra.or.ke/handle/123456789/5319" },
-    { title: "Kwale County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/5401" },
-    { title: "Kwale County Budget Review and Outlook Paper 2021", url: "https://repository.kippra.or.ke/handle/123456789/4751" },
-    { title: "Kwale County Budget Review and Outlook Paper 2022", url: "https://repository.kippra.or.ke/handle/123456789/4750" },
-    { title: "Kwale County Budget Review and Outlook Paper 2014", url: "https://repository.kippra.or.ke/handle/123456789/4941" },
-    { title: "Kwale County Budget Review and Outlook Paper 2018", url: "https://repository.kippra.or.ke/handle/123456789/4942" }
-  ],
-  "Laikipia": [
-    { title: "Laikipia County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4163" },
-    { title: "Laikipia County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4771" },
-    { title: "Policy Brief No 130/2024-2025 on Devolution Achievement at 10 years for Laikipia County", url: "https://repository.kippra.or.ke/handle/123456789/5180" },
-    { title: "031. County Government of Laikipia", url: "https://repository.kippra.or.ke/handle/123456789/909" }
-  ]
-};
+    { title: "045. County Government of Kisii", url: "https://repository.kippra.or.ke/handle/123456789/1293" },
+    { title: "Kisii County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/244" },
+    { title: "Kisii County Annual Development Plan 2023-2024", url: "https://repository.kippra.or.ke/handle/123456789/4311" },
+    { title: "Kisii County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4550" },
+    { title: "Kisii County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4767" }
+];

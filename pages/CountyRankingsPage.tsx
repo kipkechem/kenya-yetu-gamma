@@ -1,30 +1,21 @@
 
 import React, { useMemo, useState } from 'react';
 import { PresentationChartLineIcon, UsersIcon, MapPinIcon, BuildingLibraryIcon, ChevronDownIcon, UserGroupIcon } from '../components/icons';
-import { countiesData } from '../data/counties';
+import { countiesData } from '../data/counties/index';
 import { wardRepresentatives } from '../data/governance/ward-representatives';
-import { representativesData } from '../data/governance/representatives';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorDisplay from '../components/ErrorDisplay';
-import type { County, Representative } from '../types';
+import type { County } from '../types';
 import type { WardRepresentative } from '../data/governance/ward-representatives';
 
-type MetricType = 'population' | 'area' | 'constituencies' | 'wards' | 'density' | 'leaders' | 'total_leaders';
+type MetricType = 'population' | 'area' | 'constituencies' | 'wards' | 'density' | 'total_leaders';
 
 interface RankingData {
     name: string;
     code: number;
     value: number;
     formattedValue: string;
-}
-
-interface CountyLeaders {
-    governor?: Representative;
-    senator?: Representative;
-    womanRep?: Representative;
-    mps: Representative[];
-    mcas: WardRepresentative[];
 }
 
 const formatNumber = (num: number) => {
@@ -43,88 +34,9 @@ const parseArea = (areaStr: string): number => {
     return parseFloat(cleanStr) || 0;
 };
 
-const LeaderCell: React.FC<{ leader?: Representative; role: string }> = ({ leader, role }) => {
-    if (!leader) return <span className="text-xs text-gray-400 italic">Vacant/Unknown</span>;
-    return (
-        <div className="flex items-center gap-3 min-w-[200px]">
-            <img 
-                src={leader.imageUrl} 
-                alt={leader.name} 
-                className="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800"
-                loading="lazy"
-            />
-            <div className="flex flex-col">
-                <span className="text-xs font-bold text-gray-800 dark:text-gray-200 line-clamp-1" title={leader.name}>
-                    {leader.name}
-                </span>
-                <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium">
-                    {leader.party}
-                </span>
-            </div>
-        </div>
-    );
-};
-
-interface ModalProps {
-    title: string;
-    subtitle: string;
-    items: { name: string; area: string; party: string }[];
-    onClose: () => void;
-}
-
-const LeadersModal: React.FC<ModalProps> = ({ title, subtitle, items, onClose }) => {
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
-            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden animate-fade-in" onClick={e => e.stopPropagation()}>
-                <div className="p-5 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/50">
-                    <div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white">{title}</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">{subtitle}</p>
-                    </div>
-                    <button onClick={onClose} className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full transition-colors">
-                        <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-                <div className="overflow-y-auto p-0">
-                    <table className="w-full text-left">
-                        <thead className="bg-gray-50 dark:bg-gray-800 sticky top-0 z-10">
-                            <tr>
-                                <th className="py-3 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">Name</th>
-                                <th className="py-3 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">Area</th>
-                                <th className="py-3 px-6 text-xs font-bold text-gray-500 uppercase tracking-wider">Party</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                            {items.map((item, idx) => (
-                                <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
-                                    <td className="py-3 px-6 text-sm font-semibold text-gray-900 dark:text-gray-200">{item.name}</td>
-                                    <td className="py-3 px-6 text-sm text-gray-600 dark:text-gray-400">{item.area}</td>
-                                    <td className="py-3 px-6 text-sm text-gray-500 dark:text-gray-400">
-                                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary dark:text-primary-light">
-                                            {item.party}
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-                <div className="p-4 border-t border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-800/50 text-right">
-                    <button onClick={onClose} className="px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 rounded-lg text-sm font-medium transition-colors">
-                        Close
-                    </button>
-                </div>
-            </div>
-        </div>
-    );
-};
-
 const CountyRankingsPage: React.FC = () => {
     const [selectedMetric, setSelectedMetric] = useState<MetricType>('population');
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-    const [modalData, setModalData] = useState<ModalProps | null>(null);
 
     const { data: counties, isLoading, error, refetch } = useLazyData<County[]>(
         'counties-data',
@@ -149,46 +61,6 @@ const CountyRankingsPage: React.FC = () => {
             result[key] = counts[key].size;
         });
         return result;
-    }, []);
-
-    // Create a map of leaders per county
-    const leadersMap = useMemo(() => {
-        const map: Record<string, CountyLeaders> = {};
-        
-        // Initialize map for known counties to handle MPs/MCAs properly
-        countiesData.forEach(c => {
-             map[c.name] = { mps: [], mcas: [] };
-        });
-
-        // Map Executives and MPs
-        representativesData.forEach((rep: Representative) => {
-            if (!rep.county) return;
-            const countyKey = rep.county; 
-            
-            // Handle edge case where data might use "Nairobi" instead of "Nairobi City"
-            // We'll normalize to match countiesData keys which use "Nairobi City"
-            let targetKey = countyKey;
-            if(!map[targetKey] && countyKey === 'Nairobi') targetKey = 'Nairobi City';
-
-            if (!map[targetKey]) map[targetKey] = { mps: [], mcas: [] };
-            
-            if (rep.position === 'Governor') map[targetKey].governor = rep;
-            else if (rep.position === 'Senator') map[targetKey].senator = rep;
-            else if (rep.position === 'Woman Representative') map[targetKey].womanRep = rep;
-            else if (rep.position === 'Member of Parliament') map[targetKey].mps.push(rep);
-        });
-
-        // Map MCAs
-        wardRepresentatives.forEach((rep: WardRepresentative) => {
-             const countyKey = rep.county;
-             let targetKey = countyKey;
-             if(!map[targetKey] && countyKey === 'Nairobi') targetKey = 'Nairobi City';
-             
-             if (!map[targetKey]) map[targetKey] = { mps: [], mcas: [] };
-             map[targetKey].mcas.push(rep);
-        });
-
-        return map;
     }, []);
 
     const rankings: RankingData[] = useMemo(() => {
@@ -229,10 +101,6 @@ const CountyRankingsPage: React.FC = () => {
                     value = executiveAndSenate + mps + mcas;
                     formattedValue = `${value}`;
                     break;
-                case 'leaders':
-                    value = county.code; // Default to code for sorting in leaders view
-                    formattedValue = '';
-                    break;
             }
 
             return {
@@ -242,11 +110,6 @@ const CountyRankingsPage: React.FC = () => {
                 formattedValue
             };
         });
-
-        // For leaders view, we force sort by Code (ASC) to keep list stable, otherwise respect user sort
-        if (selectedMetric === 'leaders') {
-             return data.sort((a, b) => a.code - b.code);
-        }
 
         return data.sort((a, b) => sortOrder === 'desc' ? b.value - a.value : a.value - b.value);
     }, [counties, selectedMetric, sortOrder, wardCounts]);
@@ -263,25 +126,6 @@ const CountyRankingsPage: React.FC = () => {
         constituencies: { label: 'Constituencies', icon: <BuildingLibraryIcon className="h-5 w-5" />, description: 'Number of parliamentary constituencies.' },
         wards: { label: 'Electoral Wards', icon: <BuildingLibraryIcon className="h-5 w-5" />, description: 'Number of county assembly wards (approximate based on available data).' },
         total_leaders: { label: 'Total Elected Leaders', icon: <UserGroupIcon className="h-5 w-5" />, description: 'Total count of elected officials (Governor, Senator, Woman Rep, MPs, and MCAs).' },
-        leaders: { label: 'Elected Leaders', icon: <UserGroupIcon className="h-5 w-5" />, description: 'Key elected officials: Governor, Senator, Woman Representative, MPs and MCAs.' },
-    };
-
-    const handleViewMPs = (countyName: string, mps: Representative[]) => {
-        setModalData({
-            title: `${countyName} Members of Parliament`,
-            subtitle: `${mps.length} Constituencies`,
-            items: mps.map(mp => ({ name: mp.name, area: mp.constituency || 'Constituency', party: mp.party })),
-            onClose: () => setModalData(null)
-        });
-    };
-
-    const handleViewMCAs = (countyName: string, mcas: WardRepresentative[]) => {
-        setModalData({
-            title: `${countyName} Members of County Assembly`,
-            subtitle: `${mcas.length} Wards`,
-            items: mcas.map(mca => ({ name: mca.name, area: mca.ward, party: mca.party })),
-            onClose: () => setModalData(null)
-        });
     };
 
     return (
@@ -295,7 +139,7 @@ const CountyRankingsPage: React.FC = () => {
                         County Rankings & Data
                     </h1>
                     <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-                        Compare Kenya's 47 counties across various metrics and view leadership structures.
+                        Compare Kenya's 47 counties across various metrics.
                     </p>
                 </header>
 
@@ -319,22 +163,20 @@ const CountyRankingsPage: React.FC = () => {
                             </div>
                         </div>
 
-                        {selectedMetric !== 'leaders' && (
-                             <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 p-1 rounded-xl border border-gray-200 dark:border-gray-700">
-                                <button
-                                    onClick={() => setSortOrder('desc')}
-                                    className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${sortOrder === 'desc' ? 'bg-white dark:bg-gray-700 text-primary dark:text-dark-primary shadow-sm' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-200'}`}
-                                >
-                                    Highest First
-                                </button>
-                                <button
-                                    onClick={() => setSortOrder('asc')}
-                                    className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${sortOrder === 'asc' ? 'bg-white dark:bg-gray-700 text-primary dark:text-dark-primary shadow-sm' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-200'}`}
-                                >
-                                    Lowest First
-                                </button>
-                            </div>
-                        )}
+                        <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 p-1 rounded-xl border border-gray-200 dark:border-gray-700">
+                            <button
+                                onClick={() => setSortOrder('desc')}
+                                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${sortOrder === 'desc' ? 'bg-white dark:bg-gray-700 text-primary dark:text-dark-primary shadow-sm' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-200'}`}
+                            >
+                                Highest First
+                            </button>
+                            <button
+                                onClick={() => setSortOrder('asc')}
+                                className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${sortOrder === 'asc' ? 'bg-white dark:bg-gray-700 text-primary dark:text-dark-primary shadow-sm' : 'text-gray-500 hover:text-gray-900 dark:hover:text-gray-200'}`}
+                            >
+                                Lowest First
+                            </button>
+                        </div>
                     </div>
 
                     <div className="mb-6 p-4 bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/10 flex items-start gap-3">
@@ -351,25 +193,12 @@ const CountyRankingsPage: React.FC = () => {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-gray-100 dark:border-gray-700">
-                                    {selectedMetric !== 'leaders' && (
-                                        <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider w-16 text-center">Rank</th>
-                                    )}
+                                    <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider w-16 text-center">Rank</th>
                                     <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider w-16 text-center">Code</th>
                                     <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider w-48">County</th>
-                                    
-                                    {selectedMetric === 'leaders' ? (
-                                        <>
-                                            <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Governor</th>
-                                            <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Senator</th>
-                                            <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Woman Rep</th>
-                                            <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">MPs</th>
-                                            <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-center">MCAs</th>
-                                        </>
-                                    ) : (
-                                        <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">
-                                            {metricsConfig[selectedMetric].label}
-                                        </th>
-                                    )}
+                                    <th className="py-3 px-4 text-xs font-bold text-gray-400 uppercase tracking-wider text-right">
+                                        {metricsConfig[selectedMetric].label}
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
@@ -378,67 +207,32 @@ const CountyRankingsPage: React.FC = () => {
                                     const rank = index + 1;
                                     const isTop3 = rank <= 3;
                                     
-                                    const leaders = selectedMetric === 'leaders' ? leadersMap[item.name] : null;
-
                                     return (
                                         <tr key={item.code} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
-                                            {selectedMetric !== 'leaders' && (
-                                                <td className="py-3 px-4 text-center">
-                                                    <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${isTop3 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' : 'text-gray-500'}`}>
-                                                        {rank}
-                                                    </span>
-                                                </td>
-                                            )}
+                                            <td className="py-3 px-4 text-center">
+                                                <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${isTop3 ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' : 'text-gray-500'}`}>
+                                                    {rank}
+                                                </span>
+                                            </td>
                                             <td className="py-3 px-4 text-center text-sm text-gray-400 font-mono">
                                                 {String(item.code).padStart(3, '0')}
                                             </td>
                                             <td className="py-3 px-4">
                                                 <span className="font-semibold text-gray-800 dark:text-gray-200">{item.name}</span>
                                             </td>
-                                            
-                                            {selectedMetric === 'leaders' && leaders ? (
-                                                <>
-                                                    <td className="py-3 px-4">
-                                                        <LeaderCell leader={leaders.governor} role="Governor" />
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <LeaderCell leader={leaders.senator} role="Senator" />
-                                                    </td>
-                                                    <td className="py-3 px-4">
-                                                        <LeaderCell leader={leaders.womanRep} role="Woman Rep" />
-                                                    </td>
-                                                    <td className="py-3 px-4 text-center">
-                                                        <button 
-                                                            onClick={() => handleViewMPs(item.name, leaders.mps)}
-                                                            className="text-xs font-medium bg-primary/10 hover:bg-primary/20 text-primary dark:text-primary-light px-3 py-1.5 rounded-md transition-colors"
-                                                        >
-                                                            View {leaders.mps.length}
-                                                        </button>
-                                                    </td>
-                                                    <td className="py-3 px-4 text-center">
-                                                        <button 
-                                                            onClick={() => handleViewMCAs(item.name, leaders.mcas)}
-                                                            className="text-xs font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded-md transition-colors"
-                                                        >
-                                                            View {leaders.mcas.length}
-                                                        </button>
-                                                    </td>
-                                                </>
-                                            ) : (
-                                                <td className="py-3 px-4 text-right">
-                                                    <div className="flex flex-col items-end gap-1">
-                                                        <span className="font-bold text-gray-900 dark:text-white tabular-nums tracking-tight">
-                                                            {item.formattedValue}
-                                                        </span>
-                                                        <div className="w-full bg-gray-100 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden max-w-[150px]">
-                                                            <div 
-                                                                className="h-full bg-primary dark:bg-dark-primary rounded-full transition-all duration-500 ease-out"
-                                                                style={{ width: `${percentage}%` }}
-                                                            ></div>
-                                                        </div>
+                                            <td className="py-3 px-4 text-right">
+                                                <div className="flex flex-col items-end gap-1">
+                                                    <span className="font-bold text-gray-900 dark:text-white tabular-nums tracking-tight">
+                                                        {item.formattedValue}
+                                                    </span>
+                                                    <div className="w-full bg-gray-100 dark:bg-gray-700 h-1.5 rounded-full overflow-hidden max-w-[150px]">
+                                                        <div 
+                                                            className="h-full bg-primary dark:bg-dark-primary rounded-full transition-all duration-500 ease-out"
+                                                            style={{ width: `${percentage}%` }}
+                                                        ></div>
                                                     </div>
-                                                </td>
-                                            )}
+                                                </div>
+                                            </td>
                                         </tr>
                                     );
                                 })}
@@ -447,16 +241,6 @@ const CountyRankingsPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            
-            {/* Modal for MPs/MCAs */}
-            {modalData && (
-                <LeadersModal 
-                    title={modalData.title}
-                    subtitle={modalData.subtitle}
-                    items={modalData.items}
-                    onClose={modalData.onClose}
-                />
-            )}
         </div>
     );
 };

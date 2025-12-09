@@ -1,5 +1,6 @@
 
 import type { PolicyDocument } from '../../types';
+
 export type { PolicyDocument };
 
 // Helper to convert county name to filename (e.g. "Uasin Gishu" -> "uasin-gishu")
@@ -17,8 +18,7 @@ export const getCountyPolicies = async (countyName: string): Promise<PolicyDocum
   
   try {
     // Dynamic import based on convention
-    // Note: We use a switch/map approach or direct import if the bundler supports dynamic template strings
-    // explicitly mapping them ensures bundler creates chunks correctly.
+    // Note: We use a switch/map approach to ensure the bundler can statically analyze and create chunks
     
     switch (fileName) {
         case 'baringo': return (await import('./counties/baringo')).policies;
@@ -71,7 +71,7 @@ export const getCountyPolicies = async (countyName: string): Promise<PolicyDocum
         default: return [];
     }
   } catch (error) {
-    console.error(`Failed to load policies for ${countyName}`, error);
+    console.warn(`Policies for ${countyName} not yet available.`);
     return [];
   }
 };

@@ -1,5 +1,5 @@
 
-const CACHE_VERSION = '1.3'; // Increment version to invalidate old caches.
+const CACHE_VERSION = '1.4'; // Increment version to invalidate old caches.
 
 interface CacheItem<T> {
   version: string;
@@ -81,12 +81,16 @@ export function setCachedData<T>(key: string, data: T): void {
 
   try {
     localStorage.setItem(key, JSON.stringify(item));
-  } catch (error) {
+  } catch (error: any) {
     // Specific check for QuotaExceededError
-    if (error instanceof DOMException && 
-        (error.name === 'QuotaExceededError' || error.name === 'NS_ERROR_DOM_QUOTA_REACHED')) {
+    if (
+      error.name === 'QuotaExceededError' || 
+      error.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
+      error.code === 22 || // Legacy code for QuotaExceededError
+      error.code === 1014 // Firefox code
+    ) {
       console.warn(`LocalStorage quota exceeded for key "${key}". Cache update skipped.`);
-      // We do not clear storage here to prevent losing user preferences or other critical app state.
+      // Optional: Clear non-critical caches here if we had a tagging system
     } else {
       console.error(`Error setting cache for key "${key}":`, error);
     }

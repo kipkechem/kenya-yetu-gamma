@@ -1,5 +1,5 @@
 
-import type { PolicyDocument } from './county-policies';
+import type { PolicyDocument } from '../../types';
 
 export const countyPoliciesBatch5: Record<string, PolicyDocument[]> = {
   "Tharaka-Nithi": [
@@ -9,7 +9,11 @@ export const countyPoliciesBatch5: Record<string, PolicyDocument[]> = {
     { title: "Tharaka Nithi County Annual Development Plan 2025/2026", url: "https://repository.kippra.or.ke/handle/123456789/5441" },
     { title: "Tharaka-Nithi County Annual Development Plan 2026/2027", url: "https://repository.kippra.or.ke/handle/123456789/5614" },
     { title: "Tharaka Nithi County Anti-female Genital Mutilation Policy 2020", url: "https://repository.kippra.or.ke/handle/123456789/4117" },
-    { title: "Tharaka Nithi County Fiscal Strategy Paper 2025", url: "https://repository.kippra.or.ke/handle/123456789/5440" }
+    { title: "Tharaka Nithi County Fiscal Strategy Paper 2025", url: "https://repository.kippra.or.ke/handle/123456789/5440" },
+    { title: "Tharaka-Nithi County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/269" },
+    { title: "Tharaka-Nithi County Annual Development Plan 2024-2025", url: "https://repository.kippra.or.ke/handle/123456789/4851" },
+    { title: "Tharaka-Nithi County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4575" },
+    { title: "Tharaka-Nithi County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4792" }
   ],
   "Trans Nzoia": [
     { title: "Trans Nzoia County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4185" },
@@ -19,13 +23,17 @@ export const countyPoliciesBatch5: Record<string, PolicyDocument[]> = {
     { title: "026. County Government of Trans-Nzoia", url: "https://repository.kippra.or.ke/handle/123456789/804" },
     { title: "Trans Nzoia County Annual Development Plan 2025/2026", url: "https://repository.kippra.or.ke/handle/123456789/5341" },
     { title: "Trans Nzoia County Annual Development Plan 2026/2027", url: "https://repository.kippra.or.ke/handle/123456789/5645" },
-    { title: "Trans Nzoia County Annual Development Plan 2024/2025", url: "https://repository.kippra.or.ke/handle/123456789/5340" }
+    { title: "Trans Nzoia County Annual Development Plan 2024/2025", url: "https://repository.kippra.or.ke/handle/123456789/5340" },
+    { title: "Trans Nzoia County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/270" },
+    { title: "Trans Nzoia County Annual Development Plan 2023-2024", url: "https://repository.kippra.or.ke/handle/123456789/4340" },
+    { title: "Trans Nzoia County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4576" }
   ],
   "Turkana": [
     { title: "Turkana County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4186" },
     { title: "Turkana County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4794" },
     { title: "Turkana County Annual Development Plan 2023-2024", url: "https://repository.kippra.or.ke/handle/123456789/4341" },
-    { title: "Turkana County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4577" }
+    { title: "Turkana County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4577" },
+    { title: "Turkana County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/271" }
   ],
   "Uasin Gishu": [
     { title: "Uasin Gishu County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4187" },
@@ -33,11 +41,15 @@ export const countyPoliciesBatch5: Record<string, PolicyDocument[]> = {
     { title: "Uasin Gishu County Annual Development Plan 2024-2025", url: "https://repository.kippra.or.ke/handle/123456789/4852" },
     { title: "Uasin Gishu County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4578" },
     { title: "027. County Government of Uasin Gishu", url: "https://repository.kippra.or.ke/handle/123456789/829" },
-    { title: "Uasin Gishu County Annual Development Plan 2026/2027", url: "https://repository.kippra.or.ke/handle/123456789/5490" }
+    { title: "Uasin Gishu County Annual Development Plan 2026/2027", url: "https://repository.kippra.or.ke/handle/123456789/5490" },
+    { title: "Uasin Gishu County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/272" }
   ],
   "Vihiga": [
     { title: "Vihiga County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4188" },
-    { title: "Vihiga County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4796" }
+    { title: "Vihiga County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4796" },
+    { title: "Vihiga County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/273" },
+    { title: "Vihiga County Annual Development Plan 2024-2025", url: "https://repository.kippra.or.ke/handle/123456789/4853" },
+    { title: "Vihiga County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4579" }
   ],
   "Wajir": [
     { title: "Wajir County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4189" },
@@ -49,7 +61,11 @@ export const countyPoliciesBatch5: Record<string, PolicyDocument[]> = {
     { title: "Wajir County Annual Development Plan 2024/2025", url: "https://repository.kippra.or.ke/handle/123456789/5330" },
     { title: "Wajir County Annual Development Plan 2023/2024", url: "https://repository.kippra.or.ke/handle/123456789/5331" },
     { title: "Wajir County Annual Development Plan 2025/2026", url: "https://repository.kippra.or.ke/handle/123456789/5550" },
-    { title: "Wajir County Annual Development Plan 2026/2027", url: "https://repository.kippra.or.ke/handle/123456789/5574" }
+    { title: "Wajir County Annual Development Plan 2026/2027", url: "https://repository.kippra.or.ke/handle/123456789/5574" },
+    { title: "Wajir County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/274" },
+    { title: "Wajir County Annual Development Plan 2023-2024", url: "https://repository.kippra.or.ke/handle/123456789/4345" },
+    { title: "Wajir County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4580" },
+    { title: "Wajir County Fiscal Strategy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/4797" }
   ],
   "West Pokot": [
     { title: "West Pokot County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4190" },
@@ -59,6 +75,9 @@ export const countyPoliciesBatch5: Record<string, PolicyDocument[]> = {
     { title: "West Pokot County Annual Development Plan 2026/2027", url: "https://repository.kippra.or.ke/handle/123456789/5638" },
     { title: "West Pokot County Gender Policy Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/5520" },
     { title: "West Pokot County Budget Review and Outlook Paper 2024", url: "https://repository.kippra.or.ke/handle/123456789/5329" },
-    { title: "Policy Brief No. 74 of 2018-2019 on An Assessment of the Public Expenditure and Financial Accountability in West Pokot County", url: "https://repository.kippra.or.ke/handle/123456789/3030" }
+    { title: "Policy Brief No. 74 of 2018-2019 on An Assessment of the Public Expenditure and Financial Accountability in West Pokot County", url: "https://repository.kippra.or.ke/handle/123456789/3030" },
+    { title: "West Pokot County Integrated Development Plan 2018-2022", url: "https://repository.kippra.or.ke/handle/123456789/275" },
+    { title: "West Pokot County Annual Development Plan 2024-2025", url: "https://repository.kippra.or.ke/handle/123456789/4854" },
+    { title: "West Pokot County Budget Review and Outlook Paper 2023", url: "https://repository.kippra.or.ke/handle/123456789/4581" }
   ]
 };

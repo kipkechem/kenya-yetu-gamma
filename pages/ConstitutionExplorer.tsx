@@ -23,23 +23,23 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
   const deferredSearchTerm = useDeferredValue(searchTerm);
 
   // Use useLazyData to load constitution data based on language
+  // Removed skipCache: true to allow caching for better performance
   const { data: currentData, isLoading: isDataLoading, error: dataError, refetch: refetchData } = useLazyData<ConstitutionData>(
       `constitution-data-${language}`,
       () => language === 'en' 
           ? import('../data/constitution').then(m => m.constitutionData)
           : import('../data/swahili/constitution').then(m => m.swahiliConstitutionData),
-      [language],
-      { skipCache: true } 
+      [language]
   );
 
   // Use useLazyData to load summaries based on language
+  // Removed skipCache: true
   const { data: currentSummaries, isLoading: isSummariesLoading, error: summariesError, refetch: refetchSummaries } = useLazyData<{[key: string]: string}>(
       `constitution-summaries-${language}`,
       () => language === 'en'
           ? import('../data/summaries').then(m => m.articleSummaries)
           : import('../data/swahili/summaries').then(m => m.articleSummaries),
-      [language],
-      { skipCache: true }
+      [language]
   );
 
   // Calculate the map internally once data is loaded.

@@ -1,5 +1,5 @@
 
-import type { PolicyDocument } from '../county-policies';
+import type { PolicyDocument } from '../../../types';
 
 export const policies: PolicyDocument[] = [
     { title: "Kericho County Integrated Development Plan 2023-2027", url: "https://repository.kippra.or.ke/handle/123456789/4155" },
