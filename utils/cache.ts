@@ -1,5 +1,5 @@
 
-const CACHE_VERSION = '1.4'; // Increment version to invalidate old caches.
+const CACHE_VERSION = '1.5'; // Increment version to invalidate old caches.
 
 interface CacheItem<T> {
   version: string;

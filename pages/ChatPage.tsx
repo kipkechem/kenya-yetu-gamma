@@ -2,12 +2,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from "@google/genai";
 import { addDiscoveredLinks } from '../utils/cache';
-import { SparklesIcon, PaperAirplaneIcon } from '../components/icons';
+import { retrieveRelevantContext } from '../utils/constitution-rag';
+import { SparklesIcon, PaperAirplaneIcon, BookOpenIcon } from '../components/icons';
 
 interface Message {
     role: 'user' | 'model';
     text: string;
     isError?: boolean;
+    sources?: boolean; // Indicator if RAG sources were used
 }
 
 const CHAT_STORAGE_KEY = 'chat_session_history';
@@ -16,11 +18,13 @@ const ChatPage: React.FC<{ language: 'en' | 'sw' }> = ({ language }) => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [isConsulting, setIsConsulting] = useState(false); // State for "Consulting Constitution" UI
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     const t = language === 'sw' ? {
         placeholder: "Uliza swali kuhusu Katiba...",
         initial_greeting: "Jambo! Mimi ni msaidizi wako wa Katiba. Unaweza kuniuliza nini?",
+        consulting: "Inatafuta Katiba...",
         errors: {
             generic: "Samahani, nimepata hitilafu isiyotarajiwa. Tafadhali jaribu tena.",
             network: "Kuna tatizo la mtandao. Tafadhali angalia intaneti yako na ujaribu tena.",
@@ -31,6 +35,7 @@ const ChatPage: React.FC<{ language: 'en' | 'sw' }> = ({ language }) => {
     } : {
         placeholder: "Ask a question about the Constitution...",
         initial_greeting: "Hello! I'm your constitutional assistant. What can I help you with?",
+        consulting: "Consulting the Constitution...",
         errors: {
             generic: "Sorry, I encountered an unexpected error. Please try again.",
             network: "It seems there is a network issue. Please check your connection.",
@@ -63,7 +68,7 @@ const ChatPage: React.FC<{ language: 'en' | 'sw' }> = ({ language }) => {
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages, isLoading]);
+    }, [messages, isLoading, isConsulting]);
 
     const getFriendlyErrorMessage = (error: any): string => {
         const msg = (error?.message || '').toLowerCase();
@@ -90,7 +95,7 @@ const ChatPage: React.FC<{ language: 'en' | 'sw' }> = ({ language }) => {
 
         const userMessage: Message = { role: 'user', text: input };
         setMessages(prev => [...prev, userMessage]);
-        const promptText = input;
+        const userPrompt = input;
         setInput('');
         setIsLoading(true);
 
@@ -99,12 +104,33 @@ const ChatPage: React.FC<{ language: 'en' | 'sw' }> = ({ language }) => {
                 throw new Error("Missing API Key");
             }
 
+            // 1. Retrieval (RAG): Fetch relevant constitution chunks
+            setIsConsulting(true);
+            const context = await retrieveRelevantContext(userPrompt, language);
+            setIsConsulting(false);
+
+            // 2. Construct Augmented Prompt
+            let finalPrompt = userPrompt;
+            if (context) {
+                finalPrompt = `You are a helpful assistant for KenyaYetu.co.ke, an interactive explorer for the Constitution of Kenya. 
+                
+Use the following excerpts from the Constitution of Kenya to answer the user's question accurately.
+If the answer is found in the context, cite the Article number.
+If the answer is NOT in the context, use your general knowledge but mention that it is not explicitly in the retrieved sections.
+
+--- CONTEXT START ---
+${context}
+--- CONTEXT END ---
+
+User Question: ${userPrompt}`;
+            }
+
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const response = await ai.models.generateContent({
                 model: 'gemini-2.5-flash',
-                contents: promptText,
+                contents: finalPrompt,
                 config: { 
-                    systemInstruction: `You are a helpful assistant for a web app called KenyaYetu.co.ke, which is an interactive explorer for the Constitution of Kenya. Your language preference is ${language === 'sw' ? 'Swahili' : 'English'}. Answer questions accurately and concisely. If you provide links, ensure they are valid and fully-qualified URLs.` 
+                   temperature: 0.3 // Lower temperature for more factual legal answers
                 }
             });
             const modelText = response.text || "";
@@ -115,10 +141,15 @@ const ChatPage: React.FC<{ language: 'en' | 'sw' }> = ({ language }) => {
                 addDiscoveredLinks(foundUrls);
             }
 
-            const modelMessage: Message = { role: 'model', text: modelText };
+            const modelMessage: Message = { 
+                role: 'model', 
+                text: modelText,
+                sources: !!context // Mark if we used RAG
+            };
             setMessages(prev => [...prev, modelMessage]);
         } catch (error) {
             console.error("Gemini API Error:", error);
+            setIsConsulting(false);
             const friendlyText = getFriendlyErrorMessage(error);
             const errorMessage: Message = { role: 'model', text: friendlyText, isError: true };
             setMessages(prev => [...prev, errorMessage]);
@@ -161,10 +192,31 @@ const ChatPage: React.FC<{ language: 'en' | 'sw' }> = ({ language }) => {
                         )}
                         <div className={`max-w-md lg:max-w-2xl px-4 py-3 rounded-2xl ${msg.role === 'user' ? 'bg-primary dark:bg-dark-primary text-white rounded-br-none' : 'bg-surface dark:bg-dark-surface rounded-bl-none custom-shadow'} ${msg.isError ? 'border-l-4 border-red-500 bg-red-50 dark:bg-red-900/10' : ''}`}>
                             <p className={`text-base whitespace-pre-wrap ${msg.isError ? 'text-red-600 dark:text-red-400' : 'text-on-surface dark:text-dark-on-surface'}`}>{msg.text}</p>
+                            {msg.sources && (
+                                <div className="mt-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+                                    <span className="text-[10px] uppercase font-bold text-gray-400 flex items-center gap-1">
+                                        <BookOpenIcon className="h-3 w-3" />
+                                        Sourced from Constitution
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ))}
-                {isLoading && (
+                
+                {/* RAG Consulting State */}
+                {isConsulting && (
+                     <div className="flex items-start gap-3 justify-start animate-fade-in">
+                        <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-light/50 dark:bg-dark-primary-light/50 flex items-center justify-center">
+                            <BookOpenIcon className="w-4 h-4 text-primary dark:text-dark-primary animate-pulse" />
+                        </div>
+                        <div className="px-4 py-2 rounded-2xl bg-surface/50 dark:bg-dark-surface/50 text-gray-500 dark:text-gray-400 text-sm italic">
+                            {t.consulting}
+                        </div>
+                    </div>
+                )}
+
+                {isLoading && !isConsulting && (
                      <div className="flex items-start gap-3 justify-start">
                         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary-light dark:bg-dark-primary-light flex items-center justify-center">
                             <SparklesIcon className="w-5 h-5 text-primary dark:text-dark-primary" />

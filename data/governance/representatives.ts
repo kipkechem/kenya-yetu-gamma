@@ -136,7 +136,7 @@ export const representativesData: Representative[] = [
   { county: 'Meru', position: 'Member of Parliament', constituency: 'Central Imenti', name: 'Moses Kirima', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MK' },
   { county: 'Meru', position: 'Member of Parliament', constituency: 'South Imenti', name: 'Shadrack Mwiti', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SM' },
 
-  // --- 013 THARAKA NITHI ---
+  // --- 013 THARAKA-NITHI ---
   { county: 'Tharaka-Nithi', position: 'Governor', name: 'Muthomi Njuki', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MN' },
   { county: 'Tharaka-Nithi', position: 'Senator', name: 'Mwenda Gataya', party: 'UDA', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=MG' },
   { county: 'Tharaka-Nithi', position: 'Woman Representative', name: 'Susan Ngugi', party: 'TSP', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=SN' },
@@ -542,4 +542,3 @@ export const representativesData: Representative[] = [
   { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Starehe', name: 'Amos Mwago', party: 'Jubilee', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AM' },
   { county: 'Nairobi City', position: 'Member of Parliament', constituency: 'Mathare', name: 'Anthony Oluoch', party: 'ODM', imageUrl: 'https://placehold.co/400x400/e2e8f0/1e293b?text=AO' }
 ];
-

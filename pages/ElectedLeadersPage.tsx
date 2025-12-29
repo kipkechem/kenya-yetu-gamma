@@ -1,9 +1,6 @@
 
 import React, { useMemo, useState } from 'react';
 import { UserGroupIcon, IdentificationIcon } from '../components/icons';
-import { countiesData } from '../data/counties/index';
-import { wardRepresentatives } from '../data/governance/ward-representatives';
-import { representativesData } from '../data/governance/representatives';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorDisplay from '../components/ErrorDisplay';
@@ -99,49 +96,84 @@ const LeadersModal: React.FC<ModalProps> = ({ title, subtitle, items, onClose })
 const ElectedLeadersPage: React.FC = () => {
     const [modalData, setModalData] = useState<ModalProps | null>(null);
 
-    const { data: counties, isLoading, error, refetch } = useLazyData<County[]>(
+    // Lazy load Counties Data
+    const { data: counties, isLoading: isCountiesLoading, error: countiesError, refetch: refetchCounties } = useLazyData<County[]>(
         'counties-data',
-        () => Promise.resolve(countiesData)
+        () => import('../data/counties/index').then(m => m.countiesData)
     );
+
+    // Lazy load Representatives Data
+    const { data: representativesData, isLoading: isRepsLoading, error: repsError, refetch: refetchReps } = useLazyData<Representative[]>(
+        'representatives-data',
+        () => import('../data/governance/representatives').then(m => m.representativesData)
+    );
+
+    // Lazy load Ward Representatives Data (The big file)
+    const { data: wardRepresentatives, isLoading: isWardRepsLoading, error: wardRepsError, refetch: refetchWardReps } = useLazyData<WardRepresentative[]>(
+        'ward-representatives-data',
+        () => import('../data/governance/ward-representatives').then(m => m.wardRepresentatives)
+    );
+
+    const isLoading = isCountiesLoading || isRepsLoading || isWardRepsLoading;
+    const error = countiesError || repsError || wardRepsError;
+
+    const refetchAll = () => {
+        if (countiesError) refetchCounties();
+        if (repsError) refetchReps();
+        if (wardRepsError) refetchWardReps();
+    };
 
     // Create a map of leaders per county
     const leadersMap = useMemo<Record<string, CountyLeaders>>(() => {
+        if (!counties || !representativesData || !wardRepresentatives) return {};
+
         const map: Record<string, CountyLeaders> = {};
         
         // Initialize map for known counties
-        countiesData.forEach(c => {
+        counties.forEach(c => {
              map[c.name] = { mps: [], mcas: [] };
         });
 
         // Map Executives and MPs
         representativesData.forEach((rep: Representative) => {
             if (!rep.county) return;
-            const countyKey = rep.county; 
+            let countyKey = rep.county; 
             
-            // Handle edge case where data might use "Nairobi" instead of "Nairobi City"
-            let targetKey = countyKey;
-            if(!map[targetKey] && countyKey === 'Nairobi') targetKey = 'Nairobi City';
+            // Normalize "Nairobi" vs "Nairobi City"
+            if (!map[countyKey]) {
+                if (countyKey === 'Nairobi' && map['Nairobi City']) countyKey = 'Nairobi City';
+                else if (countyKey === 'Nairobi City' && map['Nairobi']) countyKey = 'Nairobi';
+            }
 
-            if (!map[targetKey]) map[targetKey] = { mps: [], mcas: [] };
-            
-            if (rep.position === 'Governor') map[targetKey].governor = rep;
-            else if (rep.position === 'Senator') map[targetKey].senator = rep;
-            else if (rep.position === 'Woman Representative') map[targetKey].womanRep = rep;
-            else if (rep.position === 'Member of Parliament') map[targetKey].mps.push(rep);
+            if (map[countyKey]) {
+                if (rep.position === 'Governor') map[countyKey].governor = rep;
+                else if (rep.position === 'Senator') map[countyKey].senator = rep;
+                else if (rep.position === 'Woman Representative') map[countyKey].womanRep = rep;
+                else if (rep.position === 'Member of Parliament') map[countyKey].mps.push(rep);
+            }
         });
 
         // Map MCAs
         wardRepresentatives.forEach((rep: WardRepresentative) => {
-             const countyKey = rep.county;
-             let targetKey = countyKey;
-             if(!map[targetKey] && countyKey === 'Nairobi') targetKey = 'Nairobi City';
+             let countyKey = rep.county;
              
-             if (!map[targetKey]) map[targetKey] = { mps: [], mcas: [] };
-             map[targetKey].mcas.push(rep);
+             // Normalize "Nairobi" vs "Nairobi City"
+             if (!map[countyKey]) {
+                if (countyKey === 'Nairobi' && map['Nairobi City']) countyKey = 'Nairobi City';
+                else if (countyKey === 'Nairobi City' && map['Nairobi']) countyKey = 'Nairobi';
+             },
+             {
+                if (countyKey === 'Tharak-Nithi' && map['Tharaka Nithi']) countyKey = 'Tharaka Nithi';
+                else if (countyKey === 'Tharaka Nithi' && map['Tharaka-Nithi']) countyKey = 'Tharaka-Nithi';
+             }
+             
+             if (map[countyKey]) {
+                 map[countyKey].mcas.push(rep);
+             }
         });
 
         return map;
-    }, []);
+    }, [counties, representativesData, wardRepresentatives]);
 
     // Calculate Summary Stats
     const summaryStats = useMemo(() => {
@@ -163,7 +195,7 @@ const ElectedLeadersPage: React.FC = () => {
     }, [leadersMap]);
 
     if (isLoading) return <LoadingSpinner />;
-    if (error || !counties) return <ErrorDisplay message="Failed to load leadership data." onRetry={refetch} />;
+    if (error) return <ErrorDisplay message="Failed to load leadership data. Please verify your internet connection." onRetry={refetchAll} />;
 
     const handleViewMPs = (countyName: string, mps: Representative[]) => {
         setModalData({
@@ -249,7 +281,7 @@ const ElectedLeadersPage: React.FC = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                                {counties.sort((a,b) => a.code - b.code).map((county) => {
+                                {counties && counties.sort((a,b) => a.code - b.code).map((county) => {
                                     const leaders = leadersMap[county.name];
                                     if (!leaders) return null;
 
