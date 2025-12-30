@@ -1,9 +1,8 @@
-
 import type { PolicyDocument } from '../../types';
 
 export type { PolicyDocument };
 
-// Helper to convert county name to filename (e.g. "Uasin Gishu" -> "uasin-gishu")
+// Helper to convert county name to exact matching filename
 const toKebabCase = (str: string) => {
     return str
         .toLowerCase()
@@ -12,20 +11,21 @@ const toKebabCase = (str: string) => {
         .replace(/[^a-z0-9-]/g, '');
 };
 
-// Dynamic loader function
+/**
+ * Dynamically loads county-specific policy documents.
+ * This approach keeps the initial bundle small and satisfies the requirement 
+ * for modularity to avoid agent/browser crashes with large datasets.
+ */
 export const getCountyPolicies = async (countyName: string): Promise<PolicyDocument[]> => {
   const fileName = toKebabCase(countyName);
   
   try {
-    // Dynamic import based on convention
-    // Note: We use a switch/map approach to ensure the bundler can statically analyze and create chunks
-    
     switch (fileName) {
         case 'baringo': return (await import('./counties/baringo')).policies;
         case 'bomet': return (await import('./counties/bomet')).policies;
         case 'bungoma': return (await import('./counties/bungoma')).policies;
         case 'busia': return (await import('./counties/busia')).policies;
-        case 'elgeyomarakwet': return (await import('./counties/elgeyo-marakwet')).policies;
+        case 'elgeyo-marakwet': return (await import('./counties/elgeyo-marakwet')).policies;
         case 'embu': return (await import('./counties/embu')).policies;
         case 'garissa': return (await import('./counties/garissa')).policies;
         case 'homa-bay': return (await import('./counties/homa-bay')).policies;
@@ -59,7 +59,7 @@ export const getCountyPolicies = async (countyName: string): Promise<PolicyDocum
         case 'nyeri': return (await import('./counties/nyeri')).policies;
         case 'samburu': return (await import('./counties/samburu')).policies;
         case 'siaya': return (await import('./counties/siaya')).policies;
-        case 'taitataveta': return (await import('./counties/taita-taveta')).policies;
+        case 'taita-taveta': return (await import('./counties/taita-taveta')).policies;
         case 'tana-river': return (await import('./counties/tana-river')).policies;
         case 'tharaka-nithi': return (await import('./counties/tharaka-nithi')).policies;
         case 'trans-nzoia': return (await import('./counties/trans-nzoia')).policies;
@@ -71,7 +71,7 @@ export const getCountyPolicies = async (countyName: string): Promise<PolicyDocum
         default: return [];
     }
   } catch (error) {
-    console.warn(`Policies for ${countyName} not yet available.`);
+    console.warn(`Policies for ${countyName} (file: ${fileName}.ts) not found or failed to load.`);
     return [];
   }
 };

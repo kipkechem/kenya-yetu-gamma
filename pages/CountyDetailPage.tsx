@@ -1,7 +1,7 @@
 
 import React, { useMemo, useState } from 'react';
 import type { County, PolicyDocument } from '../types';
-import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon, ChevronDoubleLeftIcon, InboxStackIcon } from './icons';
+import { MapPinIcon, UsersIcon, GlobeAmericasIcon, ExternalLinkIcon, FileTextIcon, ScaleIcon, ChevronDoubleLeftIcon, InboxStackIcon } from '../components/icons';
 import { dispatchNavigate } from '../utils/navigation';
 import { useLazyData } from '../hooks/useLazyData';
 import { getCountyPolicies } from '../data/knowledge-base/county-policies';

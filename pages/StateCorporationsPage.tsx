@@ -56,7 +56,6 @@ const StateCorporationsPage: React.FC = () => {
       () => import('../data/governance/ministries').then(m => m.ministries)
   );
 
-  // Create a map of entity names to their parent ministry
   const entityToMinistryMap = useMemo(() => {
     if (!ministries) return new Map();
     const map = new Map<string, string>();
@@ -72,68 +71,16 @@ const StateCorporationsPage: React.FC = () => {
 
   const { descriptionText } = useMemo(() => {
     if (!categorizedCorporationsData) return { descriptionText: '' };
-    const allEntities = categorizedCorporationsData.flatMap(cat => cat.corporations);
+    const allEntities = categorizedCorporationsData.flatMap(cat => cat.corporations || []);
     const totalEntities = allEntities.length;
     const totalCategories = categorizedCorporationsData.length;
-
-    const counts: { [key: string]: number } = {};
-    const entityTypeKeywords: { [key: string]: string[] } = {
-      'state corporations': ['corporation'],
-      'authorities': ['authority'],
-      'boards': ['board'],
-      'services': ['service'],
-      'institutes': ['institute'],
-      'commissions': ['commission'],
-      'agencies': ['agency'],
-      'councils': ['council'],
-      'funds': ['fund'],
-      'companies': ['company'],
-      'organizations': ['organization', 'kalro', 'kemri'], // classify research orgs
-      'educational bodies': ['university', 'college', 'school', 'foundation'],
-      'bureaus': ['bureau'],
-      'hospitals': ['hospital'],
-    };
-    
-    const unclassifiedEntities: StateCorporation[] = [];
-
-    allEntities.forEach(entity => {
-      let classified = false;
-      const entityNameLower = entity.name.toLowerCase();
-      for (const type in entityTypeKeywords) {
-        if (entityTypeKeywords[type].some(keyword => entityNameLower.includes(keyword))) {
-          counts[type] = (counts[type] || 0) + 1;
-          classified = true;
-          break;
-        }
-      }
-      if (!classified) {
-        unclassifiedEntities.push(entity);
-      }
-    });
-
-    if (unclassifiedEntities.length > 0) {
-        counts['other public bodies'] = unclassifiedEntities.length;
-    }
-
-    const descriptionParts = Object.entries(counts)
-      .filter(([, count]) => count > 0)
-      .sort(([, countA], [, countB]) => countB - countA)
-      .map(([type, count]) => `${count} ${type}`);
-      
-    let entitiesBreakdown = '';
-    if (descriptionParts.length > 1) {
-        entitiesBreakdown = descriptionParts.slice(0, -1).join(', ') + `, and ${descriptionParts.slice(-1)}`;
-    } else if (descriptionParts.length === 1) {
-        entitiesBreakdown = `${descriptionParts[0]}`;
-    }
-
-    return { descriptionText: `This page provides an overview of ${totalEntities} public entities across ${totalCategories} sectors. Discover the mandates of various national, regional, and county-level bodies—including ${entitiesBreakdown}—and learn about their role in public service delivery and national development.` };
+    return { descriptionText: `This page provides an overview of ${totalEntities} public bodies across ${totalCategories} sectors. Discover the mandates of various national, regional, and county-level entities and learn about their role in public service delivery.` };
   }, [categorizedCorporationsData]);
   
   const allCorporationsWithMinistry = useMemo(() => {
     if (!categorizedCorporationsData) return [];
     return categorizedCorporationsData.flatMap(category => 
-        category.corporations.map(corp => ({
+        (category.corporations || []).map(corp => ({
             ...corp,
             ministryName: entityToMinistryMap.get(corp.name)
         }))
@@ -142,9 +89,7 @@ const StateCorporationsPage: React.FC = () => {
 
   const filteredCorporations = useMemo(() => {
     if (!searchTerm.trim()) return [];
-    
     const lowercasedTerm = searchTerm.toLowerCase();
-    
     return allCorporationsWithMinistry.filter(corp => 
       corp.name.toLowerCase().includes(lowercasedTerm) ||
       corp.description.toLowerCase().includes(lowercasedTerm) ||
@@ -153,34 +98,8 @@ const StateCorporationsPage: React.FC = () => {
     );
   }, [searchTerm, allCorporationsWithMinistry]);
 
-  const handleRetry = () => {
-      if (corpError) refetchCorps();
-      if (ministriesError) refetchMinistries();
-  };
-
-  const toggleCategory = (categoryName: string) => {
-    setOpenCategory(prev => (prev === categoryName ? null : categoryName));
-  };
-  
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newSearchTerm = event.target.value;
-    setSearchTerm(newSearchTerm);
-    if (newSearchTerm.trim()) {
-        setOpenCategory(null); // Close accordions when searching
-    }
-  };
-
-  const clearSearch = () => {
-    setSearchTerm('');
-  };
-  
-  if (isCorpLoading || isMinistriesLoading) {
-    return <LoadingSpinner />;
-  }
-
-  if (corpError || ministriesError || !categorizedCorporationsData) {
-      return <ErrorDisplay message="Failed to load state corporations data." onRetry={handleRetry} />;
-  }
+  if (isCorpLoading || isMinistriesLoading) return <LoadingSpinner />;
+  if (corpError || ministriesError || !categorizedCorporationsData) return <ErrorDisplay message="Failed to load state corporations data." onRetry={() => { refetchCorps(); refetchMinistries(); }} />;
 
   return (
     <div className="h-full w-full overflow-y-auto p-4 md:p-6 lg:p-10 bg-background dark:bg-dark-background">
@@ -190,94 +109,23 @@ const StateCorporationsPage: React.FC = () => {
             <BuildingLibraryIcon className="h-8 w-8 text-primary dark:text-dark-primary" />
           </div>
           <h1 className="mt-4 text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">Public Bodies & Entities</h1>
-          <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-            {descriptionText}
-          </p>
+          <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">{descriptionText}</p>
         </header>
-        
         <div className="mb-8 py-4 -mx-4 px-4">
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg className="h-5 w-5 text-gray-400 dark:text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <input
-              type="text"
-              placeholder="Search entities by name, ministry, head, or description..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3 pl-12 pr-10 text-on-surface dark:text-dark-on-surface placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent custom-shadow"
-              aria-label="Search for an entity"
-            />
-            {searchTerm && (
-                <button
-                    onClick={clearSearch}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            )}
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none"><svg className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" /></svg></div>
+            <input type="text" placeholder="Search entities..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="block w-full bg-surface dark:bg-dark-surface border border-border dark:border-dark-border rounded-full py-3 pl-12 pr-10 text-on-surface dark:text-dark-on-surface placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary custom-shadow" />
           </div>
         </div>
-
         {searchTerm.trim() ? (
-            <section>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredCorporations.length > 0 ? (
-                    filteredCorporations.map(corporation => (
-                        <CorporationCard 
-                            key={corporation.name} 
-                            corporation={corporation}
-                            ministryName={corporation.ministryName}
-                            searchTerm={searchTerm}
-                        />
-                    ))
-                ) : (
-                    <div className="md:col-span-2 text-center py-16">
-                        <p className="text-gray-500 dark:text-gray-400">No entities found matching your search.</p>
-                    </div>
-                )}
-                </div>
-            </section>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">{filteredCorporations.map(c => <CorporationCard key={c.name} corporation={c} ministryName={c.ministryName} searchTerm={searchTerm} />)}</div>
         ) : (
-            <section className="space-y-4">
-            {categorizedCorporationsData.map(category => (
+            <div className="space-y-4">{categorizedCorporationsData && categorizedCorporationsData.map(category => (
                 <div key={category.categoryName} className="bg-surface dark:bg-dark-surface rounded-2xl custom-shadow-lg overflow-hidden transition-all duration-300">
-                <button
-                    onClick={() => toggleCategory(category.categoryName)}
-                    className="w-full flex justify-between items-center p-6 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-opacity-75"
-                    aria-expanded={openCategory === category.categoryName}
-                >
-                    <h2 className="text-xl font-bold text-on-surface dark:text-dark-on-surface">{category.categoryName}</h2>
-                    <ChevronDownIcon
-                    className={`h-6 w-6 text-gray-500 dark:text-gray-400 transform transition-transform duration-300 ${openCategory === category.categoryName ? 'rotate-180' : ''}`}
-                    />
-                </button>
-                <div
-                    className={`transition-all duration-500 ease-in-out overflow-hidden`}
-                    style={{ maxHeight: openCategory === category.categoryName ? '3000px' : '0px' }}
-                >
-                    <div className="px-6 pb-6 border-t border-border dark:border-dark-border">
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {category.corporations.map(corporation => {
-                            const ministryName = entityToMinistryMap.get(corporation.name);
-                            return (
-                                <CorporationCard 
-                                    key={corporation.name} 
-                                    corporation={corporation}
-                                    ministryName={ministryName}
-                                />
-                            )
-                        })}
-                    </div>
-                    </div>
+                    <button onClick={() => setOpenCategory(openCategory === category.categoryName ? null : category.categoryName)} className="w-full flex justify-between items-center p-6 text-left focus:outline-none"><h2 className="text-xl font-bold text-on-surface dark:text-dark-on-surface">{category.categoryName}</h2><ChevronDownIcon className={`h-6 w-6 text-gray-500 transition-transform ${openCategory === category.categoryName ? 'rotate-180' : ''}`} /></button>
+                    {openCategory === category.categoryName && <div className="px-6 pb-6 border-t border-border dark:border-dark-border"><div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">{category.corporations?.map(corp => <CorporationCard key={corp.name} corporation={corp} ministryName={entityToMinistryMap.get(corp.name)} />)}</div></div>}
                 </div>
-                </div>
-            ))}
-            </section>
+            ))}</div>
         )}
       </div>
     </div>

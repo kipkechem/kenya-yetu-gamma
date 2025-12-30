@@ -5,7 +5,8 @@ import {
     ChevronDoubleLeftIcon, 
     ChevronDoubleRightIcon
 } from './icons';
-import type { AppView } from '../types';
+// Fix: Importing AppView from the index file to resolve type mismatch and missing 'infomap' error.
+import type { AppView } from '../types/index';
 import { appStructure } from '../data/app-structure';
 import { getRoute } from '../data/routes';
 

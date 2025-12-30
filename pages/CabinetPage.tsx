@@ -160,7 +160,7 @@ const MinistryNode: React.FC<{ ministry: Ministry; isExpanded: boolean; onToggle
                 </div>
                 
                 <div className="space-y-3">
-                    {ministry.principalSecretaries.map((ps, index) => (
+                    {ministry.principalSecretaries?.map((ps, index) => (
                         <div key={index} className="bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-100 dark:border-gray-700/50 shadow-sm">
                              <p className="font-semibold text-sm text-gray-900 dark:text-white">{ps.department}</p>
                              <div className="flex items-center justify-between mt-1">
@@ -233,7 +233,7 @@ const CabinetPage: React.FC = () => {
         () => import('../data/governance/ministries').then(m => m.ministries)
     );
 
-    const { data: categorizedCorporationsData } = useLazyData<StateCorporationCategory[]>(
+    const { data: categorizedCorporationsData, isLoading: isCorpLoading } = useLazyData<StateCorporationCategory[]>(
         'corporations-data',
         () => import('../data/governance/state-corporations').then(m => m.categorizedCorporationsData)
     );
@@ -241,7 +241,7 @@ const CabinetPage: React.FC = () => {
     const entityUrlMap = useMemo(() => {
         if (!categorizedCorporationsData) return new Map<string, string>();
         const allCorporations = categorizedCorporationsData.flatMap(category => category.corporations);
-        return new Map<string, string>(allCorporations.map(corp => [corp.name, corp.url]));
+        return new Map(allCorporations.map(corp => [corp.name, corp.url]));
     }, [categorizedCorporationsData]);
 
     const handleToggle = (ministryName: string) => {
@@ -254,14 +254,19 @@ const CabinetPage: React.FC = () => {
         if (!isPresidencyExpanded) setExpandedMinistry(null);
     }
     
-    if (isMinistriesLoading) {
+    if (isMinistriesLoading || !ministries) {
         return <LoadingSpinner />;
     }
 
-    if (error || !ministries) {
-        return <ErrorDisplay message="Failed to load Cabinet data." onRetry={refetch} />;
+    if (error) {
+         return <ErrorDisplay message="Failed to load Cabinet data." onRetry={refetch} />;
     }
 
+    // Filter out Office of President/Deputy President from ministries list as they are covered in the Presidency node or separate logic if desired,
+    // but standard approach is treating them as high-level ministries.
+    // However, since we are adding a distinct "The Presidency" node, let's keep the ministries list as is for structural completeness, 
+    // or we can choose to separate the executive offices.
+    // For this specific UI, let's separate the executive offices for cleaner layout under "The Presidency".
     const executiveOffices = ministries.slice(0, 3); // President, DP, Prime CS
     const otherMinistries = ministries.slice(3);
 
@@ -272,7 +277,7 @@ const CabinetPage: React.FC = () => {
                     <div className="inline-block p-4 bg-primary-light dark:bg-dark-primary-light rounded-3xl mb-4 shadow-sm">
                         <HierarchyIcon className="h-10 w-10 text-primary dark:text-dark-primary" />
                     </div>
-                    <h1 className="text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">The National Executive</h1>
+                    <h1 className="text-4xl font-extrabold text-on-surface dark:text-dark-on-surface tracking-tight sm:text-5xl">The Cabinet</h1>
                     <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-500 dark:text-gray-400">
                         Explore the organizational structure of the National Executive, including the Presidency, Ministries, State Departments, and their mandate.
                     </p>

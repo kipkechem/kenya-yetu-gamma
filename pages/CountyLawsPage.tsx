@@ -1,7 +1,7 @@
 
 import React, { useState, useMemo, useEffect, useDeferredValue } from 'react';
 import { BuildingLibraryIcon, ChevronDownIcon, ExternalLinkIcon, FileTextIcon, BookOpenIcon, ChevronDoubleRightIcon, ScaleIcon, MapPinIcon } from '../components/icons';
-import type { CountyLegislation, CountyLaw, County } from '../types/index';
+import type { CountyLegislation, CountyLaw } from '../types/index';
 import Highlight from '../components/Highlight';
 import { dispatchNavigate } from '../utils/navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -52,13 +52,14 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
         try {
             let batch: CountyLegislation[] = [];
             if (batchNum === 1) {
-                const m = await import('../data/legislation/county-laws-1');
+                // Corrected path: data/county-laws-1.ts is in ../data/ relative to pages/
+                const m = await import('../data/county-laws-1');
                 batch = m.countyLawsBatch1;
             } else if (batchNum === 2) {
-                const m = await import('../data/legislation/county-laws-2');
+                const m = await import('../data/county-laws-2');
                 batch = m.countyLawsBatch2;
             } else if (batchNum === 3) {
-                const m = await import('../data/legislation/county-laws-3');
+                const m = await import('../data/county-laws-3');
                 batch = m.countyLawsBatch3;
             }
 
@@ -87,6 +88,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
 
   const { data: devolutionLawsData, isLoading: isDevolutionLoading, error: devolutionError, refetch: refetchDevolutionLaws } = useLazyData<CountyLaw[]>(
       'devolution-laws-data',
+      // Corrected path: data/legislation/devolution-laws.ts is in ../data/legislation/
       () => import('../data/legislation/devolution-laws').then(m => m.devolutionLawsData)
   );
 
@@ -130,35 +132,53 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
         const countyNameLower = county.countyName.toLowerCase();
         const countyNameMatches = countyNameLower.includes(lowercasedTerm);
         
-        let matchingActs = county.acts;
-        let matchingBills = county.bills;
+        let matchingActs = county.acts || [];
+        let matchingBills = county.bills || [];
+        // Assume pendingBills exist on type, fallback to empty array if not defined yet on type but passed in data
+        let matchingPendingBills = (county as any).pendingBills || [];
 
         // If the county name doesn't match, we must filter the children. 
         // If it does match, we show all children (acts/bills) for context.
         if (!countyNameMatches) {
+             const acts = matchingActs;
+             const bills = matchingBills;
+             const pending = matchingPendingBills;
+             
              matchingActs = [];
              matchingBills = [];
+             matchingPendingBills = [];
 
              // Use simple loops instead of filter for slight performance gain in hot path
-             for (const act of county.acts) {
+             for (const act of acts) {
                  if (act.name.toLowerCase().includes(lowercasedTerm)) {
                      matchingActs.push(act);
                  }
              }
 
-             for (const bill of county.bills) {
+             for (const bill of bills) {
                  if (bill.name.toLowerCase().includes(lowercasedTerm)) {
                      matchingBills.push(bill);
                  }
              }
+             
+             for (const pBill of pending) {
+                 if (pBill.name.toLowerCase().includes(lowercasedTerm)) {
+                     matchingPendingBills.push(pBill);
+                 }
+             }
         }
 
-        if (countyNameMatches || matchingActs.length > 0 || matchingBills.length > 0) {
-            results.push({
+        if (countyNameMatches || matchingActs.length > 0 || matchingBills.length > 0 || matchingPendingBills.length > 0) {
+            // We construct a new object that includes pendingBills if they exist
+            const resultObj: any = {
                 countyName: county.countyName,
                 acts: matchingActs,
                 bills: matchingBills
-            });
+            };
+            if (matchingPendingBills.length > 0) {
+                resultObj.pendingBills = matchingPendingBills;
+            }
+            results.push(resultObj);
         }
     }
     return results;
@@ -181,12 +201,22 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
   }, [selectedCountyName, countyLawsData]);
 
   const filteredSelectedCountyLaws = useMemo(() => {
-      if (!selectedCountyLaws) return { acts: [], bills: [] };
-      if (!isSearching) return selectedCountyLaws;
+      if (!selectedCountyLaws) return { acts: [], bills: [], pendingBills: [] };
+      
+      const acts = selectedCountyLaws.acts || [];
+      const bills = selectedCountyLaws.bills || [];
+      const pendingBills = (selectedCountyLaws as any).pendingBills || [];
+
+      if (!isSearching) return { 
+          acts, 
+          bills, 
+          pendingBills 
+      };
 
       return {
-          acts: selectedCountyLaws.acts.filter(l => l.name.toLowerCase().includes(lowercasedTerm)),
-          bills: selectedCountyLaws.bills.filter(l => l.name.toLowerCase().includes(lowercasedTerm))
+          acts: acts.filter(l => l.name.toLowerCase().includes(lowercasedTerm)),
+          bills: bills.filter(l => l.name.toLowerCase().includes(lowercasedTerm)),
+          pendingBills: pendingBills.filter((l: CountyLaw) => l.name.toLowerCase().includes(lowercasedTerm))
       };
   }, [selectedCountyLaws, lowercasedTerm, isSearching]);
 
@@ -195,7 +225,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
       if (!filteredCountyData) return 0;
       let count = 0;
       for (const c of filteredCountyData) {
-          count += c.acts.length + c.bills.length;
+          count += c.acts.length + c.bills.length + ((c as any).pendingBills?.length || 0);
       }
       return count;
   }, [filteredCountyData]);
@@ -343,7 +373,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                        <LoadingSpinner />
                   ) : selectedCountyLaws ? (
                       <div className="animate-fade-in">
-                          {filteredSelectedCountyLaws.acts.length === 0 && filteredSelectedCountyLaws.bills.length === 0 ? (
+                          {filteredSelectedCountyLaws.acts.length === 0 && filteredSelectedCountyLaws.bills.length === 0 && filteredSelectedCountyLaws.pendingBills.length === 0 ? (
                               <div className="text-center py-12 bg-surface dark:bg-dark-surface rounded-2xl border border-dashed border-gray-300 dark:border-gray-700">
                                   <p className="text-gray-500 dark:text-gray-400">No laws found matching "{searchTerm}".</p>
                               </div>
@@ -351,6 +381,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                               <>
                                 {renderDetailedLawList(filteredSelectedCountyLaws.acts, "Acts")}
                                 {renderDetailedLawList(filteredSelectedCountyLaws.bills, "Legal Notices")}
+                                {renderDetailedLawList(filteredSelectedCountyLaws.pendingBills, "Bills (Unassented)")}
                               </>
                           )}
                       </div>
@@ -419,7 +450,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                                  </button>
                              </div>
                              <ul className="space-y-2">
-                                 {county.acts.slice(0, 2).map((law, i) => (
+                                 {county.acts?.slice(0, 2).map((law, i) => (
                                      <li key={`act-${i}`} className="text-sm truncate text-gray-700 dark:text-gray-300 flex items-center">
                                          <FileTextIcon className="h-3 w-3 mr-2 text-gray-400 flex-shrink-0" />
                                          <a href={law.url} target="_blank" rel="noreferrer" className="hover:underline hover:text-primary truncate">
@@ -427,7 +458,7 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                                          </a>
                                      </li>
                                  ))}
-                                 {county.bills.slice(0, 2).map((law, i) => (
+                                 {county.bills?.slice(0, 2).map((law, i) => (
                                      <li key={`bill-${i}`} className="text-sm truncate text-gray-700 dark:text-gray-300 flex items-center">
                                          <FileTextIcon className="h-3 w-3 mr-2 text-gray-400 flex-shrink-0" />
                                          <a href={law.url} target="_blank" rel="noreferrer" className="hover:underline hover:text-primary truncate">
@@ -435,8 +466,16 @@ const CountyLawsPage: React.FC<CountyLawsPageProps> = ({ initialSearchTerm = '' 
                                          </a>
                                      </li>
                                  ))}
-                                 {(county.acts.length + county.bills.length) > 4 && 
-                                    <li className="text-xs text-gray-500 italic pl-5">+{county.acts.length + county.bills.length - 4} more results</li>
+                                 {((county as any).pendingBills || []).slice(0, 2).map((law: CountyLaw, i: number) => (
+                                     <li key={`pending-${i}`} className="text-sm truncate text-gray-700 dark:text-gray-300 flex items-center">
+                                         <FileTextIcon className="h-3 w-3 mr-2 text-yellow-500 flex-shrink-0" />
+                                         <a href={law.url} target="_blank" rel="noreferrer" className="hover:underline hover:text-primary truncate">
+                                            <Highlight text={law.name} highlight={deferredSearchTerm} />
+                                         </a>
+                                     </li>
+                                 ))}
+                                 {( (county.acts?.length || 0) + (county.bills?.length || 0) + ((county as any).pendingBills?.length || 0) ) > 4 && 
+                                    <li className="text-xs text-gray-500 italic pl-5">+{ (county.acts?.length || 0) + (county.bills?.length || 0) + ((county as any).pendingBills?.length || 0) - 4} more results</li>
                                  }
                              </ul>
                          </div>

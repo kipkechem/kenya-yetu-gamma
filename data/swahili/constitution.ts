@@ -1,24 +1,25 @@
-import type { ConstitutionData } from '../../types';
-import { preamble } from './preamble';
-import { chapter1 } from './chapter1';
-import { chapter2 } from './chapter2';
-import { chapter3 } from './chapter3';
-import { chapter4 } from './chapter4';
-import { chapter5 } from './chapter5';
-import { chapter6 } from './chapter6';
-import { chapter7 } from './chapter7';
-import { chapter8 } from './chapter8';
-import { chapter9 } from './chapter9';
-import { chapter10 } from './chapter10';
-import { chapter11 } from './chapter11';
-import { chapter12 } from './chapter12';
-import { chapter13 } from './chapter13';
-import { chapter14 } from './chapter14';
-import { chapter15 } from './chapter15';
-import { chapter16 } from './chapter16';
-import { chapter17 } from './chapter17';
-import { chapter18 } from './chapter18';
-import { schedules } from './schedules';
+
+import type { ConstitutionData } from '../../types/index.ts';
+import { preamble } from './preamble.ts';
+import { chapter1 } from './chapter1.ts';
+import { chapter2 } from './chapter2.ts';
+import { chapter3 } from './chapter3.ts';
+import { chapter4 } from './chapter4.ts';
+import { chapter5 } from './chapter5.ts';
+import { chapter6 } from './chapter6.ts';
+import { chapter7 } from './chapter7.ts';
+import { chapter8 } from './chapter8.ts';
+import { chapter9 } from './chapter9.ts';
+import { chapter10 } from './chapter10.ts';
+import { chapter11 } from './chapter11.ts';
+import { chapter12 } from './chapter12.ts';
+import { chapter13 } from './chapter13.ts';
+import { chapter14 } from './chapter14.ts';
+import { chapter15 } from './chapter15.ts';
+import { chapter16 } from './chapter16.ts';
+import { chapter17 } from './chapter17.ts';
+import { chapter18 } from './chapter18.ts';
+import { schedules } from './schedules.ts';
 
 export const swahiliConstitutionData: ConstitutionData = {
   preamble: preamble,

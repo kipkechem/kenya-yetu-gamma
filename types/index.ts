@@ -1,8 +1,5 @@
 
-// Fix: Import React to make the 'React' namespace available for types like React.ReactNode.
 import React from 'react';
-
-// This file is available for type definitions.
 
 export type SelectedItem = {
   type: 'preamble' | 'chapter' | 'schedule';
@@ -24,7 +21,7 @@ export interface Part {
 
 export interface Chapter {
   id: number;
-  title:string;
+  title: string;
   parts: Part[];
 }
 
@@ -43,8 +40,42 @@ export interface ConstitutionData {
   schedules: Schedule[];
 }
 
-// FIX: Add 'national-policy' and 'governance' to the AppView type to allow navigation to these views.
-export type AppView = 'home' | 'kenya-laws' | 'constitution' | 'acts' | 'cabinet' | 'state-corporations' | 'infomap' | 'county-governments' | 'my-representatives' | 'projects' | 'resources' | 'about' | 'contact' | 'kenyan-anthem' | 'east-african-anthem' | 'national-flag' | 'coat-of-arms' | 'anthems' | 'county-laws' | 'act-detail' | 'chat' | 'historical-documents' | 'legislature' | 'judiciary' | 'county-explorer' | 'national-policy' | 'same-lat-long' | 'viewcount' | 'eib-projects' | 'projects-tools' | 'leadership' | 'governance' | 'county-rankings' | 'elected-leaders';
+export type AppView = 
+  | 'home' 
+  | 'kenya-laws' 
+  | 'constitution' 
+  | 'acts' 
+  | 'act-detail'
+  | 'county-laws'
+  | 'historical-documents'
+  | 'governance'
+  | 'legislature' 
+  | 'judiciary' 
+  | 'cabinet' 
+  | 'state-corporations' 
+  | 'county-governments' 
+  | 'projects' 
+  | 'national-policy'
+  | 'projects-tools'
+  | 'eib-projects'
+  | 'leadership'
+  | 'county-rankings'
+  | 'elected-leaders'
+  | 'resources' 
+  | 'about' 
+  | 'contact' 
+  | 'anthems'
+  | 'kenyan-anthem' 
+  | 'east-african-anthem' 
+  | 'national-flag' 
+  | 'coat-of-arms' 
+  | 'chat' 
+  | 'viewcount'
+  | 'county-explorer'
+  | 'infomap'
+  | 'my-representatives'
+  | 'same-lat-long'
+  | 'projects-proposals';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -75,7 +106,6 @@ export interface County {
   website: string;
   departments: string[];
   constituencies: string[];
-  // Fix: Add missing properties to the County interface to resolve errors in CountyDetailPage.
   population: string;
   area: string;
   funFacts: string[];
@@ -103,7 +133,6 @@ export interface Ministry {
   mandatedEntities?: string[];
   url?: string;
 }
-
 
 export interface Commission {
   name: string;
@@ -166,4 +195,20 @@ export interface EIBProject {
 export interface PolicyDocument {
   title: string;
   url: string;
+}
+
+export interface CountyFeature {
+  type: "Feature";
+  properties: {
+    county_name: string;
+    county_code: number;
+    area_sq_km: string;
+    population: number;
+    capital: string;
+    sub_counties: string[];
+  };
+  geometry: {
+    type: "Polygon";
+    coordinates: number[][][];
+  };
 }

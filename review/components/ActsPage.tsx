@@ -17,7 +17,7 @@ const loadActsData = (): ActsByCategory => {
         return data;
     }
 
-    data = actsData;
+    data = actsData; // actsData is imported from '../data/acts'
     setCachedData(cacheKey, data);
     return data;
 };
@@ -58,6 +58,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
   };
   
   const allActs = useMemo(() => {
+    if (!actsOfParliament) return [];
     // Cast Object.values to ensure it's treated as an array of Act arrays
     return (Object.values(actsOfParliament) as Act[][]).flat().sort((a: Act, b: Act) => a.title.localeCompare(b.title));
   }, [actsOfParliament]);
@@ -150,7 +151,7 @@ const ActsPage: React.FC<ActsPageProps> = ({ searchTerm, onSearchChange }) => {
               </ul>
             ) : (
               <div>
-                {(Object.keys(actsOfParliament) as Array<keyof ActsByCategory>).map(category => {
+                {actsOfParliament && (Object.keys(actsOfParliament) as Array<keyof ActsByCategory>).map(category => {
                     const acts = actsOfParliament[category].sort((a,b) => a.title.localeCompare(b.title));
                     if (acts.length === 0) return null;
                     const categoryStr = String(category);

@@ -1,56 +1,45 @@
+import type { County } from '../../types/index.ts';
+import { nairobiCounty } from './nairobi.ts';
+import { mombasaCounty } from './mombasa.ts';
+import { kisumuCounty } from './kisumu.ts';
+import { kwaleCounty } from './kwale.ts';
+import { kilifiCounty } from './kilifi.ts';
+import { tanaRiverCounty } from './tana-river.ts';
+import { lamuCounty } from './lamu.ts';
+import { taitaTavetaCounty } from './taita-taveta.ts';
+import { garissaCounty } from './garissa.ts';
+import { wajirCounty } from './wajir.ts';
+import { manderaCounty } from './mandera.ts';
+import { marsabitCounty } from './marsabit.ts';
+import { isioloCounty } from './isiolo.ts';
+import { meruCounty } from './meru.ts';
+import { tharakaNithiCounty } from './tharaka-nithi.ts';
+import { embuCounty } from './embu.ts';
+import { kituiCounty } from './kitui.ts';
+import { machakosCounty } from './machakos.ts';
+import { makueniCounty } from './makueni.ts';
+import { nyandaruaCounty } from './nyandarua.ts';
+import { nyeriCounty } from './nyeri.ts';
+import { kirinyagaCounty } from './kirinyaga.ts';
+import { murangaCounty } from './muranga.ts';
+import { kiambuCounty } from './kiambu.ts';
+import { turkanaCounty } from './turkana.ts';
+import { westPokotCounty } from './west-pokot.ts';
+import { samburuCounty } from './samburu.ts';
+import { transNzoiaCounty } from './trans-nzoia.ts';
+import { uasinGishuCounty } from './uasin-gishu.ts';
+import { elgeyoMarakwetCounty } from './elgeyo-marakwet.ts';
+import { nandiCounty } from './nandi.ts';
+import { baringoCounty } from './baringo.ts';
+import { bometCounty } from './bomet.ts';
+import { bungomaCounty } from './bungoma.ts';
+import { busiaCounty } from './busia.ts';
+import { siayaCounty } from './siaya.ts';
+import { homaBayCounty } from './homa-bay.ts';
+import { migoriCounty } from './migori.ts';
+import { kisiiCounty } from './kisii.ts';
+import { nyamiraCounty } from './nyamira.ts';
 
-
-import type { County } from '../../types';
-import { nairobiCounty } from './nairobi';
-import { mombasaCounty } from './mombasa';
-import { kisumuCounty } from './kisumu';
-import { kwaleCounty } from './kwale';
-import { kilifiCounty } from './kilifi';
-import { tanaRiverCounty } from './tana-river';
-import { lamuCounty } from './lamu';
-import { taitaTavetaCounty } from './taita-taveta';
-import { garissaCounty } from './garissa';
-import { wajirCounty } from './wajir';
-import { manderaCounty } from './mandera';
-import { marsabitCounty } from './marsabit';
-import { isioloCounty } from './isiolo';
-import { meruCounty } from './meru';
-import { tharakaNithiCounty } from './tharaka-nithi';
-import { embuCounty } from './embu';
-import { kituiCounty } from './kitui';
-import { machakosCounty } from './machakos';
-import { makueniCounty } from './makueni';
-import { nyandaruaCounty } from './nyandarua';
-import { nyeriCounty } from './nyeri';
-import { kirinyagaCounty } from './kirinyaga';
-import { murangaCounty } from './muranga';
-import { kiambuCounty } from './kiambu';
-import { turkanaCounty } from './turkana';
-import { westPokotCounty } from './west-pokot';
-import { samburuCounty } from './samburu';
-import { transNzoiaCounty } from './trans-nzoia';
-import { uasinGishuCounty } from './uasin-gishu';
-import { elgeyoMarakwetCounty } from './elgeyo-marakwet';
-import { nandiCounty } from './nandi';
-import { baringoCounty } from './baringo';
-import { laikipiaCounty } from './laikipia';
-import { nakuruCounty } from './nakuru';
-import { narokCounty } from './narok';
-import { kajiadoCounty } from './kajiado';
-import { kerichoCounty } from './kericho';
-import { bometCounty } from './bomet';
-import { kakamegaCounty } from './kakamega';
-import { vihigaCounty } from './vihiga';
-import { bungomaCounty } from './bungoma';
-import { busiaCounty } from './busia';
-import { siayaCounty } from './siaya';
-import { homaBayCounty } from './homa-bay';
-import { migoriCounty } from './migori';
-import { kisiiCounty } from './kisii';
-import { nyamiraCounty } from './nyamira';
-
-
-// In a full implementation, all 47 county data files would be imported here.
 export const countiesData: County[] = [
   mombasaCounty,
   kwaleCounty,
@@ -82,14 +71,7 @@ export const countiesData: County[] = [
   elgeyoMarakwetCounty,
   nandiCounty,
   baringoCounty,
-  laikipiaCounty,
-  nakuruCounty,
-  narokCounty,
-  kajiadoCounty,
-  kerichoCounty,
   bometCounty,
-  kakamegaCounty,
-  vihigaCounty,
   bungomaCounty,
   busiaCounty,
   siayaCounty,

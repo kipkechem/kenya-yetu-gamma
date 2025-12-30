@@ -149,8 +149,8 @@ const ConstitutionExplorer: React.FC<{ language: 'en' | 'sw', searchTerm: string
 
   return (
     <div className="flex h-full w-full overflow-hidden">
+        {/* Fix: Removed data={currentData} prop as it is not supported by the Sidebar component */}
         <Sidebar 
-          data={currentData} 
           onSelectItem={handleSelectItem} 
           selectedItem={selectedItem}
           isOpen={isSidebarOpen}

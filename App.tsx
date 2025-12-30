@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useCallback, Suspense, useRef, useLayoutEffect, useMemo } from 'react';
-import type { AppView, Theme, NavigationPayload } from './types';
+import type { AppView, Theme, NavigationPayload, ConstitutionData } from './types/index';
 import MainSidebar from './components/MainSidebar';
 import UniversalHeader from './components/UniversalHeader';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -9,13 +9,12 @@ import CommandPalette from './components/CommandPalette';
 import { getBackgroundImage } from './data/app-structure';
 import { logVisit } from './utils/analytics';
 import { routes, getRoute } from './data/routes';
+import { useLazyData } from './hooks/useLazyData';
 
-// Helper to determine view from hash
 const getViewFromHash = (hash: string): AppView => {
     const cleanHash = hash.replace('#', '');
     if (!cleanHash) return 'home';
 
-    // Constitution deep links
     if (cleanHash.startsWith('article-') || 
         cleanHash.startsWith('chapter-') || 
         cleanHash.startsWith('schedule-') || 
@@ -23,7 +22,6 @@ const getViewFromHash = (hash: string): AppView => {
         return 'constitution';
     }
 
-    // Check if hash matches a known route
     if (cleanHash in routes) {
         return cleanHash as AppView;
     }
@@ -40,68 +38,63 @@ const App: React.FC = () => {
         () => localStorage.getItem('sidebarCollapsed') !== 'false'
     );
     
-    // View-specific states
     const [searchTerm, setSearchTerm] = useState('');
     const [actsSearchTerm, setActsSearchTerm] = useState('');
     const [countyLawsSearchTerm, setCountyLawsSearchTerm] = useState('');
     const [selectedActTitle, setSelectedActTitle] = useState<string>('');
-
-    // Command Palette State
     const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
-    // Background Image State
+    // Global Constitution Data for cross-linking
+    const { data: constitutionData } = useLazyData<ConstitutionData>(
+        'constitution-full-en',
+        () => import('./data/constitution').then(m => m.constitutionData)
+    );
+
+    const articleToChapterMap = useMemo(() => {
+        if (!constitutionData) return new Map<string, number>();
+        const map = new Map<string, number>();
+        constitutionData.chapters.forEach(chapter => {
+            chapter.parts.forEach(part => {
+                part.articles.forEach(article => {
+                    map.set(article.number, chapter.id);
+                });
+            });
+        });
+        return map;
+    }, [constitutionData]);
+
     const [bgImages, setBgImages] = useState({
         current: getBackgroundImage('home'),
         next: '',
     });
     const [isTransitioning, setIsTransitioning] = useState(false);
 
-    // Scroll container ref for resetting scroll position
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         localStorage.setItem('sidebarCollapsed', String(isMainSidebarCollapsed));
     }, [isMainSidebarCollapsed]);
 
-    // Initialize Analytics
     useEffect(() => {
         logVisit();
     }, []);
 
-    // Handle Hash Changes
     useEffect(() => {
         const handleHashChange = () => {
             const newView = getViewFromHash(window.location.hash);
-            
-            // Clean up search terms when leaving specific views
-            if (activeView === 'acts' && newView !== 'acts' && newView !== 'act-detail') {
-                setActsSearchTerm('');
-            }
-            if (activeView === 'county-laws' && newView !== 'county-laws') {
-                setCountyLawsSearchTerm('');
-            }
-            if (activeView === 'projects' && newView !== 'projects') {
-                setCountyLawsSearchTerm('');
-            }
-            if (activeView === 'constitution' && newView !== 'constitution') {
-                setSearchTerm('');
-            }
-
+            if (activeView === 'acts' && newView !== 'acts' && newView !== 'act-detail') setActsSearchTerm('');
+            if (activeView === 'county-laws' && newView !== 'county-laws') setCountyLawsSearchTerm('');
+            if (activeView === 'constitution' && newView !== 'constitution') setSearchTerm('');
             setActiveView(newView);
         };
-
         window.addEventListener('hashchange', handleHashChange);
         return () => window.removeEventListener('hashchange', handleHashChange);
     }, [activeView]);
 
-    // Scroll Reset on View Change
     useLayoutEffect(() => {
-        if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollTop = 0;
-        }
+        if (scrollContainerRef.current) scrollContainerRef.current.scrollTop = 0;
     }, [activeView]);
 
-    // Handle Command Palette shortcut (Ctrl+K or Cmd+K)
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -113,29 +106,22 @@ const App: React.FC = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, []);
 
-    // Background Image Logic
     useEffect(() => {
         const newImage = getBackgroundImage(activeView);
         if (newImage === bgImages.current) return;
-
         const img = new Image();
         img.src = newImage;
-        
         let isMounted = true;
-
         img.onload = () => {
              if (!isMounted) return;
-             
              setBgImages(prev => ({ ...prev, next: newImage }));
              setIsTransitioning(true);
-
              setTimeout(() => {
                  if (!isMounted) return;
                  setBgImages(prev => ({ current: newImage, next: '' }));
                  setIsTransitioning(false);
              }, 700);
         };
-
         return () => { isMounted = false; };
     }, [activeView, bgImages.current]);
 
@@ -144,7 +130,6 @@ const App: React.FC = () => {
         if (payload?.actsSearchTerm !== undefined) setActsSearchTerm(payload.actsSearchTerm);
         if (payload?.countySearchTerm !== undefined) setCountyLawsSearchTerm(payload.countySearchTerm);
         if (payload?.actTitle !== undefined) setSelectedActTitle(payload.actTitle);
-
         window.location.hash = `#${view}`;
     }, []);
 
@@ -155,9 +140,7 @@ const App: React.FC = () => {
             navigateTo(view, payload);
         };
         window.addEventListener('navigate', handleNavigate);
-        return () => {
-            window.removeEventListener('navigate', handleNavigate);
-        };
+        return () => window.removeEventListener('navigate', handleNavigate);
     }, [navigateTo]);
 
     const handleBack = () => {
@@ -167,46 +150,27 @@ const App: React.FC = () => {
         navigateTo(parentView);
     };
     
-    const [theme, setTheme] = useState<Theme>(
-        () => (localStorage.getItem('theme') as Theme) || 'system'
-    );
+    const [theme, setTheme] = useState<Theme>(() => (localStorage.getItem('theme') as Theme) || 'system');
 
     useEffect(() => {
         const root = window.document.documentElement;
-        const isDark =
-            theme === 'dark' ||
-            (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        
+        const isDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
         root.classList.toggle('dark', isDark);
         localStorage.setItem('theme', theme);
     }, [theme]);
 
-    // Optimize: Memoize props passed to active view to prevent re-renders when parent state (like sidebar toggle) changes
-    // but the data for the view hasn't.
     const viewProps = useMemo(() => {
-        const commonProps = {
-            navigateTo,
-            language
-        };
-
-        // Define specific props for certain views
-        // We use stable references or primitives where possible
+        const commonProps = { navigateTo, language, articleToChapterMap };
         const specificProps: Record<string, any> = {
             'constitution': { searchTerm },
             'acts': { searchTerm: actsSearchTerm, onSearchChange: setActsSearchTerm },
-            'act-detail': { actTitle: selectedActTitle, articleToChapterMap: new Map() }, // Empty map is fine, logic handles it
+            'act-detail': { actTitle: selectedActTitle },
             'county-laws': { initialSearchTerm: countyLawsSearchTerm },
             'projects': { initialSearchTerm: countyLawsSearchTerm },
         };
-        
         const route = getRoute(activeView);
-
-        return { 
-            ...commonProps, 
-            ...(specificProps[activeView] || {}),
-            ...(route.props || {}) 
-        };
-    }, [activeView, navigateTo, language, searchTerm, actsSearchTerm, countyLawsSearchTerm, selectedActTitle]);
+        return { ...commonProps, ...(specificProps[activeView] || {}), ...(route.props || {}) };
+    }, [activeView, navigateTo, language, articleToChapterMap, searchTerm, actsSearchTerm, countyLawsSearchTerm, selectedActTitle]);
 
     const renderActiveView = () => {
         const route = getRoute(activeView);
@@ -216,57 +180,18 @@ const App: React.FC = () => {
 
     return (
         <div className="h-screen w-screen relative flex flex-col md:flex-row overflow-hidden">
-             <div 
-                className="fixed inset-0 z-0"
-                style={{
-                    backgroundImage: `url('${bgImages.current}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                }}
-            />
-            
-            <div 
-                className="fixed inset-0 z-0 transition-opacity duration-700 ease-in-out"
-                style={{
-                    backgroundImage: `url('${bgImages.next}')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    opacity: isTransitioning ? 1 : 0,
-                }}
-            />
-
+             <div className="fixed inset-0 z-0" style={{ backgroundImage: `url('${bgImages.current}')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }} />
+            <div className="fixed inset-0 z-0 transition-opacity duration-700 ease-in-out" style={{ backgroundImage: `url('${bgImages.next}')`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', opacity: isTransitioning ? 1 : 0 }} />
             <div className="fixed inset-0 z-0 bg-surface/85 dark:bg-dark-surface/85 backdrop-blur-[1px]" />
 
             <div className="relative z-10 flex flex-col md:flex-row w-full h-full">
                 {activeView !== 'viewcount' && (
-                    <MainSidebar 
-                        activeView={activeView}
-                        navigateTo={navigateTo}
-                        isOpen={isMainSidebarOpen}
-                        setIsOpen={setMainSidebarOpen}
-                        isCollapsed={isMainSidebarCollapsed}
-                        setIsCollapsed={setMainSidebarCollapsed}
-                        language={language}
-                    />
+                    <MainSidebar activeView={activeView} navigateTo={navigateTo} isOpen={isMainSidebarOpen} setIsOpen={setMainSidebarOpen} isCollapsed={isMainSidebarCollapsed} setIsCollapsed={setMainSidebarCollapsed} language={language} />
                 )}
 
                 <main className="flex-1 flex flex-col h-full overflow-hidden relative bg-transparent transition-all duration-500 ease-in-out">
                     {activeView !== 'viewcount' && (
-                        <UniversalHeader 
-                            activeView={activeView}
-                            isSidebarOpen={isMainSidebarOpen}
-                            setSidebarOpen={setMainSidebarOpen}
-                            onBack={handleBack}
-                            searchTerm={searchTerm}
-                            setSearchTerm={setSearchTerm}
-                            language={language}
-                            theme={theme}
-                            setTheme={setTheme}
-                            onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
-                            navigateTo={navigateTo}
-                        />
+                        <UniversalHeader activeView={activeView} isSidebarOpen={isMainSidebarOpen} setSidebarOpen={setMainSidebarOpen} onBack={handleBack} searchTerm={searchTerm} setSearchTerm={setSearchTerm} language={language} theme={theme} setTheme={setTheme} onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} navigateTo={navigateTo} />
                     )}
                     
                     <div ref={scrollContainerRef} className="flex-1 overflow-y-auto scroll-smooth">
@@ -279,7 +204,6 @@ const App: React.FC = () => {
                         </div>
                     </div>
                 </main>
-                
                 <CommandPalette isOpen={isCommandPaletteOpen} onClose={() => setIsCommandPaletteOpen(false)} />
             </div>
         </div>

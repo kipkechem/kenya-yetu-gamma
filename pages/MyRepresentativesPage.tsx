@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { IdentificationIcon, UsersIcon } from '../components/icons';
 import type { Representative } from '../types/index';
@@ -22,7 +21,7 @@ const MyRepresentativesPage: React.FC = () => {
   
   const { data: representativesData, isLoading, error, refetch } = useLazyData<Representative[]>(
       'representatives-data',
-      () => import('../data/governance/representatives').then(m => m.representativesData)
+      () => import('../data/representatives').then(m => m.representativesData)
   );
 
   const countyOptions = useMemo(() => {

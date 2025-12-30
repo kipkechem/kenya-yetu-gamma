@@ -1,4 +1,3 @@
-
 import React, { useMemo, useState } from 'react';
 import { UserGroupIcon, IdentificationIcon } from '../components/icons';
 import { useLazyData } from '../hooks/useLazyData';
@@ -96,19 +95,16 @@ const LeadersModal: React.FC<ModalProps> = ({ title, subtitle, items, onClose })
 const ElectedLeadersPage: React.FC = () => {
     const [modalData, setModalData] = useState<ModalProps | null>(null);
 
-    // Lazy load Counties Data
     const { data: counties, isLoading: isCountiesLoading, error: countiesError, refetch: refetchCounties } = useLazyData<County[]>(
         'counties-data',
         () => import('../data/counties/index').then(m => m.countiesData)
     );
 
-    // Lazy load Representatives Data
     const { data: representativesData, isLoading: isRepsLoading, error: repsError, refetch: refetchReps } = useLazyData<Representative[]>(
         'representatives-data',
         () => import('../data/governance/representatives').then(m => m.representativesData)
     );
 
-    // Lazy load Ward Representatives Data (The big file)
     const { data: wardRepresentatives, isLoading: isWardRepsLoading, error: wardRepsError, refetch: refetchWardReps } = useLazyData<WardRepresentative[]>(
         'ward-representatives-data',
         () => import('../data/governance/ward-representatives').then(m => m.wardRepresentatives)
@@ -123,23 +119,18 @@ const ElectedLeadersPage: React.FC = () => {
         if (wardRepsError) refetchWardReps();
     };
 
-    // Create a map of leaders per county
     const leadersMap = useMemo<Record<string, CountyLeaders>>(() => {
         if (!counties || !representativesData || !wardRepresentatives) return {};
 
         const map: Record<string, CountyLeaders> = {};
-        
-        // Initialize map for known counties
         counties.forEach(c => {
              map[c.name] = { mps: [], mcas: [] };
         });
 
-        // Map Executives and MPs
         representativesData.forEach((rep: Representative) => {
             if (!rep.county) return;
             let countyKey = rep.county; 
             
-            // Normalize "Nairobi" vs "Nairobi City"
             if (!map[countyKey]) {
                 if (countyKey === 'Nairobi' && map['Nairobi City']) countyKey = 'Nairobi City';
                 else if (countyKey === 'Nairobi City' && map['Nairobi']) countyKey = 'Nairobi';
@@ -153,17 +144,12 @@ const ElectedLeadersPage: React.FC = () => {
             }
         });
 
-        // Map MCAs
         wardRepresentatives.forEach((rep: WardRepresentative) => {
              let countyKey = rep.county;
-             
-             // Normalize "Nairobi" vs "Nairobi City"
              if (!map[countyKey]) {
                 if (countyKey === 'Nairobi' && map['Nairobi City']) countyKey = 'Nairobi City';
                 else if (countyKey === 'Nairobi City' && map['Nairobi']) countyKey = 'Nairobi';
-             },
-             {
-                if (countyKey === 'Tharak-Nithi' && map['Tharaka Nithi']) countyKey = 'Tharaka Nithi';
+                else if (countyKey === 'Tharak-Nithi' && map['Tharaka Nithi']) countyKey = 'Tharaka Nithi';
                 else if (countyKey === 'Tharaka Nithi' && map['Tharaka-Nithi']) countyKey = 'Tharaka-Nithi';
              }
              
@@ -175,7 +161,6 @@ const ElectedLeadersPage: React.FC = () => {
         return map;
     }, [counties, representativesData, wardRepresentatives]);
 
-    // Calculate Summary Stats
     const summaryStats = useMemo(() => {
         let totalGovernors = 0;
         let totalSenators = 0;
@@ -195,7 +180,7 @@ const ElectedLeadersPage: React.FC = () => {
     }, [leadersMap]);
 
     if (isLoading) return <LoadingSpinner />;
-    if (error) return <ErrorDisplay message="Failed to load leadership data. Please verify your internet connection." onRetry={refetchAll} />;
+    if (error) return <ErrorDisplay message="Failed to load leadership data." onRetry={refetchAll} />;
 
     const handleViewMPs = (countyName: string, mps: Representative[]) => {
         setModalData({
@@ -237,33 +222,12 @@ const ElectedLeadersPage: React.FC = () => {
                     </p>
                 </header>
 
-                {/* Summary Section */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-10">
-                    <SummaryCard 
-                        label="Governors" 
-                        count={summaryStats.totalGovernors} 
-                        colorClass="bg-blue-50 border-blue-100 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300"
-                    />
-                    <SummaryCard 
-                        label="Senators" 
-                        count={summaryStats.totalSenators} 
-                        colorClass="bg-purple-50 border-purple-100 text-purple-700 dark:bg-purple-900/20 dark:border-purple-800 dark:text-purple-300"
-                    />
-                     <SummaryCard 
-                        label="Women Reps" 
-                        count={summaryStats.totalWomanReps} 
-                        colorClass="bg-pink-50 border-pink-100 text-pink-700 dark:bg-pink-900/20 dark:border-pink-800 dark:text-pink-300"
-                    />
-                    <SummaryCard 
-                        label="MPs" 
-                        count={summaryStats.totalMPs} 
-                        colorClass="bg-green-50 border-green-100 text-green-700 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300"
-                    />
-                    <SummaryCard 
-                        label="MCAs" 
-                        count={summaryStats.totalMCAs} 
-                        colorClass="bg-orange-50 border-orange-100 text-orange-700 dark:bg-orange-900/20 dark:border-orange-800 dark:text-orange-300"
-                    />
+                    <SummaryCard label="Governors" count={summaryStats.totalGovernors} colorClass="bg-blue-50 border-blue-100 text-blue-700 dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-300" />
+                    <SummaryCard label="Senators" count={summaryStats.totalSenators} colorClass="bg-purple-50 border-purple-100 text-purple-700 dark:bg-purple-900/20 dark:border-purple-800 dark:text-purple-300" />
+                    <SummaryCard label="Women Reps" count={summaryStats.totalWomanReps} colorClass="bg-pink-50 border-pink-100 text-pink-700 dark:bg-pink-900/20 dark:border-pink-800 dark:text-pink-300" />
+                    <SummaryCard label="MPs" count={summaryStats.totalMPs} colorClass="bg-green-50 border-green-100 text-green-700 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300" />
+                    <SummaryCard label="MCAs" count={summaryStats.totalMCAs} colorClass="bg-orange-50 border-orange-100 text-orange-700 dark:bg-orange-900/20 dark:border-orange-800 dark:text-orange-300" />
                 </div>
 
                 <div className="bg-surface dark:bg-dark-surface p-6 rounded-3xl custom-shadow-lg mb-8 border border-border dark:border-dark-border">
@@ -326,8 +290,6 @@ const ElectedLeadersPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            
-            {/* Modal for MPs/MCAs */}
             {modalData && (
                 <LeadersModal 
                     title={modalData.title}

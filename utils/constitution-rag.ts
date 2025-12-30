@@ -1,5 +1,5 @@
 
-import type { ConstitutionData } from '../types';
+import type { ConstitutionData } from '../types/index';
 
 interface SearchChunk {
     id: string;
@@ -9,15 +9,10 @@ interface SearchChunk {
     keywords: string;
 }
 
-// In-memory cache for the chunked data to avoid re-processing
-let chunkCache: Record<string, SearchChunk[]> = {};
+let globalChunkCache: Record<string, SearchChunk[]> = {};
 
-/**
- * Loads the Constitution data dynamically and chunks it into retrieval-ready segments.
- * This effectively "splits" the large data structure into manageable pieces for search.
- */
-async function loadAndChunkData(language: 'en' | 'sw'): Promise<SearchChunk[]> {
-    if (chunkCache[language]) return chunkCache[language];
+async function getConstitutionChunks(language: 'en' | 'sw'): Promise<SearchChunk[]> {
+    if (globalChunkCache[language]) return globalChunkCache[language];
 
     let data: ConstitutionData;
     try {
@@ -35,98 +30,113 @@ async function loadAndChunkData(language: 'en' | 'sw'): Promise<SearchChunk[]> {
 
     const chunks: SearchChunk[] = [];
 
-    // 1. Chunk Preamble
+    // Preamble
     chunks.push({
         id: 'Preamble',
         title: data.preamble.title,
         content: data.preamble.content,
         type: 'Preamble',
-        keywords: `${data.preamble.title} introduction mwanzo`
+        keywords: `${data.preamble.title} introduction mwanzo start basic principles foundation heritage mashujaa diversity`
     });
 
-    // 2. Chunk Articles
+    // Articles
     data.chapters.forEach(chapter => {
         chapter.parts.forEach(part => {
             part.articles.forEach(article => {
                 chunks.push({
-                    id: `Article ${article.number}`,
+                    id: `${article.number}`,
                     title: article.title,
                     content: article.content,
                     type: 'Article',
-                    keywords: `${chapter.title} ${article.title} article ${article.number}`
+                    keywords: `${chapter.title} ${article.title} article kifungu kif ${article.number} ${part.title} law provision rule section rights duties power`
                 });
             });
         });
     });
 
-    // 3. Chunk Schedules
+    // Schedules
     data.schedules.forEach(schedule => {
          chunks.push({
             id: schedule.id,
             title: schedule.title,
             content: schedule.content,
             type: 'Schedule',
-            keywords: `${schedule.title} schedule`
+            keywords: `${schedule.title} schedule jedwali list table appendix transitional oath flag symbols`
         });
     });
 
-    chunkCache[language] = chunks;
+    globalChunkCache[language] = chunks;
     return chunks;
 }
 
-/**
- * Retrieves the most relevant chunks from the Constitution based on a user query.
- * Uses a weighted keyword matching algorithm optimized for client-side performance.
- */
 export async function retrieveRelevantContext(query: string, language: 'en' | 'sw' = 'en'): Promise<string> {
-    const chunks = await loadAndChunkData(language);
+    const chunks = await getConstitutionChunks(language);
+    const cleanQuery = query.toLowerCase();
     
-    // Normalize query: lowercase, remove special chars, split into tokens
-    const tokens = query.toLowerCase()
+    // Prioritize direct Article matches if user types "Article 43" or "Kifungu 43"
+    const articleMatch = cleanQuery.match(/(?:article|kifungu|kif)\s+(\d+)/i);
+    const specificArticleNum = articleMatch ? articleMatch[1] : null;
+
+    const tokens = cleanQuery
         .replace(/[^\w\s]/g, '')
         .split(/\s+/)
-        .filter(t => t.length > 3) // Filter out small words like 'the', 'and'
-        .filter(t => !['what', 'where', 'when', 'how', 'show', 'tell'].includes(t)); // Remove question words
+        .filter(t => t.length > 2);
 
-    if (tokens.length === 0) return '';
+    if (tokens.length === 0 && !specificArticleNum) return '';
 
-    const scoredChunks = chunks.map(chunk => {
+    const scored = chunks.map(chunk => {
         let score = 0;
-        const titleLower = chunk.title.toLowerCase();
-        const contentLower = chunk.content.toLowerCase();
-        const keywordsLower = chunk.keywords.toLowerCase();
+        
+        // 1. Exact article match boost (Highest priority)
+        if (specificArticleNum && chunk.type === 'Article' && chunk.id === specificArticleNum) {
+            score += 2000; 
+        }
 
+        const fullText = (chunk.title + ' ' + chunk.content + ' ' + chunk.keywords).toLowerCase();
+        
         tokens.forEach(token => {
-            // Exact ID match (e.g. "Article 43") gets massive boost
-            if (chunk.id.toLowerCase().includes(token)) score += 10;
+            // 2. Keyword in ID match
+            if (chunk.id === token) score += 150; 
             
-            // Title match gets high priority
-            if (titleLower.includes(token)) score += 5;
+            // 3. Title match boost
+            if (chunk.title.toLowerCase().includes(token)) score += 100;
             
-            // Content match
-            // We count occurrences to weight density
-            const regex = new RegExp(token, 'g');
-            const contentMatches = (contentLower.match(regex) || []).length;
-            score += contentMatches;
+            // 4. Frequency match in content
+            const occurrences = (fullText.split(token).length - 1);
+            score += occurrences * 10;
 
-            // Keywords match
-            if (keywordsLower.includes(token)) score += 2;
+            // 5. Semantic weighting for key themes
+            const themes: Record<string, string[]> = {
+                'rights': ['human', 'freedom', 'bill', 'haki', 'uhuru'],
+                'land': ['property', 'ardhi', 'environment', 'mazazingira'],
+                'devolution': ['county', 'devolved', 'ugatuzi', 'kaunti'],
+                'executive': ['president', 'cabinet', 'rais', 'baraza'],
+                'parliament': ['senate', 'legislature', 'bunge', 'national assembly'],
+                'judiciary': ['court', 'judge', 'mahakama', 'jaji']
+            };
+
+            for (const [theme, synonyms] of Object.entries(themes)) {
+                if (token === theme || synonyms.includes(token)) {
+                    if (fullText.includes(theme) || synonyms.some(s => fullText.includes(s))) {
+                        score += 50;
+                    }
+                }
+            }
         });
 
         return { chunk, score };
     });
 
-    // Sort by score descending and take top 3
-    const topResults = scoredChunks
-        .filter(item => item.score > 0)
+    // Sort by score and take top relevant chunks
+    const topResults = scored
+        .filter(s => s.score > 0)
         .sort((a, b) => b.score - a.score)
-        .slice(0, 3)
-        .map(item => item.chunk);
+        .slice(0, 6) 
+        .map(s => s.chunk);
 
     if (topResults.length === 0) return '';
 
-    // Format for LLM Context
     return topResults.map(c => 
-        `[Source: Constitution of Kenya, ${c.id}: ${c.title}]\n${c.content}`
+        `[SOURCE: ${c.type} ${c.id === 'Preamble' ? '' : c.id} - ${c.title}]\n${c.content}`
     ).join('\n\n---\n\n');
 }

@@ -1,4 +1,4 @@
-import type { ConstitutionData } from '../types';
+import type { ConstitutionData } from '../types/index';
 import { preamble } from './preamble';
 import { chapter1 } from './chapter1';
 import { chapter2 } from './chapter2';

@@ -17,6 +17,8 @@ export interface LegislatureBody {
     leadership: LegislatureMember[];
     membership?: { category: string; count: string; }[];
     committees?: CommitteeInfo[];
+    // Fix: Added optional powers property to fix type errors in LegislaturePage.tsx.
+    powers?: string[];
     children?: LegislatureBody[];
 }
 

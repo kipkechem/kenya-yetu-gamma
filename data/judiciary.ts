@@ -1,9 +1,12 @@
+
 export interface JudicialBody {
     name: string;
     description: string;
     leadership?: { title: string; name?: string; }[];
     composition?: string[];
     jurisdiction?: string;
+    // Fix: Added optional powers property to resolve type errors in JudiciaryPage.tsx.
+    powers?: string[];
     url?: string;
     children?: JudicialBody[];
 }

@@ -1,0 +1,52 @@
+
+import React, { useState } from 'react';
+import ContentRenderer from './ContentRenderer';
+import type { Schedule, SelectedItem } from '../types/index';
+import { ChatBubbleOvalLeftEllipsisIcon, BookmarkIcon } from './icons';
+
+interface ScheduleContentProps {
+    schedule: Schedule;
+    searchTerm: string;
+    onSelectItem: (item: SelectedItem) => void;
+    articleToChapterMap: Map<string, number>;
+    language: 'en' | 'sw';
+    summaries: { [key: string]: string };
+}
+
+const ScheduleContent: React.FC<ScheduleContentProps> = ({ schedule, searchTerm, onSelectItem, articleToChapterMap, language, summaries }) => {
+    const [isTooltipVisible, setTooltipVisible] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    const summary = summaries[schedule.id];
+
+    if (!schedule) return <div>Schedule not found.</div>;
+    const titleParts = schedule.title.split('–');
+    const scheduleLabel = titleParts[0];
+    const scheduleTitle = titleParts.length > 1 ? titleParts[1] : titleParts[0];
+
+    return (
+        <article id={`schedule-${schedule.id}`} className="prose lg:prose-lg max-w-none bg-surface dark:bg-dark-surface p-6 md:p-8 rounded-3xl custom-shadow-lg scroll-mt-24 dark:prose-invert">
+            <header className="border-b border-border dark:border-dark-border pb-4 mb-8">
+                <p className="text-base font-semibold text-primary">{scheduleLabel}</p>
+                <div className="flex justify-between items-start">
+                    <h1 className="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight m-0">{scheduleTitle}</h1>
+                     <div className="flex items-center gap-3 not-prose flex-shrink-0 pl-4 mt-2">
+                        {summary && (
+                            <div className="relative">
+                                <ChatBubbleOvalLeftEllipsisIcon className="h-6 w-6 text-gray-400 hover:text-gray-600 cursor-pointer" onClick={() => setTooltipVisible(!isTooltipVisible)} />
+                                {isTooltipVisible && <div className="absolute bottom-full right-0 mb-2 w-72 p-3 bg-gray-900 text-white text-sm rounded-lg shadow-lg z-20">{summary}</div>}
+                            </div>
+                        )}
+                        <button onClick={() => setIsBookmarked(!isBookmarked)} className="focus:outline-none"><BookmarkIcon className={`h-5 w-5 ${isBookmarked ? 'text-primary' : 'text-gray-400'}`} solid={isBookmarked} /></button>
+                    </div>
+                </div>
+            </header>
+            <div className="mt-4 space-y-3 leading-relaxed">
+              {schedule.content.split('\n').map((paragraph, pIndex) => (
+                paragraph.trim() && <p key={pIndex}><ContentRenderer text={paragraph} highlight={searchTerm} onSelectItem={onSelectItem} articleToChapterMap={articleToChapterMap} language={language} /></p>
+              ))}
+            </div>
+        </article>
+    );
+};
+
+export default ScheduleContent;

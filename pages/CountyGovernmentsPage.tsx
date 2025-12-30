@@ -50,7 +50,7 @@ const CountyNode: React.FC<{ county: County; isExpanded: boolean; onToggle: () =
                     <div className="bg-gray-50 dark:bg-black/20 p-4 rounded-lg custom-shadow z-10">
                         <h4 className="font-bold text-sm text-gray-600 dark:text-gray-300 mb-2 text-center border-b border-gray-200 dark:border-gray-600 pb-2">County Executive Departments</h4>
                         <ul className="text-left space-y-1.5 mt-3">
-                            {county.departments.sort((a,b) => a.localeCompare(b)).map((dept, index) => (
+                            {county.departments && county.departments.slice().sort((a,b) => a.localeCompare(b)).map((dept, index) => (
                                 <li key={index} className="text-sm text-gray-700 dark:text-gray-400 flex items-start">
                                     <svg className="h-3 w-3 mr-2 mt-1 flex-shrink-0 text-primary dark:text-dark-primary" fill="currentColor" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3" /></svg>
                                     <span>{dept}</span>

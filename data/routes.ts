@@ -1,6 +1,6 @@
 
 import React, { lazy } from 'react';
-import type { AppView } from '../types';
+import type { AppView } from '../types/index';
 
 // Lazy load components
 const HomePage = lazy(() => import('../pages/HomePage'));
@@ -72,9 +72,7 @@ export const routes: Partial<Record<AppView, RouteConfig>> = {
   'same-lat-long': { component: SameLatLongPage },
   'viewcount': { component: ViewCountPage },
   'chat': { component: ChatPage, parent: 'home' },
-  'county-explorer': { component: CountyExplorerPage, parent: 'projects-tools' },
-  'infomap': { component: ProjectsToolsPage }, // Legacy mapping pointing to new page
-  'projects-proposals': { component: ProjectsToolsPage } // Legacy mapping
+  'county-explorer': { component: CountyExplorerPage, parent: 'projects-tools' }
 };
 
 export const getRoute = (view: AppView): RouteConfig => {

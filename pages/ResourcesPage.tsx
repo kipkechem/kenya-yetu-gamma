@@ -1,18 +1,31 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDownIcon, LinkIcon } from '../components/icons';
 import type { DataSourceCategory } from '../data/knowledge-base/resources';
 import { useLazyData } from '../hooks/useLazyData';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorDisplay from '../components/ErrorDisplay';
+import { getDiscoveredLinks } from '../utils/cache';
 
 const ResourcesPage: React.FC = () => {
   const [openSection, setOpenSection] = useState<string | null>(null);
+  const [dynamicCategories, setDynamicCategories] = useState<DataSourceCategory[]>([]);
 
   const { data: dataSourceCategories, isLoading, error, refetch } = useLazyData<DataSourceCategory[]>(
       'resources-data',
       () => import('../data/knowledge-base/resources').then(m => m.dataSourceCategories)
   );
+
+  useEffect(() => {
+    const discoveredLinks = getDiscoveredLinks();
+    if (discoveredLinks.length > 0) {
+      setDynamicCategories([{
+        title: 'Discovered in Chat',
+        key: 'discovered-in-chat',
+        links: discoveredLinks.sort((a, b) => a.name.localeCompare(b.name)),
+      }]);
+    }
+  }, []);
 
   if (isLoading) {
       return <LoadingSpinner />;
@@ -22,8 +35,7 @@ const ResourcesPage: React.FC = () => {
       return <ErrorDisplay message="Failed to load resources." onRetry={refetch} />;
   }
 
-  // Using the data source categories directly without dynamic chat links
-  const allCategories = [...dataSourceCategories];
+  const allCategories = [...dynamicCategories, ...dataSourceCategories];
 
   const toggleSection = (key: string) => {
     setOpenSection(openSection === key ? null : key);
