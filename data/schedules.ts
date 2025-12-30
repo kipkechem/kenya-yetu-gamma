@@ -1,11 +1,11 @@
 
-import type { Schedule } from '../types/index.ts';
-import { firstSchedule } from './first-schedule.ts';
-import { secondSchedule } from './second-schedule.ts';
-import { thirdSchedule } from './third-schedule.ts';
-import { fourthSchedule } from './fourth-schedule.ts';
-import { fifthSchedule } from './fifth-schedule.ts';
-import { sixthSchedule } from './sixth-schedule.ts';
+import type { Schedule } from '../types/index';
+import { firstSchedule } from './first-schedule';
+import { secondSchedule } from './second-schedule';
+import { thirdSchedule } from './third-schedule';
+import { fourthSchedule } from './fourth-schedule';
+import { fifthSchedule } from './fifth-schedule';
+import { sixthSchedule } from './sixth-schedule';
 
 export const schedules: Schedule[] = [
   firstSchedule,

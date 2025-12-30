@@ -1,12 +1,11 @@
-import { baringo } from './counties/shapes/baringo.ts';
+
+import { baringo } from './counties/shapes/baringo';
 
 /**
  * Geographical paths for Kenya's 47 counties.
  * Coordinates are in Longitude, Latitude format.
- * Visualized in KenyaMap component with Y-axis flip.
  */
 
-// Helper to convert polygon coordinates to SVG path string format M L L Z
 const featureToPath = (coords: number[][][]): string => {
     if (!coords || coords.length === 0) return "";
     const ring = coords[0];

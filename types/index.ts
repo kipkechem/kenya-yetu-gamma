@@ -212,3 +212,11 @@ export interface CountyFeature {
     coordinates: number[][][];
   };
 }
+
+export interface SymbolData {
+    title: string;
+    svgContent?: string;
+    imageUrl?: string;
+    description: string;
+    fileName: string;
+}

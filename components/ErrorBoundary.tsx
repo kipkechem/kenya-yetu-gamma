@@ -1,4 +1,5 @@
-import React, { ErrorInfo, ReactNode } from 'react';
+
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
@@ -13,11 +14,17 @@ interface ErrorBoundaryState {
  * ErrorBoundary catches JavaScript errors anywhere in their child component tree,
  * logs those errors, and displays a fallback UI instead of the component tree that crashed.
  */
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  // Fix: Explicitly initialize state as a class property to ensure the TypeScript compiler correctly identifies it on the class instance.
   public state: ErrorBoundaryState = {
     hasError: false,
     error: null,
   };
+
+  // Fix: Use an explicit constructor that calls super(props) to properly link props to the component instance.
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+  }
 
   /**
    * Updates state so the next render will show the fallback UI.
@@ -34,7 +41,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   }
 
   public render(): ReactNode {
-    if (this.state.hasError) {
+    // Fix: Destructuring state from this.state to fix the "Property 'state' does not exist" error in the render method.
+    const { hasError, error } = this.state;
+    // Fix: Destructuring children from this.props to fix the "Property 'props' does not exist" error.
+    const { children } = this.props;
+
+    if (hasError) {
       // Render fallback UI when an error is caught
       return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
@@ -46,7 +58,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Something went wrong</h2>
                 <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm">
-                    {this.state.error?.message || "We encountered an unexpected error. Please try refreshing the page."}
+                    {error?.message || "We encountered an unexpected error. Please try refreshing the page."}
                 </p>
                 <button
                     onClick={() => window.location.reload()}
@@ -59,7 +71,8 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       );
     }
 
-    return this.props.children;
+    // Fix: Return children from the component's props.
+    return children;
   }
 }
 

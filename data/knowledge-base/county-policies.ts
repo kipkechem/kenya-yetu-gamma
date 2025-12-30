@@ -1,3 +1,4 @@
+
 import type { PolicyDocument } from '../../types';
 
 export type { PolicyDocument };
@@ -12,66 +13,46 @@ const toKebabCase = (str: string) => {
 };
 
 /**
- * Dynamically loads county-specific policy documents.
- * This approach keeps the initial bundle small and satisfies the requirement 
- * for modularity to avoid agent/browser crashes with large datasets.
+ * Dynamically loads county-specific policy documents from modular batches.
  */
 export const getCountyPolicies = async (countyName: string): Promise<PolicyDocument[]> => {
-  const fileName = toKebabCase(countyName);
+  const name = countyName.trim();
   
   try {
-    switch (fileName) {
-        case 'baringo': return (await import('./counties/baringo')).policies;
-        case 'bomet': return (await import('./counties/bomet')).policies;
-        case 'bungoma': return (await import('./counties/bungoma')).policies;
-        case 'busia': return (await import('./counties/busia')).policies;
-        case 'elgeyo-marakwet': return (await import('./counties/elgeyo-marakwet')).policies;
-        case 'embu': return (await import('./counties/embu')).policies;
-        case 'garissa': return (await import('./counties/garissa')).policies;
-        case 'homa-bay': return (await import('./counties/homa-bay')).policies;
-        case 'isiolo': return (await import('./counties/isiolo')).policies;
-        case 'kajiado': return (await import('./counties/kajiado')).policies;
-        case 'kakamega': return (await import('./counties/kakamega')).policies;
-        case 'kericho': return (await import('./counties/kericho')).policies;
-        case 'kiambu': return (await import('./counties/kiambu')).policies;
-        case 'kilifi': return (await import('./counties/kilifi')).policies;
-        case 'kirinyaga': return (await import('./counties/kirinyaga')).policies;
-        case 'kisii': return (await import('./counties/kisii')).policies;
-        case 'kisumu': return (await import('./counties/kisumu')).policies;
-        case 'kitui': return (await import('./counties/kitui')).policies;
-        case 'kwale': return (await import('./counties/kwale')).policies;
-        case 'laikipia': return (await import('./counties/laikipia')).policies;
-        case 'lamu': return (await import('./counties/lamu')).policies;
-        case 'machakos': return (await import('./counties/machakos')).policies;
-        case 'makueni': return (await import('./counties/makueni')).policies;
-        case 'mandera': return (await import('./counties/mandera')).policies;
-        case 'marsabit': return (await import('./counties/marsabit')).policies;
-        case 'meru': return (await import('./counties/meru')).policies;
-        case 'migori': return (await import('./counties/migori')).policies;
-        case 'mombasa': return (await import('./counties/mombasa')).policies;
-        case 'muranga': return (await import('./counties/muranga')).policies;
-        case 'nairobi-city': return (await import('./counties/nairobi')).policies;
-        case 'nakuru': return (await import('./counties/nakuru')).policies;
-        case 'nandi': return (await import('./counties/nandi')).policies;
-        case 'narok': return (await import('./counties/narok')).policies;
-        case 'nyamira': return (await import('./counties/nyamira')).policies;
-        case 'nyandarua': return (await import('./counties/nyandarua')).policies;
-        case 'nyeri': return (await import('./counties/nyeri')).policies;
-        case 'samburu': return (await import('./counties/samburu')).policies;
-        case 'siaya': return (await import('./counties/siaya')).policies;
-        case 'taita-taveta': return (await import('./counties/taita-taveta')).policies;
-        case 'tana-river': return (await import('./counties/tana-river')).policies;
-        case 'tharaka-nithi': return (await import('./counties/tharaka-nithi')).policies;
-        case 'trans-nzoia': return (await import('./counties/trans-nzoia')).policies;
-        case 'turkana': return (await import('./counties/turkana')).policies;
-        case 'uasin-gishu': return (await import('./counties/uasin-gishu')).policies;
-        case 'vihiga': return (await import('./counties/vihiga')).policies;
-        case 'wajir': return (await import('./counties/wajir')).policies;
-        case 'west-pokot': return (await import('./counties/west-pokot')).policies;
-        default: return [];
+    // Determine which batch contains the county
+    // Batch 1: Baringo, Bomet, Bungoma
+    if (['Baringo', 'Bomet', 'Bungoma'].includes(name)) {
+        const m = await import('./county-policies-1');
+        return m.countyPoliciesBatch1[name] || [];
     }
+    
+    // Batch 2: Kakamega, Kericho, Kiambu, Kilifi, Kirinyaga, Kisii
+    if (['Kakamega', 'Kericho', 'Kiambu', 'Kilifi', 'Kirinyaga', 'Kisii'].includes(name)) {
+        const m = await import('./county-policies-2');
+        return m.countyPoliciesBatch2[name] || [];
+    }
+
+    // Batch 3: Lamu, Machakos, Makueni, Mandera, Marsabit, Meru, Migori, Mombasa, Murang'a, Nairobi City
+    if (['Lamu', 'Machakos', 'Makueni', 'Mandera', 'Marsabit', 'Meru', 'Migori', 'Mombasa', "Murang'a", 'Nairobi City'].includes(name)) {
+        const m = await import('./county-policies-3');
+        return m.countyPoliciesBatch3[name] || [];
+    }
+
+    // Batch 4: Nakuru, Nandi, Narok, Nyamira, Nyandarua, Nyeri, Samburu, Siaya, Taita/Taveta, Tana River
+    if (['Nakuru', 'Nandi', 'Narok', 'Nyamira', 'Nyandarua', 'Nyeri', 'Samburu', 'Siaya', 'Taita/Taveta', 'Tana River'].includes(name)) {
+        const m = await import('./county-policies-4');
+        return m.countyPoliciesBatch4[name] || [];
+    }
+
+    // Batch 5: Tharaka-Nithi, Trans Nzoia, Turkana, Uasin Gishu, Vihiga, Wajir, West Pokot
+    if (['Tharaka-Nithi', 'Trans Nzoia', 'Turkana', 'Uasin Gishu', 'Vihiga', 'Wajir', 'West Pokot'].includes(name)) {
+        const m = await import('./county-policies-5');
+        return m.countyPoliciesBatch5[name] || [];
+    }
+
+    return [];
   } catch (error) {
-    console.warn(`Policies for ${countyName} (file: ${fileName}.ts) not found or failed to load.`);
+    console.warn(`Policies for ${countyName} failed to load.`, error);
     return [];
   }
 };

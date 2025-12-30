@@ -89,36 +89,36 @@ export async function retrieveRelevantContext(query: string, language: 'en' | 's
         
         // 1. Exact article match boost (Highest priority)
         if (specificArticleNum && chunk.type === 'Article' && chunk.id === specificArticleNum) {
-            score += 2000; 
+            score += 5000; 
         }
 
         const fullText = (chunk.title + ' ' + chunk.content + ' ' + chunk.keywords).toLowerCase();
         
         tokens.forEach(token => {
             // 2. Keyword in ID match
-            if (chunk.id === token) score += 150; 
+            if (chunk.id === token) score += 200; 
             
             // 3. Title match boost
-            if (chunk.title.toLowerCase().includes(token)) score += 100;
+            if (chunk.title.toLowerCase().includes(token)) score += 150;
             
             // 4. Frequency match in content
             const occurrences = (fullText.split(token).length - 1);
-            score += occurrences * 10;
+            score += occurrences * 15;
 
             // 5. Semantic weighting for key themes
             const themes: Record<string, string[]> = {
-                'rights': ['human', 'freedom', 'bill', 'haki', 'uhuru'],
-                'land': ['property', 'ardhi', 'environment', 'mazazingira'],
-                'devolution': ['county', 'devolved', 'ugatuzi', 'kaunti'],
-                'executive': ['president', 'cabinet', 'rais', 'baraza'],
-                'parliament': ['senate', 'legislature', 'bunge', 'national assembly'],
-                'judiciary': ['court', 'judge', 'mahakama', 'jaji']
+                'rights': ['human', 'freedom', 'bill', 'haki', 'uhuru', 'equality', 'justice'],
+                'land': ['property', 'ardhi', 'environment', 'malingira', 'soil', 'water'],
+                'devolution': ['county', 'devolved', 'ugatuzi', 'kaunti', 'governor', 'ward'],
+                'executive': ['president', 'cabinet', 'rais', 'baraza', 'minister'],
+                'parliament': ['senate', 'legislature', 'bunge', 'national assembly', 'speaker'],
+                'judiciary': ['court', 'judge', 'mahakama', 'jaji', 'justice', 'magistrate']
             };
 
             for (const [theme, synonyms] of Object.entries(themes)) {
                 if (token === theme || synonyms.includes(token)) {
                     if (fullText.includes(theme) || synonyms.some(s => fullText.includes(s))) {
-                        score += 50;
+                        score += 100;
                     }
                 }
             }
@@ -131,7 +131,7 @@ export async function retrieveRelevantContext(query: string, language: 'en' | 's
     const topResults = scored
         .filter(s => s.score > 0)
         .sort((a, b) => b.score - a.score)
-        .slice(0, 6) 
+        .slice(0, 8) 
         .map(s => s.chunk);
 
     if (topResults.length === 0) return '';
